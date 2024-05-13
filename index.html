@@ -18,6 +18,38 @@
 <link href="https://fonts.googleapis.com/css?family=Montserrat:500,600,700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,400i&display=swap" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet" media="screen">
+<style>
+  /* Default image */
+  .section-bg {
+    background-image: url('images/bg/main_vertical.webp');
+    background-position: left;
+  }
+
+  /* For vertical screens */
+  @media screen and (max-aspect-ratio: 1/1) {
+    .section-bg {
+      background-image: url('images/bg/main_vertical.webp');
+      background-position: left;
+    }
+  }
+
+  /* For horizontal screens */
+  @media screen and (min-aspect-ratio: 1/1) {
+    .section-bg {
+      background-image: url('images/bg/main_horizontal.webp');
+      background-position: left;
+    }
+  }
+
+  /* Style for text with blue border */
+  .text-bordered {
+    text-shadow: 
+      -1px -1px 0 #010112,  
+      1px -1px 0 #010112,
+      -1px 1px 0 #010112,
+      1px 1px 0 #010112;
+  }
+</style>
 </head>
 <body>
   <div class="animsition">   
@@ -56,11 +88,11 @@
       </ul>
       <div class="menu-footer right-boxed">
         <div class="social-list">
-          <a href="" class="icon ion-social-twitter"></a>
-          <a href="" class="icon ion-social-facebook"></a>
-          <a href="" class="icon ion-social-googleplus"></a>
-          <a href="" class="icon ion-social-linkedin"></a>
-          <a href="" class="icon ion-social-dribbble-outline"></a>
+          <a href="https://twitter.com/arcangelo_wd" target="_blank" class="icon ion-social-twitter"></a>
+          <a href="https://www.facebook.com/arcangelo.massari" target="_blank" class="icon ion-social-facebook"></a>
+          <a href="https://www.instagram.com/arcangelomassari/" target="_blank" class="icon ion-social-instagram"></a>
+          <a href="https://www.linkedin.com/in/arcangelo-massari-4a736822b/" target="_blank" class="icon ion-social-linkedin"></a>
+          
         </div>
         <div class="copy">© Arcangelo 2024. All Rights Reseverd</div>
       </div>
@@ -85,28 +117,22 @@
       
       <div class="contacts d-none d-md-block">
         <div class="contact-item">
-          +96 56-85-1379
-        </div>
-        <div class="contact-item spacer">
-          /
-        </div>
-        <div class="contact-item">
           <a href="mailto:arcangelomas@gmail.com">arcangelomas@gmail.com</a>
         </div>
       </div>
     </header>
     <div class="copy-bottom white boxed">© Arcangelo 2024.</div>
     <div class="social-list social-list-bottom boxed">
-        <a href="" class="icon ion-social-twitter"></a>
-        <a href="" class="icon ion-social-facebook"></a>
-        <a href="" class="icon ion-social-googleplus"></a>
-        <a href="" class="icon ion-social-linkedin"></a>
-        <a href="" class="icon ion-social-dribbble-outline"></a>
+        <a href="https://twitter.com/arcangelo_wd" target="_blank" class="icon ion-social-twitter"></a>
+        <a href="https://www.facebook.com/arcangelo.massari" target="_blank" class="icon ion-social-facebook"></a>
+        <a href="https://www.instagram.com/arcangelomassari/" target="_blank" class="icon ion-social-instagram"></a>
+        <a href="https://www.linkedin.com/in/arcangelo-massari-4a736822b/" target="_blank" class="icon ion-social-linkedin"></a>
+        
       </div>
     <div class="pagepiling">
       <div data-anchor="page1" class="pp-scrollable text-white section section-1">
         <div class="scroll-wrap">
-          <div class="section-bg" style="background-image:url(images/bg/main.png);"></div>
+          <div class="section-bg"></div>
           <div class="scrollable-content">
             <div class="vertical-centred">
               <div class="boxed boxed-inner">
@@ -116,7 +142,7 @@
                       <div class="row">
                         <div class="col-md-8 col-lg-6">
                           <h1 class="display-2 text-white  wow fadeIn" data-wow-delay="0.1s"><span class="text-primary">Howdy,</span> I'm Arcangelo</h1>
-                          <a class="popup-youtube"  href="http://www.youtube.com/watch?v=0O2aH4XLbto"><span class="icon ion-ios-play"></span>Watch video </a>
+                          <a class="popup-youtube text-bordered" href="https://www.youtube.com/watch?v=6pxBc_9FiV0" target="_blank"><span class="icon ion-ios-play"></span>Watch the latest music video </a>
                         </div>
                       </div>
                     </div>
@@ -140,17 +166,17 @@
                       <div class="row-specialization row">
                         <div class="col-specialization col-md-6 col-lg-4">
                           <span class="icon-specialization icon-laptop-phone"></span>
-                          <h4 class="text-uppercase">Mobile Design</h4>
+                          <h4 class="text-uppercase">Full Stack Development</h4>
                           <p>Working with client and community, we deliver masterplans that create vibrant new places and spaces, attract people, and encourage investment through.</p>
                         </div>
                         <div class="col-specialization col-md-6 col-lg-4">
                           <span class="icon-specialization icon-smartphone-embed"></span>
-                          <h4 class="text-uppercase">Coding</h4>
+                          <h4 class="text-uppercase">Astrology</h4>
                           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum fuga dicta voluptatum hic aut aspernatur magnam voluptates itaque atque quae laudantium, tempora at.</p>
                         </div>
                         <div class="col-specialization col-md-6 col-lg-4">
                           <span class="icon-specialization icon-diamond2"></span>
-                          <h4 class="text-uppercase">Illustration</h4>
+                          <h4 class="text-uppercase">Music</h4>
                           <p>Working with client and community, we deliver masterplans that create vibrant new places and spaces, attract people, and encourage investment through.</p>
                         </div>
                       </div>
@@ -249,7 +275,7 @@
                           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium dicta sit pariatur odio unde deleniti eveniet.
                           <div class="progress-bars">
                             <div class="clearfix">
-                              <div class="number float-left">Mobile Design</div>
+                              <div class="number float-left">Full Stack Development</div>
                               <div class="number float-right">80%</div>
                             </div>
                             <div class="progress">
@@ -258,7 +284,7 @@
                               </div>
                             </div>
                             <div class="clearfix">
-                              <div class="number float-left">Coding</div>
+                              <div class="number float-left">Astrology</div>
                               <div class="number float-right">70%</div>
                             </div>
                             <div class="progress">
@@ -267,7 +293,7 @@
                               </div>
                             </div>
                             <div class="clearfix">
-                              <div class="number float-left">Illustration</div>
+                              <div class="number float-left">Music</div>
                               <div class="number float-right">70%</div>
                             </div>
                             <div class="progress">
@@ -307,7 +333,7 @@
                             <a class="active" href="project-detail.html">
                               <span class="project-number">01</span>
                               <h2 class="project-title">Abstract Skat</h2>
-                              <div class="project-category">Illustration</div>
+                              <div class="project-category">Music</div>
                             </a>
                           </div>
                           <div class="project-row">
@@ -321,7 +347,7 @@
                             <a href="project-detail.html">
                               <span class="project-number">03</span>
                               <h2 class="project-title">Brole Mobile App</h2>
-                              <div class="project-category">Mobile Design</div>
+                              <div class="project-category">Full Stack Development</div>
                             </a>
                           </div>
                           <div class="project-row">

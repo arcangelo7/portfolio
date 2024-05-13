@@ -1064,7 +1064,7 @@ a.brand:focus{
 
 
 .pagepiling .section{
-  background: #1b1b1b;
+  background: #010112;
   padding-top: 10.3rem;
   padding-bottom: 6rem;
 }
@@ -1248,6 +1248,18 @@ a.brand:focus{
   margin: 0;
 }
 
+@media screen and (max-aspect-ratio: 1/1) {
+  .display-2 {
+    font-size: 5rem;
+  }
+}
+
+/* For horizontal screens */
+@media screen and (min-aspect-ratio: 1/1) {
+  .display-2 {
+    font-size: 6.54rem;
+  }
+}
 
 .popup-youtube{
   display:inline-block;
