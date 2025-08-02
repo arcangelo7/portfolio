@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:portfolio/l10n/app_localizations.dart';
 
-import 'package:portfolio/main.dart';
+import 'package:portfolio/main.dart' as portfolio_main;
 
 Widget createTestApp({
   Locale locale = const Locale('en'),
@@ -11,8 +11,8 @@ Widget createTestApp({
 }) {
   return MaterialApp(
     locale: locale,
-    theme: PortfolioTheme.lightTheme,
-    darkTheme: PortfolioTheme.darkTheme,
+    theme: portfolio_main.PortfolioTheme.lightTheme,
+    darkTheme: portfolio_main.PortfolioTheme.darkTheme,
     themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
     localizationsDelegates: const [
       AppLocalizations.delegate,
@@ -21,7 +21,7 @@ Widget createTestApp({
       GlobalCupertinoLocalizations.delegate,
     ],
     supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
-    home: LandingPage(
+    home: portfolio_main.LandingPage(
       onLanguageChanged: (locale) {},
       currentLocale: locale,
       onThemeToggle: () {},
@@ -31,6 +31,13 @@ Widget createTestApp({
 }
 
 void main() {
+  testWidgets('Main function initializes app correctly', (WidgetTester tester) async {
+    portfolio_main.main();
+    await tester.pumpAndSettle();
+    
+    expect(find.byType(portfolio_main.PortfolioApp), findsOneWidget);
+  });
+  
   testWidgets('Portfolio app loads correctly in English', (WidgetTester tester) async {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
@@ -51,6 +58,31 @@ void main() {
     expect(find.text('Chi Sono'), findsOneWidget);
     expect(find.text('Competenze'), findsOneWidget);
     expect(find.text('Contattami'), findsOneWidget);
+  });
+
+  testWidgets('Portfolio app loads correctly in Spanish', (WidgetTester tester) async {
+    await tester.pumpWidget(createTestApp(locale: const Locale('es')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Arcangelo'), findsOneWidget);
+    expect(find.text('Desarrollador & Diseñador'), findsOneWidget);
+    expect(find.text('Sobre Mí'), findsOneWidget);
+    expect(find.text('Habilidades'), findsOneWidget);
+    expect(find.text('Ponte en Contacto'), findsOneWidget);
+  });
+
+  testWidgets('Spanish localization appTitle works correctly', (WidgetTester tester) async {
+    await tester.pumpWidget(const portfolio_main.PortfolioApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byIcon(Icons.language));
+    await tester.pumpAndSettle();
+    
+    await tester.tap(find.text('Español'));
+    await tester.pumpAndSettle();
+
+    final localizations = AppLocalizations.of(tester.element(find.byType(portfolio_main.LandingPage)))!;
+    expect(localizations.appTitle, equals('Portfolio de Arcangelo'));
   });
 
   testWidgets('Hero section contains required elements', (WidgetTester tester) async {
@@ -94,7 +126,7 @@ void main() {
   });
 
   testWidgets('Language selector works via floating button', (WidgetTester tester) async {
-    await tester.pumpWidget(const PortfolioApp());
+    await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
     expect(find.byIcon(Icons.language), findsOneWidget);
@@ -109,7 +141,7 @@ void main() {
   });
 
   testWidgets('Theme toggle floating button changes icon', (WidgetTester tester) async {
-    await tester.pumpWidget(const PortfolioApp());
+    await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
     expect(find.byIcon(Icons.light_mode), findsOneWidget);
@@ -136,7 +168,7 @@ void main() {
   });
 
   testWidgets('Floating theme toggle functionality works', (WidgetTester tester) async {
-    await tester.pumpWidget(const PortfolioApp());
+    await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
     var materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
@@ -159,7 +191,7 @@ void main() {
   });
 
   testWidgets('Language selection works from floating button', (WidgetTester tester) async {
-    await tester.pumpWidget(const PortfolioApp());
+    await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
     await tester.tap(find.byIcon(Icons.language));
@@ -174,8 +206,22 @@ void main() {
     expect(find.text('Chi Sono'), findsOneWidget);
   });
 
+  testWidgets('English language selection works correctly', (WidgetTester tester) async {
+    await tester.pumpWidget(const portfolio_main.PortfolioApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byIcon(Icons.language));
+    await tester.pumpAndSettle();
+    
+    await tester.tap(find.text('English'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Developer & Designer'), findsOneWidget);
+    expect(find.text('About Me'), findsOneWidget);
+  });
+
   testWidgets('Floating controls remain visible during scroll', (WidgetTester tester) async {
-    await tester.pumpWidget(const PortfolioApp());
+    await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
     expect(find.byType(FloatingActionButton), findsNWidgets(2));
@@ -186,5 +232,45 @@ void main() {
     expect(find.byType(FloatingActionButton), findsNWidgets(2));
     expect(find.byIcon(Icons.light_mode), findsOneWidget);
     expect(find.byIcon(Icons.language), findsOneWidget);
+  });
+
+  testWidgets('Contact section buttons can be tapped', (WidgetTester tester) async {
+    await tester.pumpWidget(const portfolio_main.PortfolioApp());
+    await tester.pumpAndSettle();
+
+    await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -1000));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byIcon(Icons.email), warnIfMissed: false);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byIcon(Icons.web), warnIfMissed: false);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byIcon(Icons.code), warnIfMissed: false);
+    await tester.pumpAndSettle();
+
+    expect(find.byIcon(Icons.email), findsOneWidget);
+    expect(find.byIcon(Icons.web), findsOneWidget);
+    expect(find.byIcon(Icons.code), findsOneWidget);
+  });
+
+  testWidgets('View My Work button can be tapped', (WidgetTester tester) async {
+    await tester.pumpWidget(const portfolio_main.PortfolioApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('View My Work'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('View My Work'), findsOneWidget);
+  });
+
+  test('AppLocalizations handles unsupported locale error', () async {
+    final delegate = AppLocalizations.delegate;
+    
+    expect(
+      () async => await delegate.load(const Locale('unsupported')),
+      throwsA(isA<FlutterError>()),
+    );
   });
 }

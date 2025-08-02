@@ -90,7 +90,7 @@ jobs:
         destination_dir: test/coverage
     
     - name: Build web
-      run: flutter build web --dart-define=FLUTTER_WEB_CANVASKIT_URL=https://www.gstatic.com/flutter-canvaskit/
+      run: flutter build web --base-href /portfolio/ --dart-define=FLUTTER_WEB_CANVASKIT_URL=https://www.gstatic.com/flutter-canvaskit/
     
     - name: Deploy app to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
