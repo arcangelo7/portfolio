@@ -1,0 +1,16 @@
+{
+  "appTitle": "Arcangelo Portfolio",
+  "name": "Arcangelo",
+  "jobTitle": "Developer & Designer",
+  "viewMyWork": "View My Work",
+  "aboutMe": "About Me",
+  "aboutMeDescription": "I am a passionate developer with experience in creating beautiful and functional applications. I love working with modern technologies and bringing ideas to life through code.",
+  "skills": "Skills",
+  "getInTouch": "Get In Touch",
+  "copyright": "© 2025 Arcangelo. All rights reserved.",
+  "skillFlutter": "Flutter",
+  "skillDart": "Dart",
+  "skillJavaScript": "JavaScript",
+  "skillPython": "Python",
+  "skillUIUX": "UI/UX Design"
+}

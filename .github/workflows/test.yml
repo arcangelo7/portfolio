@@ -1,0 +1,88 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.29.2'
+        channel: 'stable'
+    
+    - name: Get dependencies
+      run: flutter pub get
+    
+    - name: Analyze code
+      run: flutter analyze
+    
+    - name: Run tests with coverage
+      run: flutter test --coverage
+    
+    - name: Install lcov
+      run: sudo apt-get install -y lcov
+    
+    - name: Generate coverage percentage
+      id: coverage
+      run: |
+        COVERAGE=$(lcov --summary coverage/lcov.info | grep lines | awk '{print $2}' | sed 's/%//')
+        echo "percentage=$COVERAGE" >> $GITHUB_OUTPUT
+        echo "COVERAGE=$COVERAGE%" >> $GITHUB_ENV
+        echo "Coverage: $COVERAGE%"
+    
+    - name: Generate HTML coverage report
+      run: |
+        genhtml coverage/lcov.info -o coverage/html
+        echo "Coverage report generated at coverage/html/index.html"
+    
+    - name: Calculate badge color
+      run: |
+        COVERAGE_NUM=$(echo ${{ env.COVERAGE }} | sed 's/%//')
+        
+        if (( $(echo "$COVERAGE_NUM >= 90" | bc -l) )); then
+          COLOR="green"
+        elif (( $(echo "$COVERAGE_NUM >= 75" | bc -l) )); then
+          COLOR="yellow"
+        elif (( $(echo "$COVERAGE_NUM >= 60" | bc -l) )); then
+          COLOR="orange"
+        else
+          COLOR="red"
+        fi
+        
+        echo "BADGE_COLOR=$COLOR" >> $GITHUB_ENV
+    
+    - name: Generate coverage badge
+      uses: emibcn/badge-action@v2.0.3
+      with:
+        label: 'Coverage'
+        status: '${{ steps.coverage.outputs.percentage }}%'
+        color: '${{ env.BADGE_COLOR }}'
+        path: 'test/coverage-badge.svg'
+    
+    - name: Commit coverage badge
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add test/coverage-badge.svg
+        git diff --staged --quiet || git commit -m "Update coverage badge"
+        git push
+    
+    - name: Deploy coverage to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      if: github.ref == 'refs/heads/main'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./coverage/html
+        destination_dir: test/coverage
+    
+    - name: Build web
+      run: flutter build web --dart-define=FLUTTER_WEB_CANVASKIT_URL=https://www.gstatic.com/flutter-canvaskit/
