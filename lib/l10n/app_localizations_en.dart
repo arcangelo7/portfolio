@@ -24,7 +24,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutMe => 'About Me';
 
   @override
-  String get aboutMeDescription => 'I am a passionate developer with experience in creating beautiful and functional applications. I love working with modern technologies and bringing ideas to life through code.';
+  String get aboutMeDescription =>
+      'I am a passionate developer with experience in creating beautiful and functional applications. I love working with modern technologies and bringing ideas to life through code.';
 
   @override
   String get skills => 'Skills';

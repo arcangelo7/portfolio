@@ -24,7 +24,8 @@ class AppLocalizationsIt extends AppLocalizations {
   String get aboutMe => 'Chi Sono';
 
   @override
-  String get aboutMeDescription => 'Sono uno sviluppatore appassionato con esperienza nella creazione di applicazioni belle e funzionali. Amo lavorare con tecnologie moderne e dare vita alle idee attraverso il codice.';
+  String get aboutMeDescription =>
+      'Sono uno sviluppatore appassionato con esperienza nella creazione di applicazioni belle e funzionali. Amo lavorare con tecnologie moderne e dare vita alle idee attraverso il codice.';
 
   @override
   String get skills => 'Competenze';
