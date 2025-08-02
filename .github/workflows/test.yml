@@ -68,13 +68,11 @@ jobs:
         color: '${{ env.BADGE_COLOR }}'
         path: 'test/coverage-badge.svg'
     
-    - name: Commit coverage badge
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add test/coverage-badge.svg
-        git diff --staged --quiet || git commit -m "Update coverage badge"
-        git push
+    - name: Upload coverage badge
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-badge
+        path: test/coverage-badge.svg
     
     - name: Deploy coverage to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
