@@ -1,16 +1,22 @@
 {
-  "appTitle": "Arcangelo Portfolio",
-  "name": "Arcangelo",
-  "jobTitle": "Developer & Designer",
+  "appTitle": "Arcangelo Massari Portfolio",
+  "name": "Arcangelo Massari",
+  "jobTitle": "PhD Candidate in Digital Humanities",
   "viewMyWork": "View My Work",
   "aboutMe": "About Me",
-  "aboutMeDescription": "I am a passionate developer with experience in creating beautiful and functional applications. I love working with modern technologies and bringing ideas to life through code.",
+  "aboutMeDescription": "I am a PhD candidate at the University of Bologna and KU Leuven, specializing in Digital Humanities and digital cultural heritage. My research focuses on Semantic Web, bibliographic metadata, and OpenCitations. I won the Gigliozzi Prize 2024 for the best contribution in digital humanities.",
   "skills": "Skills",
   "getInTouch": "Get In Touch",
-  "copyright": "© 2025 Arcangelo. All rights reserved.",
+  "copyright": "© 2025 Arcangelo Massari. All rights reserved.",
   "skillFlutter": "Flutter",
   "skillDart": "Dart",
   "skillJavaScript": "JavaScript",
   "skillPython": "Python",
-  "skillUIUX": "UI/UX Design"
+  "skillUIUX": "UI/UX Design",
+  "publications": "Publications",
+  "loadingPublications": "Loading publications...",
+  "noPublications": "No publications available",
+  "viewDoi": "View DOI",
+  "viewUrl": "View Article",
+  "publicationsDescription": "Selected academic publications and research contributions"
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
+import 'widgets/publications_section.dart';
 
 void main() {
   runApp(const PortfolioApp());
@@ -135,6 +136,7 @@ class LandingPage extends StatelessWidget {
             _buildHeroSection(context),
             _buildAboutSection(context),
             _buildSkillsSection(context),
+            const PublicationsSection(),
             _buildContactSection(context),
           ],
         ),
@@ -334,6 +336,7 @@ class LandingPage extends StatelessWidget {
     ];
 
     return Container(
+      margin: const EdgeInsets.symmetric(vertical: 16),
       padding: const EdgeInsets.all(64),
       color: Theme.of(context).colorScheme.surfaceContainer,
       child: Column(

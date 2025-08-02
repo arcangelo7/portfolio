@@ -9,13 +9,13 @@ class AppLocalizationsIt extends AppLocalizations {
   AppLocalizationsIt([String locale = 'it']) : super(locale);
 
   @override
-  String get appTitle => 'Portfolio di Arcangelo';
+  String get appTitle => 'Portfolio di Arcangelo Massari';
 
   @override
-  String get name => 'Arcangelo';
+  String get name => 'Arcangelo Massari';
 
   @override
-  String get jobTitle => 'Sviluppatore & Designer';
+  String get jobTitle => 'Dottorando PhD in Digital Humanities';
 
   @override
   String get viewMyWork => 'Vedi i Miei Lavori';
@@ -25,7 +25,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get aboutMeDescription =>
-      'Sono uno sviluppatore appassionato con esperienza nella creazione di applicazioni belle e funzionali. Amo lavorare con tecnologie moderne e dare vita alle idee attraverso il codice.';
+      'Sono un dottorando PhD presso l\'Università di Bologna e KU Leuven, specializzato in Digital Humanities e patrimonio culturale digitale. La mia ricerca si concentra su Web Semantico, metadati bibliografici e OpenCitations. Ho vinto il Premio Gigliozzi 2024 per il miglior contributo nell\'informatica umanistica.';
 
   @override
   String get skills => 'Competenze';
@@ -50,4 +50,23 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get skillUIUX => 'Design UI/UX';
+
+  @override
+  String get publications => 'Pubblicazioni';
+
+  @override
+  String get loadingPublications => 'Caricamento pubblicazioni...';
+
+  @override
+  String get noPublications => 'Nessuna pubblicazione disponibile';
+
+  @override
+  String get viewDoi => 'Visualizza DOI';
+
+  @override
+  String get viewUrl => 'Visualizza Articolo';
+
+  @override
+  String get publicationsDescription =>
+      'Pubblicazioni accademiche selezionate e contributi di ricerca';
 }

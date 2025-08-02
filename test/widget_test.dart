@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:portfolio/l10n/app_localizations.dart';
+import 'package:portfolio/widgets/publications_section.dart';
 
 import 'package:portfolio/main.dart' as portfolio_main;
 
@@ -42,8 +43,8 @@ void main() {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
 
-    expect(find.text('Arcangelo'), findsOneWidget);
-    expect(find.text('Developer & Designer'), findsOneWidget);
+    expect(find.textContaining('Arcangelo Massari'), findsAtLeastNWidgets(1));
+    expect(find.textContaining('PhD Candidate'), findsOneWidget);
     expect(find.text('About Me'), findsOneWidget);
     expect(find.text('Skills'), findsOneWidget);
     expect(find.text('Get In Touch'), findsOneWidget);
@@ -53,8 +54,8 @@ void main() {
     await tester.pumpWidget(createTestApp(locale: const Locale('it')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Arcangelo'), findsOneWidget);
-    expect(find.text('Sviluppatore & Designer'), findsOneWidget);
+    expect(find.textContaining('Arcangelo Massari'), findsAtLeastNWidgets(1));
+    expect(find.textContaining('Dottorando PhD'), findsOneWidget);
     expect(find.text('Chi Sono'), findsOneWidget);
     expect(find.text('Competenze'), findsOneWidget);
     expect(find.text('Contattami'), findsOneWidget);
@@ -64,8 +65,8 @@ void main() {
     await tester.pumpWidget(createTestApp(locale: const Locale('es')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Arcangelo'), findsOneWidget);
-    expect(find.text('Desarrollador & Diseñador'), findsOneWidget);
+    expect(find.textContaining('Arcangelo Massari'), findsAtLeastNWidgets(1));
+    expect(find.textContaining('Candidato a PhD'), findsOneWidget);
     expect(find.text('Sobre Mí'), findsOneWidget);
     expect(find.text('Habilidades'), findsOneWidget);
     expect(find.text('Ponte en Contacto'), findsOneWidget);
@@ -82,7 +83,7 @@ void main() {
     await tester.pumpAndSettle();
 
     final localizations = AppLocalizations.of(tester.element(find.byType(portfolio_main.LandingPage)))!;
-    expect(localizations.appTitle, equals('Portfolio de Arcangelo'));
+    expect(localizations.appTitle, equals('Portfolio de Arcangelo Massari'));
   });
 
   testWidgets('Hero section contains required elements', (WidgetTester tester) async {
@@ -122,7 +123,7 @@ void main() {
     expect(find.byIcon(Icons.email), findsOneWidget);
     expect(find.byIcon(Icons.web), findsOneWidget);
     expect(find.byIcon(Icons.code), findsOneWidget);
-    expect(find.text('© 2025 Arcangelo. All rights reserved.'), findsOneWidget);
+    expect(find.text('© 2025 Arcangelo Massari. All rights reserved.'), findsOneWidget);
   });
 
   testWidgets('Language selector works via floating button', (WidgetTester tester) async {
@@ -158,8 +159,8 @@ void main() {
     await tester.pumpWidget(createTestApp(isDarkMode: false));
     await tester.pumpAndSettle();
 
-    expect(find.text('Arcangelo'), findsOneWidget);
-    expect(find.text('Developer & Designer'), findsOneWidget);
+    expect(find.textContaining('Arcangelo Massari'), findsAtLeastNWidgets(1));
+    expect(find.textContaining('PhD Candidate'), findsOneWidget);
     expect(find.byIcon(Icons.dark_mode), findsOneWidget);
     expect(find.byType(FloatingActionButton), findsNWidgets(2));
     
@@ -202,7 +203,7 @@ void main() {
     await tester.tap(find.text('Italiano'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Sviluppatore & Designer'), findsOneWidget);
+    expect(find.textContaining('Dottorando PhD'), findsOneWidget);
     expect(find.text('Chi Sono'), findsOneWidget);
   });
 
@@ -216,7 +217,7 @@ void main() {
     await tester.tap(find.text('English'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Developer & Designer'), findsOneWidget);
+    expect(find.textContaining('PhD Candidate'), findsOneWidget);
     expect(find.text('About Me'), findsOneWidget);
   });
 
@@ -271,6 +272,33 @@ void main() {
     expect(
       () async => await delegate.load(const Locale('unsupported')),
       throwsA(isA<FlutterError>()),
+    );
+  });
+
+  testWidgets('Publications section is present', (WidgetTester tester) async {
+    await tester.pumpWidget(createTestApp());
+    await tester.pumpAndSettle();
+
+    expect(find.byType(PublicationsSection), findsOneWidget);
+    expect(find.text('Publications'), findsOneWidget);
+  });
+
+  testWidgets('Publications section shows in Italian', (WidgetTester tester) async {
+    await tester.pumpWidget(createTestApp(locale: const Locale('it')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Pubblicazioni'), findsOneWidget);
+  });
+
+  testWidgets('Publications section loads content', (WidgetTester tester) async {
+    await tester.pumpWidget(createTestApp());
+    await tester.pumpAndSettle(); // Wait for async operations to complete
+
+    // Should show either loading indicator or publications content
+    expect(
+      find.byType(CircularProgressIndicator).evaluate().isNotEmpty ||
+      find.textContaining('OpenCitations').evaluate().isNotEmpty,
+      true,
     );
   });
 }

@@ -9,13 +9,13 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get appTitle => 'Portfolio de Arcangelo';
+  String get appTitle => 'Portfolio de Arcangelo Massari';
 
   @override
-  String get name => 'Arcangelo';
+  String get name => 'Arcangelo Massari';
 
   @override
-  String get jobTitle => 'Desarrollador & Diseñador';
+  String get jobTitle => 'Candidato a PhD en Humanidades Digitales';
 
   @override
   String get viewMyWork => 'Ver Mi Trabajo';
@@ -25,7 +25,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get aboutMeDescription =>
-      'Soy un desarrollador apasionado con experiencia en la creación de aplicaciones hermosas y funcionales. Me encanta trabajar con tecnologías modernas y dar vida a las ideas a través del código.';
+      'Soy candidato a PhD en la Universidad de Bolonia y KU Leuven, especializado en Humanidades Digitales y patrimonio cultural digital. Mi investigación se centra en Web Semántica, metadatos bibliográficos y OpenCitations. Gané el Premio Gigliozzi 2024 por la mejor contribución en informática humanística.';
 
   @override
   String get skills => 'Habilidades';
@@ -34,7 +34,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get getInTouch => 'Ponte en Contacto';
 
   @override
-  String get copyright => '© 2025 Arcangelo. Todos los derechos reservados.';
+  String get copyright =>
+      '© 2025 Arcangelo Massari. Todos los derechos reservados.';
 
   @override
   String get skillFlutter => 'Flutter';
@@ -50,4 +51,23 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get skillUIUX => 'Diseño UI/UX';
+
+  @override
+  String get publications => 'Publicaciones';
+
+  @override
+  String get loadingPublications => 'Cargando publicaciones...';
+
+  @override
+  String get noPublications => 'No hay publicaciones disponibles';
+
+  @override
+  String get viewDoi => 'Ver DOI';
+
+  @override
+  String get viewUrl => 'Ver Artículo';
+
+  @override
+  String get publicationsDescription =>
+      'Publicaciones académicas seleccionadas y contribuciones de investigación';
 }

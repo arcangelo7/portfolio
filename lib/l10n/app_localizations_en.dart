@@ -9,13 +9,13 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Arcangelo Portfolio';
+  String get appTitle => 'Arcangelo Massari Portfolio';
 
   @override
-  String get name => 'Arcangelo';
+  String get name => 'Arcangelo Massari';
 
   @override
-  String get jobTitle => 'Developer & Designer';
+  String get jobTitle => 'PhD Candidate in Digital Humanities';
 
   @override
   String get viewMyWork => 'View My Work';
@@ -25,7 +25,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutMeDescription =>
-      'I am a passionate developer with experience in creating beautiful and functional applications. I love working with modern technologies and bringing ideas to life through code.';
+      'I am a PhD candidate at the University of Bologna and KU Leuven, specializing in Digital Humanities and digital cultural heritage. My research focuses on Semantic Web, bibliographic metadata, and OpenCitations. I won the Gigliozzi Prize 2024 for the best contribution in digital humanities.';
 
   @override
   String get skills => 'Skills';
@@ -34,7 +34,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get getInTouch => 'Get In Touch';
 
   @override
-  String get copyright => '© 2025 Arcangelo. All rights reserved.';
+  String get copyright => '© 2025 Arcangelo Massari. All rights reserved.';
 
   @override
   String get skillFlutter => 'Flutter';
@@ -50,4 +50,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get skillUIUX => 'UI/UX Design';
+
+  @override
+  String get publications => 'Publications';
+
+  @override
+  String get loadingPublications => 'Loading publications...';
+
+  @override
+  String get noPublications => 'No publications available';
+
+  @override
+  String get viewDoi => 'View DOI';
+
+  @override
+  String get viewUrl => 'View Article';
+
+  @override
+  String get publicationsDescription =>
+      'Selected academic publications and research contributions';
 }

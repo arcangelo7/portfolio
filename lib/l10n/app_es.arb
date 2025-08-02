@@ -1,16 +1,22 @@
 {
-  "appTitle": "Portfolio de Arcangelo",
-  "name": "Arcangelo",
-  "jobTitle": "Desarrollador & Diseñador",
+  "appTitle": "Portfolio de Arcangelo Massari",
+  "name": "Arcangelo Massari",
+  "jobTitle": "Candidato a PhD en Humanidades Digitales",
   "viewMyWork": "Ver Mi Trabajo",
   "aboutMe": "Sobre Mí",
-  "aboutMeDescription": "Soy un desarrollador apasionado con experiencia en la creación de aplicaciones hermosas y funcionales. Me encanta trabajar con tecnologías modernas y dar vida a las ideas a través del código.",
+  "aboutMeDescription": "Soy candidato a PhD en la Universidad de Bolonia y KU Leuven, especializado en Humanidades Digitales y patrimonio cultural digital. Mi investigación se centra en Web Semántica, metadatos bibliográficos y OpenCitations. Gané el Premio Gigliozzi 2024 por la mejor contribución en informática humanística.",
   "skills": "Habilidades",
   "getInTouch": "Ponte en Contacto",
-  "copyright": "© 2025 Arcangelo. Todos los derechos reservados.",
+  "copyright": "© 2025 Arcangelo Massari. Todos los derechos reservados.",
   "skillFlutter": "Flutter",
   "skillDart": "Dart",
   "skillJavaScript": "JavaScript",
   "skillPython": "Python",
-  "skillUIUX": "Diseño UI/UX"
+  "skillUIUX": "Diseño UI/UX",
+  "publications": "Publicaciones",
+  "loadingPublications": "Cargando publicaciones...",
+  "noPublications": "No hay publicaciones disponibles",
+  "viewDoi": "Ver DOI",
+  "viewUrl": "Ver Artículo",
+  "publicationsDescription": "Publicaciones académicas seleccionadas y contribuciones de investigación"
 }

@@ -103,19 +103,19 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'Arcangelo Portfolio'**
+  /// **'Arcangelo Massari Portfolio'**
   String get appTitle;
 
   /// No description provided for @name.
   ///
   /// In en, this message translates to:
-  /// **'Arcangelo'**
+  /// **'Arcangelo Massari'**
   String get name;
 
   /// No description provided for @jobTitle.
   ///
   /// In en, this message translates to:
-  /// **'Developer & Designer'**
+  /// **'PhD Candidate in Digital Humanities'**
   String get jobTitle;
 
   /// No description provided for @viewMyWork.
@@ -133,7 +133,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutMeDescription.
   ///
   /// In en, this message translates to:
-  /// **'I am a passionate developer with experience in creating beautiful and functional applications. I love working with modern technologies and bringing ideas to life through code.'**
+  /// **'I am a PhD candidate at the University of Bologna and KU Leuven, specializing in Digital Humanities and digital cultural heritage. My research focuses on Semantic Web, bibliographic metadata, and OpenCitations. I won the Gigliozzi Prize 2024 for the best contribution in digital humanities.'**
   String get aboutMeDescription;
 
   /// No description provided for @skills.
@@ -151,7 +151,7 @@ abstract class AppLocalizations {
   /// No description provided for @copyright.
   ///
   /// In en, this message translates to:
-  /// **'© 2025 Arcangelo. All rights reserved.'**
+  /// **'© 2025 Arcangelo Massari. All rights reserved.'**
   String get copyright;
 
   /// No description provided for @skillFlutter.
@@ -183,6 +183,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'UI/UX Design'**
   String get skillUIUX;
+
+  /// No description provided for @publications.
+  ///
+  /// In en, this message translates to:
+  /// **'Publications'**
+  String get publications;
+
+  /// No description provided for @loadingPublications.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading publications...'**
+  String get loadingPublications;
+
+  /// No description provided for @noPublications.
+  ///
+  /// In en, this message translates to:
+  /// **'No publications available'**
+  String get noPublications;
+
+  /// No description provided for @viewDoi.
+  ///
+  /// In en, this message translates to:
+  /// **'View DOI'**
+  String get viewDoi;
+
+  /// No description provided for @viewUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'View Article'**
+  String get viewUrl;
+
+  /// No description provided for @publicationsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected academic publications and research contributions'**
+  String get publicationsDescription;
 }
 
 class _AppLocalizationsDelegate
