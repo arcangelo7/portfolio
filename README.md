@@ -1,6 +1,6 @@
 # Portfolio
 
-[![Coverage](test/coverage-badge.svg)](https://arcangelo.github.io/portfolio/test/coverage/)
+[![Coverage](test/coverage-badge.svg)](https://arcangelo7.github.io/portfolio/test/coverage/)
 
 A responsive Flutter portfolio website showcasing my professional profile and skills.
 
