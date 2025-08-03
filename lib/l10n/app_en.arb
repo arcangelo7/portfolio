@@ -35,5 +35,7 @@
   "noPublicationsForCategory": "No publications found for the selected category",
   "showAllAuthors": "Show all authors",
   "showLess": "Show less",
-  "andMoreAuthors": "and {count} more..."
+  "andMoreAuthors": "and {count} more...",
+  "abstract": "Abstract",
+  "readMore": "Read more"
 }

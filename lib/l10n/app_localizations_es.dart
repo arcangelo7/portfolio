@@ -124,4 +124,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String andMoreAuthors(Object count) {
     return 'y $count más...';
   }
+
+  @override
+  String get abstract => 'Abstract';
+
+  @override
+  String get readMore => 'Leer más';
 }

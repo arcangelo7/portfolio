@@ -321,6 +321,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'and {count} more...'**
   String andMoreAuthors(Object count);
+
+  /// No description provided for @abstract.
+  ///
+  /// In en, this message translates to:
+  /// **'Abstract'**
+  String get abstract;
+
+  /// No description provided for @readMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Read more'**
+  String get readMore;
 }
 
 class _AppLocalizationsDelegate

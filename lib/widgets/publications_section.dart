@@ -19,6 +19,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   String? _error;
   String _selectedCategoryKey = 'all';
   final Set<String> _expandedAuthors = {};
+  final Set<String> _expandedAbstracts = {};
 
   @override
   void initState() {
@@ -157,6 +158,96 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildAbstractSection(Publication publication, AppLocalizations l10n) {
+    if (publication.abstractText == null || publication.abstractText!.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final publicationKey = publication.key;
+    final isExpanded = _expandedAbstracts.contains(publicationKey);
+    final abstractText = publication.abstractText!;
+    final isLongAbstract = abstractText.length > 250;
+
+    return Container(
+      margin: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.description_outlined,
+                size: 18,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                l10n.abstract,
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            isExpanded || !isLongAbstract
+                ? abstractText
+                : '${abstractText.substring(0, 250)}...',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
+              height: 1.6,
+            ),
+          ),
+          if (isLongAbstract) ...[
+            const SizedBox(height: 12),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: TextButton.icon(
+                onPressed: () {
+                  setState(() {
+                    if (isExpanded) {
+                      _expandedAbstracts.remove(publicationKey);
+                    } else {
+                      _expandedAbstracts.add(publicationKey);
+                    }
+                  });
+                },
+                icon: Icon(
+                  isExpanded ? Icons.expand_less : Icons.expand_more,
+                  size: 16,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                label: Text(
+                  isExpanded ? l10n.showLess : l10n.readMore,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  alignment: Alignment.centerLeft,
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
     );
   }
 
@@ -380,20 +471,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
               ),
             ],
           ),
-          if (publication.abstractText != null &&
-              publication.abstractText!.isNotEmpty) ...[
-            const SizedBox(height: 12),
-            Text(
-              publication.abstractText!,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.7),
-              ),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+          _buildAbstractSection(publication, l10n),
           if (publication.doi != null || publication.url != null) ...[
             const SizedBox(height: 16),
             ElevatedButton.icon(

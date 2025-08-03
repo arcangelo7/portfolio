@@ -35,5 +35,7 @@
   "noPublicationsForCategory": "Nessuna pubblicazione trovata per la categoria selezionata",
   "showAllAuthors": "Mostra tutti gli autori",
   "showLess": "Mostra meno",
-  "andMoreAuthors": "e altri {count}..."
+  "andMoreAuthors": "e altri {count}...",
+  "abstract": "Abstract",
+  "readMore": "Leggi di più"
 }
