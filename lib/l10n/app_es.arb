@@ -18,6 +18,11 @@
   "noPublications": "No hay publicaciones disponibles",
   "viewDoi": "Ver DOI",
   "viewUrl": "Ver Artículo",
+  "viewPaper": "Ver Paper",
+  "viewBook": "Ver Libro",
+  "viewChapter": "Ver Capítulo",
+  "viewSoftware": "Ver Software",
+  "viewPresentation": "Ver Presentación",
   "publicationsDescription": "Publicaciones académicas seleccionadas y contribuciones de investigación",
   "categoryAll": "Todas",
   "categoryJournalArticle": "Artículo de Revista",
@@ -25,6 +30,7 @@
   "categoryBook": "Libro",
   "categoryBookSection": "Capítulo de Libro",
   "categorySoftware": "Software",
+  "categoryPresentation": "Presentación",
   "categoryOther": "Otro",
   "noPublicationsForCategory": "No se encontraron publicaciones para la categoría seleccionada"
 }

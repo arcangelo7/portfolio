@@ -95,8 +95,29 @@ class Publication {
         return l10n.categoryBookSection;
       case 'computerProgram':
         return l10n.categorySoftware;
+      case 'presentation':
+        return l10n.categoryPresentation;
       default:
         return l10n.categoryOther;
+    }
+  }
+
+  String getViewButtonText(dynamic l10n) {
+    switch (itemType) {
+      case 'journalArticle':
+        return l10n.viewUrl; // "View Article"
+      case 'conferencePaper':
+        return l10n.viewPaper; // "View Paper"
+      case 'book':
+        return l10n.viewBook; // "View Book"
+      case 'bookSection':
+        return l10n.viewChapter; // "View Chapter"
+      case 'computerProgram':
+        return l10n.viewSoftware; // "View Software"
+      case 'presentation':
+        return l10n.viewPresentation; // "View Presentation"
+      default:
+        return l10n.viewUrl; // fallback to "View Article"
     }
   }
 

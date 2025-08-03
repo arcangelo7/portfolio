@@ -214,6 +214,36 @@ abstract class AppLocalizations {
   /// **'View Article'**
   String get viewUrl;
 
+  /// No description provided for @viewPaper.
+  ///
+  /// In en, this message translates to:
+  /// **'View Paper'**
+  String get viewPaper;
+
+  /// No description provided for @viewBook.
+  ///
+  /// In en, this message translates to:
+  /// **'View Book'**
+  String get viewBook;
+
+  /// No description provided for @viewChapter.
+  ///
+  /// In en, this message translates to:
+  /// **'View Chapter'**
+  String get viewChapter;
+
+  /// No description provided for @viewSoftware.
+  ///
+  /// In en, this message translates to:
+  /// **'View Software'**
+  String get viewSoftware;
+
+  /// No description provided for @viewPresentation.
+  ///
+  /// In en, this message translates to:
+  /// **'View Presentation'**
+  String get viewPresentation;
+
   /// No description provided for @publicationsDescription.
   ///
   /// In en, this message translates to:
@@ -255,6 +285,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Software'**
   String get categorySoftware;
+
+  /// No description provided for @categoryPresentation.
+  ///
+  /// In en, this message translates to:
+  /// **'Presentation'**
+  String get categoryPresentation;
 
   /// No description provided for @categoryOther.
   ///

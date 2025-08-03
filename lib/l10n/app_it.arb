@@ -18,6 +18,11 @@
   "noPublications": "Nessuna pubblicazione disponibile",
   "viewDoi": "Visualizza DOI",
   "viewUrl": "Visualizza Articolo",
+  "viewPaper": "Visualizza Paper",
+  "viewBook": "Visualizza Libro",
+  "viewChapter": "Visualizza Capitolo",
+  "viewSoftware": "Visualizza Software",
+  "viewPresentation": "Visualizza Presentazione",
   "publicationsDescription": "Pubblicazioni accademiche selezionate e contributi di ricerca",
   "categoryAll": "Tutte",
   "categoryJournalArticle": "Articolo di Rivista",
@@ -25,6 +30,7 @@
   "categoryBook": "Libro",
   "categoryBookSection": "Capitolo di Libro",
   "categorySoftware": "Software",
+  "categoryPresentation": "Presentazione",
   "categoryOther": "Altro",
   "noPublicationsForCategory": "Nessuna pubblicazione trovata per la categoria selezionata"
 }

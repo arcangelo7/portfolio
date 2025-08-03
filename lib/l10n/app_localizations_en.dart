@@ -67,6 +67,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewUrl => 'View Article';
 
   @override
+  String get viewPaper => 'View Paper';
+
+  @override
+  String get viewBook => 'View Book';
+
+  @override
+  String get viewChapter => 'View Chapter';
+
+  @override
+  String get viewSoftware => 'View Software';
+
+  @override
+  String get viewPresentation => 'View Presentation';
+
+  @override
   String get publicationsDescription =>
       'Selected academic publications and research contributions';
 
@@ -87,6 +102,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get categorySoftware => 'Software';
+
+  @override
+  String get categoryPresentation => 'Presentation';
 
   @override
   String get categoryOther => 'Other';

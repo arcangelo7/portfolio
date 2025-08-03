@@ -71,6 +71,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       'book': l10n.categoryBook,
       'bookSection': l10n.categoryBookSection,
       'computerProgram': l10n.categorySoftware,
+      'presentation': l10n.categoryPresentation,
     };
   }
 
@@ -284,7 +285,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                   publication.displayYear,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.tertiary,
+                    color: Theme.of(context).colorScheme.onTertiary,
                   ),
                 ),
               ),
@@ -303,34 +304,19 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           ],
           if (publication.doi != null || publication.url != null) ...[
             const SizedBox(height: 16),
-            Row(
-              children: [
-                if (publication.doi != null) ...[
-                  ElevatedButton.icon(
-                    onPressed: () => _launchUrl('https://doi.org/${publication.doi}'),
-                    icon: const Icon(Icons.link, size: 16),
-                    label: Text(l10n.viewDoi),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                      foregroundColor: Theme.of(context).colorScheme.onSecondary,
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                ],
-                if (publication.url != null) ...[
-                  ElevatedButton.icon(
-                    onPressed: () => _launchUrl(publication.url!),
-                    icon: const Icon(Icons.open_in_new, size: 16),
-                    label: Text(l10n.viewUrl),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.tertiary,
-                      foregroundColor: Theme.of(context).colorScheme.onTertiary,
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    ),
-                  ),
-                ],
-              ],
+            ElevatedButton.icon(
+              onPressed: () => _launchUrl(
+                publication.doi != null 
+                    ? 'https://doi.org/${publication.doi}'
+                    : publication.url!
+              ),
+              icon: const Icon(Icons.open_in_new, size: 16),
+              label: Text(publication.getViewButtonText(l10n)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+                foregroundColor: Theme.of(context).colorScheme.onTertiary,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              ),
             ),
           ],
         ],
