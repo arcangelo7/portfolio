@@ -133,8 +133,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   }
 
   int get _totalPages {
-    if (_filteredPublications == null || _filteredPublications!.isEmpty)
+    if (_filteredPublications == null || _filteredPublications!.isEmpty) {
       return 1;
+    }
     return (_filteredPublications!.length / _publicationsPerPage).ceil();
   }
 

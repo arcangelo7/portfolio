@@ -81,18 +81,16 @@ jobs:
         git diff --staged --quiet || git commit -m "Update coverage badge"
         git push
     
-    - name: Deploy coverage to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
-      if: github.ref == 'refs/heads/main'
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./coverage/html
-        destination_dir: test/coverage
-    
     - name: Build web
       run: flutter build web --base-href /portfolio/ --dart-define=FLUTTER_WEB_CANVASKIT_URL=https://www.gstatic.com/flutter-canvaskit/
     
-    - name: Deploy app to GitHub Pages
+    - name: Prepare combined deployment
+      run: |
+        mkdir -p build/web/test/coverage
+        cp -r coverage/html/* build/web/test/coverage/
+        echo "Combined app and coverage for deployment"
+    
+    - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       if: github.ref == 'refs/heads/main'
       with:
