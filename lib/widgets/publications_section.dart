@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_html/flutter_html.dart';
 import '../l10n/app_localizations.dart';
 import '../models/publication.dart';
 import '../services/zotero_service.dart';
@@ -93,6 +95,98 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  bool _containsHtml(String text) {
+    final htmlTags = RegExp(r'<[^>]+>');
+    return htmlTags.hasMatch(text);
+  }
+
+  Widget _buildTextWithClickableLinks(String text, TextStyle? style) {
+    final urlRegex = RegExp(
+      r'https?://[^\s<>"{}|\\^`\[\]]+',
+      caseSensitive: false,
+    );
+    
+    final matches = urlRegex.allMatches(text);
+    if (matches.isEmpty) {
+      return SelectableText(
+        text, 
+        style: style,
+      );
+    }
+
+    List<TextSpan> spans = [];
+    int lastEnd = 0;
+
+    for (final match in matches) {
+      if (match.start > lastEnd) {
+        spans.add(TextSpan(
+          text: text.substring(lastEnd, match.start),
+          style: style,
+        ));
+      }
+
+      final url = match.group(0)!;
+      spans.add(TextSpan(
+        text: url,
+        style: style?.copyWith(
+          color: Theme.of(context).colorScheme.primary,
+          decoration: TextDecoration.underline,
+        ),
+        recognizer: TapGestureRecognizer()
+          ..onTap = () => _launchUrl(url),
+      ));
+
+      lastEnd = match.end;
+    }
+
+    if (lastEnd < text.length) {
+      spans.add(TextSpan(
+        text: text.substring(lastEnd),
+        style: style,
+      ));
+    }
+
+    return SelectableText.rich(
+      TextSpan(children: spans),
+    );
+  }
+
+  Widget _buildAbstractContent(String content) {
+    final textStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
+      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
+      height: 1.6,
+    );
+
+    if (_containsHtml(content)) {
+      return Html(
+        data: content,
+        style: {
+          "body": Style(
+            margin: Margins.zero,
+            padding: HtmlPaddings.zero,
+            fontSize: FontSize(textStyle?.fontSize ?? 14),
+            color: textStyle?.color,
+            lineHeight: const LineHeight(1.6),
+          ),
+          "p": Style(
+            margin: Margins.zero,
+          ),
+          "a": Style(
+            color: Theme.of(context).colorScheme.primary,
+            textDecoration: TextDecoration.underline,
+          ),
+        },
+        onLinkTap: (url, _, __) {
+          if (url != null) {
+            _launchUrl(url);
+          }
+        },
+      );
+    } else {
+      return _buildTextWithClickableLinks(content, textStyle);
     }
   }
 
@@ -202,14 +296,10 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             ],
           ),
           const SizedBox(height: 12),
-          Text(
+          _buildAbstractContent(
             isExpanded || !isLongAbstract
                 ? abstractText
                 : '${abstractText.substring(0, 250)}...',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
-              height: 1.6,
-            ),
           ),
           if (isLongAbstract) ...[
             const SizedBox(height: 12),
