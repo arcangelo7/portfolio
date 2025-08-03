@@ -27,13 +27,53 @@ class Publication {
     this.dateModified,
   });
 
+  static String? _extractVenue(Map<String, dynamic> data, String itemType) {
+    switch (itemType) {
+      case 'computerProgram':
+        return null;
+      case 'presentation':
+        final meetingName = data['meetingName'] as String?;
+        final place = data['place'] as String?;
+        
+        if (meetingName != null && place != null) {
+          return '$meetingName, $place';
+        } else if (meetingName != null) {
+          return meetingName;
+        } else if (place != null) {
+          return place;
+        } else {
+          return null;
+        }
+      case 'bookSection':
+        return data['bookTitle'] as String?;
+      default:
+        return data['conferenceName'] as String? ??
+            data['proceedingsTitle'] as String?;
+    }
+  }
+
   factory Publication.fromJson(Map<String, dynamic> json) {
     final data = json['data'] as Map<String, dynamic>;
+    final itemType = data['itemType'] as String? ?? 'unknown';
 
     final creators = data['creators'] as List<dynamic>? ?? [];
+
+    String primaryCreatorType;
+    switch (itemType) {
+      case 'computerProgram':
+        primaryCreatorType = 'programmer';
+        break;
+      case 'presentation':
+        primaryCreatorType = 'presenter';
+        break;
+      default:
+        primaryCreatorType = 'author';
+        break;
+    }
+
     final authors =
         creators
-            .where((creator) => creator['creatorType'] == 'author')
+            .where((creator) => creator['creatorType'] == primaryCreatorType)
             .map((creator) {
               final firstName = creator['firstName'] as String? ?? '';
               final lastName = creator['lastName'] as String? ?? '';
@@ -47,9 +87,7 @@ class Publication {
       title: data['title'] as String? ?? 'Untitled',
       authors: authors,
       journal: data['publicationTitle'] as String?,
-      venue:
-          data['conferenceName'] as String? ??
-          data['proceedingsTitle'] as String?,
+      venue: _extractVenue(data, itemType),
       year: data['date'] as String?,
       doi: data['DOI'] as String?,
       url: data['url'] as String?,

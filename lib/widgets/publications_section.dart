@@ -329,6 +329,19 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           const SizedBox(height: 8),
           _buildAuthorsSection(publication, l10n),
           const SizedBox(height: 12),
+          if (publication.itemType != 'computerProgram' && 
+              publication.displayVenue != 'Unknown Venue') ...[
+            Text(
+              publication.displayVenue,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontStyle: FontStyle.italic,
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.8),
+              ),
+            ),
+            const SizedBox(height: 8),
+          ],
           Row(
             children: [
               Container(
@@ -348,17 +361,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                   ),
                 ),
               ),
-              Expanded(
-                child: Text(
-                  publication.displayVenue,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontStyle: FontStyle.italic,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.8),
-                  ),
-                ),
-              ),
+              const Spacer(),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
