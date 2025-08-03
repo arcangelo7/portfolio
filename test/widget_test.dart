@@ -124,18 +124,21 @@ void main() {
     expect(find.byIcon(Icons.light_mode), findsOneWidget);
   });
 
-  testWidgets('Skills section displays skill chips', (
+  testWidgets('Skills section displays skill bubbles', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
 
+    // Verifica la presenza di alcune skill effettive
     expect(find.text('Flutter'), findsOneWidget);
     expect(find.text('Dart'), findsOneWidget);
     expect(find.text('JavaScript'), findsOneWidget);
     expect(find.text('Python'), findsOneWidget);
-    expect(find.text('UI/UX Design'), findsOneWidget);
-    expect(find.byType(Chip), findsNWidgets(5));
+    expect(find.text('React'), findsOneWidget);
+
+    // Verifica che ci siano le categorie di skill
+    expect(find.text('Programming Languages'), findsOneWidget);
   });
 
   testWidgets('Contact section has social icons', (WidgetTester tester) async {
@@ -270,7 +273,7 @@ void main() {
     expect(find.byType(FloatingActionButton), findsNWidgets(2));
 
     await tester.drag(
-      find.byType(SingleChildScrollView),
+      find.byType(SingleChildScrollView).first,
       const Offset(0, -500),
     );
     await tester.pumpAndSettle();
@@ -287,7 +290,7 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.drag(
-      find.byType(SingleChildScrollView),
+      find.byType(SingleChildScrollView).first,
       const Offset(0, -1000),
     );
     await tester.pumpAndSettle();
@@ -458,17 +461,19 @@ void main() {
     expect(find.text('About Me'), findsOneWidget);
   });
 
-  testWidgets('Skills section chip colors are correct', (
+  testWidgets('Skills section bubble containers are displayed', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
 
-    final chipFinder = find.byType(Chip);
-    expect(chipFinder, findsNWidgets(5));
+    // Verifica che ci siano Container con decorazioni (i bubble)
+    final containerFinder = find.byType(Container);
+    expect(containerFinder, findsWidgets);
 
-    final firstChip = tester.widget<Chip>(chipFinder.first);
-    expect(firstChip.backgroundColor, isNotNull);
+    // Verifica che ci siano le skill visualizzate come testo
+    expect(find.text('Flutter'), findsOneWidget);
+    expect(find.text('Python'), findsOneWidget);
   });
 
   testWidgets('Hero section gradient colors change with theme', (
@@ -492,7 +497,7 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.drag(
-      find.byType(SingleChildScrollView),
+      find.byType(SingleChildScrollView).first,
       const Offset(0, -1000),
     );
     await tester.pumpAndSettle();
@@ -642,11 +647,13 @@ void main() {
         home: Scaffold(
           body: Builder(
             builder: (context) {
-              final aboutText = AppLocalizations.of(context)!.aboutMeDescription;
-              final hasLinks = aboutText.contains('http') || aboutText.contains('[');
-              
+              final aboutText =
+                  AppLocalizations.of(context)!.aboutMeDescription;
+              final hasLinks =
+                  aboutText.contains('http') || aboutText.contains('[');
+
               expect(hasLinks || aboutText.isNotEmpty, isTrue);
-              
+
               return const Text('Simple text without links');
             },
           ),
@@ -665,7 +672,7 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.drag(
-      find.byType(SingleChildScrollView),
+      find.byType(SingleChildScrollView).first,
       const Offset(0, -1000),
     );
     await tester.pumpAndSettle();

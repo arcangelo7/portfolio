@@ -265,29 +265,24 @@ class _LandingPageState extends State<LandingPage> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 768;
-    
+
     return Container(
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.bottomRight,
           end: Alignment.topLeft,
-          colors: isDark
-              ? [
-                  PortfolioTheme.cobaltBlue,
-                  PortfolioTheme.violet,
-                ]
-              : [
-                  PortfolioTheme.cobaltBlue,
-                  PortfolioTheme.emeraldGreen,
-                ],
+          colors:
+              isDark
+                  ? [PortfolioTheme.cobaltBlue, PortfolioTheme.violet]
+                  : [PortfolioTheme.cobaltBlue, PortfolioTheme.emeraldGreen],
         ),
       ),
       child: Stack(
         children: [
           // Full screen transparent PNG image
           _buildFullScreenProfileImage(isDark),
-          
+
           // Text content - responsive positioning
           Positioned(
             left: isMobile ? 20 : 60,
@@ -298,7 +293,10 @@ class _LandingPageState extends State<LandingPage> {
               width: isMobile ? null : screenWidth * 0.4,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    isMobile
+                        ? CrossAxisAlignment.center
+                        : CrossAxisAlignment.start,
                 children: [
                   Text(
                     AppLocalizations.of(context)!.name,
@@ -393,16 +391,17 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  Widget _buildTextWithMarkdownLinks(BuildContext context, String text, TextStyle? style, TextAlign textAlign) {
+  Widget _buildTextWithMarkdownLinks(
+    BuildContext context,
+    String text,
+    TextStyle? style,
+    TextAlign textAlign,
+  ) {
     final markdownRegex = RegExp(r'\[([^\]]+)\]\(([^)]+)\)');
     final matches = markdownRegex.allMatches(text);
-    
+
     if (matches.isEmpty) {
-      return Text(
-        text,
-        style: style,
-        textAlign: textAlign,
-      );
+      return Text(text, style: style, textAlign: textAlign);
     }
 
     List<TextSpan> spans = [];
@@ -411,40 +410,37 @@ class _LandingPageState extends State<LandingPage> {
     for (final match in matches) {
       // Add text before the link
       if (match.start > currentIndex) {
-        spans.add(TextSpan(
-          text: text.substring(currentIndex, match.start),
-          style: style,
-        ));
+        spans.add(
+          TextSpan(
+            text: text.substring(currentIndex, match.start),
+            style: style,
+          ),
+        );
       }
 
       // Add the clickable link
       final linkText = match.group(1)!;
       final linkUrl = match.group(2)!;
-      spans.add(TextSpan(
-        text: linkText,
-        style: style?.copyWith(
-          color: Theme.of(context).colorScheme.primary,
-          decoration: TextDecoration.underline,
+      spans.add(
+        TextSpan(
+          text: linkText,
+          style: style?.copyWith(
+            color: Theme.of(context).colorScheme.primary,
+            decoration: TextDecoration.underline,
+          ),
+          recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(linkUrl),
         ),
-        recognizer: TapGestureRecognizer()
-          ..onTap = () => _launchUrl(linkUrl),
-      ));
+      );
 
       currentIndex = match.end;
     }
 
     // Add remaining text
     if (currentIndex < text.length) {
-      spans.add(TextSpan(
-        text: text.substring(currentIndex),
-        style: style,
-      ));
+      spans.add(TextSpan(text: text.substring(currentIndex), style: style));
     }
 
-    return RichText(
-      textAlign: textAlign,
-      text: TextSpan(children: spans),
-    );
+    return RichText(textAlign: textAlign, text: TextSpan(children: spans));
   }
 
   Future<void> _launchUrl(String url) async {
@@ -457,13 +453,66 @@ class _LandingPageState extends State<LandingPage> {
   Widget _buildSkillsSection(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final isMobile = MediaQuery.of(context).size.width < 768;
-    final skills = [
-      l10n.skillFlutter,
-      l10n.skillDart,
-      l10n.skillJavaScript,
-      l10n.skillPython,
-      l10n.skillUIUX,
-    ];
+
+    final skillsCategories = {
+      l10n.skillCategoryProgrammingLanguages: [
+        l10n.skillPython,
+        l10n.skillJavaScript,
+        l10n.skillTypeScript,
+        l10n.skillDart,
+      ],
+      l10n.skillCategoryMarkupAndTemplating: [
+        l10n.skillHTML,
+        l10n.skillXML,
+        l10n.skillTEI,
+      ],
+      l10n.skillCategoryStylingAndDesign: [
+        l10n.skillCSS,
+        l10n.skillSASS,
+        l10n.skillBootstrap,
+      ],
+      l10n.skillCategoryQueryAndTransform: [
+        l10n.skillSPARQL,
+        l10n.skillSQL,
+        l10n.skillXPath,
+        l10n.skillXQuery,
+        l10n.skillXSLT,
+      ],
+      l10n.skillCategorySemanticWebAndRDF: [
+        l10n.skillRDF,
+        l10n.skillSPARQL,
+        l10n.skillSHACL,
+        l10n.skillApacheJenaFuseki,
+        l10n.skillGraphDB,
+        l10n.skillBlazeGraph,
+        l10n.skillOpenLinkVirtuoso,
+      ],
+      l10n.skillCategoryFrontendLibraries: [
+        l10n.skillReact,
+        l10n.skillD3JS,
+        l10n.skillFlutter,
+      ],
+      l10n.skillCategoryBackendFrameworks: [
+        l10n.skillNodeJS,
+        l10n.skillFlask,
+        l10n.skillPrisma,
+      ],
+      l10n.skillCategoryDatabases: [
+        l10n.skillMongoDB,
+        l10n.skillPostgreSQL,
+        l10n.skillRedis,
+        l10n.skillApacheJenaFuseki,
+        l10n.skillBlazeGraph,
+        l10n.skillOpenLinkVirtuoso,
+        l10n.skillGraphDB,
+      ],
+      l10n.skillCategoryInfrastructureDevOps: [
+        l10n.skillDocker,
+        l10n.skillProxmox,
+        l10n.skillGitHubActions,
+      ],
+      l10n.skillCategoryOperatingSystems: [l10n.skillDebian, l10n.skillFedora],
+    };
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16),
@@ -480,26 +529,9 @@ class _LandingPageState extends State<LandingPage> {
             ),
           ),
           const SizedBox(height: 32),
-          Wrap(
-            spacing: isMobile ? 12 : 16,
-            runSpacing: isMobile ? 12 : 16,
-            alignment: WrapAlignment.center,
-            children:
-                skills
-                    .map(
-                      (skill) => Chip(
-                        label: Text(
-                          skill,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onTertiary,
-                            fontWeight: FontWeight.w600,
-                            fontSize: isMobile ? 14 : 16,
-                          ),
-                        ),
-                        backgroundColor: Theme.of(context).colorScheme.tertiary,
-                      ),
-                    )
-                    .toList(),
+          _SkillsBubbleChart(
+            skillsCategories: skillsCategories,
+            isMobile: isMobile,
           ),
         ],
       ),
@@ -550,12 +582,223 @@ class _LandingPageState extends State<LandingPage> {
           Text(
             AppLocalizations.of(context)!.copyright,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.7),
               fontSize: isMobile ? 12 : null,
             ),
             textAlign: TextAlign.center,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _SkillsBubbleChart extends StatelessWidget {
+  final Map<String, List<String>> skillsCategories;
+  final bool isMobile;
+
+  const _SkillsBubbleChart({
+    required this.skillsCategories,
+    required this.isMobile,
+  });
+
+  // Colori distintivi per ogni categoria
+  List<Color> get _categoryColors => [
+    const Color(0xFF6366F1), // Indigo
+    const Color(0xFF8B5CF6), // Violet
+    const Color(0xFF06B6D4), // Cyan
+    const Color(0xFF10B981), // Emerald
+    const Color(0xFFF59E0B), // Amber
+    const Color(0xFFEF4444), // Red
+    const Color(0xFFEC4899), // Pink
+    const Color(0xFF8B5A2B), // Brown
+    const Color(0xFF6B7280), // Gray
+    const Color(0xFF059669), // Teal
+  ];
+
+  Color _getCategoryColor(int index, BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final baseColor = _categoryColors[index % _categoryColors.length];
+    return isDark ? baseColor.withValues(alpha: 0.8) : baseColor;
+  }
+
+  Color _getDarkerCategoryColor(Color categoryColor, BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final hsl = HSLColor.fromColor(categoryColor);
+
+    if (isDark) {
+      // In dark mode, make colors lighter and more saturated for contrast
+      return hsl
+          .withLightness((hsl.lightness * 1.5).clamp(0.0, 1.0))
+          .withSaturation((hsl.saturation * 1.3).clamp(0.0, 1.0))
+          .toColor();
+    } else {
+      // In light mode, create a darker, more saturated version
+      return hsl
+          .withLightness((hsl.lightness * 0.4).clamp(0.0, 1.0))
+          .withSaturation((hsl.saturation * 1.2).clamp(0.0, 1.0))
+          .toColor();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          // Layout organico bubble-style
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: isMobile ? 8 : 16,
+              vertical: 16,
+            ),
+            child: _buildBubbleLayout(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBubbleLayout(BuildContext context) {
+    final categoryEntries = skillsCategories.entries.toList();
+
+    return Wrap(
+      spacing: isMobile ? 8 : 12,
+      runSpacing: isMobile ? 12 : 16,
+      alignment: WrapAlignment.center,
+      children:
+          categoryEntries.asMap().entries.map((mapEntry) {
+            final index = mapEntry.key;
+            final categoryEntry = mapEntry.value;
+            final categoryColor = _getCategoryColor(index, context);
+
+            return _buildCategoryBubble(
+              context,
+              categoryEntry.key,
+              categoryEntry.value,
+              categoryColor,
+            );
+          }).toList(),
+    );
+  }
+
+  Widget _buildCategoryBubble(
+    BuildContext context,
+    String category,
+    List<String> skills,
+    Color categoryColor,
+  ) {
+    return Container(
+      margin: EdgeInsets.all(isMobile ? 4 : 8),
+      padding: EdgeInsets.all(isMobile ? 16 : 20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            categoryColor.withValues(alpha: 0.15),
+            categoryColor.withValues(alpha: 0.08),
+            Colors.white.withValues(alpha: 0.7),
+          ],
+          stops: const [0.0, 0.6, 1.0],
+        ),
+        borderRadius: BorderRadius.circular(isMobile ? 16 : 20),
+        border: Border.all(
+          color: categoryColor.withValues(alpha: 0.3),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: categoryColor.withValues(alpha: 0.15),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Titolo categoria con icona
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: isMobile ? 8 : 10,
+                height: isMobile ? 8 : 10,
+                decoration: BoxDecoration(
+                  color: categoryColor,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  category,
+                  style: TextStyle(
+                    fontSize: isMobile ? 16 : 18,
+                    fontWeight: FontWeight.bold,
+                    color: _getDarkerCategoryColor(categoryColor, context),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: isMobile ? 12 : 16),
+          // Skills come bubble
+          Wrap(
+            spacing: isMobile ? 6 : 8,
+            runSpacing: isMobile ? 6 : 8,
+            alignment: WrapAlignment.center,
+            children:
+                skills
+                    .map(
+                      (skill) =>
+                          _buildSkillBubble(context, skill, categoryColor),
+                    )
+                    .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSkillBubble(
+    BuildContext context,
+    String skill,
+    Color categoryColor,
+  ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 12 : 16,
+        vertical: isMobile ? 8 : 10,
+      ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [categoryColor, categoryColor.withValues(alpha: 0.8)],
+        ),
+        borderRadius: BorderRadius.circular(isMobile ? 20 : 24),
+        boxShadow: [
+          BoxShadow(
+            color: categoryColor.withValues(alpha: 0.3),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Text(
+        skill,
+        style: TextStyle(
+          color: isDark ? Colors.white : Colors.white,
+          fontWeight: FontWeight.w600,
+          fontSize: isMobile ? 13 : 14,
+        ),
       ),
     );
   }

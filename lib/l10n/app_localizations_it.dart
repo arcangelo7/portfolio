@@ -37,19 +37,139 @@ class AppLocalizationsIt extends AppLocalizations {
   String get copyright => '© 2025 Arcangelo. Tutti i diritti riservati.';
 
   @override
-  String get skillFlutter => 'Flutter';
+  String get skillCategoryProgrammingLanguages => 'Linguaggi di Programmazione';
 
   @override
-  String get skillDart => 'Dart';
+  String get skillCategoryMarkupAndTemplating => 'Markup e Templating';
 
   @override
-  String get skillJavaScript => 'JavaScript';
+  String get skillCategoryStylingAndDesign => 'Styling e Design';
+
+  @override
+  String get skillCategoryQueryAndTransform => 'Query e Trasformazione';
+
+  @override
+  String get skillCategorySemanticWebAndRDF => 'Semantic Web e RDF';
+
+  @override
+  String get skillCategoryFrontendLibraries => 'Librerie Frontend';
+
+  @override
+  String get skillCategoryBackendFrameworks => 'Framework Backend';
+
+  @override
+  String get skillCategoryDatabases => 'Database';
+
+  @override
+  String get skillCategoryInfrastructureDevOps => 'Infrastruttura e DevOps';
+
+  @override
+  String get skillCategoryOperatingSystems => 'Sistemi Operativi';
 
   @override
   String get skillPython => 'Python';
 
   @override
-  String get skillUIUX => 'Design UI/UX';
+  String get skillJavaScript => 'JavaScript';
+
+  @override
+  String get skillTypeScript => 'TypeScript';
+
+  @override
+  String get skillDart => 'Dart';
+
+  @override
+  String get skillHTML => 'HTML';
+
+  @override
+  String get skillXML => 'XML';
+
+  @override
+  String get skillCSS => 'CSS';
+
+  @override
+  String get skillSASS => 'SASS';
+
+  @override
+  String get skillRDF => 'RDF';
+
+  @override
+  String get skillSPARQL => 'SPARQL';
+
+  @override
+  String get skillSQL => 'SQL';
+
+  @override
+  String get skillFlutter => 'Flutter';
+
+  @override
+  String get skillReact => 'React';
+
+  @override
+  String get skillNodeJS => 'Node.js';
+
+  @override
+  String get skillFlask => 'Flask';
+
+  @override
+  String get skillBlazeGraph => 'BlazeGraph';
+
+  @override
+  String get skillOpenLinkVirtuoso => 'OpenLink Virtuoso';
+
+  @override
+  String get skillPrisma => 'Prisma ORM';
+
+  @override
+  String get skillSHACL => 'SHACL';
+
+  @override
+  String get skillTEI => 'TEI';
+
+  @override
+  String get skillBootstrap => 'Bootstrap';
+
+  @override
+  String get skillXPath => 'XPath';
+
+  @override
+  String get skillXQuery => 'XQuery';
+
+  @override
+  String get skillXSLT => 'XSLT';
+
+  @override
+  String get skillApacheJenaFuseki => 'Apache Jena Fuseki';
+
+  @override
+  String get skillGraphDB => 'GraphDB';
+
+  @override
+  String get skillD3JS => 'D3.js';
+
+  @override
+  String get skillMongoDB => 'MongoDB';
+
+  @override
+  String get skillPostgreSQL => 'PostgreSQL';
+
+  @override
+  String get skillRedis => 'Redis';
+
+  @override
+  String get skillDocker => 'Docker';
+
+  @override
+  String get skillProxmox => 'Proxmox';
+
+  @override
+  String get skillDebian => 'Debian';
+
+  @override
+  String get skillFedora => 'Fedora';
+
+  @override
+  String get skillGitHubActions => 'GitHub Actions';
 
   @override
   String get publications => 'Pubblicazioni';

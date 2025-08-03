@@ -6,6 +6,8 @@
 
 A responsive Flutter portfolio website showcasing my professional profile and skills.
 
+**🌐 Portfolio Website**: [https://arcangelo7.github.io/portfolio/](https://arcangelo7.github.io/portfolio/)
+
 ## Features
 
 - Multi-language support (English, Italian, Spanish)
@@ -27,6 +29,8 @@ Run tests with coverage (auto-excludes generated files):
 ```bash
 ./test/test_coverage.sh --html
 ```
+
+**📊 Test Coverage**: View detailed coverage report at [https://arcangelo7.github.io/portfolio/test/coverage/](https://arcangelo7.github.io/portfolio/test/coverage/)
 
 ## Supported Platforms
 

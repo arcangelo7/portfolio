@@ -154,23 +154,65 @@ abstract class AppLocalizations {
   /// **'© 2025 Arcangelo Massari. All rights reserved.'**
   String get copyright;
 
-  /// No description provided for @skillFlutter.
+  /// No description provided for @skillCategoryProgrammingLanguages.
   ///
   /// In en, this message translates to:
-  /// **'Flutter'**
-  String get skillFlutter;
+  /// **'Programming Languages'**
+  String get skillCategoryProgrammingLanguages;
 
-  /// No description provided for @skillDart.
+  /// No description provided for @skillCategoryMarkupAndTemplating.
   ///
   /// In en, this message translates to:
-  /// **'Dart'**
-  String get skillDart;
+  /// **'Markup & Templating'**
+  String get skillCategoryMarkupAndTemplating;
 
-  /// No description provided for @skillJavaScript.
+  /// No description provided for @skillCategoryStylingAndDesign.
   ///
   /// In en, this message translates to:
-  /// **'JavaScript'**
-  String get skillJavaScript;
+  /// **'Styling & Design'**
+  String get skillCategoryStylingAndDesign;
+
+  /// No description provided for @skillCategoryQueryAndTransform.
+  ///
+  /// In en, this message translates to:
+  /// **'Query & Transform'**
+  String get skillCategoryQueryAndTransform;
+
+  /// No description provided for @skillCategorySemanticWebAndRDF.
+  ///
+  /// In en, this message translates to:
+  /// **'Semantic Web & RDF'**
+  String get skillCategorySemanticWebAndRDF;
+
+  /// No description provided for @skillCategoryFrontendLibraries.
+  ///
+  /// In en, this message translates to:
+  /// **'Frontend Libraries'**
+  String get skillCategoryFrontendLibraries;
+
+  /// No description provided for @skillCategoryBackendFrameworks.
+  ///
+  /// In en, this message translates to:
+  /// **'Backend Frameworks'**
+  String get skillCategoryBackendFrameworks;
+
+  /// No description provided for @skillCategoryDatabases.
+  ///
+  /// In en, this message translates to:
+  /// **'Databases'**
+  String get skillCategoryDatabases;
+
+  /// No description provided for @skillCategoryInfrastructureDevOps.
+  ///
+  /// In en, this message translates to:
+  /// **'Infrastructure & DevOps'**
+  String get skillCategoryInfrastructureDevOps;
+
+  /// No description provided for @skillCategoryOperatingSystems.
+  ///
+  /// In en, this message translates to:
+  /// **'Operating Systems'**
+  String get skillCategoryOperatingSystems;
 
   /// No description provided for @skillPython.
   ///
@@ -178,11 +220,209 @@ abstract class AppLocalizations {
   /// **'Python'**
   String get skillPython;
 
-  /// No description provided for @skillUIUX.
+  /// No description provided for @skillJavaScript.
   ///
   /// In en, this message translates to:
-  /// **'UI/UX Design'**
-  String get skillUIUX;
+  /// **'JavaScript'**
+  String get skillJavaScript;
+
+  /// No description provided for @skillTypeScript.
+  ///
+  /// In en, this message translates to:
+  /// **'TypeScript'**
+  String get skillTypeScript;
+
+  /// No description provided for @skillDart.
+  ///
+  /// In en, this message translates to:
+  /// **'Dart'**
+  String get skillDart;
+
+  /// No description provided for @skillHTML.
+  ///
+  /// In en, this message translates to:
+  /// **'HTML'**
+  String get skillHTML;
+
+  /// No description provided for @skillXML.
+  ///
+  /// In en, this message translates to:
+  /// **'XML'**
+  String get skillXML;
+
+  /// No description provided for @skillCSS.
+  ///
+  /// In en, this message translates to:
+  /// **'CSS'**
+  String get skillCSS;
+
+  /// No description provided for @skillSASS.
+  ///
+  /// In en, this message translates to:
+  /// **'SASS'**
+  String get skillSASS;
+
+  /// No description provided for @skillRDF.
+  ///
+  /// In en, this message translates to:
+  /// **'RDF'**
+  String get skillRDF;
+
+  /// No description provided for @skillSPARQL.
+  ///
+  /// In en, this message translates to:
+  /// **'SPARQL'**
+  String get skillSPARQL;
+
+  /// No description provided for @skillSQL.
+  ///
+  /// In en, this message translates to:
+  /// **'SQL'**
+  String get skillSQL;
+
+  /// No description provided for @skillFlutter.
+  ///
+  /// In en, this message translates to:
+  /// **'Flutter'**
+  String get skillFlutter;
+
+  /// No description provided for @skillReact.
+  ///
+  /// In en, this message translates to:
+  /// **'React'**
+  String get skillReact;
+
+  /// No description provided for @skillNodeJS.
+  ///
+  /// In en, this message translates to:
+  /// **'Node.js'**
+  String get skillNodeJS;
+
+  /// No description provided for @skillFlask.
+  ///
+  /// In en, this message translates to:
+  /// **'Flask'**
+  String get skillFlask;
+
+  /// No description provided for @skillBlazeGraph.
+  ///
+  /// In en, this message translates to:
+  /// **'BlazeGraph'**
+  String get skillBlazeGraph;
+
+  /// No description provided for @skillOpenLinkVirtuoso.
+  ///
+  /// In en, this message translates to:
+  /// **'OpenLink Virtuoso'**
+  String get skillOpenLinkVirtuoso;
+
+  /// No description provided for @skillPrisma.
+  ///
+  /// In en, this message translates to:
+  /// **'Prisma ORM'**
+  String get skillPrisma;
+
+  /// No description provided for @skillSHACL.
+  ///
+  /// In en, this message translates to:
+  /// **'SHACL'**
+  String get skillSHACL;
+
+  /// No description provided for @skillTEI.
+  ///
+  /// In en, this message translates to:
+  /// **'TEI'**
+  String get skillTEI;
+
+  /// No description provided for @skillBootstrap.
+  ///
+  /// In en, this message translates to:
+  /// **'Bootstrap'**
+  String get skillBootstrap;
+
+  /// No description provided for @skillXPath.
+  ///
+  /// In en, this message translates to:
+  /// **'XPath'**
+  String get skillXPath;
+
+  /// No description provided for @skillXQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'XQuery'**
+  String get skillXQuery;
+
+  /// No description provided for @skillXSLT.
+  ///
+  /// In en, this message translates to:
+  /// **'XSLT'**
+  String get skillXSLT;
+
+  /// No description provided for @skillApacheJenaFuseki.
+  ///
+  /// In en, this message translates to:
+  /// **'Apache Jena Fuseki'**
+  String get skillApacheJenaFuseki;
+
+  /// No description provided for @skillGraphDB.
+  ///
+  /// In en, this message translates to:
+  /// **'GraphDB'**
+  String get skillGraphDB;
+
+  /// No description provided for @skillD3JS.
+  ///
+  /// In en, this message translates to:
+  /// **'D3.js'**
+  String get skillD3JS;
+
+  /// No description provided for @skillMongoDB.
+  ///
+  /// In en, this message translates to:
+  /// **'MongoDB'**
+  String get skillMongoDB;
+
+  /// No description provided for @skillPostgreSQL.
+  ///
+  /// In en, this message translates to:
+  /// **'PostgreSQL'**
+  String get skillPostgreSQL;
+
+  /// No description provided for @skillRedis.
+  ///
+  /// In en, this message translates to:
+  /// **'Redis'**
+  String get skillRedis;
+
+  /// No description provided for @skillDocker.
+  ///
+  /// In en, this message translates to:
+  /// **'Docker'**
+  String get skillDocker;
+
+  /// No description provided for @skillProxmox.
+  ///
+  /// In en, this message translates to:
+  /// **'Proxmox'**
+  String get skillProxmox;
+
+  /// No description provided for @skillDebian.
+  ///
+  /// In en, this message translates to:
+  /// **'Debian'**
+  String get skillDebian;
+
+  /// No description provided for @skillFedora.
+  ///
+  /// In en, this message translates to:
+  /// **'Fedora'**
+  String get skillFedora;
+
+  /// No description provided for @skillGitHubActions.
+  ///
+  /// In en, this message translates to:
+  /// **'GitHub Actions'**
+  String get skillGitHubActions;
 
   /// No description provided for @publications.
   ///
