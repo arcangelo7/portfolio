@@ -46,6 +46,19 @@ class Publication {
         }
       case 'bookSection':
         return data['bookTitle'] as String?;
+      case 'report':
+        final institution = data['institution'] as String?;
+        final place = data['place'] as String?;
+        
+        if (institution != null && place != null) {
+          return '$institution, $place';
+        } else if (institution != null) {
+          return institution;
+        } else if (place != null) {
+          return place;
+        } else {
+          return null;
+        }
       default:
         return data['conferenceName'] as String? ??
             data['proceedingsTitle'] as String?;
@@ -135,6 +148,10 @@ class Publication {
         return l10n.categorySoftware;
       case 'presentation':
         return l10n.categoryPresentation;
+      case 'thesis':
+        return l10n.categoryThesis;
+      case 'report':
+        return l10n.categoryReport;
       default:
         return l10n.categoryOther;
     }
@@ -154,6 +171,10 @@ class Publication {
         return l10n.viewSoftware; // "View Software"
       case 'presentation':
         return l10n.viewPresentation; // "View Presentation"
+      case 'thesis':
+        return l10n.viewUrl; // "View Thesis"
+      case 'report':
+        return l10n.viewUrl; // "View Report"
       default:
         return l10n.viewUrl; // fallback to "View Article"
     }

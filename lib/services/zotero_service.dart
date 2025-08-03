@@ -23,7 +23,7 @@ class ZoteroService {
         Uri.parse('$baseUrl/groups/$groupId/items').replace(
           queryParameters: {
             'itemType':
-                'journalArticle || conferencePaper || book || bookSection || computerProgram || presentation',
+                'journalArticle || conferencePaper || book || bookSection || computerProgram || presentation || thesis || report',
             'sort': 'date',
             'direction': 'desc',
             'limit': '50',

@@ -83,7 +83,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get publicationsDescription =>
-      'Pubblicazioni accademiche selezionate e contributi di ricerca';
+      'Pubblicazioni accademiche e contributi di ricerca';
 
   @override
   String get categoryAll => 'Tutte';
@@ -105,6 +105,12 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get categoryPresentation => 'Presentazione';
+
+  @override
+  String get categoryThesis => 'Tesi';
+
+  @override
+  String get categoryReport => 'Report';
 
   @override
   String get categoryOther => 'Altro';

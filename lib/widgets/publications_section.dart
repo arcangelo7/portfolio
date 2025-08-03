@@ -138,6 +138,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       'bookSection': l10n.categoryBookSection,
       'computerProgram': l10n.categorySoftware,
       'presentation': l10n.categoryPresentation,
+      'thesis': l10n.categoryThesis,
+      'report': l10n.categoryReport,
     };
   }
 

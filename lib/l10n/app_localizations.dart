@@ -247,7 +247,7 @@ abstract class AppLocalizations {
   /// No description provided for @publicationsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Selected academic publications and research contributions'**
+  /// **'Academic publications and research contributions'**
   String get publicationsDescription;
 
   /// No description provided for @categoryAll.
@@ -291,6 +291,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Presentation'**
   String get categoryPresentation;
+
+  /// No description provided for @categoryThesis.
+  ///
+  /// In en, this message translates to:
+  /// **'Thesis'**
+  String get categoryThesis;
+
+  /// No description provided for @categoryReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get categoryReport;
 
   /// No description provided for @categoryOther.
   ///
