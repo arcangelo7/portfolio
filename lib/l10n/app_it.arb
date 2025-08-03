@@ -18,5 +18,13 @@
   "noPublications": "Nessuna pubblicazione disponibile",
   "viewDoi": "Visualizza DOI",
   "viewUrl": "Visualizza Articolo",
-  "publicationsDescription": "Pubblicazioni accademiche selezionate e contributi di ricerca"
+  "publicationsDescription": "Pubblicazioni accademiche selezionate e contributi di ricerca",
+  "categoryAll": "Tutte",
+  "categoryJournalArticle": "Articolo di Rivista",
+  "categoryConferencePaper": "Paper di Conferenza",
+  "categoryBook": "Libro",
+  "categoryBookSection": "Capitolo di Libro",
+  "categorySoftware": "Software",
+  "categoryOther": "Altro",
+  "noPublicationsForCategory": "Nessuna pubblicazione trovata per la categoria selezionata"
 }

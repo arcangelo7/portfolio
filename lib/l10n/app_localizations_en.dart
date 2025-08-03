@@ -69,4 +69,29 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get publicationsDescription =>
       'Selected academic publications and research contributions';
+
+  @override
+  String get categoryAll => 'All';
+
+  @override
+  String get categoryJournalArticle => 'Journal Article';
+
+  @override
+  String get categoryConferencePaper => 'Conference Paper';
+
+  @override
+  String get categoryBook => 'Book';
+
+  @override
+  String get categoryBookSection => 'Book Section';
+
+  @override
+  String get categorySoftware => 'Software';
+
+  @override
+  String get categoryOther => 'Other';
+
+  @override
+  String get noPublicationsForCategory =>
+      'No publications found for the selected category';
 }

@@ -219,6 +219,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Selected academic publications and research contributions'**
   String get publicationsDescription;
+
+  /// No description provided for @categoryAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get categoryAll;
+
+  /// No description provided for @categoryJournalArticle.
+  ///
+  /// In en, this message translates to:
+  /// **'Journal Article'**
+  String get categoryJournalArticle;
+
+  /// No description provided for @categoryConferencePaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Conference Paper'**
+  String get categoryConferencePaper;
+
+  /// No description provided for @categoryBook.
+  ///
+  /// In en, this message translates to:
+  /// **'Book'**
+  String get categoryBook;
+
+  /// No description provided for @categoryBookSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Book Section'**
+  String get categoryBookSection;
+
+  /// No description provided for @categorySoftware.
+  ///
+  /// In en, this message translates to:
+  /// **'Software'**
+  String get categorySoftware;
+
+  /// No description provided for @categoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get categoryOther;
+
+  /// No description provided for @noPublicationsForCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'No publications found for the selected category'**
+  String get noPublicationsForCategory;
 }
 
 class _AppLocalizationsDelegate

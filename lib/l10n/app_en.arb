@@ -18,5 +18,13 @@
   "noPublications": "No publications available",
   "viewDoi": "View DOI",
   "viewUrl": "View Article",
-  "publicationsDescription": "Selected academic publications and research contributions"
+  "publicationsDescription": "Selected academic publications and research contributions",
+  "categoryAll": "All",
+  "categoryJournalArticle": "Journal Article",
+  "categoryConferencePaper": "Conference Paper",
+  "categoryBook": "Book",
+  "categoryBookSection": "Book Section",
+  "categorySoftware": "Software",
+  "categoryOther": "Other",
+  "noPublicationsForCategory": "No publications found for the selected category"
 }

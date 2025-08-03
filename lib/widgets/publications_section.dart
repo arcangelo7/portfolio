@@ -14,8 +14,10 @@ class PublicationsSection extends StatefulWidget {
 class _PublicationsSectionState extends State<PublicationsSection> {
   final ZoteroService _zoteroService = ZoteroService();
   List<Publication>? _publications;
+  List<Publication>? _filteredPublications;
   bool _isLoading = true;
   String? _error;
+  String _selectedCategoryKey = 'all';
 
   @override
   void initState() {
@@ -29,6 +31,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       if (mounted) {
         setState(() {
           _publications = publications;
+          _filteredPublications = publications;
           _isLoading = false;
           _error = null;
         });
@@ -37,11 +40,50 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       if (mounted) {
         setState(() {
           _publications = null;
+          _filteredPublications = null;
           _isLoading = false;
           _error = e.toString();
         });
       }
     }
+  }
+
+  void _filterPublications(String categoryKey, AppLocalizations l10n) {
+    if (_publications == null) return;
+    
+    setState(() {
+      _selectedCategoryKey = categoryKey;
+      if (categoryKey == 'all') {
+        _filteredPublications = _publications;
+      } else {
+        _filteredPublications = _publications!
+            .where((pub) => pub.itemType == categoryKey)
+            .toList();
+      }
+    });
+  }
+
+  Map<String, String> _getCategoryMapping(AppLocalizations l10n) {
+    return {
+      'all': l10n.categoryAll,
+      'journalArticle': l10n.categoryJournalArticle,
+      'conferencePaper': l10n.categoryConferencePaper,
+      'book': l10n.categoryBook,
+      'bookSection': l10n.categoryBookSection,
+      'computerProgram': l10n.categorySoftware,
+    };
+  }
+
+  List<String> _getAvailableCategoryKeys() {
+    if (_publications == null) return ['all'];
+    
+    final categories = <String>{'all'};
+    for (final pub in _publications!) {
+      categories.add(pub.itemType);
+    }
+    
+    final sortedCategories = categories.where((cat) => cat != 'all').toList()..sort();
+    return ['all', ...sortedCategories];
   }
 
   Future<void> _launchUrl(String url) async {
@@ -86,9 +128,46 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 32),
+          if (!_isLoading && _publications != null && _publications!.isNotEmpty)
+            _buildCategoryFilter(l10n),
+          const SizedBox(height: 24),
           _buildPublicationsList(l10n),
         ],
       ),
+    );
+  }
+
+  Widget _buildCategoryFilter(AppLocalizations l10n) {
+    final categoryKeys = _getAvailableCategoryKeys();
+    final categoryMapping = _getCategoryMapping(l10n);
+    
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      alignment: WrapAlignment.center,
+      children: categoryKeys.map((categoryKey) {
+        final categoryName = categoryMapping[categoryKey] ?? categoryKey;
+        final isSelected = categoryKey == _selectedCategoryKey;
+        return FilterChip(
+          selected: isSelected,
+          label: Text(categoryName),
+          onSelected: (_) => _filterPublications(categoryKey, l10n),
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          selectedColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
+          checkmarkColor: Theme.of(context).colorScheme.primary,
+          labelStyle: TextStyle(
+            color: isSelected 
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onSurface,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+          ),
+          side: BorderSide(
+            color: isSelected 
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
+          ),
+        );
+      }).toList(),
     );
   }
 
@@ -106,7 +185,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       );
     }
 
-    if (_error != null || _publications == null || _publications!.isEmpty) {
+    if (_error != null || _filteredPublications == null || _filteredPublications!.isEmpty) {
       return Column(
         children: [
           Icon(
@@ -116,7 +195,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           ),
           const SizedBox(height: 16),
           Text(
-            l10n.noPublications,
+            _filteredPublications != null && _filteredPublications!.isEmpty
+                ? l10n.noPublicationsForCategory
+                : l10n.noPublications,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
             ),
@@ -126,8 +207,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     }
 
     return Column(
-      children: _publications!
-          .take(10) // Mostra solo le prime 10 pubblicazioni
+      children: _filteredPublications!
+          .take(10)
           .map((publication) => _buildPublicationCard(publication, l10n))
           .toList(),
     );
@@ -169,6 +250,21 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           const SizedBox(height: 4),
           Row(
             children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                margin: const EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  publication.getCategoryDisplayName(l10n),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
+              ),
               Expanded(
                 child: Text(
                   publication.displayVenue,

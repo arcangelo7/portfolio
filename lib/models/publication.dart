@@ -83,6 +83,23 @@ class Publication {
     return yearMatch?.group(0) ?? year!;
   }
 
+  String getCategoryDisplayName(dynamic l10n) {
+    switch (itemType) {
+      case 'journalArticle':
+        return l10n.categoryJournalArticle;
+      case 'conferencePaper':
+        return l10n.categoryConferencePaper;
+      case 'book':
+        return l10n.categoryBook;
+      case 'bookSection':
+        return l10n.categoryBookSection;
+      case 'computerProgram':
+        return l10n.categorySoftware;
+      default:
+        return l10n.categoryOther;
+    }
+  }
+
   String get citation {
     final venueText = displayVenue.isNotEmpty ? displayVenue : '';
     final yearText = displayYear;
