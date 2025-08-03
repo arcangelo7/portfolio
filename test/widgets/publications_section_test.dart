@@ -7,7 +7,6 @@ import 'package:portfolio/widgets/publications_section.dart';
 import 'package:portfolio/models/publication.dart';
 import 'package:portfolio/services/zotero_service.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -782,8 +781,8 @@ void main() {
     ) async {
       // Create data for testing multiple features
       final longAbstract =
-          'This is a very long abstract that should be truncated when displayed initially. ' +
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' +
+          'This is a very long abstract that should be truncated when displayed initially. '
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
           'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
 
       final publications =
