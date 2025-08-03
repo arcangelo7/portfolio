@@ -121,7 +121,7 @@ abstract class AppLocalizations {
   /// No description provided for @viewMyWork.
   ///
   /// In en, this message translates to:
-  /// **'View My Work'**
+  /// **'Check out my projects'**
   String get viewMyWork;
 
   /// No description provided for @aboutMe.

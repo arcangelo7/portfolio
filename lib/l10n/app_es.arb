@@ -2,7 +2,7 @@
   "appTitle": "Portfolio de Arcangelo Massari",
   "name": "Arcangelo Massari",
   "jobTitle": "Candidato a PhD en Humanidades Digitales",
-  "viewMyWork": "Ver Mi Trabajo",
+  "viewMyWork": "Echa un vistazo a mis proyectos",
   "aboutMe": "Sobre Mí",
   "aboutMeDescription": "Estoy haciendo mi doctorado entre la Universidad de Bolonia y KU Leuven, trabajando en Humanidades Digitales y patrimonio cultural digital. Mi investigación se centra en crear interfaces user-friendly para datos semánticos, específicamente tecnologías de Web Semántica con énfasis en change tracking y provenance. Gané el [Premio Gigliozzi](https://www.aiucd.it/premio-gigliozzi-2024/) por la mejor presentación en la conferencia AIUCD con [HERITRACE](https://opencitations.github.io/heritrace/), que es el enfoque principal de mi trabajo doctoral.",
   "skills": "Habilidades",

@@ -18,7 +18,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get jobTitle => 'PhD Candidate in Digital Humanities';
 
   @override
-  String get viewMyWork => 'View My Work';
+  String get viewMyWork => 'Check out my projects';
 
   @override
   String get aboutMe => 'About Me';

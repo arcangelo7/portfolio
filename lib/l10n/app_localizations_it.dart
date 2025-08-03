@@ -15,10 +15,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get name => 'Arcangelo Massari';
 
   @override
-  String get jobTitle => 'Dottorando PhD in Digital Humanities';
+  String get jobTitle => 'Dottorando in Digital Humanities';
 
   @override
-  String get viewMyWork => 'Vedi i Miei Lavori';
+  String get viewMyWork => 'Dai un\'occhiata ai miei progetti';
 
   @override
   String get aboutMe => 'Chi Sono';

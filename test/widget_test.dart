@@ -291,13 +291,36 @@ void main() {
   });
 
   testWidgets('Publications section loads content', (WidgetTester tester) async {
-    await tester.pumpWidget(createTestApp());
-    await tester.pumpAndSettle(); // Wait for async operations to complete
+    // Test PublicationsSection widget directly
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
+        home: const Scaffold(
+          body: PublicationsSection(),
+        ),
+      ),
+    );
 
-    // Should show either loading indicator or publications content
+    // Should show loading indicator initially
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+    // Wait for async operations to complete with a reasonable timeout
+    await tester.pumpAndSettle(const Duration(seconds: 3));
+
+    // After loading, should not show loading indicator anymore
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+    
+    // Should show either publications content or error message
     expect(
-      find.byType(CircularProgressIndicator).evaluate().isNotEmpty ||
-      find.textContaining('OpenCitations').evaluate().isNotEmpty,
+      find.text('Publications').evaluate().isNotEmpty ||
+      find.textContaining('No publications').evaluate().isNotEmpty ||
+      find.byIcon(Icons.error_outline).evaluate().isNotEmpty,
       true,
     );
   });
