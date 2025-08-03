@@ -25,7 +25,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get aboutMeDescription =>
-      'Soy candidato a PhD en la Universidad de Bolonia y KU Leuven, especializado en Humanidades Digitales y patrimonio cultural digital. Mi investigación se centra en Web Semántica, metadatos bibliográficos y OpenCitations. Gané el Premio Gigliozzi 2024 por la mejor contribución en informática humanística.';
+      'Estoy haciendo mi doctorado entre la Universidad de Bolonia y KU Leuven, trabajando en Humanidades Digitales y patrimonio cultural digital. Mi investigación se centra en crear interfaces user-friendly para datos semánticos, específicamente tecnologías de Web Semántica con énfasis en change tracking y provenance. Gané el [Premio Gigliozzi](https://www.aiucd.it/premio-gigliozzi-2024/) por la mejor presentación en la conferencia AIUCD con [HERITRACE](https://opencitations.github.io/heritrace/), que es el enfoque principal de mi trabajo doctoral.';
 
   @override
   String get skills => 'Habilidades';
@@ -84,7 +84,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get publicationsDescription =>
-      'Publicaciones académicas y contribuciones de investigación';
+      'Mi investigación publicada y trabajos académicos';
 
   @override
   String get categoryAll => 'Todas';

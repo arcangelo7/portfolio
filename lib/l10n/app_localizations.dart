@@ -133,7 +133,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutMeDescription.
   ///
   /// In en, this message translates to:
-  /// **'I am a PhD candidate at the University of Bologna and KU Leuven, specializing in Digital Humanities and digital cultural heritage. My research focuses on Semantic Web, bibliographic metadata, and OpenCitations. I won the Gigliozzi Prize 2024 for the best contribution in digital humanities.'**
+  /// **'I\'m currently doing my PhD between the University of Bologna and KU Leuven, working on Digital Humanities and digital cultural heritage. My research focuses on creating user-friendly interfaces for semantic data, specifically Semantic Web technologies with emphasis on change tracking and provenance. I won the [Gigliozzi Prize](https://www.aiucd.it/premio-gigliozzi-2024/) for the best presentation at AIUCD conference with [HERITRACE](https://opencitations.github.io/heritrace/), which is the main focus of my doctoral work.'**
   String get aboutMeDescription;
 
   /// No description provided for @skills.
@@ -247,7 +247,7 @@ abstract class AppLocalizations {
   /// No description provided for @publicationsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Academic publications and research contributions'**
+  /// **'My published research and academic work'**
   String get publicationsDescription;
 
   /// No description provided for @categoryAll.

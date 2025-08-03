@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'l10n/app_localizations.dart';
 import 'widgets/publications_section.dart';
 
@@ -113,7 +115,7 @@ class _PortfolioAppState extends State<PortfolioApp> {
   }
 }
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
   final Function(Locale) onLanguageChanged;
   final Locale currentLocale;
   final VoidCallback onThemeToggle;
@@ -128,6 +130,24 @@ class LandingPage extends StatelessWidget {
   });
 
   @override
+  State<LandingPage> createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> {
+  final GlobalKey _publicationsKey = GlobalKey();
+
+  void _scrollToPublications() {
+    final context = _publicationsKey.currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(
+        context,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -136,7 +156,7 @@ class LandingPage extends StatelessWidget {
             _buildHeroSection(context),
             _buildAboutSection(context),
             _buildSkillsSection(context),
-            const PublicationsSection(),
+            PublicationsSection(key: _publicationsKey),
             _buildContactSection(context),
           ],
         ),
@@ -155,10 +175,10 @@ class LandingPage extends StatelessWidget {
           FloatingActionButton(
             heroTag: "theme_toggle",
             mini: true,
-            onPressed: onThemeToggle,
+            onPressed: widget.onThemeToggle,
             backgroundColor: Theme.of(context).colorScheme.primary,
             child: Icon(
-              isDarkMode ? Icons.light_mode : Icons.dark_mode,
+              widget.isDarkMode ? Icons.light_mode : Icons.dark_mode,
               color: Theme.of(context).colorScheme.onPrimary,
             ),
           ),
@@ -196,7 +216,7 @@ class LandingPage extends StatelessWidget {
                 leading: const Text('🇺🇸'),
                 title: const Text('English'),
                 onTap: () {
-                  onLanguageChanged(const Locale('en'));
+                  widget.onLanguageChanged(const Locale('en'));
                   Navigator.pop(context);
                 },
               ),
@@ -204,7 +224,7 @@ class LandingPage extends StatelessWidget {
                 leading: const Text('🇮🇹'),
                 title: const Text('Italiano'),
                 onTap: () {
-                  onLanguageChanged(const Locale('it'));
+                  widget.onLanguageChanged(const Locale('it'));
                   Navigator.pop(context);
                 },
               ),
@@ -212,7 +232,7 @@ class LandingPage extends StatelessWidget {
                 leading: const Text('🇪🇸'),
                 title: const Text('Español'),
                 onTap: () {
-                  onLanguageChanged(const Locale('es'));
+                  widget.onLanguageChanged(const Locale('es'));
                   Navigator.pop(context);
                 },
               ),
@@ -276,7 +296,7 @@ class LandingPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => _scrollToPublications(),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isDark 
                         ? PortfolioTheme.iceWhite 
@@ -313,16 +333,78 @@ class LandingPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          Text(
+          _buildTextWithMarkdownLinks(
+            context,
             AppLocalizations.of(context)!.aboutMeDescription,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            Theme.of(context).textTheme.bodyLarge?.copyWith(
               color: Theme.of(context).colorScheme.onSurface,
             ),
-            textAlign: TextAlign.center,
+            TextAlign.center,
           ),
         ],
       ),
     );
+  }
+
+  Widget _buildTextWithMarkdownLinks(BuildContext context, String text, TextStyle? style, TextAlign textAlign) {
+    final markdownRegex = RegExp(r'\[([^\]]+)\]\(([^)]+)\)');
+    final matches = markdownRegex.allMatches(text);
+    
+    if (matches.isEmpty) {
+      return Text(
+        text,
+        style: style,
+        textAlign: textAlign,
+      );
+    }
+
+    List<TextSpan> spans = [];
+    int currentIndex = 0;
+
+    for (final match in matches) {
+      // Add text before the link
+      if (match.start > currentIndex) {
+        spans.add(TextSpan(
+          text: text.substring(currentIndex, match.start),
+          style: style,
+        ));
+      }
+
+      // Add the clickable link
+      final linkText = match.group(1)!;
+      final linkUrl = match.group(2)!;
+      spans.add(TextSpan(
+        text: linkText,
+        style: style?.copyWith(
+          color: Theme.of(context).colorScheme.primary,
+          decoration: TextDecoration.underline,
+        ),
+        recognizer: TapGestureRecognizer()
+          ..onTap = () => _launchUrl(linkUrl),
+      ));
+
+      currentIndex = match.end;
+    }
+
+    // Add remaining text
+    if (currentIndex < text.length) {
+      spans.add(TextSpan(
+        text: text.substring(currentIndex),
+        style: style,
+      ));
+    }
+
+    return RichText(
+      textAlign: textAlign,
+      text: TextSpan(children: spans),
+    );
+  }
+
+  Future<void> _launchUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
   }
 
   Widget _buildSkillsSection(BuildContext context) {
