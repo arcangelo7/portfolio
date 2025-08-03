@@ -333,6 +333,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Read more'**
   String get readMore;
+
+  /// No description provided for @previousPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous page'**
+  String get previousPage;
+
+  /// No description provided for @nextPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Next page'**
+  String get nextPage;
 }
 
 class _AppLocalizationsDelegate

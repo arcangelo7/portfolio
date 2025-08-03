@@ -130,4 +130,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get readMore => 'Leer más';
+
+  @override
+  String get previousPage => 'Página anterior';
+
+  @override
+  String get nextPage => 'Página siguiente';
 }

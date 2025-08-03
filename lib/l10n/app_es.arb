@@ -37,5 +37,7 @@
   "showLess": "Mostrar menos",
   "andMoreAuthors": "y {count} más...",
   "abstract": "Abstract",
-  "readMore": "Leer más"
+  "readMore": "Leer más",
+  "previousPage": "Página anterior",
+  "nextPage": "Página siguiente"
 }

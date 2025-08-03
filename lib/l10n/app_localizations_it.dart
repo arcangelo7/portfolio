@@ -129,4 +129,10 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get readMore => 'Leggi di più';
+
+  @override
+  String get previousPage => 'Pagina precedente';
+
+  @override
+  String get nextPage => 'Pagina successiva';
 }

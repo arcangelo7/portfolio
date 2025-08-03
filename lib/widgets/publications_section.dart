@@ -22,6 +22,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   String _selectedCategoryKey = 'all';
   final Set<String> _expandedAuthors = {};
   final Set<String> _expandedAbstracts = {};
+  int _currentPage = 0;
+  static const int _publicationsPerPage = 10;
+  final GlobalKey _publicationsSectionKey = GlobalKey();
 
   @override
   void initState() {
@@ -57,6 +60,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
 
     setState(() {
       _selectedCategoryKey = categoryKey;
+      _currentPage = 0;
       if (categoryKey == 'all') {
         _filteredPublications = _publications;
       } else {
@@ -64,6 +68,65 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             _publications!.where((pub) => pub.itemType == categoryKey).toList();
       }
     });
+  }
+
+  void _scrollToPublications() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final context = _publicationsSectionKey.currentContext;
+      if (context != null) {
+        Scrollable.ensureVisible(
+          context,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+          alignment: 0.0,
+        );
+      }
+    });
+  }
+
+  void _nextPage() {
+    if (_filteredPublications == null) return;
+    final maxPage = (_filteredPublications!.length / _publicationsPerPage).ceil() - 1;
+    
+    setState(() {
+      if (_currentPage < maxPage) {
+        _currentPage++;
+      }
+    });
+    _scrollToPublications();
+  }
+
+  void _previousPage() {
+    setState(() {
+      if (_currentPage > 0) {
+        _currentPage--;
+      }
+    });
+    _scrollToPublications();
+  }
+
+  void _goToPage(int page) {
+    if (_filteredPublications == null) return;
+    final maxPage = (_filteredPublications!.length / _publicationsPerPage).ceil() - 1;
+    
+    setState(() {
+      _currentPage = page.clamp(0, maxPage);
+    });
+    _scrollToPublications();
+  }
+
+  List<Publication> _getCurrentPagePublications() {
+    if (_filteredPublications == null) return [];
+    
+    final startIndex = _currentPage * _publicationsPerPage;
+    final endIndex = (startIndex + _publicationsPerPage).clamp(0, _filteredPublications!.length);
+    
+    return _filteredPublications!.sublist(startIndex, endIndex);
+  }
+
+  int get _totalPages {
+    if (_filteredPublications == null || _filteredPublications!.isEmpty) return 1;
+    return (_filteredPublications!.length / _publicationsPerPage).ceil();
   }
 
   Map<String, String> _getCategoryMapping(AppLocalizations l10n) {
@@ -346,6 +409,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
+      key: _publicationsSectionKey,
       margin: const EdgeInsets.symmetric(vertical: 32),
       padding: const EdgeInsets.all(64),
       decoration: BoxDecoration(
@@ -384,6 +448,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             _buildCategoryFilter(l10n),
           const SizedBox(height: 24),
           _buildPublicationsList(l10n),
+          if (!_isLoading && _filteredPublications != null && _filteredPublications!.isNotEmpty && _totalPages > 1)
+            _buildPaginationControls(l10n),
         ],
       ),
     );
@@ -473,8 +539,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
 
     return Column(
       children:
-          _filteredPublications!
-              .take(10)
+          _getCurrentPagePublications()
               .map((publication) => _buildPublicationCard(publication, l10n))
               .toList(),
     );
@@ -583,6 +648,62 @@ class _PublicationsSectionState extends State<PublicationsSection> {
               ),
             ),
           ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPaginationControls(AppLocalizations l10n) {
+    return Container(
+      margin: const EdgeInsets.only(top: 32),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+            onPressed: _currentPage > 0 ? _previousPage : null,
+            icon: const Icon(Icons.chevron_left),
+            tooltip: l10n.previousPage,
+          ),
+          const SizedBox(width: 16),
+          ...List.generate(_totalPages, (index) {
+            final isCurrentPage = index == _currentPage;
+            return MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () => _goToPage(index),
+                child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: isCurrentPage 
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: isCurrentPage 
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
+                  ),
+                ),
+                child: Text(
+                  '${index + 1}',
+                  style: TextStyle(
+                    color: isCurrentPage 
+                        ? Theme.of(context).colorScheme.onPrimary
+                        : Theme.of(context).colorScheme.onSurface,
+                    fontWeight: isCurrentPage ? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
+                ),
+              ),
+            );
+          }),
+          const SizedBox(width: 16),
+          IconButton(
+            onPressed: _currentPage < _totalPages - 1 ? _nextPage : null,
+            icon: const Icon(Icons.chevron_right),
+            tooltip: l10n.nextPage,
+          ),
         ],
       ),
     );
