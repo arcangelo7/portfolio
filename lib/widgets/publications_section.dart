@@ -6,10 +6,27 @@ import '../l10n/app_localizations.dart';
 import '../models/publication.dart';
 import '../services/zotero_service.dart';
 
+/// Interface for URL launching to enable dependency injection and testing
+abstract class UrlLauncher {
+  Future<void> openUrl(String url);
+}
+
+/// Default implementation using url_launcher package
+class DefaultUrlLauncher implements UrlLauncher {
+  @override
+  Future<void> openUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+}
+
 class PublicationsSection extends StatefulWidget {
   final ZoteroService? zoteroService;
+  final UrlLauncher? urlLauncher;
 
-  const PublicationsSection({super.key, this.zoteroService});
+  const PublicationsSection({super.key, this.zoteroService, this.urlLauncher});
 
   @override
   State<PublicationsSection> createState() => _PublicationsSectionState();
@@ -17,6 +34,7 @@ class PublicationsSection extends StatefulWidget {
 
 class _PublicationsSectionState extends State<PublicationsSection> {
   late final ZoteroService _zoteroService;
+  late final UrlLauncher _urlLauncher;
   List<Publication>? _publications;
   List<Publication>? _filteredPublications;
   bool _isLoading = true;
@@ -32,6 +50,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   void initState() {
     super.initState();
     _zoteroService = widget.zoteroService ?? ZoteroService();
+    _urlLauncher = widget.urlLauncher ?? DefaultUrlLauncher();
     _loadPublications();
   }
 
@@ -167,10 +186,44 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   }
 
   Future<void> _launchUrl(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    await _urlLauncher.openUrl(url);
+  }
+
+  /// Check if a publication should show a launch button (DOI or URL)
+  bool _shouldShowLaunchButton(Publication publication) {
+    return publication.doi != null || publication.url != null;
+  }
+
+  /// Get the URL to launch for a publication (DOI takes precedence over URL)
+  String _getLaunchUrl(Publication publication) {
+    if (publication.doi != null) {
+      return 'https://doi.org/${publication.doi}';
+    } else {
+      return publication.url!;
     }
+  }
+
+  /// Handle the launch button press for a publication
+  Future<void> _handleLaunchButtonPress(Publication publication) async {
+    final url = _getLaunchUrl(publication);
+    await _launchUrl(url);
+  }
+
+  /// Build the launch button for a publication
+  Widget _buildLaunchButton(Publication publication, AppLocalizations l10n) {
+    return ElevatedButton.icon(
+      onPressed: () => _handleLaunchButtonPress(publication),
+      icon: const Icon(Icons.open_in_new, size: 16),
+      label: Text(publication.getViewButtonText(l10n)),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        foregroundColor: Theme.of(context).colorScheme.onTertiary,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 8,
+        ),
+      ),
+    );
   }
 
   bool _containsHtml(String text) {
@@ -635,26 +688,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             ],
           ),
           _buildAbstractSection(publication, l10n),
-          if (publication.doi != null || publication.url != null) ...[
+          if (_shouldShowLaunchButton(publication)) ...[
             const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed:
-                  () => _launchUrl(
-                    publication.doi != null
-                        ? 'https://doi.org/${publication.doi}'
-                        : publication.url!,
-                  ),
-              icon: const Icon(Icons.open_in_new, size: 16),
-              label: Text(publication.getViewButtonText(l10n)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.tertiary,
-                foregroundColor: Theme.of(context).colorScheme.onTertiary,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-              ),
-            ),
+            _buildLaunchButton(publication, l10n),
           ],
         ],
       ),

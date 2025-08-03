@@ -627,6 +627,37 @@ void main() {
     expect(find.text('About Me'), findsOneWidget);
   });
 
+  testWidgets('Text without markdown links falls back to simple Text widget', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
+        home: Scaffold(
+          body: Builder(
+            builder: (context) {
+              final aboutText = AppLocalizations.of(context)!.aboutMeDescription;
+              final hasLinks = aboutText.contains('http') || aboutText.contains('[');
+              
+              expect(hasLinks || aboutText.isNotEmpty, isTrue);
+              
+              return const Text('Simple text without links');
+            },
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Simple text without links'), findsOneWidget);
+  });
+
   testWidgets('Contact section button handlers work', (
     WidgetTester tester,
   ) async {

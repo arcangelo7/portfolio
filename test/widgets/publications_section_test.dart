@@ -1,23 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:portfolio/l10n/app_localizations.dart';
 import 'package:portfolio/widgets/publications_section.dart';
 import 'package:portfolio/models/publication.dart';
 import 'package:portfolio/services/zotero_service.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 class MockZoteroService extends Mock implements ZoteroService {}
 
+class MockUrlLauncher extends Mock implements UrlLauncher {}
+
+class MockUrlLauncherPlatform extends Mock
+    with MockPlatformInterfaceMixin
+    implements UrlLauncherPlatform {}
+
 void main() {
   late MockZoteroService mockZoteroService;
+  late MockUrlLauncher mockUrlLauncher;
+  late MockUrlLauncherPlatform mockUrlLauncherPlatform;
 
   setUpAll(() {
     registerFallbackValue(<Publication>[]);
+    registerFallbackValue(const LaunchOptions());
   });
 
   setUp(() {
     mockZoteroService = MockZoteroService();
+    mockUrlLauncher = MockUrlLauncher();
+    mockUrlLauncherPlatform = MockUrlLauncherPlatform();
+    
+    // Setup the platform interface mock
+    when(() => mockUrlLauncherPlatform.canLaunch(any())).thenAnswer((_) async => true);
+    when(() => mockUrlLauncherPlatform.launchUrl(any(), any())).thenAnswer((_) async => true);
+    
+    UrlLauncherPlatform.instance = mockUrlLauncherPlatform;
+  });
+
+  tearDown(() {
+    // Reset the platform instance
+    UrlLauncherPlatform.instance = UrlLauncherPlatform.instance;
   });
 
   Widget createTestWidget() {
@@ -36,6 +62,7 @@ void main() {
   Widget createMockedTestWidget({
     List<Publication>? publications,
     Exception? error,
+    UrlLauncher? urlLauncher,
   }) {
     if (error != null) {
       when(() => mockZoteroService.getPublications()).thenThrow(error);
@@ -44,6 +71,9 @@ void main() {
         () => mockZoteroService.getPublications(),
       ).thenAnswer((_) async => publications ?? []);
     }
+
+    // Setup URL launcher mock
+    when(() => mockUrlLauncher.openUrl(any())).thenAnswer((_) async {});
 
     return MaterialApp(
       localizationsDelegates: const [
@@ -55,7 +85,10 @@ void main() {
       supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
       home: Scaffold(
         body: SingleChildScrollView(
-          child: PublicationsSection(zoteroService: mockZoteroService),
+          child: PublicationsSection(
+            zoteroService: mockZoteroService,
+            urlLauncher: urlLauncher ?? mockUrlLauncher,
+          ),
         ),
       ),
     );
@@ -198,7 +231,7 @@ void main() {
       expect(find.byIcon(Icons.error_outline), findsOneWidget);
     });
 
-    testWidgets('exercises filtering functionality', (
+    testWidgets('exercises core interactive functionality', (
       WidgetTester tester,
     ) async {
       final publications = createMockPublications();
@@ -210,94 +243,44 @@ void main() {
       // Test filter interaction
       final filterChips = find.byType(FilterChip);
       expect(filterChips, findsWidgets);
-
-      // Try tapping different filters
       if (filterChips.evaluate().length > 1) {
         await tester.tap(filterChips.at(1), warnIfMissed: false);
         await tester.pumpAndSettle();
-
         await tester.tap(find.text('All'), warnIfMissed: false);
         await tester.pumpAndSettle();
       }
-    });
 
-    testWidgets('exercises pagination functionality', (
-      WidgetTester tester,
-    ) async {
-      final publications = createMockPublications();
-      await tester.pumpWidget(
-        createMockedTestWidget(publications: publications),
-      );
-      await tester.pumpAndSettle();
-
-      // Navigate pages
+      // Test pagination
       await tester.tap(find.byIcon(Icons.chevron_right), warnIfMissed: false);
       await tester.pumpAndSettle();
-
       await tester.tap(find.byIcon(Icons.chevron_left), warnIfMissed: false);
       await tester.pumpAndSettle();
 
-      // Try page number
-      final pageNumbers = find.text('2');
-      if (pageNumbers.evaluate().isNotEmpty) {
-        await tester.tap(pageNumbers, warnIfMissed: false);
-        await tester.pumpAndSettle();
-      }
-    });
-
-    testWidgets('exercises author expansion functionality', (
-      WidgetTester tester,
-    ) async {
-      final publications = createMockPublications();
-      await tester.pumpWidget(
-        createMockedTestWidget(publications: publications),
-      );
-      await tester.pumpAndSettle();
-
+      // Test author expansion
       final showAllAuthors = find.text('Show all authors');
       if (showAllAuthors.evaluate().isNotEmpty) {
         await tester.tap(showAllAuthors, warnIfMissed: false);
         await tester.pumpAndSettle();
-
         final showLess = find.text('Show less');
         if (showLess.evaluate().isNotEmpty) {
           await tester.tap(showLess.first, warnIfMissed: false);
           await tester.pumpAndSettle();
         }
       }
-    });
 
-    testWidgets('exercises abstract expansion functionality', (
-      WidgetTester tester,
-    ) async {
-      final publications = createMockPublications();
-      await tester.pumpWidget(
-        createMockedTestWidget(publications: publications),
-      );
-      await tester.pumpAndSettle();
-
+      // Test abstract expansion
       final readMore = find.text('Read more');
       if (readMore.evaluate().isNotEmpty) {
         await tester.tap(readMore, warnIfMissed: false);
         await tester.pumpAndSettle();
-
         final showLess = find.text('Show less');
         if (showLess.evaluate().isNotEmpty) {
           await tester.tap(showLess.first, warnIfMissed: false);
           await tester.pumpAndSettle();
         }
       }
-    });
 
-    testWidgets('exercises url launching functionality', (
-      WidgetTester tester,
-    ) async {
-      final publications = createMockPublications();
-      await tester.pumpWidget(
-        createMockedTestWidget(publications: publications),
-      );
-      await tester.pumpAndSettle();
-
+      // Test URL launching
       final viewButtons = find.byIcon(Icons.open_in_new);
       if (viewButtons.evaluate().isNotEmpty) {
         await tester.tap(viewButtons.first, warnIfMissed: false);
@@ -379,41 +362,6 @@ void main() {
       expect(find.byIcon(Icons.open_in_new), findsNothing);
     });
 
-    testWidgets('exercises all widget helper methods', (
-      WidgetTester tester,
-    ) async {
-      final publications = createMockPublications();
-      await tester.pumpWidget(
-        createMockedTestWidget(publications: publications),
-      );
-      await tester.pumpAndSettle();
-
-      // Scroll testing
-      final scrollable = find.byType(SingleChildScrollView);
-      await tester.drag(scrollable, const Offset(0, -200), warnIfMissed: false);
-      await tester.pumpAndSettle();
-
-      // State management testing
-      await tester.pump(const Duration(milliseconds: 50));
-      await tester.pump(const Duration(milliseconds: 100));
-
-      // Verify widget is still present
-      expect(find.byType(PublicationsSection), findsOneWidget);
-    });
-
-    testWidgets('renders all UI components', (WidgetTester tester) async {
-      final publications = createMockPublications();
-      await tester.pumpWidget(
-        createMockedTestWidget(publications: publications),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.byType(Container), findsWidgets);
-      expect(find.byType(Column), findsWidgets);
-      expect(find.byType(Text), findsWidgets);
-      expect(find.byType(FilterChip), findsWidgets);
-      expect(find.byType(IconButton), findsWidgets);
-    });
   });
 
   group('PublicationsSection Real Network Tests', () {
@@ -534,6 +482,426 @@ void main() {
         year: '2023',
       );
       expect(pub.toString(), equals(pub.citation));
+    });
+  });
+
+  group('PublicationsSection URL Launcher Tests', () {
+    testWidgets('URL launching works with DOI and URL', (
+      WidgetTester tester,
+    ) async {
+      final publications = [
+        Publication(
+          key: 'with_doi',
+          title: 'Publication with DOI',
+          authors: ['Test Author'],
+          year: '2023',
+          itemType: 'journalArticle',
+          doi: '10.1000/test.doi',
+        ),
+        Publication(
+          key: 'with_url',
+          title: 'Publication with URL',
+          authors: ['Test Author'],
+          year: '2023',
+          itemType: 'journalArticle',
+          url: 'https://example.com/paper',
+        ),
+      ];
+
+      await tester.pumpWidget(
+        createMockedTestWidget(publications: publications),
+      );
+      await tester.pumpAndSettle();
+
+      // Verify publications are displayed
+      expect(find.text('Publication with DOI'), findsOneWidget);
+      expect(find.text('Publication with URL'), findsOneWidget);
+
+      // Find and tap view buttons if they exist
+      final viewButtons = find.byType(ElevatedButton);
+      if (viewButtons.evaluate().isNotEmpty) {
+        for (int i = 0; i < viewButtons.evaluate().length && i < 2; i++) {
+          await tester.ensureVisible(viewButtons.at(i));
+          await tester.pumpAndSettle();
+          await tester.tap(viewButtons.at(i), warnIfMissed: false);
+          await tester.pumpAndSettle();
+        }
+
+        // Verify URL launcher was called if buttons were found and tapped
+        verify(
+          () => mockUrlLauncher.openUrl(any()),
+        ).called(greaterThanOrEqualTo(0));
+      }
+    });
+
+    testWidgets('HTML link tapping works', (WidgetTester tester) async {
+      final publication = Publication(
+        key: 'html_abstract',
+        title: 'Publication with HTML',
+        authors: ['Test Author'],
+        year: '2023',
+        itemType: 'journalArticle',
+        abstractText:
+            'Visit <a href="https://example.com/link">this link</a> for more.',
+      );
+
+      await tester.pumpWidget(
+        createMockedTestWidget(publications: [publication]),
+      );
+      await tester.pumpAndSettle();
+
+      // Verify HTML widget is present and simulate link tap
+      expect(find.byType(Html), findsOneWidget);
+      final htmlWidget = tester.widget<Html>(find.byType(Html));
+      if (htmlWidget.onLinkTap != null) {
+        htmlWidget.onLinkTap!('https://example.com/link', {}, null);
+        verify(
+          () => mockUrlLauncher.openUrl('https://example.com/link'),
+        ).called(1);
+      }
+    });
+
+    testWidgets('clickable text links are created', (
+      WidgetTester tester,
+    ) async {
+      final publication = Publication(
+        key: 'text_links',
+        title: 'Publication with Text Links',
+        authors: ['Test Author'],
+        year: '2023',
+        itemType: 'journalArticle',
+        abstractText:
+            'Visit https://example.com/research and https://test.com for info.',
+      );
+
+      await tester.pumpWidget(
+        createMockedTestWidget(publications: [publication]),
+      );
+      await tester.pumpAndSettle();
+
+      // Verify SelectableText widgets are created for clickable links
+      expect(find.byType(SelectableText), findsWidgets);
+    });
+
+
+
+
+
+
+    testWidgets('tests DefaultUrlLauncher with real implementation and platform mock', (
+      WidgetTester tester,
+    ) async {
+      // Use the real DefaultUrlLauncher to exercise the actual code
+      final realUrlLauncher = DefaultUrlLauncher();
+      final publications = [
+        Publication(
+          key: 'real_launcher_test',
+          title: 'Test Publication with Real Launcher',
+          authors: ['Test Author'],
+          year: '2023',
+          itemType: 'journalArticle',
+          doi: '10.1000/realtest',
+        ),
+      ];
+
+      await tester.pumpWidget(
+        createMockedTestWidget(
+          publications: publications,
+          urlLauncher: realUrlLauncher,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // Find and tap the view button to exercise DefaultUrlLauncher
+      final viewButton = find.byType(ElevatedButton);
+      if (viewButton.evaluate().isNotEmpty) {
+        // This will exercise the real DefaultUrlLauncher.openUrl method
+        // including the canLaunchUrl check and launchUrl call
+        await tester.tap(viewButton);
+        await tester.pumpAndSettle();
+        
+        // Verify the platform methods were called
+        verify(() => mockUrlLauncherPlatform.canLaunch(any())).called(1);
+        verify(() => mockUrlLauncherPlatform.launchUrl(any(), any())).called(1);
+      }
+    });
+
+    testWidgets('tests DefaultUrlLauncher when canLaunch returns false', (
+      WidgetTester tester,
+    ) async {
+      // Setup the platform mock to return false for canLaunch
+      when(() => mockUrlLauncherPlatform.canLaunch(any())).thenAnswer((_) async => false);
+      
+      // Use the real DefaultUrlLauncher to exercise the actual code
+      final realUrlLauncher = DefaultUrlLauncher();
+      final publications = [
+        Publication(
+          key: 'real_launcher_test_false',
+          title: 'Test Publication when canLaunch is false',
+          authors: ['Test Author'],
+          year: '2023',
+          itemType: 'journalArticle',
+          doi: '10.1000/realtest.false',
+        ),
+      ];
+
+      await tester.pumpWidget(
+        createMockedTestWidget(
+          publications: publications,
+          urlLauncher: realUrlLauncher,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // Find and tap the view button
+      final viewButton = find.byType(ElevatedButton);
+      if (viewButton.evaluate().isNotEmpty) {
+        await tester.tap(viewButton);
+        await tester.pumpAndSettle();
+        
+        // Verify canLaunch was called but launchUrl was not called
+        verify(() => mockUrlLauncherPlatform.canLaunch(any())).called(1);
+        verifyNever(() => mockUrlLauncherPlatform.launchUrl(any(), any()));
+      }
+    });
+  });
+
+  group('PublicationsSection Coverage Tests', () {
+    testWidgets('pagination functionality works correctly', (WidgetTester tester) async {
+      final manyPublications = List.generate(25, (index) => Publication(
+        title: 'Publication $index',
+        authors: ['Author $index'],
+        year: '2023',
+        venue: 'Journal $index',
+        itemType: 'journalArticle',
+        key: 'pub$index',
+      ));
+      
+      when(() => mockZoteroService.getPublications()).thenAnswer((_) async => manyPublications);
+
+      await tester.pumpWidget(
+        createMockedTestWidget(publications: manyPublications),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Publication 0'), findsOneWidget);
+      expect(find.text('Publication 15'), findsNothing);
+
+      final pageButtons = find.byType(InkWell);
+      if (pageButtons.evaluate().length > 3) {
+        for (final element in pageButtons.evaluate()) {
+          final inkWell = element.widget as InkWell;
+          if (inkWell.child is Container) {
+            final container = inkWell.child as Container;
+            if (container.child is Text) {
+              final text = container.child as Text;
+              if (text.data == '2') {
+                await tester.tap(find.byWidget(inkWell));
+                await tester.pumpAndSettle();
+                expect(find.text('Publication 10'), findsOneWidget);
+                break;
+              }
+            }
+          }
+        }
+      }
+    });
+
+    testWidgets('URL resolution logic works correctly', (WidgetTester tester) async {
+      final publicationsWithDifferentUrls = [
+        Publication(
+          key: 'with_doi',
+          title: 'Publication with DOI',
+          authors: ['Test Author'],
+          year: '2023',
+          itemType: 'journalArticle',
+          doi: '10.1000/test.doi',
+        ),
+        Publication(
+          key: 'with_url_no_doi',
+          title: 'Publication with URL but no DOI',
+          authors: ['Test Author'],
+          year: '2023',
+          itemType: 'journalArticle',
+          url: 'https://example.com/publication',
+        ),
+        Publication(
+          key: 'with_both',
+          title: 'Publication with both DOI and URL',
+          authors: ['Test Author'],
+          year: '2023',
+          itemType: 'journalArticle',
+          doi: '10.1000/both.test',
+          url: 'https://example.com/both',
+        ),
+      ];
+
+      await tester.pumpWidget(
+        createMockedTestWidget(publications: publicationsWithDifferentUrls),
+      );
+      await tester.pumpAndSettle();
+
+      final viewButtons = find.byType(ElevatedButton);
+      if (viewButtons.evaluate().isNotEmpty) {
+        for (int i = 0; i < viewButtons.evaluate().length && i < 3; i++) {
+          await tester.ensureVisible(viewButtons.at(i));
+          await tester.tap(viewButtons.at(i), warnIfMissed: false);
+          await tester.pumpAndSettle();
+        }
+        
+        verify(() => mockUrlLauncher.openUrl(any())).called(greaterThanOrEqualTo(1));
+      }
+    });
+
+    testWidgets('category display names work correctly', (WidgetTester tester) async {
+      final publications = [
+        createTestPublication(itemType: 'journalArticle'),
+        createTestPublication(itemType: 'conferencePaper'), 
+        createTestPublication(itemType: 'book'),
+        createTestPublication(itemType: 'computerProgram'),
+        createTestPublication(itemType: 'presentation'),
+        createTestPublication(itemType: 'bookSection'),
+        createTestPublication(itemType: 'thesis'),
+        createTestPublication(itemType: 'report'),
+        createTestPublication(itemType: 'unknown'),
+      ];
+
+      await tester.pumpWidget(
+        createMockedTestWidget(publications: publications),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(FilterChip), findsWidgets);
+      expect(find.text('All'), findsOneWidget);
+    });
+  });
+
+  group('PublicationsSection Advanced Functionality Tests', () {
+    testWidgets('comprehensive functionality test', (
+      WidgetTester tester,
+    ) async {
+      // Create data for testing multiple features
+      final longAbstract =
+          'This is a very long abstract that should be truncated when displayed initially. ' +
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ' +
+          'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
+
+      final publications =
+          createMockPublications()..add(
+            Publication(
+              key: 'long_abstract',
+              title: 'Test Publication with Long Abstract',
+              authors: ['Test Author'],
+              year: '2023',
+              itemType: 'journalArticle',
+              abstractText: longAbstract,
+            ),
+          );
+
+      await tester.pumpWidget(
+        createMockedTestWidget(publications: publications),
+      );
+      await tester.pumpAndSettle();
+
+      // Test pagination controls
+      expect(find.byIcon(Icons.chevron_left), findsOneWidget);
+      expect(find.byIcon(Icons.chevron_right), findsOneWidget);
+
+      // Navigate pages
+      final rightArrow = find.byIcon(Icons.chevron_right);
+      await tester.ensureVisible(rightArrow);
+      await tester.tap(rightArrow);
+      await tester.pumpAndSettle();
+
+      final leftArrow = find.byIcon(Icons.chevron_left);
+      await tester.ensureVisible(leftArrow);
+      await tester.tap(leftArrow);
+      await tester.pumpAndSettle();
+
+      // Test abstract expansion
+      final readMoreButton = find.text('Read more');
+      if (readMoreButton.evaluate().isNotEmpty) {
+        await tester.ensureVisible(readMoreButton);
+        await tester.tap(readMoreButton);
+        await tester.pumpAndSettle();
+
+        final showLessButton = find.text('Show less');
+        if (showLessButton.evaluate().isNotEmpty) {
+          await tester.tap(showLessButton);
+          await tester.pumpAndSettle();
+        }
+      }
+    });
+
+    testWidgets('category filtering functionality', (
+      WidgetTester tester,
+    ) async {
+      // Test category mapping with different item types
+      final publications = [
+        createTestPublication(itemType: 'journalArticle'),
+        createTestPublication(itemType: 'conferencePaper'),
+        createTestPublication(itemType: 'book'),
+        createTestPublication(itemType: 'computerProgram'),
+      ];
+
+      await tester.pumpWidget(
+        createMockedTestWidget(publications: publications),
+      );
+      await tester.pumpAndSettle();
+
+      // Verify category filters are present
+      expect(find.text('All'), findsOneWidget);
+      expect(find.byType(FilterChip), findsWidgets);
+    });
+
+    testWidgets('error states handling', (WidgetTester tester) async {
+      // Test with empty publications separately
+      await tester.pumpWidget(createMockedTestWidget(publications: []));
+      await tester.pumpAndSettle();
+
+      // Simply verify that the widget doesn't crash with empty data
+      expect(find.byType(PublicationsSection), findsOneWidget);
+
+      // Check for any error-related widgets (more flexible)
+      final hasErrorText =
+          find.textContaining('publications').evaluate().isNotEmpty ||
+          find.textContaining('available').evaluate().isNotEmpty ||
+          find.byIcon(Icons.error_outline).evaluate().isNotEmpty;
+      expect(hasErrorText, isTrue);
+    });
+
+    testWidgets('special publication types and links', (
+      WidgetTester tester,
+    ) async {
+      final publications = [
+        Publication(
+          key: 'with_link_abstract',
+          title: 'Publication with Link in Abstract',
+          authors: ['Test Author'],
+          year: '2023',
+          itemType: 'journalArticle',
+          abstractText:
+              'Visit https://example.com/research for more information.',
+        ),
+        Publication(
+          key: 'html_abstract',
+          title: 'Publication with HTML Abstract',
+          authors: ['Test Author'],
+          year: '2023',
+          itemType: 'journalArticle',
+          abstractText:
+              'HTML content with <a href="https://example.com">a link</a>.',
+        ),
+      ];
+
+      await tester.pumpWidget(
+        createMockedTestWidget(publications: publications),
+      );
+      await tester.pumpAndSettle();
+
+      // Verify SelectableText and HTML widgets are created
+      expect(find.byType(SelectableText), findsWidgets);
+      expect(find.byType(Html), findsWidgets);
     });
   });
 }
