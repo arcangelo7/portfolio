@@ -263,12 +263,15 @@ class _LandingPageState extends State<LandingPage> {
 
   Widget _buildHeroSection(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 768;
+    
     return Container(
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+          begin: Alignment.bottomRight,
+          end: Alignment.topLeft,
           colors: isDark
               ? [
                   PortfolioTheme.cobaltBlue,
@@ -285,23 +288,24 @@ class _LandingPageState extends State<LandingPage> {
           // Full screen transparent PNG image
           _buildFullScreenProfileImage(isDark),
           
-          // Text content positioned on the left
+          // Text content - responsive positioning
           Positioned(
-            left: 60,
+            left: isMobile ? 20 : 60,
+            right: isMobile ? 20 : null,
             top: 0,
             bottom: 0,
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.4,
+              width: isMobile ? null : screenWidth * 0.4,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
                 children: [
                   Text(
                     AppLocalizations.of(context)!.name,
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
                       color: PortfolioTheme.iceWhite,
                       fontWeight: FontWeight.bold,
-                      fontSize: 56,
+                      fontSize: isMobile ? 36 : 56,
                       shadows: [
                         Shadow(
                           offset: const Offset(2, 2),
@@ -310,13 +314,14 @@ class _LandingPageState extends State<LandingPage> {
                         ),
                       ],
                     ),
+                    textAlign: isMobile ? TextAlign.center : TextAlign.start,
                   ),
                   const SizedBox(height: 16),
                   Text(
                     AppLocalizations.of(context)!.jobTitle,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       color: PortfolioTheme.iceWhite,
-                      fontSize: 28,
+                      fontSize: isMobile ? 20 : 28,
                       shadows: [
                         Shadow(
                           offset: const Offset(1, 1),
@@ -325,24 +330,27 @@ class _LandingPageState extends State<LandingPage> {
                         ),
                       ],
                     ),
+                    textAlign: isMobile ? TextAlign.center : TextAlign.start,
                   ),
                   const SizedBox(height: 32),
-                  ElevatedButton(
-                    onPressed: () => _scrollToPublications(),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: PortfolioTheme.iceWhite,
-                      foregroundColor: PortfolioTheme.cobaltBlue,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 40,
-                        vertical: 20,
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () => _scrollToPublications(),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: PortfolioTheme.iceWhite,
+                        foregroundColor: PortfolioTheme.cobaltBlue,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isMobile ? 30 : 40,
+                          vertical: isMobile ? 16 : 20,
+                        ),
+                        elevation: 8,
                       ),
-                      elevation: 8,
-                    ),
-                    child: Text(
-                      AppLocalizations.of(context)!.viewMyWork,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                      child: Text(
+                        AppLocalizations.of(context)!.viewMyWork,
+                        style: TextStyle(
+                          fontSize: isMobile ? 16 : 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -356,8 +364,9 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Widget _buildAboutSection(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 768;
     return Container(
-      padding: const EdgeInsets.all(64),
+      padding: EdgeInsets.all(isMobile ? 32 : 64),
       child: Column(
         children: [
           Text(
@@ -365,7 +374,9 @@ class _LandingPageState extends State<LandingPage> {
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.primary,
+              fontSize: isMobile ? 28 : null,
             ),
+            textAlign: isMobile ? TextAlign.center : null,
           ),
           const SizedBox(height: 32),
           _buildTextWithMarkdownLinks(
@@ -373,6 +384,7 @@ class _LandingPageState extends State<LandingPage> {
             AppLocalizations.of(context)!.aboutMeDescription,
             Theme.of(context).textTheme.bodyLarge?.copyWith(
               color: Theme.of(context).colorScheme.onSurface,
+              fontSize: isMobile ? 16 : null,
             ),
             TextAlign.center,
           ),
@@ -444,6 +456,7 @@ class _LandingPageState extends State<LandingPage> {
 
   Widget _buildSkillsSection(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isMobile = MediaQuery.of(context).size.width < 768;
     final skills = [
       l10n.skillFlutter,
       l10n.skillDart,
@@ -454,7 +467,7 @@ class _LandingPageState extends State<LandingPage> {
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16),
-      padding: const EdgeInsets.all(64),
+      padding: EdgeInsets.all(isMobile ? 32 : 64),
       color: Theme.of(context).colorScheme.surfaceContainer,
       child: Column(
         children: [
@@ -463,12 +476,14 @@ class _LandingPageState extends State<LandingPage> {
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.primary,
+              fontSize: isMobile ? 28 : null,
             ),
           ),
           const SizedBox(height: 32),
           Wrap(
-            spacing: 16,
-            runSpacing: 16,
+            spacing: isMobile ? 12 : 16,
+            runSpacing: isMobile ? 12 : 16,
+            alignment: WrapAlignment.center,
             children:
                 skills
                     .map(
@@ -478,6 +493,7 @@ class _LandingPageState extends State<LandingPage> {
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.onTertiary,
                             fontWeight: FontWeight.w600,
+                            fontSize: isMobile ? 14 : 16,
                           ),
                         ),
                         backgroundColor: Theme.of(context).colorScheme.tertiary,
@@ -491,8 +507,9 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Widget _buildContactSection(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 768;
     return Container(
-      padding: const EdgeInsets.all(64),
+      padding: EdgeInsets.all(isMobile ? 32 : 64),
       child: Column(
         children: [
           Text(
@@ -500,6 +517,7 @@ class _LandingPageState extends State<LandingPage> {
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.primary,
+              fontSize: isMobile ? 28 : null,
             ),
           ),
           const SizedBox(height: 32),
@@ -509,21 +527,21 @@ class _LandingPageState extends State<LandingPage> {
               IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.email),
-                iconSize: 32,
+                iconSize: isMobile ? 28 : 32,
                 color: Theme.of(context).colorScheme.tertiary,
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: isMobile ? 12 : 16),
               IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.web),
-                iconSize: 32,
+                iconSize: isMobile ? 28 : 32,
                 color: Theme.of(context).colorScheme.secondary,
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: isMobile ? 12 : 16),
               IconButton(
                 onPressed: () {},
                 icon: const Icon(Icons.code),
-                iconSize: 32,
+                iconSize: isMobile ? 28 : 32,
                 color: Theme.of(context).colorScheme.primary,
               ),
             ],
@@ -533,7 +551,9 @@ class _LandingPageState extends State<LandingPage> {
             AppLocalizations.of(context)!.copyright,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+              fontSize: isMobile ? 12 : null,
             ),
+            textAlign: TextAlign.center,
           ),
         ],
       ),
