@@ -90,9 +90,17 @@ jobs:
         cp -r coverage/html/* build/web/test/coverage/
         echo "Combined app and coverage for deployment"
     
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
+      if: github.ref == 'refs/heads/main'
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
       if: github.ref == 'refs/heads/main'
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build/web
+        path: ./build/web
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+      if: github.ref == 'refs/heads/main'
