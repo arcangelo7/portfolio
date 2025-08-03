@@ -18,6 +18,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   bool _isLoading = true;
   String? _error;
   String _selectedCategoryKey = 'all';
+  final Set<String> _expandedAuthors = {};
 
   @override
   void initState() {
@@ -50,15 +51,14 @@ class _PublicationsSectionState extends State<PublicationsSection> {
 
   void _filterPublications(String categoryKey, AppLocalizations l10n) {
     if (_publications == null) return;
-    
+
     setState(() {
       _selectedCategoryKey = categoryKey;
       if (categoryKey == 'all') {
         _filteredPublications = _publications;
       } else {
-        _filteredPublications = _publications!
-            .where((pub) => pub.itemType == categoryKey)
-            .toList();
+        _filteredPublications =
+            _publications!.where((pub) => pub.itemType == categoryKey).toList();
       }
     });
   }
@@ -77,13 +77,14 @@ class _PublicationsSectionState extends State<PublicationsSection> {
 
   List<String> _getAvailableCategoryKeys() {
     if (_publications == null) return ['all'];
-    
+
     final categories = <String>{'all'};
     for (final pub in _publications!) {
       categories.add(pub.itemType);
     }
-    
-    final sortedCategories = categories.where((cat) => cat != 'all').toList()..sort();
+
+    final sortedCategories =
+        categories.where((cat) => cat != 'all').toList()..sort();
     return ['all', ...sortedCategories];
   }
 
@@ -94,10 +95,75 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     }
   }
 
+  Widget _buildAuthorsSection(Publication publication, AppLocalizations l10n) {
+    const int authorThreshold = 5;
+    final authors = publication.authors;
+    final publicationKey = publication.key;
+    final isExpanded = _expandedAuthors.contains(publicationKey);
+
+    if (authors.length <= authorThreshold) {
+      return Text(
+        publication.authorsString,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+          fontWeight: FontWeight.w500,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          isExpanded
+              ? publication.authorsString
+              : '${authors.take(3).join(', ')} ${l10n.andMoreAuthors(authors.length - 3)}',
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            onPressed: () {
+              setState(() {
+                if (isExpanded) {
+                  _expandedAuthors.remove(publicationKey);
+                } else {
+                  _expandedAuthors.add(publicationKey);
+                }
+              });
+            },
+            icon: Icon(
+              isExpanded ? Icons.expand_less : Icons.expand_more,
+              size: 16,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            label: Text(
+              isExpanded ? l10n.showLess : l10n.showAllAuthors,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+              minimumSize: Size.zero,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              alignment: Alignment.centerLeft,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 32),
       padding: const EdgeInsets.all(64),
@@ -105,7 +171,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
         color: Theme.of(context).colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.05),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -124,7 +192,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           Text(
             l10n.publicationsDescription,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.8),
             ),
             textAlign: TextAlign.center,
           ),
@@ -141,34 +211,41 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   Widget _buildCategoryFilter(AppLocalizations l10n) {
     final categoryKeys = _getAvailableCategoryKeys();
     final categoryMapping = _getCategoryMapping(l10n);
-    
+
     return Wrap(
       spacing: 8,
       runSpacing: 8,
       alignment: WrapAlignment.center,
-      children: categoryKeys.map((categoryKey) {
-        final categoryName = categoryMapping[categoryKey] ?? categoryKey;
-        final isSelected = categoryKey == _selectedCategoryKey;
-        return FilterChip(
-          selected: isSelected,
-          label: Text(categoryName),
-          onSelected: (_) => _filterPublications(categoryKey, l10n),
-          backgroundColor: Theme.of(context).colorScheme.surface,
-          selectedColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
-          checkmarkColor: Theme.of(context).colorScheme.primary,
-          labelStyle: TextStyle(
-            color: isSelected 
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.onSurface,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-          ),
-          side: BorderSide(
-            color: isSelected 
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
-          ),
-        );
-      }).toList(),
+      children:
+          categoryKeys.map((categoryKey) {
+            final categoryName = categoryMapping[categoryKey] ?? categoryKey;
+            final isSelected = categoryKey == _selectedCategoryKey;
+            return FilterChip(
+              selected: isSelected,
+              label: Text(categoryName),
+              onSelected: (_) => _filterPublications(categoryKey, l10n),
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              selectedColor: Theme.of(
+                context,
+              ).colorScheme.primary.withValues(alpha: 0.2),
+              checkmarkColor: Theme.of(context).colorScheme.primary,
+              labelStyle: TextStyle(
+                color:
+                    isSelected
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.onSurface,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+              ),
+              side: BorderSide(
+                color:
+                    isSelected
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(
+                          context,
+                        ).colorScheme.outline.withValues(alpha: 0.3),
+              ),
+            );
+          }).toList(),
     );
   }
 
@@ -186,13 +263,17 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       );
     }
 
-    if (_error != null || _filteredPublications == null || _filteredPublications!.isEmpty) {
+    if (_error != null ||
+        _filteredPublications == null ||
+        _filteredPublications!.isEmpty) {
       return Column(
         children: [
           Icon(
             Icons.error_outline,
             size: 48,
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.5),
           ),
           const SizedBox(height: 16),
           Text(
@@ -200,7 +281,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                 ? l10n.noPublicationsForCategory
                 : l10n.noPublications,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.7),
             ),
           ),
         ],
@@ -208,10 +291,11 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     }
 
     return Column(
-      children: _filteredPublications!
-          .take(10)
-          .map((publication) => _buildPublicationCard(publication, l10n))
-          .toList(),
+      children:
+          _filteredPublications!
+              .take(10)
+              .map((publication) => _buildPublicationCard(publication, l10n))
+              .toList(),
     );
   }
 
@@ -224,7 +308,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -241,28 +327,24 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            publication.authorsString,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-          const SizedBox(height: 4),
+          _buildAuthorsSection(publication, l10n),
+          const SizedBox(height: 12),
           Row(
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 margin: const EdgeInsets.only(right: 8),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.2),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.secondary.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
                   publication.getCategoryDisplayName(l10n),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ),
@@ -271,32 +353,39 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                   publication.displayVenue,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontStyle: FontStyle.italic,
-                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.8),
                   ),
                 ),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.tertiary.withValues(alpha: 0.2),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.tertiary.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
                   publication.displayYear,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.onTertiary,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ),
             ],
           ),
-          if (publication.abstractText != null && publication.abstractText!.isNotEmpty) ...[
+          if (publication.abstractText != null &&
+              publication.abstractText!.isNotEmpty) ...[
             const SizedBox(height: 12),
             Text(
               publication.abstractText!,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.7),
               ),
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
@@ -305,17 +394,21 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           if (publication.doi != null || publication.url != null) ...[
             const SizedBox(height: 16),
             ElevatedButton.icon(
-              onPressed: () => _launchUrl(
-                publication.doi != null 
-                    ? 'https://doi.org/${publication.doi}'
-                    : publication.url!
-              ),
+              onPressed:
+                  () => _launchUrl(
+                    publication.doi != null
+                        ? 'https://doi.org/${publication.doi}'
+                        : publication.url!,
+                  ),
               icon: const Icon(Icons.open_in_new, size: 16),
               label: Text(publication.getViewButtonText(l10n)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.tertiary,
                 foregroundColor: Theme.of(context).colorScheme.onTertiary,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
               ),
             ),
           ],

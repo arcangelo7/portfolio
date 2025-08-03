@@ -303,6 +303,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No publications found for the selected category'**
   String get noPublicationsForCategory;
+
+  /// No description provided for @showAllAuthors.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all authors'**
+  String get showAllAuthors;
+
+  /// No description provided for @showLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get showLess;
+
+  /// No description provided for @andMoreAuthors.
+  ///
+  /// In en, this message translates to:
+  /// **'and {count} more...'**
+  String andMoreAuthors(Object count);
 }
 
 class _AppLocalizationsDelegate

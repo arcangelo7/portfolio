@@ -113,4 +113,15 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get noPublicationsForCategory =>
       'No se encontraron publicaciones para la categoría seleccionada';
+
+  @override
+  String get showAllAuthors => 'Mostrar todos los autores';
+
+  @override
+  String get showLess => 'Mostrar menos';
+
+  @override
+  String andMoreAuthors(Object count) {
+    return 'y $count más...';
+  }
 }

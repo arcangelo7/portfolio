@@ -70,7 +70,7 @@ class Publication {
     if (authors.isEmpty) return 'Unknown Author';
     if (authors.length == 1) return authors.first;
     if (authors.length == 2) return '${authors.first} & ${authors.last}';
-    return '${authors.first} et al.';
+    return authors.join(', ');
   }
 
   String get displayVenue {

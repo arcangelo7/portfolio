@@ -32,5 +32,8 @@
   "categorySoftware": "Software",
   "categoryPresentation": "Presentation",
   "categoryOther": "Other",
-  "noPublicationsForCategory": "No publications found for the selected category"
+  "noPublicationsForCategory": "No publications found for the selected category",
+  "showAllAuthors": "Show all authors",
+  "showLess": "Show less",
+  "andMoreAuthors": "and {count} more..."
 }
