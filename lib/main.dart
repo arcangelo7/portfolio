@@ -243,6 +243,24 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
+  Widget _buildFullScreenProfileImage(bool isDark) {
+    return Positioned.fill(
+      child: Image.asset(
+        'assets/images/profile_cutout.png',
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Center(
+            child: Icon(
+              Icons.person,
+              size: 200,
+              color: PortfolioTheme.iceWhite,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Widget _buildHeroSection(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
@@ -264,55 +282,72 @@ class _LandingPageState extends State<LandingPage> {
       ),
       child: Stack(
         children: [
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 80,
-                  backgroundColor: PortfolioTheme.iceWhite,
-                  child: Icon(
-                    Icons.person,
-                    size: 100,
-                    color: isDark 
-                        ? PortfolioTheme.wine 
-                        : PortfolioTheme.cobaltBlue,
-                  ),
-                ),
-                const SizedBox(height: 32),
-                Text(
-                  AppLocalizations.of(context)!.name,
-                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                    color: PortfolioTheme.iceWhite,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  AppLocalizations.of(context)!.jobTitle,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: PortfolioTheme.iceWhite.withValues(alpha: 0.9),
-                  ),
-                ),
-                const SizedBox(height: 32),
-                ElevatedButton(
-                  onPressed: () => _scrollToPublications(),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isDark 
-                        ? PortfolioTheme.iceWhite 
-                        : PortfolioTheme.iceWhite,
-                    foregroundColor: isDark 
-                        ? PortfolioTheme.cobaltBlue 
-                        : PortfolioTheme.cobaltBlue,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 16,
+          // Full screen transparent PNG image
+          _buildFullScreenProfileImage(isDark),
+          
+          // Text content positioned on the left
+          Positioned(
+            left: 60,
+            top: 0,
+            bottom: 0,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.4,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.name,
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                      color: PortfolioTheme.iceWhite,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 56,
+                      shadows: [
+                        Shadow(
+                          offset: const Offset(2, 2),
+                          blurRadius: 4,
+                          color: Colors.black.withValues(alpha: 0.3),
+                        ),
+                      ],
                     ),
-                    elevation: 4,
                   ),
-                  child: Text(AppLocalizations.of(context)!.viewMyWork),
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  Text(
+                    AppLocalizations.of(context)!.jobTitle,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: PortfolioTheme.iceWhite,
+                      fontSize: 28,
+                      shadows: [
+                        Shadow(
+                          offset: const Offset(1, 1),
+                          blurRadius: 3,
+                          color: Colors.black.withValues(alpha: 0.3),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  ElevatedButton(
+                    onPressed: () => _scrollToPublications(),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: PortfolioTheme.iceWhite,
+                      foregroundColor: PortfolioTheme.cobaltBlue,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 40,
+                        vertical: 20,
+                      ),
+                      elevation: 8,
+                    ),
+                    child: Text(
+                      AppLocalizations.of(context)!.viewMyWork,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
