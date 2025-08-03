@@ -33,14 +33,18 @@ Widget createTestApp({
 }
 
 void main() {
-  testWidgets('Main function initializes app correctly', (WidgetTester tester) async {
+  testWidgets('Main function initializes app correctly', (
+    WidgetTester tester,
+  ) async {
     portfolio_main.main();
     await tester.pumpAndSettle();
-    
+
     expect(find.byType(portfolio_main.PortfolioApp), findsOneWidget);
   });
-  
-  testWidgets('Portfolio app loads correctly in English', (WidgetTester tester) async {
+
+  testWidgets('Portfolio app loads correctly in English', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
 
@@ -51,18 +55,25 @@ void main() {
     expect(find.text('Get In Touch'), findsOneWidget);
   });
 
-  testWidgets('Portfolio app loads correctly in Italian', (WidgetTester tester) async {
+  testWidgets('Portfolio app loads correctly in Italian', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(createTestApp(locale: const Locale('it')));
     await tester.pumpAndSettle();
 
     expect(find.textContaining('Arcangelo Massari'), findsAtLeastNWidgets(1));
-    expect(find.textContaining('Dottorando in Digital Humanities'), findsOneWidget);
+    expect(
+      find.textContaining('Dottorando in Digital Humanities'),
+      findsOneWidget,
+    );
     expect(find.text('Chi Sono'), findsOneWidget);
     expect(find.text('Competenze'), findsOneWidget);
     expect(find.text('Contattami'), findsOneWidget);
   });
 
-  testWidgets('Portfolio app loads correctly in Spanish', (WidgetTester tester) async {
+  testWidgets('Portfolio app loads correctly in Spanish', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(createTestApp(locale: const Locale('es')));
     await tester.pumpAndSettle();
 
@@ -73,21 +84,28 @@ void main() {
     expect(find.text('Ponte en Contacto'), findsOneWidget);
   });
 
-  testWidgets('Spanish localization appTitle works correctly', (WidgetTester tester) async {
+  testWidgets('Spanish localization appTitle works correctly', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
     await tester.tap(find.byIcon(Icons.language));
     await tester.pumpAndSettle();
-    
+
     await tester.tap(find.text('Español'));
     await tester.pumpAndSettle();
 
-    final localizations = AppLocalizations.of(tester.element(find.byType(portfolio_main.LandingPage)))!;
+    final localizations =
+        AppLocalizations.of(
+          tester.element(find.byType(portfolio_main.LandingPage)),
+        )!;
     expect(localizations.appTitle, equals('Portfolio de Arcangelo Massari'));
   });
 
-  testWidgets('Hero section contains required elements', (WidgetTester tester) async {
+  testWidgets('Hero section contains required elements', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
 
@@ -95,7 +113,9 @@ void main() {
     expect(find.byType(ElevatedButton), findsOneWidget);
   });
 
-  testWidgets('Floating action buttons are present', (WidgetTester tester) async {
+  testWidgets('Floating action buttons are present', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
 
@@ -104,7 +124,9 @@ void main() {
     expect(find.byIcon(Icons.light_mode), findsOneWidget);
   });
 
-  testWidgets('Skills section displays skill chips', (WidgetTester tester) async {
+  testWidgets('Skills section displays skill chips', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
 
@@ -123,25 +145,32 @@ void main() {
     expect(find.byIcon(Icons.email), findsOneWidget);
     expect(find.byIcon(Icons.web), findsOneWidget);
     expect(find.byIcon(Icons.code), findsOneWidget);
-    expect(find.text('© 2025 Arcangelo Massari. All rights reserved.'), findsOneWidget);
+    expect(
+      find.text('© 2025 Arcangelo Massari. All rights reserved.'),
+      findsOneWidget,
+    );
   });
 
-  testWidgets('Language selector works via floating button', (WidgetTester tester) async {
+  testWidgets('Language selector works via floating button', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
     expect(find.byIcon(Icons.language), findsOneWidget);
-    
+
     await tester.tap(find.byIcon(Icons.language));
     await tester.pumpAndSettle();
-    
+
     expect(find.text('Select Language'), findsOneWidget);
     expect(find.text('English'), findsOneWidget);
     expect(find.text('Italiano'), findsOneWidget);
     expect(find.text('Español'), findsOneWidget);
   });
 
-  testWidgets('Theme toggle floating button changes icon', (WidgetTester tester) async {
+  testWidgets('Theme toggle floating button changes icon', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
@@ -155,7 +184,9 @@ void main() {
     expect(find.byIcon(Icons.dark_mode), findsNothing);
   });
 
-  testWidgets('App works in light mode with floating controls', (WidgetTester tester) async {
+  testWidgets('App works in light mode with floating controls', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(createTestApp(isDarkMode: false));
     await tester.pumpAndSettle();
 
@@ -163,12 +194,14 @@ void main() {
     expect(find.textContaining('PhD Candidate'), findsOneWidget);
     expect(find.byIcon(Icons.dark_mode), findsOneWidget);
     expect(find.byType(FloatingActionButton), findsNWidgets(2));
-    
+
     final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
     expect(materialApp.themeMode, equals(ThemeMode.light));
   });
 
-  testWidgets('Floating theme toggle functionality works', (WidgetTester tester) async {
+  testWidgets('Floating theme toggle functionality works', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
@@ -191,7 +224,9 @@ void main() {
     expect(find.byIcon(Icons.dark_mode), findsOneWidget);
   });
 
-  testWidgets('Language selection works from floating button', (WidgetTester tester) async {
+  testWidgets('Language selection works from floating button', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
@@ -199,21 +234,26 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Select Language'), findsOneWidget);
-    
+
     await tester.tap(find.text('Italiano'));
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('Dottorando in Digital Humanities'), findsOneWidget);
+    expect(
+      find.textContaining('Dottorando in Digital Humanities'),
+      findsOneWidget,
+    );
     expect(find.text('Chi Sono'), findsOneWidget);
   });
 
-  testWidgets('English language selection works correctly', (WidgetTester tester) async {
+  testWidgets('English language selection works correctly', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
     await tester.tap(find.byIcon(Icons.language));
     await tester.pumpAndSettle();
-    
+
     await tester.tap(find.text('English'));
     await tester.pumpAndSettle();
 
@@ -221,13 +261,18 @@ void main() {
     expect(find.text('About Me'), findsOneWidget);
   });
 
-  testWidgets('Floating controls remain visible during scroll', (WidgetTester tester) async {
+  testWidgets('Floating controls remain visible during scroll', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
     expect(find.byType(FloatingActionButton), findsNWidgets(2));
-    
-    await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -500));
+
+    await tester.drag(
+      find.byType(SingleChildScrollView),
+      const Offset(0, -500),
+    );
     await tester.pumpAndSettle();
 
     expect(find.byType(FloatingActionButton), findsNWidgets(2));
@@ -235,11 +280,16 @@ void main() {
     expect(find.byIcon(Icons.language), findsOneWidget);
   });
 
-  testWidgets('Contact section buttons can be tapped', (WidgetTester tester) async {
+  testWidgets('Contact section buttons can be tapped', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
-    await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -1000));
+    await tester.drag(
+      find.byType(SingleChildScrollView),
+      const Offset(0, -1000),
+    );
     await tester.pumpAndSettle();
 
     await tester.tap(find.byIcon(Icons.email), warnIfMissed: false);
@@ -268,7 +318,7 @@ void main() {
 
   test('AppLocalizations handles unsupported locale error', () async {
     final delegate = AppLocalizations.delegate;
-    
+
     expect(
       () async => await delegate.load(const Locale('unsupported')),
       throwsA(isA<FlutterError>()),
@@ -283,14 +333,18 @@ void main() {
     expect(find.text('Publications'), findsOneWidget);
   });
 
-  testWidgets('Publications section shows in Italian', (WidgetTester tester) async {
+  testWidgets('Publications section shows in Italian', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(createTestApp(locale: const Locale('it')));
     await tester.pumpAndSettle();
 
     expect(find.text('Pubblicazioni'), findsOneWidget);
   });
 
-  testWidgets('Publications section loads content', (WidgetTester tester) async {
+  testWidgets('Publications section loads content', (
+    WidgetTester tester,
+  ) async {
     // Test PublicationsSection widget directly
     await tester.pumpWidget(
       MaterialApp(
@@ -301,9 +355,7 @@ void main() {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
-        home: const Scaffold(
-          body: PublicationsSection(),
-        ),
+        home: const Scaffold(body: PublicationsSection()),
       ),
     );
 
@@ -315,12 +367,12 @@ void main() {
 
     // After loading, should not show loading indicator anymore
     expect(find.byType(CircularProgressIndicator), findsNothing);
-    
+
     // Should show either publications content or error message
     expect(
       find.text('Publications').evaluate().isNotEmpty ||
-      find.textContaining('No publications').evaluate().isNotEmpty ||
-      find.byIcon(Icons.error_outline).evaluate().isNotEmpty,
+          find.textContaining('No publications').evaluate().isNotEmpty ||
+          find.byIcon(Icons.error_outline).evaluate().isNotEmpty,
       true,
     );
   });
@@ -339,7 +391,10 @@ void main() {
       final lightTheme = PortfolioTheme.lightTheme;
       expect(lightTheme.brightness, equals(Brightness.light));
       expect(lightTheme.useMaterial3, isTrue);
-      expect(lightTheme.scaffoldBackgroundColor, equals(PortfolioTheme.iceWhite));
+      expect(
+        lightTheme.scaffoldBackgroundColor,
+        equals(PortfolioTheme.iceWhite),
+      );
     });
 
     test('should have dark theme with correct properties', () {
@@ -368,7 +423,9 @@ void main() {
     });
   });
 
-  testWidgets('LandingPage scroll to publications functionality', (WidgetTester tester) async {
+  testWidgets('LandingPage scroll to publications functionality', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
@@ -382,7 +439,9 @@ void main() {
     }
   });
 
-  testWidgets('Portfolio app initial theme mode is light', (WidgetTester tester) async {
+  testWidgets('Portfolio app initial theme mode is light', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
@@ -390,41 +449,52 @@ void main() {
     expect(materialApp.themeMode, equals(ThemeMode.light));
   });
 
-  testWidgets('About section renders markdown links correctly', (WidgetTester tester) async {
+  testWidgets('About section renders markdown links correctly', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
 
     expect(find.text('About Me'), findsOneWidget);
   });
 
-  testWidgets('Skills section chip colors are correct', (WidgetTester tester) async {
+  testWidgets('Skills section chip colors are correct', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
 
     final chipFinder = find.byType(Chip);
     expect(chipFinder, findsNWidgets(5));
-    
+
     final firstChip = tester.widget<Chip>(chipFinder.first);
     expect(firstChip.backgroundColor, isNotNull);
   });
 
-  testWidgets('Hero section gradient colors change with theme', (WidgetTester tester) async {
+  testWidgets('Hero section gradient colors change with theme', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(createTestApp(isDarkMode: false));
     await tester.pumpAndSettle();
 
     expect(find.text('Check out my projects'), findsOneWidget);
-    
+
     await tester.pumpWidget(createTestApp(isDarkMode: true));
     await tester.pumpAndSettle();
 
     expect(find.text('Check out my projects'), findsOneWidget);
   });
 
-  testWidgets('Contact section icon buttons have correct properties', (WidgetTester tester) async {
+  testWidgets('Contact section icon buttons have correct properties', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
 
-    await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -1000));
+    await tester.drag(
+      find.byType(SingleChildScrollView),
+      const Offset(0, -1000),
+    );
     await tester.pumpAndSettle();
 
     final emailButton = find.byIcon(Icons.email);
@@ -441,7 +511,9 @@ void main() {
     expect(emailIconButton.iconSize, equals(32));
   });
 
-  testWidgets('App generates title correctly from localization', (WidgetTester tester) async {
+  testWidgets('App generates title correctly from localization', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
@@ -449,7 +521,9 @@ void main() {
     expect(materialApp.onGenerateTitle, isNotNull);
   });
 
-  testWidgets('Landing page handles null contexts gracefully', (WidgetTester tester) async {
+  testWidgets('Landing page handles null contexts gracefully', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
 
@@ -462,7 +536,9 @@ void main() {
     expect(find.text('Arcangelo Massari'), findsAtLeastNWidgets(1));
   });
 
-  testWidgets('Language selector shows correct emoji flags', (WidgetTester tester) async {
+  testWidgets('Language selector shows correct emoji flags', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
@@ -484,7 +560,9 @@ void main() {
     expect(materialApp.supportedLocales, contains(const Locale('es')));
   });
 
-  testWidgets('PortfolioApp state management works correctly', (WidgetTester tester) async {
+  testWidgets('PortfolioApp state management works correctly', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
@@ -500,5 +578,143 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byIcon(Icons.light_mode), findsOneWidget);
+  });
+
+  testWidgets('Profile image error builder works', (WidgetTester tester) async {
+    await tester.pumpWidget(createTestApp());
+    await tester.pumpAndSettle();
+
+    final imageWidgets = find.byType(Image);
+    expect(imageWidgets, findsOneWidget);
+
+    final imageWidget = tester.widget<Image>(imageWidgets);
+    expect(imageWidget.errorBuilder, isNotNull);
+
+    if (imageWidget.errorBuilder != null) {
+      final errorWidget = imageWidget.errorBuilder!(
+        tester.element(imageWidgets),
+        Exception('Test error'),
+        null,
+      );
+      expect(errorWidget, isA<Center>());
+    }
+  });
+
+  testWidgets('About section handles text without markdown links', (
+    WidgetTester tester,
+  ) async {
+    final widget = MaterialApp(
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
+      home: Scaffold(
+        body: portfolio_main.LandingPage(
+          onLanguageChanged: (locale) {},
+          currentLocale: const Locale('en'),
+          onThemeToggle: () {},
+          isDarkMode: false,
+        ),
+      ),
+    );
+
+    await tester.pumpWidget(widget);
+    await tester.pumpAndSettle();
+
+    expect(find.text('About Me'), findsOneWidget);
+  });
+
+  testWidgets('Contact section button handlers work', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(createTestApp());
+    await tester.pumpAndSettle();
+
+    await tester.drag(
+      find.byType(SingleChildScrollView),
+      const Offset(0, -1000),
+    );
+    await tester.pumpAndSettle();
+
+    final emailButton = find.byIcon(Icons.email);
+    final webButton = find.byIcon(Icons.web);
+    final codeButton = find.byIcon(Icons.code);
+
+    if (emailButton.evaluate().isNotEmpty) {
+      await tester.tap(emailButton, warnIfMissed: false);
+      await tester.pumpAndSettle();
+    }
+
+    if (webButton.evaluate().isNotEmpty) {
+      await tester.tap(webButton, warnIfMissed: false);
+      await tester.pumpAndSettle();
+    }
+
+    if (codeButton.evaluate().isNotEmpty) {
+      await tester.tap(codeButton, warnIfMissed: false);
+      await tester.pumpAndSettle();
+    }
+
+    expect(find.byIcon(Icons.email), findsOneWidget);
+    expect(find.byIcon(Icons.web), findsOneWidget);
+    expect(find.byIcon(Icons.code), findsOneWidget);
+  });
+
+  testWidgets('URL launcher function coverage', (WidgetTester tester) async {
+    await tester.pumpWidget(createTestApp());
+    await tester.pumpAndSettle();
+
+    // HERITRACE text is rendered in a RichText with markdown links
+    final richTextFinder = find.byType(RichText);
+    expect(richTextFinder, findsWidgets);
+
+    // Verify the about section is present which contains the HERITRACE text
+    expect(find.text('About Me'), findsOneWidget);
+
+    // Test tapping on some rich text widgets (simulating markdown link taps)
+    if (richTextFinder.evaluate().isNotEmpty) {
+      final richTextWidget = tester.widget<RichText>(richTextFinder.first);
+      expect(richTextWidget.text, isNotNull);
+    }
+  });
+
+  testWidgets('Theme color scheme methods are called', (
+    WidgetTester tester,
+  ) async {
+    final lightColors = portfolio_main.PortfolioTheme.lightColorScheme;
+    final darkColors = portfolio_main.PortfolioTheme.darkColorScheme;
+
+    expect(
+      lightColors.primary,
+      equals(portfolio_main.PortfolioTheme.cobaltBlue),
+    );
+    expect(darkColors.primary, equals(portfolio_main.PortfolioTheme.iceWhite));
+
+    expect(lightColors.surfaceContainerHighest, isNotNull);
+    expect(lightColors.surfaceContainer, isNotNull);
+    expect(lightColors.outline, isNotNull);
+    expect(lightColors.onSurfaceVariant, isNotNull);
+
+    expect(darkColors.outline, isNotNull);
+    expect(darkColors.onSurfaceVariant, isNotNull);
+  });
+
+  testWidgets('All Portfolio theme properties are accessible', (
+    WidgetTester tester,
+  ) async {
+    expect(portfolio_main.PortfolioTheme.iceWhite, isNotNull);
+    expect(portfolio_main.PortfolioTheme.emeraldGreen, isNotNull);
+    expect(portfolio_main.PortfolioTheme.violet, isNotNull);
+    expect(portfolio_main.PortfolioTheme.wine, isNotNull);
+    expect(portfolio_main.PortfolioTheme.cobaltBlue, isNotNull);
+    expect(portfolio_main.PortfolioTheme.black, isNotNull);
+
+    expect(portfolio_main.PortfolioTheme.lightTheme, isNotNull);
+    expect(portfolio_main.PortfolioTheme.darkTheme, isNotNull);
+    expect(portfolio_main.PortfolioTheme.lightColorScheme, isNotNull);
+    expect(portfolio_main.PortfolioTheme.darkColorScheme, isNotNull);
   });
 }

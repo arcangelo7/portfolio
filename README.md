@@ -1,6 +1,8 @@
 # Portfolio
 
+[![Test](https://github.com/arcangelo7/portfolio/actions/workflows/test.yml/badge.svg)](https://github.com/arcangelo7/portfolio/actions/workflows/test.yml)
 [![Coverage](test/coverage-badge.svg)](https://arcangelo7.github.io/portfolio/test/coverage/)
+[![Built with Flutter](https://img.shields.io/badge/Built%20with-Flutter-02569B?style=flat&logo=flutter)](https://flutter.dev)
 
 A responsive Flutter portfolio website showcasing my professional profile and skills.
 
@@ -17,6 +19,14 @@ A responsive Flutter portfolio website showcasing my professional profile and sk
 1. Clone the repository
 2. Install dependencies: `flutter pub get`
 3. Run the app: `flutter run`
+
+## Testing
+
+Run tests with coverage (auto-excludes generated files):
+
+```bash
+./test/test_coverage.sh --html
+```
 
 ## Supported Platforms
 

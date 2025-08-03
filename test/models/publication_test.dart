@@ -21,89 +21,101 @@ class MockLocalizations {
 
 void main() {
   group('Publication.fromJson creator type handling', () {
-    test('should extract authors from computer program with programmer creator type', () {
-      final json = {
-        'key': 'TEST123',
-        'data': {
-          'title': 'Test Software',
-          'itemType': 'computerProgram',
-          'creators': [
-            {
-              'creatorType': 'programmer',
-              'firstName': 'John',
-              'lastName': 'Doe',
-            },
-            {
-              'creatorType': 'author',
-              'firstName': 'Jane',
-              'lastName': 'Smith',
-            },
-          ],
-        },
-      };
+    test(
+      'should extract authors from computer program with programmer creator type',
+      () {
+        final json = {
+          'key': 'TEST123',
+          'data': {
+            'title': 'Test Software',
+            'itemType': 'computerProgram',
+            'creators': [
+              {
+                'creatorType': 'programmer',
+                'firstName': 'John',
+                'lastName': 'Doe',
+              },
+              {
+                'creatorType': 'author',
+                'firstName': 'Jane',
+                'lastName': 'Smith',
+              },
+            ],
+          },
+        };
 
-      final publication = Publication.fromJson(json);
+        final publication = Publication.fromJson(json);
 
-      expect(publication.authors, equals(['John Doe']));
-      expect(publication.itemType, equals('computerProgram'));
-    });
+        expect(publication.authors, equals(['John Doe']));
+        expect(publication.itemType, equals('computerProgram'));
+      },
+    );
 
-    test('should extract authors from presentation with presenter creator type', () {
-      final json = {
-        'key': 'TEST456',
-        'data': {
-          'title': 'Test Presentation',
-          'itemType': 'presentation',
-          'meetingName': 'Tech Summit 2023',
-          'place': 'Conference Center, Rome',
-          'creators': [
-            {
-              'creatorType': 'presenter',
-              'firstName': 'Alice',
-              'lastName': 'Johnson',
-            },
-            {
-              'creatorType': 'author',
-              'firstName': 'Bob',
-              'lastName': 'Wilson',
-            },
-          ],
-        },
-      };
+    test(
+      'should extract authors from presentation with presenter creator type',
+      () {
+        final json = {
+          'key': 'TEST456',
+          'data': {
+            'title': 'Test Presentation',
+            'itemType': 'presentation',
+            'meetingName': 'Tech Summit 2023',
+            'place': 'Conference Center, Rome',
+            'creators': [
+              {
+                'creatorType': 'presenter',
+                'firstName': 'Alice',
+                'lastName': 'Johnson',
+              },
+              {
+                'creatorType': 'author',
+                'firstName': 'Bob',
+                'lastName': 'Wilson',
+              },
+            ],
+          },
+        };
 
-      final publication = Publication.fromJson(json);
+        final publication = Publication.fromJson(json);
 
-      expect(publication.authors, equals(['Alice Johnson']));
-      expect(publication.itemType, equals('presentation'));
-      expect(publication.venue, equals('Tech Summit 2023, Conference Center, Rome'));
-    });
+        expect(publication.authors, equals(['Alice Johnson']));
+        expect(publication.itemType, equals('presentation'));
+        expect(
+          publication.venue,
+          equals('Tech Summit 2023, Conference Center, Rome'),
+        );
+      },
+    );
 
-    test('should extract authors from journal article with author creator type', () {
-      final json = {
-        'key': 'TEST789',
-        'data': {
-          'title': 'Test Article',
-          'itemType': 'journalArticle',
-          'creators': [
-            {
-              'creatorType': 'author',
-              'firstName': 'Charlie',
-              'lastName': 'Brown',
-            },
-            {
-              'creatorType': 'editor',
-              'firstName': 'Dana',
-              'lastName': 'White',
-            },
-          ],
-        },
-      };
+    test(
+      'should extract authors from journal article with author creator type',
+      () {
+        final json = {
+          'key': 'TEST789',
+          'data': {
+            'title': 'Test Article',
+            'itemType': 'journalArticle',
+            'creators': [
+              {
+                'creatorType': 'author',
+                'firstName': 'Charlie',
+                'lastName': 'Brown',
+              },
+              {
+                'creatorType': 'editor',
+                'firstName': 'Dana',
+                'lastName': 'White',
+              },
+            ],
+          },
+        };
 
-      final publication = Publication.fromJson(json);
+        final publication = Publication.fromJson(json);
 
-      expect(publication.authors, equals(['Charlie Brown']));
-      expect(publication.itemType, equals('journalArticle'));
-    });
+        expect(publication.authors, equals(['Charlie Brown']));
+        expect(publication.itemType, equals('journalArticle'));
+      },
+    );
 
     test('should handle multiple creators of the same type', () {
       final json = {
@@ -128,30 +140,36 @@ void main() {
 
       final publication = Publication.fromJson(json);
 
-      expect(publication.authors, equals(['First Programmer', 'Second Programmer']));
+      expect(
+        publication.authors,
+        equals(['First Programmer', 'Second Programmer']),
+      );
     });
 
-    test('should return empty authors list when no matching creator type found', () {
-      final json = {
-        'key': 'TEST000',
-        'data': {
-          'title': 'Software with Only Authors',
-          'itemType': 'computerProgram',
-          'creators': [
-            {
-              'creatorType': 'author',
-              'firstName': 'Wrong',
-              'lastName': 'Type',
-            },
-          ],
-        },
-      };
+    test(
+      'should return empty authors list when no matching creator type found',
+      () {
+        final json = {
+          'key': 'TEST000',
+          'data': {
+            'title': 'Software with Only Authors',
+            'itemType': 'computerProgram',
+            'creators': [
+              {
+                'creatorType': 'author',
+                'firstName': 'Wrong',
+                'lastName': 'Type',
+              },
+            ],
+          },
+        };
 
-      final publication = Publication.fromJson(json);
+        final publication = Publication.fromJson(json);
 
-      expect(publication.authors, isEmpty);
-      expect(publication.authorsString, equals('Unknown Author'));
-    });
+        expect(publication.authors, isEmpty);
+        expect(publication.authorsString, equals('Unknown Author'));
+      },
+    );
 
     test('should handle empty or null creators list', () {
       final json = {
@@ -175,19 +193,9 @@ void main() {
           'title': 'Publication with incomplete creators',
           'itemType': 'journalArticle',
           'creators': [
-            {
-              'creatorType': 'author',
-              'firstName': '',
-              'lastName': '',
-            },
-            {
-              'creatorType': 'author',
-              'firstName': 'John',
-            },
-            {
-              'creatorType': 'author',
-              'lastName': 'Doe',
-            },
+            {'creatorType': 'author', 'firstName': '', 'lastName': ''},
+            {'creatorType': 'author', 'firstName': 'John'},
+            {'creatorType': 'author', 'lastName': 'Doe'},
           ],
         },
       };
@@ -220,53 +228,65 @@ void main() {
 
       final publication = Publication.fromJson(json);
 
-      expect(publication.venue, equals('International AI Conference, Milan, Italy'));
-      expect(publication.displayVenue, equals('International AI Conference, Milan, Italy'));
+      expect(
+        publication.venue,
+        equals('International AI Conference, Milan, Italy'),
+      );
+      expect(
+        publication.displayVenue,
+        equals('International AI Conference, Milan, Italy'),
+      );
     });
 
-    test('should use only meetingName when place is missing for presentations', () {
-      final json = {
-        'key': 'VENUE001B',
-        'data': {
-          'title': 'Presentation without Place',
-          'itemType': 'presentation',
-          'meetingName': 'Virtual Conference 2023',
-          'creators': [
-            {
-              'creatorType': 'presenter',
-              'firstName': 'Test',
-              'lastName': 'Presenter',
-            },
-          ],
-        },
-      };
+    test(
+      'should use only meetingName when place is missing for presentations',
+      () {
+        final json = {
+          'key': 'VENUE001B',
+          'data': {
+            'title': 'Presentation without Place',
+            'itemType': 'presentation',
+            'meetingName': 'Virtual Conference 2023',
+            'creators': [
+              {
+                'creatorType': 'presenter',
+                'firstName': 'Test',
+                'lastName': 'Presenter',
+              },
+            ],
+          },
+        };
 
-      final publication = Publication.fromJson(json);
+        final publication = Publication.fromJson(json);
 
-      expect(publication.venue, equals('Virtual Conference 2023'));
-    });
+        expect(publication.venue, equals('Virtual Conference 2023'));
+      },
+    );
 
-    test('should use only place when meetingName is missing for presentations', () {
-      final json = {
-        'key': 'VENUE001C',
-        'data': {
-          'title': 'Presentation without Meeting Name',
-          'itemType': 'presentation',
-          'place': 'Rome, Italy',
-          'creators': [
-            {
-              'creatorType': 'presenter',
-              'firstName': 'Test',
-              'lastName': 'Presenter',
-            },
-          ],
-        },
-      };
+    test(
+      'should use only place when meetingName is missing for presentations',
+      () {
+        final json = {
+          'key': 'VENUE001C',
+          'data': {
+            'title': 'Presentation without Meeting Name',
+            'itemType': 'presentation',
+            'place': 'Rome, Italy',
+            'creators': [
+              {
+                'creatorType': 'presenter',
+                'firstName': 'Test',
+                'lastName': 'Presenter',
+              },
+            ],
+          },
+        };
 
-      final publication = Publication.fromJson(json);
+        final publication = Publication.fromJson(json);
 
-      expect(publication.venue, equals('Rome, Italy'));
-    });
+        expect(publication.venue, equals('Rome, Italy'));
+      },
+    );
 
     test('should extract venue from conferenceName for conference papers', () {
       final json = {
@@ -289,7 +309,10 @@ void main() {
       final publication = Publication.fromJson(json);
 
       expect(publication.venue, equals('International Conference on Testing'));
-      expect(publication.displayVenue, equals('International Conference on Testing'));
+      expect(
+        publication.displayVenue,
+        equals('International Conference on Testing'),
+      );
     });
 
     test('should fallback to proceedingsTitle when conferenceName is null', () {
@@ -311,7 +334,10 @@ void main() {
 
       final publication = Publication.fromJson(json);
 
-      expect(publication.venue, equals('Proceedings of the Testing Conference'));
+      expect(
+        publication.venue,
+        equals('Proceedings of the Testing Conference'),
+      );
     });
 
     test('should return null venue for computer programs', () {
@@ -461,7 +487,10 @@ void main() {
         itemType: 'journalArticle',
       );
 
-      expect(publication.authorsString, equals('John Doe, Jane Smith, Bob Wilson'));
+      expect(
+        publication.authorsString,
+        equals('John Doe, Jane Smith, Bob Wilson'),
+      );
     });
   });
 
@@ -491,16 +520,19 @@ void main() {
       expect(publication.displayVenue, equals('IEEE Conference'));
     });
 
-    test('should return Unknown Venue when both journal and venue are null', () {
-      const publication = Publication(
-        key: 'NO_VENUE',
-        title: 'Test Publication',
-        authors: ['Author'],
-        itemType: 'journalArticle',
-      );
+    test(
+      'should return Unknown Venue when both journal and venue are null',
+      () {
+        const publication = Publication(
+          key: 'NO_VENUE',
+          title: 'Test Publication',
+          authors: ['Author'],
+          itemType: 'journalArticle',
+        );
 
-      expect(publication.displayVenue, equals('Unknown Venue'));
-    });
+        expect(publication.displayVenue, equals('Unknown Venue'));
+      },
+    );
 
     test('should extract year from date string', () {
       const publication = Publication(
@@ -546,22 +578,82 @@ void main() {
     });
 
     test('should return correct category display names', () {
-      const journalArticle = Publication(key: 'test', title: 'test', authors: [], itemType: 'journalArticle');
-      const conferencePaper = Publication(key: 'test', title: 'test', authors: [], itemType: 'conferencePaper');
-      const book = Publication(key: 'test', title: 'test', authors: [], itemType: 'book');
-      const bookSection = Publication(key: 'test', title: 'test', authors: [], itemType: 'bookSection');
-      const computerProgram = Publication(key: 'test', title: 'test', authors: [], itemType: 'computerProgram');
-      const presentation = Publication(key: 'test', title: 'test', authors: [], itemType: 'presentation');
-      const thesis = Publication(key: 'test', title: 'test', authors: [], itemType: 'thesis');
-      const report = Publication(key: 'test', title: 'test', authors: [], itemType: 'report');
-      const unknown = Publication(key: 'test', title: 'test', authors: [], itemType: 'unknown');
+      const journalArticle = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'journalArticle',
+      );
+      const conferencePaper = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'conferencePaper',
+      );
+      const book = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'book',
+      );
+      const bookSection = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'bookSection',
+      );
+      const computerProgram = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'computerProgram',
+      );
+      const presentation = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'presentation',
+      );
+      const thesis = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'thesis',
+      );
+      const report = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'report',
+      );
+      const unknown = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'unknown',
+      );
 
-      expect(journalArticle.getCategoryDisplayName(mockL10n), equals('Journal Article'));
-      expect(conferencePaper.getCategoryDisplayName(mockL10n), equals('Conference Paper'));
+      expect(
+        journalArticle.getCategoryDisplayName(mockL10n),
+        equals('Journal Article'),
+      );
+      expect(
+        conferencePaper.getCategoryDisplayName(mockL10n),
+        equals('Conference Paper'),
+      );
       expect(book.getCategoryDisplayName(mockL10n), equals('Book'));
-      expect(bookSection.getCategoryDisplayName(mockL10n), equals('Book Section'));
-      expect(computerProgram.getCategoryDisplayName(mockL10n), equals('Software'));
-      expect(presentation.getCategoryDisplayName(mockL10n), equals('Presentation'));
+      expect(
+        bookSection.getCategoryDisplayName(mockL10n),
+        equals('Book Section'),
+      );
+      expect(
+        computerProgram.getCategoryDisplayName(mockL10n),
+        equals('Software'),
+      );
+      expect(
+        presentation.getCategoryDisplayName(mockL10n),
+        equals('Presentation'),
+      );
       expect(thesis.getCategoryDisplayName(mockL10n), equals('Thesis'));
       expect(report.getCategoryDisplayName(mockL10n), equals('Report'));
       expect(unknown.getCategoryDisplayName(mockL10n), equals('Other'));
@@ -576,20 +668,78 @@ void main() {
     });
 
     test('should return correct view button text for each item type', () {
-      const journalArticle = Publication(key: 'test', title: 'test', authors: [], itemType: 'journalArticle');
-      const conferencePaper = Publication(key: 'test', title: 'test', authors: [], itemType: 'conferencePaper');
-      const book = Publication(key: 'test', title: 'test', authors: [], itemType: 'book');
-      const bookSection = Publication(key: 'test', title: 'test', authors: [], itemType: 'bookSection');
-      const computerProgram = Publication(key: 'test', title: 'test', authors: [], itemType: 'computerProgram');
-      const presentation = Publication(key: 'test', title: 'test', authors: [], itemType: 'presentation');
-      const unknown = Publication(key: 'test', title: 'test', authors: [], itemType: 'unknown');
+      const journalArticle = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'journalArticle',
+      );
+      const conferencePaper = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'conferencePaper',
+      );
+      const book = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'book',
+      );
+      const bookSection = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'bookSection',
+      );
+      const computerProgram = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'computerProgram',
+      );
+      const presentation = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'presentation',
+      );
+      const thesis = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'thesis',
+      );
+      const report = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'report',
+      );
+      const unknown = Publication(
+        key: 'test',
+        title: 'test',
+        authors: [],
+        itemType: 'unknown',
+      );
 
-      expect(journalArticle.getViewButtonText(mockL10n), equals('View Article'));
+      expect(
+        journalArticle.getViewButtonText(mockL10n),
+        equals('View Article'),
+      );
       expect(conferencePaper.getViewButtonText(mockL10n), equals('View Paper'));
       expect(book.getViewButtonText(mockL10n), equals('View Book'));
       expect(bookSection.getViewButtonText(mockL10n), equals('View Chapter'));
-      expect(computerProgram.getViewButtonText(mockL10n), equals('View Software'));
-      expect(presentation.getViewButtonText(mockL10n), equals('View Presentation'));
+      expect(
+        computerProgram.getViewButtonText(mockL10n),
+        equals('View Software'),
+      );
+      expect(
+        presentation.getViewButtonText(mockL10n),
+        equals('View Presentation'),
+      );
+      expect(thesis.getViewButtonText(mockL10n), equals('View Article'));
+      expect(report.getViewButtonText(mockL10n), equals('View Article'));
       expect(unknown.getViewButtonText(mockL10n), equals('View Article'));
     });
   });
@@ -605,7 +755,12 @@ void main() {
         year: '2023',
       );
 
-      expect(publication.citation, equals('John Doe & Jane Smith (2023). Test Publication Title. Test Journal.'));
+      expect(
+        publication.citation,
+        equals(
+          'John Doe & Jane Smith (2023). Test Publication Title. Test Journal.',
+        ),
+      );
     });
 
     test('should format citation without venue', () {
@@ -617,7 +772,10 @@ void main() {
         year: '2023',
       );
 
-      expect(publication.citation, equals('John Doe (2023). Test Publication Title. Unknown Venue.'));
+      expect(
+        publication.citation,
+        equals('John Doe (2023). Test Publication Title. Unknown Venue.'),
+      );
     });
 
     test('should format citation with unknown venue', () {
@@ -629,29 +787,74 @@ void main() {
         year: '2023',
       );
 
-      expect(publication.citation, equals('John Doe (2023). Test Publication Title. Unknown Venue.'));
+      expect(
+        publication.citation,
+        equals('John Doe (2023). Test Publication Title. Unknown Venue.'),
+      );
+    });
+
+    test('should format citation fallback when no venue info', () {
+      const publication = Publication(
+        key: 'CITATION_FALLBACK',
+        title: 'Test Publication Title',
+        authors: ['John Doe'],
+        itemType: 'other',
+        year: '2023',
+        journal: null,
+        venue: null,
+      );
+
+      expect(
+        publication.citation,
+        equals('John Doe (2023). Test Publication Title. Unknown Venue.'),
+      );
     });
   });
 
   group('Publication equality and hashCode', () {
     test('should be equal when keys are the same', () {
-      const pub1 = Publication(key: 'SAME_KEY', title: 'Title 1', authors: ['Author 1'], itemType: 'journalArticle');
-      const pub2 = Publication(key: 'SAME_KEY', title: 'Title 2', authors: ['Author 2'], itemType: 'book');
+      const pub1 = Publication(
+        key: 'SAME_KEY',
+        title: 'Title 1',
+        authors: ['Author 1'],
+        itemType: 'journalArticle',
+      );
+      const pub2 = Publication(
+        key: 'SAME_KEY',
+        title: 'Title 2',
+        authors: ['Author 2'],
+        itemType: 'book',
+      );
 
       expect(pub1, equals(pub2));
       expect(pub1.hashCode, equals(pub2.hashCode));
     });
 
     test('should not be equal when keys are different', () {
-      const pub1 = Publication(key: 'KEY_1', title: 'Same Title', authors: ['Same Author'], itemType: 'journalArticle');
-      const pub2 = Publication(key: 'KEY_2', title: 'Same Title', authors: ['Same Author'], itemType: 'journalArticle');
+      const pub1 = Publication(
+        key: 'KEY_1',
+        title: 'Same Title',
+        authors: ['Same Author'],
+        itemType: 'journalArticle',
+      );
+      const pub2 = Publication(
+        key: 'KEY_2',
+        title: 'Same Title',
+        authors: ['Same Author'],
+        itemType: 'journalArticle',
+      );
 
       expect(pub1, isNot(equals(pub2)));
       expect(pub1.hashCode, isNot(equals(pub2.hashCode)));
     });
 
     test('should have same identity when same object', () {
-      const publication = Publication(key: 'TEST', title: 'Test', authors: ['Author'], itemType: 'journalArticle');
+      const publication = Publication(
+        key: 'TEST',
+        title: 'Test',
+        authors: ['Author'],
+        itemType: 'journalArticle',
+      );
 
       expect(identical(publication, publication), isTrue);
     });

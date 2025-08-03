@@ -30,11 +30,11 @@ jobs:
     - name: Analyze code
       run: flutter analyze
     
-    - name: Run tests with coverage
-      run: flutter test --coverage
-    
     - name: Install lcov
       run: sudo apt-get install -y lcov
+    
+    - name: Run tests with coverage and filter
+      run: ./test/test_coverage.sh
     
     - name: Generate coverage percentage
       id: coverage

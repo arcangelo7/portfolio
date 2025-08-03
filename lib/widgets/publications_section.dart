@@ -7,14 +7,16 @@ import '../models/publication.dart';
 import '../services/zotero_service.dart';
 
 class PublicationsSection extends StatefulWidget {
-  const PublicationsSection({super.key});
+  final ZoteroService? zoteroService;
+
+  const PublicationsSection({super.key, this.zoteroService});
 
   @override
   State<PublicationsSection> createState() => _PublicationsSectionState();
 }
 
 class _PublicationsSectionState extends State<PublicationsSection> {
-  final ZoteroService _zoteroService = ZoteroService();
+  late final ZoteroService _zoteroService;
   List<Publication>? _publications;
   List<Publication>? _filteredPublications;
   bool _isLoading = true;
@@ -29,6 +31,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   @override
   void initState() {
     super.initState();
+    _zoteroService = widget.zoteroService ?? ZoteroService();
     _loadPublications();
   }
 
@@ -86,8 +89,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
 
   void _nextPage() {
     if (_filteredPublications == null) return;
-    final maxPage = (_filteredPublications!.length / _publicationsPerPage).ceil() - 1;
-    
+    final maxPage =
+        (_filteredPublications!.length / _publicationsPerPage).ceil() - 1;
+
     setState(() {
       if (_currentPage < maxPage) {
         _currentPage++;
@@ -107,8 +111,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
 
   void _goToPage(int page) {
     if (_filteredPublications == null) return;
-    final maxPage = (_filteredPublications!.length / _publicationsPerPage).ceil() - 1;
-    
+    final maxPage =
+        (_filteredPublications!.length / _publicationsPerPage).ceil() - 1;
+
     setState(() {
       _currentPage = page.clamp(0, maxPage);
     });
@@ -117,15 +122,19 @@ class _PublicationsSectionState extends State<PublicationsSection> {
 
   List<Publication> _getCurrentPagePublications() {
     if (_filteredPublications == null) return [];
-    
+
     final startIndex = _currentPage * _publicationsPerPage;
-    final endIndex = (startIndex + _publicationsPerPage).clamp(0, _filteredPublications!.length);
-    
+    final endIndex = (startIndex + _publicationsPerPage).clamp(
+      0,
+      _filteredPublications!.length,
+    );
+
     return _filteredPublications!.sublist(startIndex, endIndex);
   }
 
   int get _totalPages {
-    if (_filteredPublications == null || _filteredPublications!.isEmpty) return 1;
+    if (_filteredPublications == null || _filteredPublications!.isEmpty)
+      return 1;
     return (_filteredPublications!.length / _publicationsPerPage).ceil();
   }
 
@@ -173,13 +182,10 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       r'https?://[^\s<>"{}|\\^`\[\]]+',
       caseSensitive: false,
     );
-    
+
     final matches = urlRegex.allMatches(text);
     if (matches.isEmpty) {
-      return SelectableText(
-        text, 
-        style: style,
-      );
+      return SelectableText(text, style: style);
     }
 
     List<TextSpan> spans = [];
@@ -187,36 +193,31 @@ class _PublicationsSectionState extends State<PublicationsSection> {
 
     for (final match in matches) {
       if (match.start > lastEnd) {
-        spans.add(TextSpan(
-          text: text.substring(lastEnd, match.start),
-          style: style,
-        ));
+        spans.add(
+          TextSpan(text: text.substring(lastEnd, match.start), style: style),
+        );
       }
 
       final url = match.group(0)!;
-      spans.add(TextSpan(
-        text: url,
-        style: style?.copyWith(
-          color: Theme.of(context).colorScheme.primary,
-          decoration: TextDecoration.underline,
+      spans.add(
+        TextSpan(
+          text: url,
+          style: style?.copyWith(
+            color: Theme.of(context).colorScheme.primary,
+            decoration: TextDecoration.underline,
+          ),
+          recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(url),
         ),
-        recognizer: TapGestureRecognizer()
-          ..onTap = () => _launchUrl(url),
-      ));
+      );
 
       lastEnd = match.end;
     }
 
     if (lastEnd < text.length) {
-      spans.add(TextSpan(
-        text: text.substring(lastEnd),
-        style: style,
-      ));
+      spans.add(TextSpan(text: text.substring(lastEnd), style: style));
     }
 
-    return SelectableText.rich(
-      TextSpan(children: spans),
-    );
+    return SelectableText.rich(TextSpan(children: spans));
   }
 
   Widget _buildAbstractContent(String content) {
@@ -236,9 +237,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             color: textStyle?.color,
             lineHeight: const LineHeight(1.6),
           ),
-          "p": Style(
-            margin: Margins.zero,
-          ),
+          "p": Style(margin: Margins.zero),
           "a": Style(
             color: Theme.of(context).colorScheme.primary,
             textDecoration: TextDecoration.underline,
@@ -393,7 +392,10 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                   ),
                 ),
                 style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 0,
+                    vertical: 4,
+                  ),
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   alignment: Alignment.centerLeft,
@@ -450,7 +452,10 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             _buildCategoryFilter(l10n),
           const SizedBox(height: 24),
           _buildPublicationsList(l10n),
-          if (!_isLoading && _filteredPublications != null && _filteredPublications!.isNotEmpty && _totalPages > 1)
+          if (!_isLoading &&
+              _filteredPublications != null &&
+              _filteredPublications!.isNotEmpty &&
+              _totalPages > 1)
             _buildPaginationControls(l10n),
         ],
       ),
@@ -577,7 +582,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           const SizedBox(height: 8),
           _buildAuthorsSection(publication, l10n),
           const SizedBox(height: 12),
-          if (publication.itemType != 'computerProgram' && 
+          if (publication.itemType != 'computerProgram' &&
               publication.displayVenue != 'Unknown Venue') ...[
             Text(
               publication.displayVenue,
@@ -674,28 +679,37 @@ class _PublicationsSectionState extends State<PublicationsSection> {
               child: GestureDetector(
                 onTap: () => _goToPage(index),
                 child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: isCurrentPage 
-                      ? Theme.of(context).colorScheme.primary
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: isCurrentPage 
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
                   ),
-                ),
-                child: Text(
-                  '${index + 1}',
-                  style: TextStyle(
-                    color: isCurrentPage 
-                        ? Theme.of(context).colorScheme.onPrimary
-                        : Theme.of(context).colorScheme.onSurface,
-                    fontWeight: isCurrentPage ? FontWeight.bold : FontWeight.normal,
+                  decoration: BoxDecoration(
+                    color:
+                        isCurrentPage
+                            ? Theme.of(context).colorScheme.primary
+                            : Colors.transparent,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color:
+                          isCurrentPage
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(
+                                context,
+                              ).colorScheme.outline.withValues(alpha: 0.3),
+                    ),
                   ),
-                ),
+                  child: Text(
+                    '${index + 1}',
+                    style: TextStyle(
+                      color:
+                          isCurrentPage
+                              ? Theme.of(context).colorScheme.onPrimary
+                              : Theme.of(context).colorScheme.onSurface,
+                      fontWeight:
+                          isCurrentPage ? FontWeight.bold : FontWeight.normal,
+                    ),
+                  ),
                 ),
               ),
             );
