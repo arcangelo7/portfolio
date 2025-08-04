@@ -1,3 +1,16 @@
+# [1.1.0](https://github.com/arcangelo7/portfolio/compare/v1.0.1...v1.1.0) (2025-08-04)
+
+
+### Bug Fixes
+
+* toc must shrink [release] ([956cd43](https://github.com/arcangelo7/portfolio/commit/956cd4373eea4c14a31a1a07e46155fb85fd251a))
+
+
+### Features
+
+* add toc [release] ([554b704](https://github.com/arcangelo7/portfolio/commit/554b70434025f39e8b0f55a467932f0132270122))
+* download CV [release] ([5696ddf](https://github.com/arcangelo7/portfolio/commit/5696ddf4e3d82b969fb0c79ee81225e2297ed11d))
+
 ## [1.0.1](https://github.com/arcangelo7/portfolio/compare/v1.0.0...v1.0.1) (2025-08-04)
 
 
