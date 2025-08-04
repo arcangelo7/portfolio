@@ -13,6 +13,39 @@ class AstroGodsSection extends StatelessWidget {
     }
   }
 
+  Widget _buildStrikethroughText(String text, TextStyle? style, TextAlign textAlign) {
+    final strikethroughRegex = RegExp(r'~~([^~]+)~~');
+    final match = strikethroughRegex.firstMatch(text);
+
+    if (match == null) {
+      return Text(text, style: style, textAlign: textAlign);
+    }
+
+    final beforeText = text.substring(0, match.start);
+    final strikethroughText = match.group(1)!;
+    final afterText = text.substring(match.end);
+
+    return RichText(
+      textAlign: textAlign,
+      text: TextSpan(
+        style: style,
+        children: [
+          if (beforeText.isNotEmpty) TextSpan(text: beforeText),
+          TextSpan(
+            text: strikethroughText,
+            style: style?.copyWith(
+              decoration: TextDecoration.lineThrough,
+              decorationColor: PortfolioTheme.astroGold,
+              decorationThickness: 3.0,
+              color: PortfolioTheme.astroGold.withValues(alpha: 0.6),
+            ),
+          ),
+          if (afterText.isNotEmpty) TextSpan(text: afterText),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -43,9 +76,9 @@ class AstroGodsSection extends StatelessWidget {
         child: Column(
           children: [
             // Titolo principale
-            Text(
+            _buildStrikethroughText(
               l10n.astroGodsTitle,
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+              Theme.of(context).textTheme.displaySmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: PortfolioTheme.astroGold,
                 fontSize: isMobile ? 28 : null,
@@ -57,7 +90,7 @@ class AstroGodsSection extends StatelessWidget {
                   ),
                 ],
               ),
-              textAlign: TextAlign.center,
+              TextAlign.center,
             ),
 
             const SizedBox(height: 24),
@@ -71,6 +104,22 @@ class AstroGodsSection extends StatelessWidget {
                 fontSize: isMobile ? 18 : null,
               ),
               textAlign: TextAlign.center,
+            ),
+
+            const SizedBox(height: 32),
+
+            // Introduzione
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                l10n.astroGodsIntroduction,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: PortfolioTheme.astroLightGray,
+                  fontSize: isMobile ? 16 : 18,
+                  height: 1.6,
+                ),
+                textAlign: TextAlign.justify,
+              ),
             ),
 
             const SizedBox(height: 32),

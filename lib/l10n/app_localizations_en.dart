@@ -455,14 +455,18 @@ class AppLocalizationsEn extends AppLocalizations {
       'Participation in the Una Europa transdisciplinary workshop for PhD students focused on \'Museums and the new challenges: virtual technologies, societal responsibility and environmental sustainability\'. Presentation titled \'HERITRACE: A User-Friendly Semantic Data Editor with Change Tracking and Provenance Management for Cultural Heritage Institutions\'. [Workshop info](https://site.unibo.it/una-europa/en/focus-areas/una-her-doc-una-europa-phd-workshop) | [Presentation](https://doi.org/10.5281/zenodo.15375770)';
 
   @override
-  String get astroGodsTitle => 'Against Science';
+  String get astroGodsTitle => '~~Against~~ Beyond Science';
 
   @override
   String get astroGodsSubtitle =>
-      'Egyptian astrology and artificial intelligence';
+      'Egyptian Astrology and artificial intelligence';
 
   @override
-  String get astroGodsCard1Title => 'The complex problem';
+  String get astroGodsIntroduction =>
+      'In my free time, I dedicate myself to AstroGods, an application that uses artificial intelligence to create astrological interpretations.';
+
+  @override
+  String get astroGodsCard1Title => 'A complex problem';
 
   @override
   String get astroGodsCard1Description =>
@@ -515,4 +519,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get astroGodsVisitForFullExperience =>
       'Visit the website for the full experience';
+
+  @override
+  String get tableOfContents => 'Sections';
 }

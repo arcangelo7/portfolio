@@ -10,6 +10,7 @@ import 'widgets/conferences_seminars_section.dart';
 import 'widgets/astrogods_section.dart';
 import 'widgets/theme_toggle_widget.dart';
 import 'widgets/orbiting_planets_widget.dart';
+import 'widgets/table_of_contents_widget.dart';
 
 void main() {
   runApp(const PortfolioApp());
@@ -154,10 +155,20 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage>
     with TickerProviderStateMixin {
+  final GlobalKey _aboutKey = GlobalKey();
+  final GlobalKey _workKey = GlobalKey();
+  final GlobalKey _educationKey = GlobalKey();
+  final GlobalKey _conferencesKey = GlobalKey();
+  final GlobalKey _skillsKey = GlobalKey();
   final GlobalKey _publicationsKey = GlobalKey();
+  final GlobalKey _astrogodsKey = GlobalKey();
+  final GlobalKey _contactKey = GlobalKey();
+  
   bool _isFabExpanded = false;
+  bool _isTocVisible = false;
 
   late AnimationController _fabAnimationController;
+  late AnimationController _tocAnimationController;
 
   bool _isInTestEnvironment() {
     return WidgetsBinding.instance.runtimeType.toString() ==
@@ -171,11 +182,16 @@ class _LandingPageState extends State<LandingPage>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
+    _tocAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
   }
 
   @override
   void dispose() {
     _fabAnimationController.dispose();
+    _tocAnimationController.dispose();
     super.dispose();
   }
 
@@ -201,24 +217,51 @@ class _LandingPageState extends State<LandingPage>
     });
   }
 
+  void _toggleToc() {
+    setState(() {
+      _isTocVisible = !_isTocVisible;
+      if (_isTocVisible) {
+        _tocAnimationController.forward();
+      } else {
+        _tocAnimationController.reverse();
+      }
+    });
+  }
+
+  Map<String, GlobalKey> get _sectionKeys => {
+    'about': _aboutKey,
+    'work': _workKey,
+    'education': _educationKey,
+    'conferences': _conferencesKey,
+    'skills': _skillsKey,
+    'publications': _publicationsKey,
+    'astrogods': _astrogodsKey,
+    'contact': _contactKey,
+  };
+
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildHeroSection(context),
-            _buildAboutSection(context),
-            const WorkExperienceSection(),
-            const EducationSection(),
-            const ConferencesSeminarsSection(),
-            _buildSkillsSection(context),
-            PublicationsSection(key: _publicationsKey),
-            const AstroGodsSection(),
-            _buildContactSection(context),
-          ],
-        ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                _buildHeroSection(context),
+                _buildAboutSection(context, key: _aboutKey),
+                WorkExperienceSection(key: _workKey),
+                EducationSection(key: _educationKey),
+                ConferencesSeminarsSection(key: _conferencesKey),
+                _buildSkillsSection(context, key: _skillsKey),
+                PublicationsSection(key: _publicationsKey),
+                AstroGodsSection(key: _astrogodsKey),
+                _buildContactSection(context, key: _contactKey),
+              ],
+            ),
+          ),
+          if (_isTocVisible) _buildTocOverlay(context),
+        ],
       ),
       floatingActionButton:
           isMobile
@@ -244,7 +287,7 @@ class _LandingPageState extends State<LandingPage>
             backgroundColor: Theme.of(context).colorScheme.primary,
             child: ThemeToggleWidget(
               isDarkMode: widget.isDarkMode,
-              onToggle: () {}, // Il toggle è gestito dall'onPressed del FAB
+              onToggle: () {},
               size: 40.0,
             ),
           ),
@@ -258,6 +301,22 @@ class _LandingPageState extends State<LandingPage>
               Icons.language,
               color: Theme.of(context).colorScheme.onSecondary,
               size: 32.0,
+            ),
+          ),
+          const SizedBox(height: 16),
+          FloatingActionButton(
+            heroTag: "table_of_contents",
+            shape: const CircleBorder(),
+            onPressed: _toggleToc,
+            backgroundColor: Theme.of(context).colorScheme.tertiary,
+            child: AnimatedRotation(
+              turns: _isTocVisible ? 0.125 : 0.0,
+              duration: const Duration(milliseconds: 300),
+              child: Icon(
+                _isTocVisible ? Icons.close : Icons.list_rounded,
+                color: Theme.of(context).colorScheme.onTertiary,
+                size: 32.0,
+              ),
             ),
           ),
         ],
@@ -326,6 +385,38 @@ class _LandingPageState extends State<LandingPage>
           ),
         ),
         if (_isFabExpanded) const SizedBox(height: 16),
+        // TOC FAB
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          height: _isFabExpanded ? 56 : 0,
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 300),
+            opacity: _isFabExpanded ? 1.0 : 0.0,
+            child:
+                _isFabExpanded
+                    ? FloatingActionButton(
+                      heroTag: "table_of_contents_mobile",
+                      shape: const CircleBorder(),
+                      onPressed: () {
+                        _toggleToc();
+                        _toggleFab();
+                      },
+                      backgroundColor: Theme.of(context).colorScheme.tertiary,
+                      child: AnimatedRotation(
+                        turns: _isTocVisible ? 0.125 : 0.0,
+                        duration: const Duration(milliseconds: 300),
+                        child: Icon(
+                          _isTocVisible ? Icons.close : Icons.list_rounded,
+                          color: Theme.of(context).colorScheme.onTertiary,
+                          size: 24.0,
+                        ),
+                      ),
+                    )
+                    : const SizedBox.shrink(),
+          ),
+        ),
+        if (_isFabExpanded) const SizedBox(height: 16),
         // Main FAB
         FloatingActionButton(
           heroTag: "main_fab_mobile",
@@ -343,6 +434,33 @@ class _LandingPageState extends State<LandingPage>
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildTocOverlay(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 768;
+    
+    return GestureDetector(
+      onTap: _toggleToc,
+      child: Container(
+        color: Colors.black.withValues(alpha: 0.5),
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 300),
+          opacity: _isTocVisible ? 1.0 : 0.0,
+          child: Center(
+            child: GestureDetector(
+              onTap: () {}, // Prevent closing when tapping on the TOC itself
+              child: Padding(
+                padding: EdgeInsets.all(isMobile ? 20 : 40),
+                child: TableOfContentsWidget(
+                  sectionKeys: _sectionKeys,
+                  onTap: _toggleToc,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -514,9 +632,10 @@ class _LandingPageState extends State<LandingPage>
     );
   }
 
-  Widget _buildAboutSection(BuildContext context) {
+  Widget _buildAboutSection(BuildContext context, {required GlobalKey key}) {
     final isMobile = MediaQuery.of(context).size.width < 768;
     return Container(
+      key: key,
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
@@ -603,7 +722,7 @@ class _LandingPageState extends State<LandingPage>
     }
   }
 
-  Widget _buildSkillsSection(BuildContext context) {
+  Widget _buildSkillsSection(BuildContext context, {required GlobalKey key}) {
     final l10n = AppLocalizations.of(context)!;
     final isMobile = MediaQuery.of(context).size.width < 768;
 
@@ -668,6 +787,7 @@ class _LandingPageState extends State<LandingPage>
     };
 
     return Container(
+      key: key,
       margin: const EdgeInsets.symmetric(vertical: 16),
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       color: Theme.of(context).colorScheme.surfaceContainer,
@@ -691,7 +811,7 @@ class _LandingPageState extends State<LandingPage>
     );
   }
 
-  Widget _buildContactSection(BuildContext context) {
+  Widget _buildContactSection(BuildContext context, {required GlobalKey key}) {
     final isMobile = MediaQuery.of(context).size.width < 768;
     final l10n = AppLocalizations.of(context)!;
 
@@ -701,6 +821,7 @@ class _LandingPageState extends State<LandingPage>
             : 'https://www.unibo.it/sitoweb/arcangelo.massari/en';
 
     return Container(
+      key: key,
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [

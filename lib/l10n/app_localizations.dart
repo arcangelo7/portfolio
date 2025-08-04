@@ -943,19 +943,25 @@ abstract class AppLocalizations {
   /// No description provided for @astroGodsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Against Science'**
+  /// **'~~Against~~ Beyond Science'**
   String get astroGodsTitle;
 
   /// No description provided for @astroGodsSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Egyptian astrology and artificial intelligence'**
+  /// **'Egyptian Astrology and artificial intelligence'**
   String get astroGodsSubtitle;
+
+  /// No description provided for @astroGodsIntroduction.
+  ///
+  /// In en, this message translates to:
+  /// **'In my free time, I dedicate myself to AstroGods, an application that uses artificial intelligence to create astrological interpretations.'**
+  String get astroGodsIntroduction;
 
   /// No description provided for @astroGodsCard1Title.
   ///
   /// In en, this message translates to:
-  /// **'The complex problem'**
+  /// **'A complex problem'**
   String get astroGodsCard1Title;
 
   /// No description provided for @astroGodsCard1Description.
@@ -1047,6 +1053,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Visit the website for the full experience'**
   String get astroGodsVisitForFullExperience;
+
+  /// No description provided for @tableOfContents.
+  ///
+  /// In en, this message translates to:
+  /// **'Sections'**
+  String get tableOfContents;
 }
 
 class _AppLocalizationsDelegate

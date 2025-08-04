@@ -69,7 +69,19 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        npx semantic-release --dry-run=false
+        npx semantic-release --dry-run=false > semantic-output.txt 2>&1
+        cat semantic-output.txt
+        
+        # Extract version from semantic-release output
+        if grep -q "Published release" semantic-output.txt; then
+          VERSION=$(grep "Published release" semantic-output.txt | sed -n 's/.*Published release \([0-9.]*\).*/\1/p')
+          echo "new-release-version=$VERSION" >> $GITHUB_OUTPUT
+          echo "new-release-published=true" >> $GITHUB_OUTPUT
+          echo "Semantic-release published version: $VERSION"
+        else
+          echo "new-release-published=false" >> $GITHUB_OUTPUT
+          echo "No release published"
+        fi
 
   build-and-deploy:
     runs-on: ubuntu-latest

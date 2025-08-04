@@ -139,9 +139,10 @@
   "unaEuropaWorkshop2025Period": "5-10 Mag 2025",
   "unaEuropaWorkshop2025Location": "Bologna, Italia",
   "unaEuropaWorkshop2025Description": "Partecipazione al workshop transdisciplinare Una Europa per dottorandi focalizzato su 'Museums and the new challenges: virtual technologies, societal responsibility and environmental sustainability'. Presentazione dal titolo 'HERITRACE: A User-Friendly Semantic Data Editor with Change Tracking and Provenance Management for Cultural Heritage Institutions'. [Info workshop](https://site.unibo.it/una-europa/en/focus-areas/una-her-doc-una-europa-phd-workshop) | [Presentazione](https://doi.org/10.5281/zenodo.15375770)",
-  "astroGodsTitle": "Contro la Scienza",
+  "astroGodsTitle": "~~Contro~~ Oltre la Scienza",
   "astroGodsSubtitle": "Astrologia egizia e intelligenza artificiale",
-  "astroGodsCard1Title": "Il problema complesso",
+  "astroGodsIntroduction": "Nel tempo libero mi dedico ad AstroGods, un'applicazione che utilizza l'intelligenza artificiale per fare interpretazioni astrologiche.",
+  "astroGodsCard1Title": "Un problema complesso",
   "astroGodsCard1Description": "Le interpretazioni astrologiche fatte bene (non quelle da intrattenimento) sono incredibilmente complesse. Devono unire simbolicamente infiniti elementi.",
   "astroGodsCard2Title": "Elementi infiniti",
   "astroGodsCard2Description": "Posizioni planetarie nelle case e nei segni, gli aspetti che formano tra loro. Ogni elemento aggiunge strati di significato simbolico.",
@@ -156,5 +157,6 @@
   "astroGodsVisitWebsite": "Visita AstroGods",
   "astroGodsCollaborate": "Collabora con me",
   "astroGodsIframeHidden": "Iframe nascosto durante il cambio lingua",
-  "astroGodsVisitForFullExperience": "Visita il sito per l'esperienza completa"
+  "astroGodsVisitForFullExperience": "Visita il sito per l'esperienza completa",
+  "tableOfContents": "Sezioni"
 }
