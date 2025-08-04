@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:portfolio/l10n/app_localizations.dart';
 import 'package:portfolio/widgets/publications_section.dart';
+import 'package:portfolio/widgets/theme_toggle_widget.dart';
 
 import 'package:portfolio/main.dart' as portfolio_main;
 import 'package:portfolio/main.dart';
@@ -121,7 +122,7 @@ void main() {
 
     expect(find.byType(FloatingActionButton), findsNWidgets(2));
     expect(find.byIcon(Icons.language), findsOneWidget);
-    expect(find.byIcon(Icons.light_mode), findsOneWidget);
+    expect(find.byType(ThemeToggleWidget), findsOneWidget);
   });
 
   testWidgets('Skills section displays skill bubbles', (
@@ -171,20 +172,24 @@ void main() {
     expect(find.text('Español'), findsOneWidget);
   });
 
-  testWidgets('Theme toggle floating button changes icon', (
+  testWidgets('Theme toggle floating button works', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.dark_mode), findsOneWidget);
-    expect(find.byIcon(Icons.light_mode), findsNothing);
+    expect(find.byType(ThemeToggleWidget), findsOneWidget);
 
-    await tester.tap(find.byIcon(Icons.dark_mode));
+    // Trova il FAB che contiene il ThemeToggleWidget
+    final themeFab = find.ancestor(
+      of: find.byType(ThemeToggleWidget),
+      matching: find.byType(FloatingActionButton),
+    );
+    
+    await tester.tap(themeFab.first);
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.light_mode), findsOneWidget);
-    expect(find.byIcon(Icons.dark_mode), findsNothing);
+    expect(find.byType(ThemeToggleWidget), findsOneWidget);
   });
 
   testWidgets('App works in light mode with floating controls', (
@@ -195,7 +200,7 @@ void main() {
 
     expect(find.textContaining('Arcangelo Massari'), findsAtLeastNWidgets(1));
     expect(find.textContaining('PhD candidate in Digital Humanities'), findsOneWidget);
-    expect(find.byIcon(Icons.dark_mode), findsOneWidget);
+    expect(find.byType(ThemeToggleWidget), findsOneWidget);
     expect(find.byType(FloatingActionButton), findsNWidgets(2));
 
     final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
@@ -210,21 +215,25 @@ void main() {
 
     var materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
     expect(materialApp.themeMode, equals(ThemeMode.light));
-    expect(find.byIcon(Icons.dark_mode), findsOneWidget);
+    expect(find.byType(ThemeToggleWidget), findsOneWidget);
 
-    await tester.tap(find.byIcon(Icons.dark_mode));
+    final themeFab = find.ancestor(
+      of: find.byType(ThemeToggleWidget),
+      matching: find.byType(FloatingActionButton),
+    );
+    await tester.tap(themeFab.first);
     await tester.pumpAndSettle();
 
     materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
     expect(materialApp.themeMode, equals(ThemeMode.dark));
-    expect(find.byIcon(Icons.light_mode), findsOneWidget);
+    expect(find.byType(ThemeToggleWidget), findsOneWidget);
 
-    await tester.tap(find.byIcon(Icons.light_mode));
+    await tester.tap(themeFab.first);
     await tester.pumpAndSettle();
 
     materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
     expect(materialApp.themeMode, equals(ThemeMode.light));
-    expect(find.byIcon(Icons.dark_mode), findsOneWidget);
+    expect(find.byType(ThemeToggleWidget), findsOneWidget);
   });
 
   testWidgets('Language selection works from floating button', (
@@ -279,7 +288,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(FloatingActionButton), findsNWidgets(2));
-    expect(find.byIcon(Icons.dark_mode), findsOneWidget);
+    expect(find.byType(ThemeToggleWidget), findsOneWidget);
     expect(find.byIcon(Icons.language), findsOneWidget);
   });
 
@@ -576,10 +585,14 @@ void main() {
 
     expect(find.textContaining('Arcangelo Massari'), findsAtLeastNWidgets(1));
 
-    await tester.tap(find.byIcon(Icons.dark_mode));
+    final themeFab = find.ancestor(
+      of: find.byType(ThemeToggleWidget),
+      matching: find.byType(FloatingActionButton),
+    );
+    await tester.tap(themeFab.first);
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.light_mode), findsOneWidget);
+    expect(find.byType(ThemeToggleWidget), findsOneWidget);
   });
 
   testWidgets('Profile image error builder works', (WidgetTester tester) async {
@@ -768,10 +781,14 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byIcon(Icons.close), findsOneWidget);
-    expect(find.byIcon(Icons.dark_mode), findsOneWidget);
+    expect(find.byType(ThemeToggleWidget), findsOneWidget);
     expect(find.byIcon(Icons.language), findsOneWidget);
 
-    await tester.tap(find.byIcon(Icons.dark_mode));
+    final themeFab = find.ancestor(
+      of: find.byType(ThemeToggleWidget),
+      matching: find.byType(FloatingActionButton),
+    );
+    await tester.tap(themeFab.first);
     await tester.pumpAndSettle();
 
     expect(find.byIcon(Icons.settings), findsOneWidget);
@@ -827,7 +844,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byIcon(Icons.language), findsOneWidget);
-    expect(find.byIcon(Icons.dark_mode), findsOneWidget);
+    expect(find.byType(ThemeToggleWidget), findsOneWidget);
     expect(find.byIcon(Icons.settings), findsNothing);
 
     addTearDown(tester.view.reset);

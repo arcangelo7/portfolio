@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'l10n/app_localizations.dart';
 import 'widgets/publications_section.dart';
+import 'widgets/theme_toggle_widget.dart';
 
 void main() {
   runApp(const PortfolioApp());
@@ -192,12 +193,14 @@ class _LandingPageState extends State<LandingPage>
           ],
         ),
       ),
-      floatingActionButton: isMobile 
-          ? _buildExpandableFab(context)
-          : _buildFloatingControls(context),
-      floatingActionButtonLocation: isMobile 
-          ? FloatingActionButtonLocation.endFloat
-          : FloatingActionButtonLocation.endTop,
+      floatingActionButton:
+          isMobile
+              ? _buildExpandableFab(context)
+              : _buildFloatingControls(context),
+      floatingActionButtonLocation:
+          isMobile
+              ? FloatingActionButtonLocation.endFloat
+              : FloatingActionButtonLocation.endTop,
     );
   }
 
@@ -213,9 +216,10 @@ class _LandingPageState extends State<LandingPage>
             shape: const CircleBorder(),
             onPressed: widget.onThemeToggle,
             backgroundColor: Theme.of(context).colorScheme.primary,
-            child: Icon(
-              widget.isDarkMode ? Icons.light_mode : Icons.dark_mode,
-              color: Theme.of(context).colorScheme.onPrimary,
+            child: ThemeToggleWidget(
+              isDarkMode: widget.isDarkMode,
+              onToggle: () {}, // Il toggle è gestito dall'onPressed del FAB
+              size: 32.0,
             ),
           ),
           const SizedBox(height: 16),
@@ -247,22 +251,25 @@ class _LandingPageState extends State<LandingPage>
           child: AnimatedOpacity(
             duration: const Duration(milliseconds: 300),
             opacity: _isFabExpanded ? 1.0 : 0.0,
-            child: _isFabExpanded
-                ? FloatingActionButton(
-                    heroTag: "theme_toggle_mobile",
-                    mini: true,
-                    shape: const CircleBorder(),
-                    onPressed: () {
-                      widget.onThemeToggle();
-                      _toggleFab();
-                    },
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    child: Icon(
-                      widget.isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  )
-                : const SizedBox.shrink(),
+            child:
+                _isFabExpanded
+                    ? FloatingActionButton(
+                      heroTag: "theme_toggle_mobile",
+                      mini: true,
+                      shape: const CircleBorder(),
+                      onPressed: () {
+                        widget.onThemeToggle();
+                        _toggleFab();
+                      },
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      child: ThemeToggleWidget(
+                        isDarkMode: widget.isDarkMode,
+                        onToggle:
+                            () {}, // Il toggle è gestito dall'onPressed del FAB
+                        size: 32.0,
+                      ),
+                    )
+                    : const SizedBox.shrink(),
           ),
         ),
         if (_isFabExpanded) const SizedBox(height: 16),
@@ -274,22 +281,23 @@ class _LandingPageState extends State<LandingPage>
           child: AnimatedOpacity(
             duration: const Duration(milliseconds: 300),
             opacity: _isFabExpanded ? 1.0 : 0.0,
-            child: _isFabExpanded
-                ? FloatingActionButton(
-                    heroTag: "language_selector_mobile",
-                    mini: true,
-                    shape: const CircleBorder(),
-                    onPressed: () {
-                      _showLanguageSelector(context);
-                      _toggleFab();
-                    },
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    child: Icon(
-                      Icons.language,
-                      color: Theme.of(context).colorScheme.onSecondary,
-                    ),
-                  )
-                : const SizedBox.shrink(),
+            child:
+                _isFabExpanded
+                    ? FloatingActionButton(
+                      heroTag: "language_selector_mobile",
+                      mini: true,
+                      shape: const CircleBorder(),
+                      onPressed: () {
+                        _showLanguageSelector(context);
+                        _toggleFab();
+                      },
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      child: Icon(
+                        Icons.language,
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                    )
+                    : const SizedBox.shrink(),
           ),
         ),
         if (_isFabExpanded) const SizedBox(height: 16),
@@ -655,11 +663,12 @@ class _LandingPageState extends State<LandingPage>
   Widget _buildContactSection(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
     final l10n = AppLocalizations.of(context)!;
-    
-    final professionalWebsiteUrl = widget.currentLocale.languageCode == 'it' 
-        ? 'https://www.unibo.it/sitoweb/arcangelo.massari'
-        : 'https://www.unibo.it/sitoweb/arcangelo.massari/en';
-    
+
+    final professionalWebsiteUrl =
+        widget.currentLocale.languageCode == 'it'
+            ? 'https://www.unibo.it/sitoweb/arcangelo.massari'
+            : 'https://www.unibo.it/sitoweb/arcangelo.massari/en';
+
     return Container(
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
@@ -762,9 +771,7 @@ class _LandingPageState extends State<LandingPage>
                 width: 50,
                 height: 2,
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: PortfolioTheme.gold,
-                  ),
+                  gradient: LinearGradient(colors: PortfolioTheme.gold),
                 ),
               ),
               const SizedBox(height: 16),
@@ -809,11 +816,7 @@ class _LandingPageState extends State<LandingPage>
                 border: Border.all(color: color.withValues(alpha: 0.3)),
                 borderRadius: BorderRadius.circular(50),
               ),
-              child: Icon(
-                icon,
-                size: isMobile ? 24 : 28,
-                color: color,
-              ),
+              child: Icon(icon, size: isMobile ? 24 : 28, color: color),
             ),
           ),
         ),
@@ -821,7 +824,9 @@ class _LandingPageState extends State<LandingPage>
         Text(
           label,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.8),
             fontSize: isMobile ? 11 : 12,
           ),
           textAlign: TextAlign.center,
