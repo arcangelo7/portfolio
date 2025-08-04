@@ -433,7 +433,7 @@ abstract class AppLocalizations {
   /// No description provided for @publications.
   ///
   /// In en, this message translates to:
-  /// **'Publications'**
+  /// **'For Science'**
   String get publications;
 
   /// No description provided for @loadingPublications.
@@ -493,7 +493,7 @@ abstract class AppLocalizations {
   /// No description provided for @publicationsDescription.
   ///
   /// In en, this message translates to:
-  /// **'My published research and academic work'**
+  /// **'The official and scientifically rigorous part of my work - where peer review reigns supreme'**
   String get publicationsDescription;
 
   /// No description provided for @categoryAll.
@@ -939,6 +939,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Participation in the Una Europa transdisciplinary workshop for PhD students focused on \'Museums and the new challenges: virtual technologies, societal responsibility and environmental sustainability\'. Presentation titled \'HERITRACE: A User-Friendly Semantic Data Editor with Change Tracking and Provenance Management for Cultural Heritage Institutions\'. [Workshop info](https://site.unibo.it/una-europa/en/focus-areas/una-her-doc-una-europa-phd-workshop) | [Presentation](https://doi.org/10.5281/zenodo.15375770)'**
   String get unaEuropaWorkshop2025Description;
+
+  /// No description provided for @astroGodsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Against Science'**
+  String get astroGodsTitle;
+
+  /// No description provided for @astroGodsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Egyptian astrology and artificial intelligence'**
+  String get astroGodsSubtitle;
+
+  /// No description provided for @astroGodsCard1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'The complex problem'**
+  String get astroGodsCard1Title;
+
+  /// No description provided for @astroGodsCard1Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Astrological interpretations done well (not those for entertainment) are incredibly complex. They must symbolically unite infinite elements.'**
+  String get astroGodsCard1Description;
+
+  /// No description provided for @astroGodsCard2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Infinite elements'**
+  String get astroGodsCard2Title;
+
+  /// No description provided for @astroGodsCard2Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Planetary positions in houses and signs, the aspects they form with each other. Each element adds layers of symbolic meaning.'**
+  String get astroGodsCard2Description;
+
+  /// No description provided for @astroGodsCard3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Exponential complexity'**
+  String get astroGodsCard3Title;
+
+  /// No description provided for @astroGodsCard3Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Complexity multiplies when comparing different people\'s charts or making temporal predictions with current sky positions.'**
+  String get astroGodsCard3Description;
+
+  /// No description provided for @astroGodsCard4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Egyptian tradition'**
+  String get astroGodsCard4Title;
+
+  /// No description provided for @astroGodsCard4Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Using methodologically grounded Egyptian astrological tradition with equal-area houses (Vehlow system) as foundation.'**
+  String get astroGodsCard4Description;
+
+  /// No description provided for @astroGodsCard5Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Artificial intelligence'**
+  String get astroGodsCard5Title;
+
+  /// No description provided for @astroGodsCard5Description.
+  ///
+  /// In en, this message translates to:
+  /// **'AI processes all elements to unite astrological aspects with broader context, creating comprehensive interpretations.'**
+  String get astroGodsCard5Description;
+
+  /// No description provided for @astroGodsCard6Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Universal insights'**
+  String get astroGodsCard6Title;
+
+  /// No description provided for @astroGodsCard6Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Preliminary analyses accessible to both laypeople and experts as starting points for personal reflection.'**
+  String get astroGodsCard6Description;
+
+  /// No description provided for @astroGodsVisitWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Visit AstroGods'**
+  String get astroGodsVisitWebsite;
+
+  /// No description provided for @astroGodsCollaborate.
+  ///
+  /// In en, this message translates to:
+  /// **'Collaborate with me'**
+  String get astroGodsCollaborate;
+
+  /// No description provided for @astroGodsIframeHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Iframe hidden during language change'**
+  String get astroGodsIframeHidden;
+
+  /// No description provided for @astroGodsVisitForFullExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Visit the website for the full experience'**
+  String get astroGodsVisitForFullExperience;
 }
 
 class _AppLocalizationsDelegate

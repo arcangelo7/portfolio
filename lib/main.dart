@@ -7,6 +7,7 @@ import 'widgets/publications_section.dart';
 import 'widgets/work_experience_section.dart';
 import 'widgets/education_section.dart';
 import 'widgets/conferences_seminars_section.dart';
+import 'widgets/astrogods_section.dart';
 import 'widgets/theme_toggle_widget.dart';
 import 'widgets/orbiting_planets_widget.dart';
 
@@ -143,6 +144,7 @@ class _LandingPageState extends State<LandingPage>
     with TickerProviderStateMixin {
   final GlobalKey _publicationsKey = GlobalKey();
   bool _isFabExpanded = false;
+  bool _isLanguageModalOpen = false;
   late AnimationController _fabAnimationController;
 
   bool _isInTestEnvironment() {
@@ -201,6 +203,7 @@ class _LandingPageState extends State<LandingPage>
             const ConferencesSeminarsSection(),
             _buildSkillsSection(context),
             PublicationsSection(key: _publicationsKey),
+            AstroGodsSection(isLanguageModalOpen: _isLanguageModalOpen),
             _buildContactSection(context),
           ],
         ),
@@ -332,6 +335,10 @@ class _LandingPageState extends State<LandingPage>
   }
 
   void _showLanguageSelector(BuildContext context) {
+    setState(() {
+      _isLanguageModalOpen = true;
+    });
+
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -373,7 +380,11 @@ class _LandingPageState extends State<LandingPage>
           ),
         );
       },
-    );
+    ).then((_) {
+      setState(() {
+        _isLanguageModalOpen = false;
+      });
+    });
   }
 
   Widget _buildFullScreenProfileImage(bool isDark) {

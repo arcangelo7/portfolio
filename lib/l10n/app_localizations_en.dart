@@ -176,7 +176,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get skillGitHubActions => 'GitHub Actions';
 
   @override
-  String get publications => 'Publications';
+  String get publications => 'For Science';
 
   @override
   String get loadingPublications => 'Loading publications...';
@@ -207,7 +207,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get publicationsDescription =>
-      'My published research and academic work';
+      'The official and scientifically rigorous part of my work - where peer review reigns supreme';
 
   @override
   String get categoryAll => 'All';
@@ -453,4 +453,66 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get unaEuropaWorkshop2025Description =>
       'Participation in the Una Europa transdisciplinary workshop for PhD students focused on \'Museums and the new challenges: virtual technologies, societal responsibility and environmental sustainability\'. Presentation titled \'HERITRACE: A User-Friendly Semantic Data Editor with Change Tracking and Provenance Management for Cultural Heritage Institutions\'. [Workshop info](https://site.unibo.it/una-europa/en/focus-areas/una-her-doc-una-europa-phd-workshop) | [Presentation](https://doi.org/10.5281/zenodo.15375770)';
+
+  @override
+  String get astroGodsTitle => 'Against Science';
+
+  @override
+  String get astroGodsSubtitle =>
+      'Egyptian astrology and artificial intelligence';
+
+  @override
+  String get astroGodsCard1Title => 'The complex problem';
+
+  @override
+  String get astroGodsCard1Description =>
+      'Astrological interpretations done well (not those for entertainment) are incredibly complex. They must symbolically unite infinite elements.';
+
+  @override
+  String get astroGodsCard2Title => 'Infinite elements';
+
+  @override
+  String get astroGodsCard2Description =>
+      'Planetary positions in houses and signs, the aspects they form with each other. Each element adds layers of symbolic meaning.';
+
+  @override
+  String get astroGodsCard3Title => 'Exponential complexity';
+
+  @override
+  String get astroGodsCard3Description =>
+      'Complexity multiplies when comparing different people\'s charts or making temporal predictions with current sky positions.';
+
+  @override
+  String get astroGodsCard4Title => 'Egyptian tradition';
+
+  @override
+  String get astroGodsCard4Description =>
+      'Using methodologically grounded Egyptian astrological tradition with equal-area houses (Vehlow system) as foundation.';
+
+  @override
+  String get astroGodsCard5Title => 'Artificial intelligence';
+
+  @override
+  String get astroGodsCard5Description =>
+      'AI processes all elements to unite astrological aspects with broader context, creating comprehensive interpretations.';
+
+  @override
+  String get astroGodsCard6Title => 'Universal insights';
+
+  @override
+  String get astroGodsCard6Description =>
+      'Preliminary analyses accessible to both laypeople and experts as starting points for personal reflection.';
+
+  @override
+  String get astroGodsVisitWebsite => 'Visit AstroGods';
+
+  @override
+  String get astroGodsCollaborate => 'Collaborate with me';
+
+  @override
+  String get astroGodsIframeHidden => 'Iframe hidden during language change';
+
+  @override
+  String get astroGodsVisitForFullExperience =>
+      'Visit the website for the full experience';
 }
