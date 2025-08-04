@@ -50,7 +50,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.textContaining('Arcangelo Massari'), findsAtLeastNWidgets(1));
-    expect(find.textContaining('PhD candidate in Digital Humanities'), findsOneWidget);
+    expect(
+      find.textContaining('PhD candidate in Digital Humanities'),
+      findsOneWidget,
+    );
     expect(find.text('About Me'), findsOneWidget);
     expect(find.text('My toolbox'), findsOneWidget);
     expect(find.text('Find me online'), findsOneWidget);
@@ -64,7 +67,7 @@ void main() {
 
     expect(find.textContaining('Arcangelo Massari'), findsAtLeastNWidgets(1));
     expect(
-      find.textContaining('Dottorando in Digital Humanities'),
+      find.textContaining('Dottorando in Informatica Umanistica'),
       findsOneWidget,
     );
     expect(find.text('Chi Sono'), findsOneWidget);
@@ -79,7 +82,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.textContaining('Arcangelo Massari'), findsAtLeastNWidgets(1));
-    expect(find.textContaining('Candidato a PhD en Humanidades Digitales'), findsOneWidget);
+    expect(
+      find.textContaining('Candidato a PhD en Humanidades Digitales'),
+      findsOneWidget,
+    );
     expect(find.text('Sobre Mí'), findsOneWidget);
     expect(find.text('Mi caja de herramientas'), findsOneWidget);
     expect(find.text('Encuéntrame online'), findsOneWidget);
@@ -185,7 +191,7 @@ void main() {
       of: find.byType(ThemeToggleWidget),
       matching: find.byType(FloatingActionButton),
     );
-    
+
     await tester.tap(themeFab.first);
     await tester.pumpAndSettle();
 
@@ -199,7 +205,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.textContaining('Arcangelo Massari'), findsAtLeastNWidgets(1));
-    expect(find.textContaining('PhD candidate in Digital Humanities'), findsOneWidget);
+    expect(
+      find.textContaining('PhD candidate in Digital Humanities'),
+      findsOneWidget,
+    );
     expect(find.byType(ThemeToggleWidget), findsOneWidget);
     expect(find.byType(FloatingActionButton), findsNWidgets(2));
 
@@ -251,7 +260,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      find.textContaining('Dottorando in Digital Humanities'),
+      find.textContaining('Dottorando in Informatica Umanistica'),
       findsOneWidget,
     );
     expect(find.text('Chi Sono'), findsOneWidget);
@@ -269,7 +278,10 @@ void main() {
     await tester.tap(find.text('English'));
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('PhD candidate in Digital Humanities'), findsOneWidget);
+    expect(
+      find.textContaining('PhD candidate in Digital Humanities'),
+      findsOneWidget,
+    );
     expect(find.text('About Me'), findsOneWidget);
   });
 
@@ -606,23 +618,25 @@ void main() {
     // Get all Image widgets and find the profile image
     final images = tester.widgetList<Image>(imageWidgets);
     final profileImage = images.firstWhere(
-      (image) => 
-        image.image is AssetImage && 
-        (image.image as AssetImage).assetName == 'assets/images/profile_cutout.png',
+      (image) =>
+          image.image is AssetImage &&
+          (image.image as AssetImage).assetName ==
+              'assets/images/profile_cutout.png',
       orElse: () => throw StateError('Profile image not found'),
     );
 
     expect(profileImage.errorBuilder, isNotNull);
 
     if (profileImage.errorBuilder != null) {
-      final profileImageElement = tester.elementList(imageWidgets).firstWhere(
-        (element) {
-          final widget = element.widget as Image;
-          return widget.image is AssetImage && 
-                 (widget.image as AssetImage).assetName == 'assets/images/profile_cutout.png';
-        },
-      );
-      
+      final profileImageElement = tester.elementList(imageWidgets).firstWhere((
+        element,
+      ) {
+        final widget = element.widget as Image;
+        return widget.image is AssetImage &&
+            (widget.image as AssetImage).assetName ==
+                'assets/images/profile_cutout.png';
+      });
+
       final errorWidget = profileImage.errorBuilder!(
         profileImageElement,
         Exception('Test error'),
