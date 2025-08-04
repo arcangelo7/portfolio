@@ -65,20 +65,20 @@ class _ThemeToggleWidgetState extends State<ThemeToggleWidget>
             ),
             child: ClipOval(
               child: Transform.scale(
-                scale: 1.5,
-                child: Image.asset(
-                  widget.isDarkMode
-                      ? 'assets/images/light_mode.png'
-                      : 'assets/images/dark_mode.png',
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Icon(
-                      widget.isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                      size: widget.size * 0.6,
-                      color: widget.isDarkMode ? Colors.orange : Colors.blue,
-                    );
-                  },
-                ),
+                scale: 1.4,
+                child:
+                    widget.isDarkMode
+                        ? Image.asset(
+                          'assets/images/light_mode.png',
+                          fit: BoxFit.cover,
+                        )
+                        : Transform.translate(
+                          offset: const Offset(5.0, 2.0),
+                          child: Image.asset(
+                            'assets/images/dark_mode.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
               ),
             ),
           ),

@@ -212,26 +212,25 @@ class _LandingPageState extends State<LandingPage>
         children: [
           FloatingActionButton(
             heroTag: "theme_toggle",
-            mini: true,
             shape: const CircleBorder(),
             onPressed: widget.onThemeToggle,
             backgroundColor: Theme.of(context).colorScheme.primary,
             child: ThemeToggleWidget(
               isDarkMode: widget.isDarkMode,
               onToggle: () {}, // Il toggle è gestito dall'onPressed del FAB
-              size: 32.0,
+              size: 40.0,
             ),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
             heroTag: "language_selector",
-            mini: true,
             shape: const CircleBorder(),
             onPressed: () => _showLanguageSelector(context),
             backgroundColor: Theme.of(context).colorScheme.secondary,
             child: Icon(
               Icons.language,
               color: Theme.of(context).colorScheme.onSecondary,
+              size: 32.0,
             ),
           ),
         ],
