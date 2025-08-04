@@ -465,11 +465,12 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isMobile = MediaQuery.of(context).size.width < 768;
 
     return Container(
       key: _publicationsSectionKey,
       margin: const EdgeInsets.symmetric(vertical: 32),
-      padding: const EdgeInsets.all(64),
+      padding: EdgeInsets.all(isMobile? 20 : 64),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         boxShadow: [

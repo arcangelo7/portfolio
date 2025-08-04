@@ -133,8 +133,26 @@ class LandingPage extends StatefulWidget {
   State<LandingPage> createState() => _LandingPageState();
 }
 
-class _LandingPageState extends State<LandingPage> {
+class _LandingPageState extends State<LandingPage>
+    with TickerProviderStateMixin {
   final GlobalKey _publicationsKey = GlobalKey();
+  bool _isFabExpanded = false;
+  late AnimationController _fabAnimationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _fabAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _fabAnimationController.dispose();
+    super.dispose();
+  }
 
   void _scrollToPublications() {
     final context = _publicationsKey.currentContext;
@@ -147,8 +165,20 @@ class _LandingPageState extends State<LandingPage> {
     }
   }
 
+  void _toggleFab() {
+    setState(() {
+      _isFabExpanded = !_isFabExpanded;
+      if (_isFabExpanded) {
+        _fabAnimationController.forward();
+      } else {
+        _fabAnimationController.reverse();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 768;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -161,8 +191,12 @@ class _LandingPageState extends State<LandingPage> {
           ],
         ),
       ),
-      floatingActionButton: _buildFloatingControls(context),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButton: isMobile 
+          ? _buildExpandableFab(context)
+          : _buildFloatingControls(context),
+      floatingActionButtonLocation: isMobile 
+          ? FloatingActionButtonLocation.endFloat
+          : FloatingActionButtonLocation.endTop,
     );
   }
 
@@ -175,6 +209,7 @@ class _LandingPageState extends State<LandingPage> {
           FloatingActionButton(
             heroTag: "theme_toggle",
             mini: true,
+            shape: const CircleBorder(),
             onPressed: widget.onThemeToggle,
             backgroundColor: Theme.of(context).colorScheme.primary,
             child: Icon(
@@ -182,10 +217,11 @@ class _LandingPageState extends State<LandingPage> {
               color: Theme.of(context).colorScheme.onPrimary,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
           FloatingActionButton(
             heroTag: "language_selector",
             mini: true,
+            shape: const CircleBorder(),
             onPressed: () => _showLanguageSelector(context),
             backgroundColor: Theme.of(context).colorScheme.secondary,
             child: Icon(
@@ -195,6 +231,83 @@ class _LandingPageState extends State<LandingPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildExpandableFab(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Theme toggle FAB
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          height: _isFabExpanded ? 40 : 0,
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 300),
+            opacity: _isFabExpanded ? 1.0 : 0.0,
+            child: _isFabExpanded
+                ? FloatingActionButton(
+                    heroTag: "theme_toggle_mobile",
+                    mini: true,
+                    shape: const CircleBorder(),
+                    onPressed: () {
+                      widget.onThemeToggle();
+                      _toggleFab();
+                    },
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    child: Icon(
+                      widget.isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
+        ),
+        if (_isFabExpanded) const SizedBox(height: 16),
+        // Language selector FAB
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          height: _isFabExpanded ? 40 : 0,
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 300),
+            opacity: _isFabExpanded ? 1.0 : 0.0,
+            child: _isFabExpanded
+                ? FloatingActionButton(
+                    heroTag: "language_selector_mobile",
+                    mini: true,
+                    shape: const CircleBorder(),
+                    onPressed: () {
+                      _showLanguageSelector(context);
+                      _toggleFab();
+                    },
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    child: Icon(
+                      Icons.language,
+                      color: Theme.of(context).colorScheme.onSecondary,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ),
+        ),
+        if (_isFabExpanded) const SizedBox(height: 16),
+        // Main FAB
+        FloatingActionButton(
+          heroTag: "main_fab_mobile",
+          shape: const CircleBorder(),
+          onPressed: _toggleFab,
+          backgroundColor: Theme.of(context).colorScheme.tertiary,
+          child: AnimatedRotation(
+            turns: _isFabExpanded ? 0.375 : 0.0, // 135 degrees
+            duration: const Duration(milliseconds: 300),
+            child: Icon(
+              _isFabExpanded ? Icons.close : Icons.settings,
+              color: Theme.of(context).colorScheme.onTertiary,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -285,8 +398,8 @@ class _LandingPageState extends State<LandingPage> {
 
           // Text content - responsive positioning
           Positioned(
-            left: isMobile ? 20 : 60,
-            right: isMobile ? 20 : null,
+            left: isMobile ? 16 : 60,
+            right: isMobile ? 16 : null,
             top: 0,
             bottom: 0,
             child: SizedBox(
@@ -364,7 +477,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget _buildAboutSection(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
     return Container(
-      padding: EdgeInsets.all(isMobile ? 32 : 64),
+      padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
           Text(
@@ -516,7 +629,7 @@ class _LandingPageState extends State<LandingPage> {
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16),
-      padding: EdgeInsets.all(isMobile ? 32 : 64),
+      padding: EdgeInsets.all(isMobile ? 20 : 64),
       color: Theme.of(context).colorScheme.surfaceContainer,
       child: Column(
         children: [
@@ -541,7 +654,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget _buildContactSection(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
     return Container(
-      padding: EdgeInsets.all(isMobile ? 32 : 64),
+      padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
           Text(
