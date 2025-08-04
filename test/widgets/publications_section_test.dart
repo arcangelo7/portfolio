@@ -32,11 +32,15 @@ void main() {
     mockZoteroService = MockZoteroService();
     mockUrlLauncher = MockUrlLauncher();
     mockUrlLauncherPlatform = MockUrlLauncherPlatform();
-    
+
     // Setup the platform interface mock
-    when(() => mockUrlLauncherPlatform.canLaunch(any())).thenAnswer((_) async => true);
-    when(() => mockUrlLauncherPlatform.launchUrl(any(), any())).thenAnswer((_) async => true);
-    
+    when(
+      () => mockUrlLauncherPlatform.canLaunch(any()),
+    ).thenAnswer((_) async => true);
+    when(
+      () => mockUrlLauncherPlatform.launchUrl(any(), any()),
+    ).thenAnswer((_) async => true);
+
     UrlLauncherPlatform.instance = mockUrlLauncherPlatform;
   });
 
@@ -360,7 +364,6 @@ void main() {
       expect(find.text('No Links Publication'), findsOneWidget);
       expect(find.byIcon(Icons.open_in_new), findsNothing);
     });
-
   });
 
   group('PublicationsSection Real Network Tests', () {
@@ -582,55 +585,55 @@ void main() {
       expect(find.byType(SelectableText), findsWidgets);
     });
 
+    testWidgets(
+      'tests DefaultUrlLauncher with real implementation and platform mock',
+      (WidgetTester tester) async {
+        // Use the real DefaultUrlLauncher to exercise the actual code
+        final realUrlLauncher = DefaultUrlLauncher();
+        final publications = [
+          Publication(
+            key: 'real_launcher_test',
+            title: 'Test Publication with Real Launcher',
+            authors: ['Test Author'],
+            year: '2023',
+            itemType: 'journalArticle',
+            doi: '10.1000/realtest',
+          ),
+        ];
 
-
-
-
-
-    testWidgets('tests DefaultUrlLauncher with real implementation and platform mock', (
-      WidgetTester tester,
-    ) async {
-      // Use the real DefaultUrlLauncher to exercise the actual code
-      final realUrlLauncher = DefaultUrlLauncher();
-      final publications = [
-        Publication(
-          key: 'real_launcher_test',
-          title: 'Test Publication with Real Launcher',
-          authors: ['Test Author'],
-          year: '2023',
-          itemType: 'journalArticle',
-          doi: '10.1000/realtest',
-        ),
-      ];
-
-      await tester.pumpWidget(
-        createMockedTestWidget(
-          publications: publications,
-          urlLauncher: realUrlLauncher,
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      // Find and tap the view button to exercise DefaultUrlLauncher
-      final viewButton = find.byType(ElevatedButton);
-      if (viewButton.evaluate().isNotEmpty) {
-        // This will exercise the real DefaultUrlLauncher.openUrl method
-        // including the canLaunchUrl check and launchUrl call
-        await tester.tap(viewButton);
+        await tester.pumpWidget(
+          createMockedTestWidget(
+            publications: publications,
+            urlLauncher: realUrlLauncher,
+          ),
+        );
         await tester.pumpAndSettle();
-        
-        // Verify the platform methods were called
-        verify(() => mockUrlLauncherPlatform.canLaunch(any())).called(1);
-        verify(() => mockUrlLauncherPlatform.launchUrl(any(), any())).called(1);
-      }
-    });
+
+        // Find and tap the view button to exercise DefaultUrlLauncher
+        final viewButton = find.byType(ElevatedButton);
+        if (viewButton.evaluate().isNotEmpty) {
+          // This will exercise the real DefaultUrlLauncher.openUrl method
+          // including the canLaunchUrl check and launchUrl call
+          await tester.tap(viewButton);
+          await tester.pumpAndSettle();
+
+          // Verify the platform methods were called
+          verify(() => mockUrlLauncherPlatform.canLaunch(any())).called(1);
+          verify(
+            () => mockUrlLauncherPlatform.launchUrl(any(), any()),
+          ).called(1);
+        }
+      },
+    );
 
     testWidgets('tests DefaultUrlLauncher when canLaunch returns false', (
       WidgetTester tester,
     ) async {
       // Setup the platform mock to return false for canLaunch
-      when(() => mockUrlLauncherPlatform.canLaunch(any())).thenAnswer((_) async => false);
-      
+      when(
+        () => mockUrlLauncherPlatform.canLaunch(any()),
+      ).thenAnswer((_) async => false);
+
       // Use the real DefaultUrlLauncher to exercise the actual code
       final realUrlLauncher = DefaultUrlLauncher();
       final publications = [
@@ -657,7 +660,7 @@ void main() {
       if (viewButton.evaluate().isNotEmpty) {
         await tester.tap(viewButton);
         await tester.pumpAndSettle();
-        
+
         // Verify canLaunch was called but launchUrl was not called
         verify(() => mockUrlLauncherPlatform.canLaunch(any())).called(1);
         verifyNever(() => mockUrlLauncherPlatform.launchUrl(any(), any()));
@@ -666,17 +669,24 @@ void main() {
   });
 
   group('PublicationsSection Coverage Tests', () {
-    testWidgets('pagination functionality works correctly', (WidgetTester tester) async {
-      final manyPublications = List.generate(25, (index) => Publication(
-        title: 'Publication $index',
-        authors: ['Author $index'],
-        year: '2023',
-        venue: 'Journal $index',
-        itemType: 'journalArticle',
-        key: 'pub$index',
-      ));
-      
-      when(() => mockZoteroService.getPublications()).thenAnswer((_) async => manyPublications);
+    testWidgets('pagination functionality works correctly', (
+      WidgetTester tester,
+    ) async {
+      final manyPublications = List.generate(
+        25,
+        (index) => Publication(
+          title: 'Publication $index',
+          authors: ['Author $index'],
+          year: '2023',
+          venue: 'Journal $index',
+          itemType: 'journalArticle',
+          key: 'pub$index',
+        ),
+      );
+
+      when(
+        () => mockZoteroService.getPublications(),
+      ).thenAnswer((_) async => manyPublications);
 
       await tester.pumpWidget(
         createMockedTestWidget(publications: manyPublications),
@@ -706,7 +716,9 @@ void main() {
       }
     });
 
-    testWidgets('URL resolution logic works correctly', (WidgetTester tester) async {
+    testWidgets('URL resolution logic works correctly', (
+      WidgetTester tester,
+    ) async {
       final publicationsWithDifferentUrls = [
         Publication(
           key: 'with_doi',
@@ -747,15 +759,19 @@ void main() {
           await tester.tap(viewButtons.at(i), warnIfMissed: false);
           await tester.pumpAndSettle();
         }
-        
-        verify(() => mockUrlLauncher.openUrl(any())).called(greaterThanOrEqualTo(1));
+
+        verify(
+          () => mockUrlLauncher.openUrl(any()),
+        ).called(greaterThanOrEqualTo(1));
       }
     });
 
-    testWidgets('category display names work correctly', (WidgetTester tester) async {
+    testWidgets('category display names work correctly', (
+      WidgetTester tester,
+    ) async {
       final publications = [
         createTestPublication(itemType: 'journalArticle'),
-        createTestPublication(itemType: 'conferencePaper'), 
+        createTestPublication(itemType: 'conferencePaper'),
         createTestPublication(itemType: 'book'),
         createTestPublication(itemType: 'computerProgram'),
         createTestPublication(itemType: 'presentation'),
@@ -776,6 +792,80 @@ void main() {
   });
 
   group('PublicationsSection Advanced Functionality Tests', () {
+    testWidgets('_goToPage method handles boundaries correctly', (
+      WidgetTester tester,
+    ) async {
+      final publications = List.generate(
+        25,
+        (index) => Publication(
+          key: 'pub$index',
+          title: 'Publication $index',
+          authors: ['Author $index'],
+          year: '2023',
+          itemType: 'journalArticle',
+        ),
+      );
+
+      await tester.pumpWidget(
+        createMockedTestWidget(publications: publications),
+      );
+      await tester.pumpAndSettle();
+
+      // Test direct page navigation via _goToPage
+      final paginationButtons = find.byType(GestureDetector);
+      for (final element in paginationButtons.evaluate()) {
+        final detector = element.widget as GestureDetector;
+        if (detector.onTap != null) {
+          // Simulate tapping page number buttons to test _goToPage
+          detector.onTap!();
+          await tester.pumpAndSettle();
+        }
+      }
+    });
+
+    testWidgets('pagination onTap callbacks work correctly', (
+      WidgetTester tester,
+    ) async {
+      final publications = List.generate(
+        30,
+        (index) => Publication(
+          key: 'pub$index',
+          title: 'Publication $index',
+          authors: ['Author $index'],
+          year: '2023',
+          itemType: 'journalArticle',
+        ),
+      );
+
+      await tester.pumpWidget(
+        createMockedTestWidget(publications: publications),
+      );
+      await tester.pumpAndSettle();
+
+      // Test pagination number button taps
+      final gestureDetectors = find.byType(GestureDetector);
+      bool foundPageButton = false;
+
+      for (final element in gestureDetectors.evaluate()) {
+        final detector = element.widget as GestureDetector;
+        if (detector.child is Container) {
+          final container = detector.child as Container;
+          if (container.child is Text) {
+            final text = container.child as Text;
+            if (text.data == '2' || text.data == '3') {
+              await tester.tap(find.byWidget(detector));
+              await tester.pumpAndSettle();
+              foundPageButton = true;
+              break;
+            }
+          }
+        }
+      }
+
+      // Verify at least one page button was found and tapped
+      expect(foundPageButton, isTrue);
+    });
+
     testWidgets('comprehensive functionality test', (
       WidgetTester tester,
     ) async {

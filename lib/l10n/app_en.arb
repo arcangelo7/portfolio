@@ -81,5 +81,13 @@
   "abstract": "Abstract",
   "readMore": "Read more",
   "previousPage": "Previous page",
-  "nextPage": "Next page"
+  "nextPage": "Next page",
+  "email": "Email",
+  "professionalWebsite": "Institutional website",
+  "github": "GitHub",
+  "orcid": "ORCID",
+  "linkedin": "LinkedIn",
+  "instagram": "Instagram",
+  "facebook": "Facebook",
+  "twitter": "X (Twitter)"
 }

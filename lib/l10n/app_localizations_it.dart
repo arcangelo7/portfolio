@@ -261,4 +261,28 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get nextPage => 'Pagina successiva';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get professionalWebsite => 'Sito istituzionale';
+
+  @override
+  String get github => 'GitHub';
+
+  @override
+  String get orcid => 'ORCID';
+
+  @override
+  String get linkedin => 'LinkedIn';
+
+  @override
+  String get instagram => 'Instagram';
+
+  @override
+  String get facebook => 'Facebook';
+
+  @override
+  String get twitter => 'X (Twitter)';
 }

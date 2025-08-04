@@ -4,7 +4,7 @@
 [![Coverage](test/coverage-badge.svg)](https://arcangelo7.github.io/portfolio/test/coverage/)
 [![Built with Flutter](https://img.shields.io/badge/Built%20with-Flutter-02569B?style=flat&logo=flutter)](https://flutter.dev)
 
-A responsive Flutter portfolio website showcasing my professional profile and skills.
+A responsive Flutter portfolio website showcasing my institutional profile and skills.
 
 **🌐 Portfolio Website**: [https://arcangelo7.github.io/portfolio/](https://arcangelo7.github.io/portfolio/)
 

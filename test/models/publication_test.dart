@@ -809,6 +809,40 @@ void main() {
         equals('John Doe (2023). Test Publication Title. Unknown Venue.'),
       );
     });
+
+    test('should format citation without venue when journal is empty string', () {
+      const publication = Publication(
+        key: 'CITATION_EMPTY_JOURNAL',
+        title: 'Test Publication Title',
+        authors: ['John Doe'],
+        itemType: 'journalArticle',
+        year: '2023',
+        journal: '',
+        venue: null,
+      );
+
+      expect(
+        publication.citation,
+        equals('John Doe (2023). Test Publication Title.'),
+      );
+    });
+
+    test('should format citation without venue when both journal and venue are empty strings', () {
+      const publication = Publication(
+        key: 'CITATION_EMPTY_BOTH',
+        title: 'Test Publication Title',
+        authors: ['Jane Smith'],
+        itemType: 'book',
+        year: '2024',
+        journal: '',
+        venue: '',
+      );
+
+      expect(
+        publication.citation,
+        equals('Jane Smith (2024). Test Publication Title.'),
+      );
+    });
   });
 
   group('Publication equality and hashCode', () {

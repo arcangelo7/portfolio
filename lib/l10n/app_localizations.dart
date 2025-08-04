@@ -597,6 +597,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Next page'**
   String get nextPage;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @professionalWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Institutional website'**
+  String get professionalWebsite;
+
+  /// No description provided for @github.
+  ///
+  /// In en, this message translates to:
+  /// **'GitHub'**
+  String get github;
+
+  /// No description provided for @orcid.
+  ///
+  /// In en, this message translates to:
+  /// **'ORCID'**
+  String get orcid;
+
+  /// No description provided for @linkedin.
+  ///
+  /// In en, this message translates to:
+  /// **'LinkedIn'**
+  String get linkedin;
+
+  /// No description provided for @instagram.
+  ///
+  /// In en, this message translates to:
+  /// **'Instagram'**
+  String get instagram;
+
+  /// No description provided for @facebook.
+  ///
+  /// In en, this message translates to:
+  /// **'Facebook'**
+  String get facebook;
+
+  /// No description provided for @twitter.
+  ///
+  /// In en, this message translates to:
+  /// **'X (Twitter)'**
+  String get twitter;
 }
 
 class _AppLocalizationsDelegate

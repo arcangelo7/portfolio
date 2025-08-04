@@ -653,12 +653,18 @@ class _LandingPageState extends State<LandingPage>
 
   Widget _buildContactSection(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
+    final l10n = AppLocalizations.of(context)!;
+    
+    final professionalWebsiteUrl = widget.currentLocale.languageCode == 'it' 
+        ? 'https://www.unibo.it/sitoweb/arcangelo.massari'
+        : 'https://www.unibo.it/sitoweb/arcangelo.massari/en';
+    
     return Container(
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
           Text(
-            AppLocalizations.of(context)!.getInTouch,
+            l10n.getInTouch,
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.primary,
@@ -666,34 +672,80 @@ class _LandingPageState extends State<LandingPage>
             ),
           ),
           const SizedBox(height: 32),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: isMobile ? 16 : 24,
+            runSpacing: isMobile ? 16 : 24,
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.email),
-                iconSize: isMobile ? 28 : 32,
-                color: Theme.of(context).colorScheme.tertiary,
+              _buildContactButton(
+                context,
+                Icons.email,
+                l10n.email,
+                'mailto:arcangelo.massari@unibo.it',
+                Theme.of(context).colorScheme.tertiary,
+                isMobile,
               ),
-              SizedBox(width: isMobile ? 12 : 16),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.web),
-                iconSize: isMobile ? 28 : 32,
-                color: Theme.of(context).colorScheme.secondary,
+              _buildContactButton(
+                context,
+                Icons.web,
+                l10n.professionalWebsite,
+                professionalWebsiteUrl,
+                Theme.of(context).colorScheme.secondary,
+                isMobile,
               ),
-              SizedBox(width: isMobile ? 12 : 16),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.code),
-                iconSize: isMobile ? 28 : 32,
-                color: Theme.of(context).colorScheme.primary,
+              _buildContactButton(
+                context,
+                Icons.code,
+                l10n.github,
+                'https://github.com/arcangelo7',
+                Theme.of(context).colorScheme.primary,
+                isMobile,
+              ),
+              _buildContactButton(
+                context,
+                Icons.science,
+                l10n.orcid,
+                'https://orcid.org/0000-0002-8420-0696',
+                const Color(0xFFA6CE39),
+                isMobile,
+              ),
+              _buildContactButton(
+                context,
+                Icons.work,
+                l10n.linkedin,
+                'https://www.linkedin.com/in/arcangelo-massari-4a736822b/',
+                const Color(0xFF0077B5),
+                isMobile,
+              ),
+              _buildContactButton(
+                context,
+                Icons.camera_alt,
+                l10n.instagram,
+                'https://www.instagram.com/arcangelomassari/',
+                const Color(0xFFE4405F),
+                isMobile,
+              ),
+              _buildContactButton(
+                context,
+                Icons.facebook,
+                l10n.facebook,
+                'https://www.facebook.com/arcangelo.massari',
+                const Color(0xFF1877F2),
+                isMobile,
+              ),
+              _buildContactButton(
+                context,
+                Icons.alternate_email,
+                l10n.twitter,
+                'https://x.com/arcangelo_wd',
+                const Color(0xFF000000),
+                isMobile,
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 32),
           Text(
-            AppLocalizations.of(context)!.copyright,
+            l10n.copyright,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: Theme.of(
                 context,
@@ -704,6 +756,50 @@ class _LandingPageState extends State<LandingPage>
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildContactButton(
+    BuildContext context,
+    IconData icon,
+    String label,
+    String url,
+    Color color,
+    bool isMobile,
+  ) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () => _launchUrl(url),
+            borderRadius: BorderRadius.circular(50),
+            child: Container(
+              padding: EdgeInsets.all(isMobile ? 12 : 16),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.1),
+                border: Border.all(color: color.withValues(alpha: 0.3)),
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: Icon(
+                icon,
+                size: isMobile ? 24 : 28,
+                color: color,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          label,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
+            fontSize: isMobile ? 11 : 12,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 }

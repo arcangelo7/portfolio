@@ -262,4 +262,28 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get nextPage => 'Página siguiente';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get professionalWebsite => 'Sitio institucional';
+
+  @override
+  String get github => 'GitHub';
+
+  @override
+  String get orcid => 'ORCID';
+
+  @override
+  String get linkedin => 'LinkedIn';
+
+  @override
+  String get instagram => 'Instagram';
+
+  @override
+  String get facebook => 'Facebook';
+
+  @override
+  String get twitter => 'X (Twitter)';
 }
