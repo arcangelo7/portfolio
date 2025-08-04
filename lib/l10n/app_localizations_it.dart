@@ -31,31 +31,31 @@ class AppLocalizationsIt extends AppLocalizations {
   String get skills => 'Competenze';
 
   @override
-  String get getInTouch => 'Contattami';
+  String get getInTouch => 'Dove trovarmi';
 
   @override
   String get copyright => '© 2025 Arcangelo. Tutti i diritti riservati.';
 
   @override
-  String get skillCategoryProgrammingLanguages => 'Linguaggi di Programmazione';
+  String get skillCategoryProgrammingLanguages => 'Linguaggi di programmazione';
 
   @override
-  String get skillCategoryMarkupAndTemplating => 'Markup e Templating';
+  String get skillCategoryMarkupAndTemplating => 'Markup e templating';
 
   @override
-  String get skillCategoryStylingAndDesign => 'Styling e Design';
+  String get skillCategoryStylingAndDesign => 'Styling e design';
 
   @override
-  String get skillCategoryQueryAndTransform => 'Query e Trasformazione';
+  String get skillCategoryQueryAndTransform => 'Query e trasformazione';
 
   @override
-  String get skillCategorySemanticWebAndRDF => 'Semantic Web e RDF';
+  String get skillCategorySemanticWebAndRDF => 'Semantic web e RDF';
 
   @override
-  String get skillCategoryFrontendLibraries => 'Librerie Frontend';
+  String get skillCategoryFrontendLibraries => 'Librerie frontend';
 
   @override
-  String get skillCategoryBackendFrameworks => 'Framework Backend';
+  String get skillCategoryBackendFrameworks => 'Framework backend';
 
   @override
   String get skillCategoryDatabases => 'Database';
@@ -64,7 +64,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get skillCategoryInfrastructureDevOps => 'Infrastruttura e DevOps';
 
   @override
-  String get skillCategoryOperatingSystems => 'Sistemi Operativi';
+  String get skillCategoryOperatingSystems => 'Sistemi operativi';
 
   @override
   String get skillPython => 'Python';
@@ -209,16 +209,16 @@ class AppLocalizationsIt extends AppLocalizations {
   String get categoryAll => 'Tutte';
 
   @override
-  String get categoryJournalArticle => 'Articolo di Rivista';
+  String get categoryJournalArticle => 'Articolo di rivista';
 
   @override
-  String get categoryConferencePaper => 'Paper di Conferenza';
+  String get categoryConferencePaper => 'Paper di conferenza';
 
   @override
   String get categoryBook => 'Libro';
 
   @override
-  String get categoryBookSection => 'Capitolo di Libro';
+  String get categoryBookSection => 'Capitolo di libro';
 
   @override
   String get categorySoftware => 'Software';

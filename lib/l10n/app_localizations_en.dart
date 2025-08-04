@@ -15,7 +15,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get name => 'Arcangelo Massari';
 
   @override
-  String get jobTitle => 'PhD Candidate in Digital Humanities';
+  String get jobTitle => 'PhD candidate in Digital Humanities';
 
   @override
   String get viewMyWork => 'Check out my projects';
@@ -31,31 +31,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get skills => 'Skills';
 
   @override
-  String get getInTouch => 'Get In Touch';
+  String get getInTouch => 'Find me online';
 
   @override
   String get copyright => '© 2025 Arcangelo Massari. All rights reserved.';
 
   @override
-  String get skillCategoryProgrammingLanguages => 'Programming Languages';
+  String get skillCategoryProgrammingLanguages => 'Programming languages';
 
   @override
-  String get skillCategoryMarkupAndTemplating => 'Markup & Templating';
+  String get skillCategoryMarkupAndTemplating => 'Markup & templating';
 
   @override
-  String get skillCategoryStylingAndDesign => 'Styling & Design';
+  String get skillCategoryStylingAndDesign => 'Styling & design';
 
   @override
-  String get skillCategoryQueryAndTransform => 'Query & Transform';
+  String get skillCategoryQueryAndTransform => 'Query & transform';
 
   @override
-  String get skillCategorySemanticWebAndRDF => 'Semantic Web & RDF';
+  String get skillCategorySemanticWebAndRDF => 'Semantic web & RDF';
 
   @override
-  String get skillCategoryFrontendLibraries => 'Frontend Libraries';
+  String get skillCategoryFrontendLibraries => 'Frontend libraries';
 
   @override
-  String get skillCategoryBackendFrameworks => 'Backend Frameworks';
+  String get skillCategoryBackendFrameworks => 'Backend frameworks';
 
   @override
   String get skillCategoryDatabases => 'Databases';
@@ -64,7 +64,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get skillCategoryInfrastructureDevOps => 'Infrastructure & DevOps';
 
   @override
-  String get skillCategoryOperatingSystems => 'Operating Systems';
+  String get skillCategoryOperatingSystems => 'Operating systems';
 
   @override
   String get skillPython => 'Python';
@@ -209,16 +209,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get categoryAll => 'All';
 
   @override
-  String get categoryJournalArticle => 'Journal Article';
+  String get categoryJournalArticle => 'Journal article';
 
   @override
-  String get categoryConferencePaper => 'Conference Paper';
+  String get categoryConferencePaper => 'Conference paper';
 
   @override
   String get categoryBook => 'Book';
 
   @override
-  String get categoryBookSection => 'Book Section';
+  String get categoryBookSection => 'Book section';
 
   @override
   String get categorySoftware => 'Software';

@@ -115,7 +115,7 @@ abstract class AppLocalizations {
   /// No description provided for @jobTitle.
   ///
   /// In en, this message translates to:
-  /// **'PhD Candidate in Digital Humanities'**
+  /// **'PhD candidate in Digital Humanities'**
   String get jobTitle;
 
   /// No description provided for @viewMyWork.
@@ -145,7 +145,7 @@ abstract class AppLocalizations {
   /// No description provided for @getInTouch.
   ///
   /// In en, this message translates to:
-  /// **'Get In Touch'**
+  /// **'Find me online'**
   String get getInTouch;
 
   /// No description provided for @copyright.
@@ -157,43 +157,43 @@ abstract class AppLocalizations {
   /// No description provided for @skillCategoryProgrammingLanguages.
   ///
   /// In en, this message translates to:
-  /// **'Programming Languages'**
+  /// **'Programming languages'**
   String get skillCategoryProgrammingLanguages;
 
   /// No description provided for @skillCategoryMarkupAndTemplating.
   ///
   /// In en, this message translates to:
-  /// **'Markup & Templating'**
+  /// **'Markup & templating'**
   String get skillCategoryMarkupAndTemplating;
 
   /// No description provided for @skillCategoryStylingAndDesign.
   ///
   /// In en, this message translates to:
-  /// **'Styling & Design'**
+  /// **'Styling & design'**
   String get skillCategoryStylingAndDesign;
 
   /// No description provided for @skillCategoryQueryAndTransform.
   ///
   /// In en, this message translates to:
-  /// **'Query & Transform'**
+  /// **'Query & transform'**
   String get skillCategoryQueryAndTransform;
 
   /// No description provided for @skillCategorySemanticWebAndRDF.
   ///
   /// In en, this message translates to:
-  /// **'Semantic Web & RDF'**
+  /// **'Semantic web & RDF'**
   String get skillCategorySemanticWebAndRDF;
 
   /// No description provided for @skillCategoryFrontendLibraries.
   ///
   /// In en, this message translates to:
-  /// **'Frontend Libraries'**
+  /// **'Frontend libraries'**
   String get skillCategoryFrontendLibraries;
 
   /// No description provided for @skillCategoryBackendFrameworks.
   ///
   /// In en, this message translates to:
-  /// **'Backend Frameworks'**
+  /// **'Backend frameworks'**
   String get skillCategoryBackendFrameworks;
 
   /// No description provided for @skillCategoryDatabases.
@@ -211,7 +211,7 @@ abstract class AppLocalizations {
   /// No description provided for @skillCategoryOperatingSystems.
   ///
   /// In en, this message translates to:
-  /// **'Operating Systems'**
+  /// **'Operating systems'**
   String get skillCategoryOperatingSystems;
 
   /// No description provided for @skillPython.
@@ -499,13 +499,13 @@ abstract class AppLocalizations {
   /// No description provided for @categoryJournalArticle.
   ///
   /// In en, this message translates to:
-  /// **'Journal Article'**
+  /// **'Journal article'**
   String get categoryJournalArticle;
 
   /// No description provided for @categoryConferencePaper.
   ///
   /// In en, this message translates to:
-  /// **'Conference Paper'**
+  /// **'Conference paper'**
   String get categoryConferencePaper;
 
   /// No description provided for @categoryBook.
@@ -517,7 +517,7 @@ abstract class AppLocalizations {
   /// No description provided for @categoryBookSection.
   ///
   /// In en, this message translates to:
-  /// **'Book Section'**
+  /// **'Book section'**
   String get categoryBookSection;
 
   /// No description provided for @categorySoftware.

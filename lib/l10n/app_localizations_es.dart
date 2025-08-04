@@ -31,41 +31,41 @@ class AppLocalizationsEs extends AppLocalizations {
   String get skills => 'Habilidades';
 
   @override
-  String get getInTouch => 'Ponte en Contacto';
+  String get getInTouch => 'Encuéntrame online';
 
   @override
   String get copyright =>
       '© 2025 Arcangelo Massari. Todos los derechos reservados.';
 
   @override
-  String get skillCategoryProgrammingLanguages => 'Lenguajes de Programación';
+  String get skillCategoryProgrammingLanguages => 'Lenguajes de programación';
 
   @override
-  String get skillCategoryMarkupAndTemplating => 'Marcado y Templating';
+  String get skillCategoryMarkupAndTemplating => 'Marcado y templating';
 
   @override
-  String get skillCategoryStylingAndDesign => 'Estilo y Diseño';
+  String get skillCategoryStylingAndDesign => 'Estilo y diseño';
 
   @override
-  String get skillCategoryQueryAndTransform => 'Consulta y Transformación';
+  String get skillCategoryQueryAndTransform => 'Consulta y transformación';
 
   @override
-  String get skillCategorySemanticWebAndRDF => 'Web Semántica y RDF';
+  String get skillCategorySemanticWebAndRDF => 'Web semántica y RDF';
 
   @override
-  String get skillCategoryFrontendLibraries => 'Librerías Frontend';
+  String get skillCategoryFrontendLibraries => 'Librerías frontend';
 
   @override
-  String get skillCategoryBackendFrameworks => 'Frameworks Backend';
+  String get skillCategoryBackendFrameworks => 'Frameworks backend';
 
   @override
-  String get skillCategoryDatabases => 'Bases de Datos';
+  String get skillCategoryDatabases => 'Bases de datos';
 
   @override
   String get skillCategoryInfrastructureDevOps => 'Infraestructura y DevOps';
 
   @override
-  String get skillCategoryOperatingSystems => 'Sistemas Operativos';
+  String get skillCategoryOperatingSystems => 'Sistemas operativos';
 
   @override
   String get skillPython => 'Python';
@@ -210,16 +210,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get categoryAll => 'Todas';
 
   @override
-  String get categoryJournalArticle => 'Artículo de Revista';
+  String get categoryJournalArticle => 'Artículo de revista';
 
   @override
-  String get categoryConferencePaper => 'Paper de Conferencia';
+  String get categoryConferencePaper => 'Paper de conferencia';
 
   @override
   String get categoryBook => 'Libro';
 
   @override
-  String get categoryBookSection => 'Capítulo de Libro';
+  String get categoryBookSection => 'Capítulo de libro';
 
   @override
   String get categorySoftware => 'Software';
