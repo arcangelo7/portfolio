@@ -290,4 +290,97 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get twitter => 'X (Twitter)';
+
+  @override
+  String get workExperience => 'Esperienza lavorativa';
+
+  @override
+  String get education => 'Istruzione e formazione';
+
+  @override
+  String get tutorTitle => 'Tutor didattico';
+
+  @override
+  String get universityBologna => 'Alma Mater Studiorum Università di Bologna';
+
+  @override
+  String get tutorPeriod => 'Ott 2022 - Attuale';
+
+  @override
+  String get tutorDescription =>
+      'Sessioni di laboratorio per l\'insegnamento di [Computational Management of Data](https://www.unibo.it/it/studiare/insegnamenti-competenze-trasversali-moocs/insegnamenti/insegnamento/2025/542133) del corso di Laurea Magistrale in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) dell\'Università di Bologna.';
+
+  @override
+  String get researchFellowTitle => 'Assegnista di ricerca';
+
+  @override
+  String get researchCentreOpenScholarly =>
+      'Research Centre for Open Scholarly Metadata (Università di Bologna)';
+
+  @override
+  String get researchFellowPeriod => 'Nov 2021 - Ott 2022';
+
+  @override
+  String get researchFellowDescription =>
+      'Coinvolto nel progetto [OpenAIRE-Nexus](https://www.openaire.eu/openaire-nexus-project) e ho sviluppato software per integrare le citazioni aperte di [OpenCitations](https://opencitations.net/) nell\'European Open Science Cloud.';
+
+  @override
+  String get phdCulturalHeritageTitle =>
+      'Dottorato in patrimonio culturale nell\'ecosistema digitale';
+
+  @override
+  String get phdCulturalHeritagePeriod => 'Nov 2022 - Attuale';
+
+  @override
+  String get phdCulturalHeritageDescription =>
+      'Ricerca dottorale incentrata sulla creazione di interfacce user-friendly per dati semantici, specificamente tecnologie del Semantic Web con focus su change tracking e provenance. Il focus principale è [HERITRACE](https://opencitations.github.io/heritrace/), che ha vinto il [Premio Gigliozzi](https://www.aiucd.it/premio-gigliozzi-2024/) per la miglior presentazione alla conferenza AIUCD 2024. Maggiori info: [Programma di dottorato](https://phd.unibo.it/chede).';
+
+  @override
+  String get phdEngineeringTitle => 'Dottorato in tecnologia dell\'ingegneria';
+
+  @override
+  String get kuLeuven => 'Katholieke Universiteit Leuven (Belgio)';
+
+  @override
+  String get phdEngineeringPeriod => 'Mar 2023 - Attuale';
+
+  @override
+  String get phdEngineeringDescription =>
+      'Programma di dottorato congiunto focalizzato su Knowledge Graph Inversion, estendendo [RDF Mapping Language (RML)](https://rml.io/) per permettere il recupero dei dati originali dopo la trasformazione RDF. Maggiori info: [Profilo KU Leuven](https://www.kuleuven.be/wieiswie/en/person/00170256).';
+
+  @override
+  String get unaEuropaPhdTitle =>
+      'Programma di dottorato in beni culturali Una Europa';
+
+  @override
+  String get unaEuropa => 'Una Europa';
+
+  @override
+  String get unaEuropaPhdPeriod => 'Nov 2023 - Attuale';
+
+  @override
+  String get unaEuropaPhdDescription =>
+      'Programma di dottorato del consorzio europeo in studi del patrimonio culturale, che fornisce opportunità di ricerca interdisciplinare attraverso più università. Maggiori info: [Una Europa HER DOC](https://www.una-europa.eu/study/una-her-doc).';
+
+  @override
+  String get mastersDegreeTitle =>
+      'Laurea magistrale in digital humanities and digital knowledge';
+
+  @override
+  String get mastersPeriod => 'Ago 2019 - Nov 2021';
+
+  @override
+  String get mastersDescription =>
+      'Laureato con lode (110/110). Tesi: \'[A methodology and an implementation to perform live time-traversal queries on RDF datasets](https://doi.org/10.5281/zenodo.5650879)\'. Sviluppo di una metodologia per interrogazioni time-traversal su dataset RDF, con focus su change tracking e provenance nel Semantic Web.';
+
+  @override
+  String get bachelorsDegreeTitle =>
+      'Laurea triennale in lettere - curriculum moderno';
+
+  @override
+  String get bachelorsPeriod => 'Ago 2017 - Nov 2019';
+
+  @override
+  String get bachelorsDescription =>
+      'Laureato con lode (110/110). Tesi: \'[Valorizzare il sapere digitale: un esperimento di progettazione](https://doi.org/10.5281/zenodo.6623431)\'. Creazione di una collezione digitale di poesia italiana dal XIV al XX secolo, con nuove prospettive di visualizzazione e analisi testuale.';
 }

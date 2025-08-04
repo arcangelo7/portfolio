@@ -651,6 +651,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'X (Twitter)'**
   String get twitter;
+
+  /// No description provided for @workExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Work experience'**
+  String get workExperience;
+
+  /// No description provided for @education.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get education;
+
+  /// No description provided for @tutorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Teaching tutor'**
+  String get tutorTitle;
+
+  /// No description provided for @universityBologna.
+  ///
+  /// In en, this message translates to:
+  /// **'University of Bologna'**
+  String get universityBologna;
+
+  /// No description provided for @tutorPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Oct 2022 - Present'**
+  String get tutorPeriod;
+
+  /// No description provided for @tutorDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Laboratory sessions for [Computational Management of Data](https://www.unibo.it/it/studiare/insegnamenti-competenze-trasversali-moocs/insegnamenti/insegnamento/2025/542133) in the Master\'s degree in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) at the University of Bologna.'**
+  String get tutorDescription;
+
+  /// No description provided for @researchFellowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Research fellow'**
+  String get researchFellowTitle;
+
+  /// No description provided for @researchCentreOpenScholarly.
+  ///
+  /// In en, this message translates to:
+  /// **'Research Centre for Open Scholarly Metadata (University of Bologna)'**
+  String get researchCentreOpenScholarly;
+
+  /// No description provided for @researchFellowPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Nov 2021 - Oct 2022'**
+  String get researchFellowPeriod;
+
+  /// No description provided for @researchFellowDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Involved in the [OpenAIRE-Nexus](https://www.openaire.eu/openaire-nexus-project) project and developed software to integrate open citations from [OpenCitations](https://opencitations.net/) into the European Open Science Cloud.'**
+  String get researchFellowDescription;
+
+  /// No description provided for @phdCulturalHeritageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PhD in cultural heritage in digital ecosystem'**
+  String get phdCulturalHeritageTitle;
+
+  /// No description provided for @phdCulturalHeritagePeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Nov 2022 - Present'**
+  String get phdCulturalHeritagePeriod;
+
+  /// No description provided for @phdCulturalHeritageDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctoral research focusing on creating user-friendly interfaces for semantic data, specifically Semantic Web technologies with emphasis on change tracking and provenance. The main focus is [HERITRACE](https://opencitations.github.io/heritrace/), which won the [Gigliozzi Prize](https://www.aiucd.it/premio-gigliozzi-2024/) for best presentation at AIUCD 2024 conference. More info: [PhD program](https://phd.unibo.it/chede).'**
+  String get phdCulturalHeritageDescription;
+
+  /// No description provided for @phdEngineeringTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PhD in engineering technology'**
+  String get phdEngineeringTitle;
+
+  /// No description provided for @kuLeuven.
+  ///
+  /// In en, this message translates to:
+  /// **'KU Leuven (Belgium)'**
+  String get kuLeuven;
+
+  /// No description provided for @phdEngineeringPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Mar 2023 - Present'**
+  String get phdEngineeringPeriod;
+
+  /// No description provided for @phdEngineeringDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Joint doctoral program focusing on Knowledge Graph Inversion, extending [RDF Mapping Language (RML)](https://rml.io/) to enable recovery of original data after RDF transformation. More info: [KU Leuven profile](https://www.kuleuven.be/wieiswie/en/person/00170256).'**
+  String get phdEngineeringDescription;
+
+  /// No description provided for @unaEuropaPhdTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Una Europa cultural heritage PhD program'**
+  String get unaEuropaPhdTitle;
+
+  /// No description provided for @unaEuropa.
+  ///
+  /// In en, this message translates to:
+  /// **'Una Europa'**
+  String get unaEuropa;
+
+  /// No description provided for @unaEuropaPhdPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Nov 2023 - Present'**
+  String get unaEuropaPhdPeriod;
+
+  /// No description provided for @unaEuropaPhdDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'European consortium doctoral program in cultural heritage studies, providing interdisciplinary research opportunities across multiple universities. More info: [Una Europa HER DOC](https://www.una-europa.eu/study/una-her-doc).'**
+  String get unaEuropaPhdDescription;
+
+  /// No description provided for @mastersDegreeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Master\'s degree in digital humanities and digital knowledge'**
+  String get mastersDegreeTitle;
+
+  /// No description provided for @mastersPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Aug 2019 - Nov 2021'**
+  String get mastersPeriod;
+
+  /// No description provided for @mastersDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Graduated summa cum laude (110/110). Thesis: \'[A methodology and an implementation to perform live time-traversal queries on RDF datasets](https://doi.org/10.5281/zenodo.5650879)\'. Developed a methodology for time-traversal queries on RDF datasets, focusing on change tracking and provenance in the Semantic Web.'**
+  String get mastersDescription;
+
+  /// No description provided for @bachelorsDegreeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bachelor\'s degree in letters - modern curriculum'**
+  String get bachelorsDegreeTitle;
+
+  /// No description provided for @bachelorsPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Aug 2017 - Nov 2019'**
+  String get bachelorsPeriod;
+
+  /// No description provided for @bachelorsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Graduated summa cum laude (110/110). Thesis: \'[Valorizzare il sapere digitale: un esperimento di progettazione](https://doi.org/10.5281/zenodo.6623431)\'. Created a digital collection of Italian poetry from the 14th to 20th century, exploring new perspectives for text visualization and analysis.'**
+  String get bachelorsDescription;
 }
 
 class _AppLocalizationsDelegate

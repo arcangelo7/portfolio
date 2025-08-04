@@ -289,4 +289,96 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get twitter => 'X (Twitter)';
+
+  @override
+  String get workExperience => 'Work experience';
+
+  @override
+  String get education => 'Education';
+
+  @override
+  String get tutorTitle => 'Teaching tutor';
+
+  @override
+  String get universityBologna => 'University of Bologna';
+
+  @override
+  String get tutorPeriod => 'Oct 2022 - Present';
+
+  @override
+  String get tutorDescription =>
+      'Laboratory sessions for [Computational Management of Data](https://www.unibo.it/it/studiare/insegnamenti-competenze-trasversali-moocs/insegnamenti/insegnamento/2025/542133) in the Master\'s degree in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) at the University of Bologna.';
+
+  @override
+  String get researchFellowTitle => 'Research fellow';
+
+  @override
+  String get researchCentreOpenScholarly =>
+      'Research Centre for Open Scholarly Metadata (University of Bologna)';
+
+  @override
+  String get researchFellowPeriod => 'Nov 2021 - Oct 2022';
+
+  @override
+  String get researchFellowDescription =>
+      'Involved in the [OpenAIRE-Nexus](https://www.openaire.eu/openaire-nexus-project) project and developed software to integrate open citations from [OpenCitations](https://opencitations.net/) into the European Open Science Cloud.';
+
+  @override
+  String get phdCulturalHeritageTitle =>
+      'PhD in cultural heritage in digital ecosystem';
+
+  @override
+  String get phdCulturalHeritagePeriod => 'Nov 2022 - Present';
+
+  @override
+  String get phdCulturalHeritageDescription =>
+      'Doctoral research focusing on creating user-friendly interfaces for semantic data, specifically Semantic Web technologies with emphasis on change tracking and provenance. The main focus is [HERITRACE](https://opencitations.github.io/heritrace/), which won the [Gigliozzi Prize](https://www.aiucd.it/premio-gigliozzi-2024/) for best presentation at AIUCD 2024 conference. More info: [PhD program](https://phd.unibo.it/chede).';
+
+  @override
+  String get phdEngineeringTitle => 'PhD in engineering technology';
+
+  @override
+  String get kuLeuven => 'KU Leuven (Belgium)';
+
+  @override
+  String get phdEngineeringPeriod => 'Mar 2023 - Present';
+
+  @override
+  String get phdEngineeringDescription =>
+      'Joint doctoral program focusing on Knowledge Graph Inversion, extending [RDF Mapping Language (RML)](https://rml.io/) to enable recovery of original data after RDF transformation. More info: [KU Leuven profile](https://www.kuleuven.be/wieiswie/en/person/00170256).';
+
+  @override
+  String get unaEuropaPhdTitle => 'Una Europa cultural heritage PhD program';
+
+  @override
+  String get unaEuropa => 'Una Europa';
+
+  @override
+  String get unaEuropaPhdPeriod => 'Nov 2023 - Present';
+
+  @override
+  String get unaEuropaPhdDescription =>
+      'European consortium doctoral program in cultural heritage studies, providing interdisciplinary research opportunities across multiple universities. More info: [Una Europa HER DOC](https://www.una-europa.eu/study/una-her-doc).';
+
+  @override
+  String get mastersDegreeTitle =>
+      'Master\'s degree in digital humanities and digital knowledge';
+
+  @override
+  String get mastersPeriod => 'Aug 2019 - Nov 2021';
+
+  @override
+  String get mastersDescription =>
+      'Graduated summa cum laude (110/110). Thesis: \'[A methodology and an implementation to perform live time-traversal queries on RDF datasets](https://doi.org/10.5281/zenodo.5650879)\'. Developed a methodology for time-traversal queries on RDF datasets, focusing on change tracking and provenance in the Semantic Web.';
+
+  @override
+  String get bachelorsDegreeTitle =>
+      'Bachelor\'s degree in letters - modern curriculum';
+
+  @override
+  String get bachelorsPeriod => 'Aug 2017 - Nov 2019';
+
+  @override
+  String get bachelorsDescription =>
+      'Graduated summa cum laude (110/110). Thesis: \'[Valorizzare il sapere digitale: un esperimento di progettazione](https://doi.org/10.5281/zenodo.6623431)\'. Created a digital collection of Italian poetry from the 14th to 20th century, exploring new perspectives for text visualization and analysis.';
 }

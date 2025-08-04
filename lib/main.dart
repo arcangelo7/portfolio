@@ -4,6 +4,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'l10n/app_localizations.dart';
 import 'widgets/publications_section.dart';
+import 'widgets/work_experience_section.dart';
+import 'widgets/education_section.dart';
 import 'widgets/theme_toggle_widget.dart';
 import 'widgets/orbiting_planets_widget.dart';
 
@@ -193,6 +195,8 @@ class _LandingPageState extends State<LandingPage>
           children: [
             _buildHeroSection(context),
             _buildAboutSection(context),
+            const WorkExperienceSection(),
+            const EducationSection(),
             _buildSkillsSection(context),
             PublicationsSection(key: _publicationsKey),
             _buildContactSection(context),
