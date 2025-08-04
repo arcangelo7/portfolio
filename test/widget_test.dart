@@ -599,15 +599,32 @@ void main() {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
 
+    // Find the profile image specifically (by looking for images with profile_cutout.png)
     final imageWidgets = find.byType(Image);
-    expect(imageWidgets, findsOneWidget);
+    expect(imageWidgets, findsWidgets);
 
-    final imageWidget = tester.widget<Image>(imageWidgets);
-    expect(imageWidget.errorBuilder, isNotNull);
+    // Get all Image widgets and find the profile image
+    final images = tester.widgetList<Image>(imageWidgets);
+    final profileImage = images.firstWhere(
+      (image) => 
+        image.image is AssetImage && 
+        (image.image as AssetImage).assetName == 'assets/images/profile_cutout.png',
+      orElse: () => throw StateError('Profile image not found'),
+    );
 
-    if (imageWidget.errorBuilder != null) {
-      final errorWidget = imageWidget.errorBuilder!(
-        tester.element(imageWidgets),
+    expect(profileImage.errorBuilder, isNotNull);
+
+    if (profileImage.errorBuilder != null) {
+      final profileImageElement = tester.elementList(imageWidgets).firstWhere(
+        (element) {
+          final widget = element.widget as Image;
+          return widget.image is AssetImage && 
+                 (widget.image as AssetImage).assetName == 'assets/images/profile_cutout.png';
+        },
+      );
+      
+      final errorWidget = profileImage.errorBuilder!(
+        profileImageElement,
         Exception('Test error'),
         null,
       );

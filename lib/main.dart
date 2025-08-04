@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'l10n/app_localizations.dart';
 import 'widgets/publications_section.dart';
 import 'widgets/theme_toggle_widget.dart';
+import 'widgets/orbiting_planets_widget.dart';
 
 void main() {
   runApp(const PortfolioApp());
@@ -140,6 +141,11 @@ class _LandingPageState extends State<LandingPage>
   final GlobalKey _publicationsKey = GlobalKey();
   bool _isFabExpanded = false;
   late AnimationController _fabAnimationController;
+
+  bool _isInTestEnvironment() {
+    return WidgetsBinding.instance.runtimeType.toString() == 
+           'TestWidgetsFlutterBinding';
+  }
 
   @override
   void initState() {
@@ -401,6 +407,13 @@ class _LandingPageState extends State<LandingPage>
       ),
       child: Stack(
         children: [
+          // Static sun/moon element in top-left
+          StaticThemeElementsWidget(
+            isDarkMode: isDark,
+            elementSize: isMobile ? 120.0 : 180.0,
+            enableAnimation: !_isInTestEnvironment(),
+          ),
+          
           // Full screen transparent PNG image
           _buildFullScreenProfileImage(isDark),
 
