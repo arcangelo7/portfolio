@@ -15,7 +15,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get name => 'Arcangelo Massari';
 
   @override
-  String get jobTitle => 'Dottorando in Digital Humanities';
+  String get jobTitle => 'Dottorando in Informatica Umanistica';
 
   @override
   String get viewMyWork => 'Dai un\'occhiata ai miei progetti';
@@ -25,7 +25,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get aboutMeDescription =>
-      'Sto facendo il dottorato tra l\'Università di Bologna e KU Leuven, lavorando su Digital Humanities e patrimonio culturale digitale. La mia ricerca si concentra sulla creazione di interfacce user-friendly per dati semantici, specificamente tecnologie del Web Semantico con focus su change tracking e provenance. Ho vinto il [Premio Gigliozzi](https://www.aiucd.it/premio-gigliozzi-2024/) per la miglior presentazione alla conferenza AIUCD con [HERITRACE](https://opencitations.github.io/heritrace/), che è il focus principale del mio lavoro di dottorato.';
+      'Sto svolgendo un dottorato in patrimonio culturale nell\'ecosistema digitale tra l\'Università di Bologna e KU Leuven. La mia ricerca si concentra sulla creazione di interfacce user-friendly per dati semantici, specificamente tecnologie del Web Semantico con focus su change tracking e provenance. Ho vinto il [Premio Gigliozzi](https://www.aiucd.it/premio-gigliozzi-2024/) per la miglior presentazione alla conferenza AIUCD con [HERITRACE](https://opencitations.github.io/heritrace/), che è il focus principale del mio lavoro di dottorato.';
 
   @override
   String get skills => 'La mia cassetta degli attrezzi';
@@ -383,4 +383,76 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get bachelorsDescription =>
       'Laureato con lode (110/110). Tesi: \'[Valorizzare il sapere digitale: un esperimento di progettazione](https://doi.org/10.5281/zenodo.6623431)\'. Creazione di una collezione digitale di poesia italiana dal XIV al XX secolo, con nuove prospettive di visualizzazione e analisi testuale.';
+
+  @override
+  String get conferencesAndSeminars => 'Conferenze e seminari';
+
+  @override
+  String get aiucdConference2024Title => 'Conferenza AIUCD 2024 - Catania';
+
+  @override
+  String get aiucdConference2024Period => '28-30 Mag 2024';
+
+  @override
+  String get aiucdConference2024Location => 'Catania, Italia';
+
+  @override
+  String get aiucdConference2024Description =>
+      'Partecipazione alla conferenza dell\'Associazione per Informatica Umanistica e la Cultura Digitale (AIUCD) tenutasi a Catania con un contributo dal titolo \'HERITRACE: Tracing Evolution and Bridging Data for Streamlined Curatorial Work in the GLAM Domain\'. [Conferenza](https://aiucd2024.unict.it/) | [Paper](https://doi.org/10.6092/issn.2532-8816/21218) | [Presentazione](https://zenodo.org/doi/10.5281/zenodo.11474571)';
+
+  @override
+  String get cziHackathon2023Title =>
+      'Hackaton \'Mapping the Impact of Research Software in Science\'';
+
+  @override
+  String get cziHackathon2023Period => '24-27 Ott 2023';
+
+  @override
+  String get cziHackathon2023Location => 'Redwood City, California, USA';
+
+  @override
+  String get cziHackathon2023Description =>
+      'Partecipazione all\'hackathon ospitato dalla Chan Zuckerberg Initiative, dove mi sono concentrato sull\'integrazione dei modelli di dati di tre collezioni di menzioni di software: SoMeSci, Softcite e RRID. Ho realizzato una tabella di mappatura che è servita come punto di partenza per la creazione di un \'gold dataset\' volto a migliorare l\'estrazione delle menzioni al software nella letteratura scientifica. [Repository](https://github.com/chanzuckerberg/software-impact-hackathon-2023)';
+
+  @override
+  String get adhoDhConf2023Title =>
+      'ADHO Digital Humanities conferences 2023 a Graz';
+
+  @override
+  String get adhoDhConf2023Period => '10-15 Lug 2023';
+
+  @override
+  String get adhoDhConf2023Location => 'Graz, Austria';
+
+  @override
+  String get adhoDhConf2023Description =>
+      'Partecipazione alla ADHO Digital Humanities conferences 2023 con un contributo dal titolo \'Representing provenance and track changes of cultural heritage metadata in RDF: a survey of existing approaches\'. [Conferenza](https://dh2023.adho.org/) | [Paper](https://doi.org/10.1093/llc/fqaf076) | [Presentazione](https://doi.org/10.5281/zenodo.8153979)';
+
+  @override
+  String get rdaPlenary2023Title =>
+      'Ventesimo incontro plenario della Research Data Alliance a Göteborg';
+
+  @override
+  String get rdaPlenary2023Period => '21-23 Mar 2023';
+
+  @override
+  String get rdaPlenary2023Location => 'Göteborg, Svezia';
+
+  @override
+  String get rdaPlenary2023Description =>
+      'Partecipazione al ventesimo incontro plenario della Research Data Alliance con un contributo dal titolo \'Adopting the Scientific Knowledge Graphs Interoperability Framework in OpenCitations\'. [Conferenza](https://faircore4eosc.eu/events/rda-20th-plenary-meeting-gothenburg-hybrid) | [Presentazione](https://doi.org/10.5281/zenodo.7702070)';
+
+  @override
+  String get unaEuropaWorkshop2025Title =>
+      'Workshop PhD Una Europa - \'Museums and the new challenges\'';
+
+  @override
+  String get unaEuropaWorkshop2025Period => '5-10 Mag 2025';
+
+  @override
+  String get unaEuropaWorkshop2025Location => 'Bologna, Italia';
+
+  @override
+  String get unaEuropaWorkshop2025Description =>
+      'Partecipazione al workshop transdisciplinare Una Europa per dottorandi focalizzato su \'Museums and the new challenges: virtual technologies, societal responsibility and environmental sustainability\'. Presentazione dal titolo \'HERITRACE: A User-Friendly Semantic Data Editor with Change Tracking and Provenance Management for Cultural Heritage Institutions\'. [Info workshop](https://site.unibo.it/una-europa/en/focus-areas/una-her-doc-una-europa-phd-workshop) | [Presentazione](https://doi.org/10.5281/zenodo.15375770)';
 }

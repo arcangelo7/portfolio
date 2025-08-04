@@ -133,7 +133,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutMeDescription.
   ///
   /// In en, this message translates to:
-  /// **'I\'m currently doing my PhD between the University of Bologna and KU Leuven, working on Digital Humanities and digital cultural heritage. My research focuses on creating user-friendly interfaces for semantic data, specifically Semantic Web technologies with emphasis on change tracking and provenance. I won the [Gigliozzi Prize](https://www.aiucd.it/premio-gigliozzi-2024/) for the best presentation at AIUCD conference with [HERITRACE](https://opencitations.github.io/heritrace/), which is the main focus of my doctoral work.'**
+  /// **'I\'m pursuing a PhD in cultural heritage in digital ecosystem between the University of Bologna and KU Leuven. My research focuses on creating user-friendly interfaces for semantic data, specifically Semantic Web technologies with emphasis on change tracking and provenance. I won the [Gigliozzi Prize](https://www.aiucd.it/premio-gigliozzi-2024/) for the best presentation at AIUCD conference with [HERITRACE](https://opencitations.github.io/heritrace/), which is the main focus of my doctoral work.'**
   String get aboutMeDescription;
 
   /// No description provided for @skills.
@@ -813,6 +813,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Graduated summa cum laude (110/110). Thesis: \'[Valorizzare il sapere digitale: un esperimento di progettazione](https://doi.org/10.5281/zenodo.6623431)\'. Created a digital collection of Italian poetry from the 14th to 20th century, exploring new perspectives for text visualization and analysis.'**
   String get bachelorsDescription;
+
+  /// No description provided for @conferencesAndSeminars.
+  ///
+  /// In en, this message translates to:
+  /// **'Conferences and seminars'**
+  String get conferencesAndSeminars;
+
+  /// No description provided for @aiucdConference2024Title.
+  ///
+  /// In en, this message translates to:
+  /// **'AIUCD conference 2024 - Catania'**
+  String get aiucdConference2024Title;
+
+  /// No description provided for @aiucdConference2024Period.
+  ///
+  /// In en, this message translates to:
+  /// **'May 28-30, 2024'**
+  String get aiucdConference2024Period;
+
+  /// No description provided for @aiucdConference2024Location.
+  ///
+  /// In en, this message translates to:
+  /// **'Catania, Italy'**
+  String get aiucdConference2024Location;
+
+  /// No description provided for @aiucdConference2024Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Participated in the Association for Digital Humanities and Digital Culture (AIUCD) conference in Catania with a contribution titled \'HERITRACE: Tracing Evolution and Bridging Data for Streamlined Curatorial Work in the GLAM Domain\'. [Conference](https://aiucd2024.unict.it/) | [Paper](https://doi.org/10.6092/issn.2532-8816/21218) | [Presentation](https://zenodo.org/doi/10.5281/zenodo.11474571)'**
+  String get aiucdConference2024Description;
+
+  /// No description provided for @cziHackathon2023Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Hackathon \'Mapping the Impact of Research Software in Science\''**
+  String get cziHackathon2023Title;
+
+  /// No description provided for @cziHackathon2023Period.
+  ///
+  /// In en, this message translates to:
+  /// **'Oct 24-27, 2023'**
+  String get cziHackathon2023Period;
+
+  /// No description provided for @cziHackathon2023Location.
+  ///
+  /// In en, this message translates to:
+  /// **'Redwood City, California, USA'**
+  String get cziHackathon2023Location;
+
+  /// No description provided for @cziHackathon2023Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Participated in the hackathon hosted by Chan Zuckerberg Initiative, focusing on integrating data models from three software mention collections: SoMeSci, Softcite and RRID. Created a mapping table that served as a starting point for creating a \'gold dataset\' aimed at improving software mention extraction in scientific literature. [Repository](https://github.com/chanzuckerberg/software-impact-hackathon-2023)'**
+  String get cziHackathon2023Description;
+
+  /// No description provided for @adhoDhConf2023Title.
+  ///
+  /// In en, this message translates to:
+  /// **'ADHO Digital Humanities conferences 2023 in Graz'**
+  String get adhoDhConf2023Title;
+
+  /// No description provided for @adhoDhConf2023Period.
+  ///
+  /// In en, this message translates to:
+  /// **'Jul 10-15, 2023'**
+  String get adhoDhConf2023Period;
+
+  /// No description provided for @adhoDhConf2023Location.
+  ///
+  /// In en, this message translates to:
+  /// **'Graz, Austria'**
+  String get adhoDhConf2023Location;
+
+  /// No description provided for @adhoDhConf2023Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Participated in the ADHO Digital Humanities conferences 2023 with a contribution titled \'Representing provenance and track changes of cultural heritage metadata in RDF: a survey of existing approaches\'. [Conference](https://dh2023.adho.org/) | [Paper](https://doi.org/10.1093/llc/fqaf076) | [Presentation](https://doi.org/10.5281/zenodo.8153979)'**
+  String get adhoDhConf2023Description;
+
+  /// No description provided for @rdaPlenary2023Title.
+  ///
+  /// In en, this message translates to:
+  /// **'20th Research Data Alliance plenary meeting in Göteborg'**
+  String get rdaPlenary2023Title;
+
+  /// No description provided for @rdaPlenary2023Period.
+  ///
+  /// In en, this message translates to:
+  /// **'Mar 21-23, 2023'**
+  String get rdaPlenary2023Period;
+
+  /// No description provided for @rdaPlenary2023Location.
+  ///
+  /// In en, this message translates to:
+  /// **'Göteborg, Sweden'**
+  String get rdaPlenary2023Location;
+
+  /// No description provided for @rdaPlenary2023Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Participated in the 20th plenary meeting of the Research Data Alliance with a contribution titled \'Adopting the Scientific Knowledge Graphs Interoperability Framework in OpenCitations\'. [Conference](https://faircore4eosc.eu/events/rda-20th-plenary-meeting-gothenburg-hybrid) | [Presentation](https://doi.org/10.5281/zenodo.7702070)'**
+  String get rdaPlenary2023Description;
+
+  /// No description provided for @unaEuropaWorkshop2025Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Una Europa PhD workshop - \'Museums and the new challenges\''**
+  String get unaEuropaWorkshop2025Title;
+
+  /// No description provided for @unaEuropaWorkshop2025Period.
+  ///
+  /// In en, this message translates to:
+  /// **'May 5-10, 2025'**
+  String get unaEuropaWorkshop2025Period;
+
+  /// No description provided for @unaEuropaWorkshop2025Location.
+  ///
+  /// In en, this message translates to:
+  /// **'Bologna, Italy'**
+  String get unaEuropaWorkshop2025Location;
+
+  /// No description provided for @unaEuropaWorkshop2025Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Participation in the Una Europa transdisciplinary workshop for PhD students focused on \'Museums and the new challenges: virtual technologies, societal responsibility and environmental sustainability\'. Presentation titled \'HERITRACE: A User-Friendly Semantic Data Editor with Change Tracking and Provenance Management for Cultural Heritage Institutions\'. [Workshop info](https://site.unibo.it/una-europa/en/focus-areas/una-her-doc-una-europa-phd-workshop) | [Presentation](https://doi.org/10.5281/zenodo.15375770)'**
+  String get unaEuropaWorkshop2025Description;
 }
 
 class _AppLocalizationsDelegate

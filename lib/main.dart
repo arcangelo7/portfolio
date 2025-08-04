@@ -6,6 +6,7 @@ import 'l10n/app_localizations.dart';
 import 'widgets/publications_section.dart';
 import 'widgets/work_experience_section.dart';
 import 'widgets/education_section.dart';
+import 'widgets/conferences_seminars_section.dart';
 import 'widgets/theme_toggle_widget.dart';
 import 'widgets/orbiting_planets_widget.dart';
 
@@ -197,6 +198,7 @@ class _LandingPageState extends State<LandingPage>
             _buildAboutSection(context),
             const WorkExperienceSection(),
             const EducationSection(),
+            const ConferencesSeminarsSection(),
             _buildSkillsSection(context),
             PublicationsSection(key: _publicationsKey),
             _buildContactSection(context),
@@ -469,24 +471,22 @@ class _LandingPageState extends State<LandingPage>
                     textAlign: isMobile ? TextAlign.center : TextAlign.start,
                   ),
                   const SizedBox(height: 32),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () => _scrollToPublications(),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: PortfolioTheme.iceWhite,
-                        foregroundColor: PortfolioTheme.cobaltBlue,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isMobile ? 30 : 40,
-                          vertical: isMobile ? 16 : 20,
-                        ),
-                        elevation: 8,
+                  ElevatedButton(
+                    onPressed: () => _scrollToPublications(),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: PortfolioTheme.iceWhite,
+                      foregroundColor: PortfolioTheme.cobaltBlue,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isMobile ? 30 : 40,
+                        vertical: isMobile ? 16 : 20,
                       ),
-                      child: Text(
-                        AppLocalizations.of(context)!.viewMyWork,
-                        style: TextStyle(
-                          fontSize: isMobile ? 16 : 18,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      elevation: 8,
+                    ),
+                    child: Text(
+                      AppLocalizations.of(context)!.viewMyWork,
+                      style: TextStyle(
+                        fontSize: isMobile ? 16 : 18,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),

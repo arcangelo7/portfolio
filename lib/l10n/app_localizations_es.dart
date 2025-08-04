@@ -25,7 +25,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get aboutMeDescription =>
-      'Estoy haciendo mi doctorado entre la Universidad de Bolonia y KU Leuven, trabajando en Humanidades Digitales y patrimonio cultural digital. Mi investigación se centra en crear interfaces user-friendly para datos semánticos, específicamente tecnologías de Web Semántica con énfasis en change tracking y provenance. Gané el [Premio Gigliozzi](https://www.aiucd.it/premio-gigliozzi-2024/) por la mejor presentación en la conferencia AIUCD con [HERITRACE](https://opencitations.github.io/heritrace/), que es el enfoque principal de mi trabajo doctoral.';
+      'Estoy realizando un doctorado en patrimonio cultural en ecosistema digital entre la Universidad de Bolonia y KU Leuven. Mi investigación se centra en crear interfaces user-friendly para datos semánticos, específicamente tecnologías de Web Semántica con énfasis en change tracking y provenance. Gané el [Premio Gigliozzi](https://www.aiucd.it/premio-gigliozzi-2024/) por la mejor presentación en la conferencia AIUCD con [HERITRACE](https://opencitations.github.io/heritrace/), que es el enfoque principal de mi trabajo doctoral.';
 
   @override
   String get skills => 'Mi caja de herramientas';
@@ -383,4 +383,76 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get bachelorsDescription =>
       'Graduado summa cum laude (110/110). Tesis: \'[Valorizzare il sapere digitale: un esperimento di progettazione](https://doi.org/10.5281/zenodo.6623431)\'. Creación de una colección digital de poesía italiana del siglo XIV al XX, explorando nuevas perspectivas de visualización y análisis textual.';
+
+  @override
+  String get conferencesAndSeminars => 'Conferencias y seminarios';
+
+  @override
+  String get aiucdConference2024Title => 'Conferencia AIUCD 2024 - Catania';
+
+  @override
+  String get aiucdConference2024Period => '28-30 May 2024';
+
+  @override
+  String get aiucdConference2024Location => 'Catania, Italia';
+
+  @override
+  String get aiucdConference2024Description =>
+      'Participación en la conferencia de la Asociación para Informática Humanística y Cultura Digital (AIUCD) celebrada en Catania con una contribución titulada \'HERITRACE: Tracing Evolution and Bridging Data for Streamlined Curatorial Work in the GLAM Domain\'. [Conferencia](https://aiucd2024.unict.it/) | [Paper](https://doi.org/10.6092/issn.2532-8816/21218) | [Presentación](https://zenodo.org/doi/10.5281/zenodo.11474571)';
+
+  @override
+  String get cziHackathon2023Title =>
+      'Hackaton \'Mapping the Impact of Research Software in Science\'';
+
+  @override
+  String get cziHackathon2023Period => '24-27 Oct 2023';
+
+  @override
+  String get cziHackathon2023Location => 'Redwood City, California, USA';
+
+  @override
+  String get cziHackathon2023Description =>
+      'Participación en el hackathon hospedado por Chan Zuckerberg Initiative, enfocándome en la integración de modelos de datos de tres colecciones de menciones de software: SoMeSci, Softcite y RRID. Creé una tabla de mapeo que sirvió como punto de partida para crear un \'gold dataset\' destinado a mejorar la extracción de menciones de software en la literatura científica. [Repositorio](https://github.com/chanzuckerberg/software-impact-hackathon-2023)';
+
+  @override
+  String get adhoDhConf2023Title =>
+      'Conferencias ADHO Digital Humanities 2023 en Graz';
+
+  @override
+  String get adhoDhConf2023Period => '10-15 Jul 2023';
+
+  @override
+  String get adhoDhConf2023Location => 'Graz, Austria';
+
+  @override
+  String get adhoDhConf2023Description =>
+      'Participación en las conferencias ADHO Digital Humanities 2023 con una contribución titulada \'Representing provenance and track changes of cultural heritage metadata in RDF: a survey of existing approaches\'. [Conferencia](https://dh2023.adho.org/) | [Paper](https://doi.org/10.1093/llc/fqaf076) | [Presentación](https://doi.org/10.5281/zenodo.8153979)';
+
+  @override
+  String get rdaPlenary2023Title =>
+      '20ª reunión plenaria de Research Data Alliance en Göteborg';
+
+  @override
+  String get rdaPlenary2023Period => '21-23 Mar 2023';
+
+  @override
+  String get rdaPlenary2023Location => 'Göteborg, Suecia';
+
+  @override
+  String get rdaPlenary2023Description =>
+      'Participación en la 20ª reunión plenaria de Research Data Alliance con una contribución titulada \'Adopting the Scientific Knowledge Graphs Interoperability Framework in OpenCitations\'. [Conferencia](https://faircore4eosc.eu/events/rda-20th-plenary-meeting-gothenburg-hybrid) | [Presentación](https://doi.org/10.5281/zenodo.7702070)';
+
+  @override
+  String get unaEuropaWorkshop2025Title =>
+      'Workshop PhD Una Europa - \'Museums and the new challenges\'';
+
+  @override
+  String get unaEuropaWorkshop2025Period => '5-10 May 2025';
+
+  @override
+  String get unaEuropaWorkshop2025Location => 'Bolonia, Italia';
+
+  @override
+  String get unaEuropaWorkshop2025Description =>
+      'Participación en el workshop transdisciplinario Una Europa para estudiantes de doctorado centrado en \'Museums and the new challenges: virtual technologies, societal responsibility and environmental sustainability\'. Presentación titulada \'HERITRACE: A User-Friendly Semantic Data Editor with Change Tracking and Provenance Management for Cultural Heritage Institutions\'. [Info workshop](https://site.unibo.it/una-europa/en/focus-areas/una-her-doc-una-europa-phd-workshop) | [Presentación](https://doi.org/10.5281/zenodo.15375770)';
 }
