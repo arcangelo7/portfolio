@@ -853,7 +853,7 @@ void main() {
           if (container.child is Text) {
             final text = container.child as Text;
             if (text.data == '2' || text.data == '3') {
-              await tester.tap(find.byWidget(detector));
+              await tester.tap(find.byWidget(detector), warnIfMissed: false);
               await tester.pumpAndSettle();
               foundPageButton = true;
               break;

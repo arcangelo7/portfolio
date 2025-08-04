@@ -49,10 +49,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.textContaining('Arcangelo Massari'), findsAtLeastNWidgets(1));
-    expect(find.textContaining('PhD Candidate'), findsOneWidget);
+    expect(find.textContaining('PhD candidate in Digital Humanities'), findsOneWidget);
     expect(find.text('About Me'), findsOneWidget);
-    expect(find.text('Skills'), findsOneWidget);
-    expect(find.text('Get In Touch'), findsOneWidget);
+    expect(find.text('My toolbox'), findsOneWidget);
+    expect(find.text('Find me online'), findsOneWidget);
   });
 
   testWidgets('Portfolio app loads correctly in Italian', (
@@ -67,8 +67,8 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('Chi Sono'), findsOneWidget);
-    expect(find.text('Competenze'), findsOneWidget);
-    expect(find.text('Contattami'), findsOneWidget);
+    expect(find.text('La mia cassetta degli attrezzi'), findsOneWidget);
+    expect(find.text('Dove trovarmi'), findsOneWidget);
   });
 
   testWidgets('Portfolio app loads correctly in Spanish', (
@@ -78,10 +78,10 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.textContaining('Arcangelo Massari'), findsAtLeastNWidgets(1));
-    expect(find.textContaining('Candidato a PhD'), findsOneWidget);
+    expect(find.textContaining('Candidato a PhD en Humanidades Digitales'), findsOneWidget);
     expect(find.text('Sobre Mí'), findsOneWidget);
-    expect(find.text('Habilidades'), findsOneWidget);
-    expect(find.text('Ponte en Contacto'), findsOneWidget);
+    expect(find.text('Mi caja de herramientas'), findsOneWidget);
+    expect(find.text('Encuéntrame online'), findsOneWidget);
   });
 
   testWidgets('Spanish localization appTitle works correctly', (
@@ -138,7 +138,7 @@ void main() {
     expect(find.text('React'), findsOneWidget);
 
     // Verifica che ci siano le categorie di skill
-    expect(find.text('Programming Languages'), findsOneWidget);
+    expect(find.text('Programming languages'), findsOneWidget);
   });
 
   testWidgets('Contact section has social icons', (WidgetTester tester) async {
@@ -149,7 +149,7 @@ void main() {
     expect(find.byIcon(Icons.web), findsOneWidget);
     expect(find.byIcon(Icons.code), findsOneWidget);
     expect(
-      find.text('© 2025 Arcangelo Massari. All rights reserved.'),
+      find.text('© 2025 Arcangelo Massari. All rights are illusion.'),
       findsOneWidget,
     );
   });
@@ -194,7 +194,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.textContaining('Arcangelo Massari'), findsAtLeastNWidgets(1));
-    expect(find.textContaining('PhD Candidate'), findsOneWidget);
+    expect(find.textContaining('PhD candidate in Digital Humanities'), findsOneWidget);
     expect(find.byIcon(Icons.dark_mode), findsOneWidget);
     expect(find.byType(FloatingActionButton), findsNWidgets(2));
 
@@ -260,7 +260,7 @@ void main() {
     await tester.tap(find.text('English'));
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('PhD Candidate'), findsOneWidget);
+    expect(find.textContaining('PhD candidate in Digital Humanities'), findsOneWidget);
     expect(find.text('About Me'), findsOneWidget);
   });
 
