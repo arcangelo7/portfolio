@@ -16,6 +16,7 @@ class PortfolioTheme {
   static const Color wine = Color(0xFF800020);
   static const Color cobaltBlue = Color(0xFF0000FF);
   static const Color black = Color(0xFF1A1A1A);
+  static const List<Color> gold = [Color(0xFFFFD700), Color(0xFFFFA500)];
 
   static final ColorScheme lightColorScheme = ColorScheme.light(
     primary: cobaltBlue,
@@ -744,15 +745,41 @@ class _LandingPageState extends State<LandingPage>
             ],
           ),
           const SizedBox(height: 32),
-          Text(
-            l10n.copyright,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.7),
-              fontSize: isMobile ? 12 : null,
-            ),
-            textAlign: TextAlign.center,
+          Column(
+            children: [
+              Text(
+                l10n.copyright,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.7),
+                  fontSize: isMobile ? 12 : null,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Container(
+                width: 50,
+                height: 2,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: PortfolioTheme.gold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                l10n.laoTzuQuote,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.7),
+                  fontSize: isMobile ? 10 : 12,
+                  fontStyle: FontStyle.italic,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
         ],
       ),

@@ -139,7 +139,7 @@ abstract class AppLocalizations {
   /// No description provided for @skills.
   ///
   /// In en, this message translates to:
-  /// **'Skills'**
+  /// **'My toolbox'**
   String get skills;
 
   /// No description provided for @getInTouch.
@@ -151,8 +151,14 @@ abstract class AppLocalizations {
   /// No description provided for @copyright.
   ///
   /// In en, this message translates to:
-  /// **'© 2025 Arcangelo Massari. All rights reserved.'**
+  /// **'© 2025 Arcangelo Massari. All rights are illusion.'**
   String get copyright;
+
+  /// No description provided for @laoTzuQuote.
+  ///
+  /// In en, this message translates to:
+  /// **'\'Those who have virtue (Dharma) attend to their duty; those who have no virtue attend to their presumed rights.\' — Lao Tzu, Tao Te Ching'**
+  String get laoTzuQuote;
 
   /// No description provided for @skillCategoryProgrammingLanguages.
   ///

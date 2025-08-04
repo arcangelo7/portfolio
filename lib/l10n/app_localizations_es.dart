@@ -28,14 +28,18 @@ class AppLocalizationsEs extends AppLocalizations {
       'Estoy haciendo mi doctorado entre la Universidad de Bolonia y KU Leuven, trabajando en Humanidades Digitales y patrimonio cultural digital. Mi investigación se centra en crear interfaces user-friendly para datos semánticos, específicamente tecnologías de Web Semántica con énfasis en change tracking y provenance. Gané el [Premio Gigliozzi](https://www.aiucd.it/premio-gigliozzi-2024/) por la mejor presentación en la conferencia AIUCD con [HERITRACE](https://opencitations.github.io/heritrace/), que es el enfoque principal de mi trabajo doctoral.';
 
   @override
-  String get skills => 'Habilidades';
+  String get skills => 'Mi caja de herramientas';
 
   @override
   String get getInTouch => 'Encuéntrame online';
 
   @override
   String get copyright =>
-      '© 2025 Arcangelo Massari. Todos los derechos reservados.';
+      '© 2025 Arcangelo Massari. Todos los derechos son ilusión.';
+
+  @override
+  String get laoTzuQuote =>
+      '\'Quienes tienen virtud (Dharma) se ocupan de su deber; quienes carecen de ella se ocupan de sus presuntos derechos.\' — Lao Tzu, Tao Te Ching';
 
   @override
   String get skillCategoryProgrammingLanguages => 'Lenguajes de programación';
