@@ -158,5 +158,19 @@
   "astroGodsCollaborate": "Collaborate with me",
   "astroGodsIframeHidden": "Iframe hidden during language change",
   "astroGodsVisitForFullExperience": "Visit the website for the full experience",
-  "tableOfContents": "Sections"
+  "tableOfContents": "Sections",
+  "downloadCV": "Download CV",
+  "downloadingCV": "Generating CV...",
+  "cvGeneratedSuccessfully": "CV generated successfully",
+  "cvEducationTitle": "EDUCATION AND TRAINING",
+  "cvWorkExperienceTitle": "WORK EXPERIENCE",
+  "cvConferencesTitle": "CONFERENCES AND SEMINARS",
+  "cvPublicationsTitle": "PUBLICATIONS",
+  "cvOtherPublications": "OTHER PUBLICATIONS",
+  "cvDateOfBirth": "Date of birth:",
+  "cvNationality": "Nationality:",
+  "cvAddress": "Address:",
+  "cvNationalityValue": "Italian",
+  "cvBirthDate": "August 23, 1997",
+  "cvGdprConsent": "I authorize the processing of my personal data contained in this CV pursuant to art. 13 of Legislative Decree 196/2003 - \"Personal Data Protection Code\" and art. 13 of GDPR 679/16 - \"European Regulation on the protection of personal data\"."
 }

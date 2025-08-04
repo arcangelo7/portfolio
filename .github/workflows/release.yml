@@ -172,8 +172,6 @@ jobs:
           echo "Creating fallback release notes"
           echo "Portfolio release ${{ steps.version.outputs.version }}" > release_notes.md
           echo "" >> release_notes.md
-          echo "🚀 **Release manually triggered with [release] tag**" >> release_notes.md
-          echo "" >> release_notes.md
           echo "📱 **Builds included:**" >> release_notes.md
           echo "- Android APK" >> release_notes.md
           echo "- Web build" >> release_notes.md

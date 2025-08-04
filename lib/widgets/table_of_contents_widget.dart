@@ -115,6 +115,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
     ];
   }
 
+
   @override
   Widget build(BuildContext context) {
     final sections = _getSections(context);
@@ -125,7 +126,6 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
       child: Container(
         constraints: BoxConstraints(
           maxWidth: isMobile ? 250 : 280,
-          maxHeight: MediaQuery.of(context).size.height * 0.6,
         ),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
@@ -180,7 +180,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                 ],
               ),
             ),
-            Flexible(
+            Expanded(
               child: ListView.separated(
                 shrinkWrap: true,
                 padding: EdgeInsets.all(isMobile ? 8 : 12),

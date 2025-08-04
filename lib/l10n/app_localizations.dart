@@ -1059,6 +1059,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sections'**
   String get tableOfContents;
+
+  /// No description provided for @downloadCV.
+  ///
+  /// In en, this message translates to:
+  /// **'Download CV'**
+  String get downloadCV;
+
+  /// No description provided for @downloadingCV.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating CV...'**
+  String get downloadingCV;
+
+  /// No description provided for @cvGeneratedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'CV generated successfully'**
+  String get cvGeneratedSuccessfully;
+
+  /// No description provided for @cvEducationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EDUCATION AND TRAINING'**
+  String get cvEducationTitle;
+
+  /// No description provided for @cvWorkExperienceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'WORK EXPERIENCE'**
+  String get cvWorkExperienceTitle;
+
+  /// No description provided for @cvConferencesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'CONFERENCES AND SEMINARS'**
+  String get cvConferencesTitle;
+
+  /// No description provided for @cvPublicationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PUBLICATIONS'**
+  String get cvPublicationsTitle;
+
+  /// No description provided for @cvOtherPublications.
+  ///
+  /// In en, this message translates to:
+  /// **'OTHER PUBLICATIONS'**
+  String get cvOtherPublications;
+
+  /// No description provided for @cvDateOfBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of birth:'**
+  String get cvDateOfBirth;
+
+  /// No description provided for @cvNationality.
+  ///
+  /// In en, this message translates to:
+  /// **'Nationality:'**
+  String get cvNationality;
+
+  /// No description provided for @cvAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Address:'**
+  String get cvAddress;
+
+  /// No description provided for @cvNationalityValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Italian'**
+  String get cvNationalityValue;
+
+  /// No description provided for @cvBirthDate.
+  ///
+  /// In en, this message translates to:
+  /// **'August 23, 1997'**
+  String get cvBirthDate;
+
+  /// No description provided for @cvGdprConsent.
+  ///
+  /// In en, this message translates to:
+  /// **'I authorize the processing of my personal data contained in this CV pursuant to art. 13 of Legislative Decree 196/2003 - \"Personal Data Protection Code\" and art. 13 of GDPR 679/16 - \"European Regulation on the protection of personal data\".'**
+  String get cvGdprConsent;
 }
 
 class _AppLocalizationsDelegate

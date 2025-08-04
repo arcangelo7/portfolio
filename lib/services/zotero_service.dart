@@ -23,7 +23,7 @@ class ZoteroService {
         Uri.parse('$baseUrl/groups/$groupId/items').replace(
           queryParameters: {
             'itemType':
-                'journalArticle || conferencePaper || book || bookSection || computerProgram || presentation || thesis || report',
+                'journalArticle || conferencePaper || bookSection || computerProgram || presentation || thesis || report',
             'sort': 'date',
             'direction': 'desc',
             'limit': '50',
@@ -56,7 +56,6 @@ class ZoteroService {
       throw Exception('Failed to load publications: $e');
     }
   }
-
 
   void clearCache() {
     _cachedPublications = null;

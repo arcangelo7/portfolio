@@ -11,6 +11,9 @@ import 'widgets/astrogods_section.dart';
 import 'widgets/theme_toggle_widget.dart';
 import 'widgets/orbiting_planets_widget.dart';
 import 'widgets/table_of_contents_widget.dart';
+import 'services/dynamic_cv_generator_service.dart';
+import 'services/zotero_service.dart';
+import 'package:printing/printing.dart';
 
 void main() {
   runApp(const PortfolioApp());
@@ -166,6 +169,7 @@ class _LandingPageState extends State<LandingPage>
   
   bool _isFabExpanded = false;
   bool _isTocVisible = false;
+  bool _isDownloadingCV = false;
 
   late AnimationController _fabAnimationController;
   late AnimationController _tocAnimationController;
@@ -239,6 +243,53 @@ class _LandingPageState extends State<LandingPage>
     'contact': _contactKey,
   };
 
+  Future<void> _downloadCV() async {
+    if (_isDownloadingCV) return;
+
+    setState(() {
+      _isDownloadingCV = true;
+    });
+
+    try {
+      final l10n = AppLocalizations.of(context)!;
+      final zoteroService = ZoteroService();
+      
+      final pdfBytes = await DynamicCVGeneratorService.generateCV(
+        l10n,
+        zoteroService: zoteroService,
+      );
+      
+      await Printing.sharePdf(
+        bytes: pdfBytes,
+        filename: 'CV_Arcangelo_Massari.pdf',
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.cvGeneratedSuccessfully),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error generating CV: $e'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isDownloadingCV = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
@@ -302,6 +353,27 @@ class _LandingPageState extends State<LandingPage>
               color: Theme.of(context).colorScheme.onSecondary,
               size: 32.0,
             ),
+          ),
+          const SizedBox(height: 16),
+          FloatingActionButton(
+            heroTag: "download_cv",
+            shape: const CircleBorder(),
+            onPressed: _isDownloadingCV ? null : _downloadCV,
+            backgroundColor: Theme.of(context).colorScheme.error,
+            child: _isDownloadingCV
+                ? SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Theme.of(context).colorScheme.onError,
+                    ),
+                  )
+                : Icon(
+                    Icons.download_rounded,
+                    color: Theme.of(context).colorScheme.onError,
+                    size: 32.0,
+                  ),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
@@ -380,6 +452,43 @@ class _LandingPageState extends State<LandingPage>
                         color: Theme.of(context).colorScheme.onSecondary,
                         size: 24.0,
                       ),
+                    )
+                    : const SizedBox.shrink(),
+          ),
+        ),
+        if (_isFabExpanded) const SizedBox(height: 16),
+        // Download CV FAB
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          height: _isFabExpanded ? 56 : 0,
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 300),
+            opacity: _isFabExpanded ? 1.0 : 0.0,
+            child:
+                _isFabExpanded
+                    ? FloatingActionButton(
+                      heroTag: "download_cv_mobile",
+                      shape: const CircleBorder(),
+                      onPressed: _isDownloadingCV ? null : () {
+                        _downloadCV();
+                        _toggleFab();
+                      },
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                      child: _isDownloadingCV
+                          ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Theme.of(context).colorScheme.onError,
+                              ),
+                            )
+                          : Icon(
+                              Icons.download_rounded,
+                              color: Theme.of(context).colorScheme.onError,
+                              size: 24.0,
+                            ),
                     )
                     : const SizedBox.shrink(),
           ),

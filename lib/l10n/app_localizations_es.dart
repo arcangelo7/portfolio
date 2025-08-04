@@ -525,4 +525,47 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tableOfContents => 'Secciones';
+
+  @override
+  String get downloadCV => 'Descargar CV';
+
+  @override
+  String get downloadingCV => 'Generando CV...';
+
+  @override
+  String get cvGeneratedSuccessfully => 'CV generado exitosamente';
+
+  @override
+  String get cvEducationTitle => 'EDUCACIÓN Y FORMACIÓN';
+
+  @override
+  String get cvWorkExperienceTitle => 'EXPERIENCIA LABORAL';
+
+  @override
+  String get cvConferencesTitle => 'CONFERENCIAS Y SEMINARIOS';
+
+  @override
+  String get cvPublicationsTitle => 'PUBLICACIONES';
+
+  @override
+  String get cvOtherPublications => 'OTRAS PUBLICACIONES';
+
+  @override
+  String get cvDateOfBirth => 'Fecha de nacimiento:';
+
+  @override
+  String get cvNationality => 'Nacionalidad:';
+
+  @override
+  String get cvAddress => 'Dirección:';
+
+  @override
+  String get cvNationalityValue => 'Italiana';
+
+  @override
+  String get cvBirthDate => '23 agosto 1997';
+
+  @override
+  String get cvGdprConsent =>
+      'Autorizo el tratamiento de mis datos personales contenidos en este CV de conformidad con el art. 13 del Decreto Legislativo 196/2003 - \"Código de protección de datos personales\" y el art. 13 del GDPR 679/16 - \"Reglamento europeo sobre la protección de datos personales\".';
 }
