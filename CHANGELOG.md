@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/arcangelo7/portfolio/compare/v1.0.0...v1.0.1) (2025-08-04)
+
+
+### Bug Fixes
+
+* [release] add direct link to latest version ([daa5603](https://github.com/arcangelo7/portfolio/commit/daa56032f5a139dacc8c731a99a2e21174b44f16))
+
 # 1.0.0 (2025-08-04)
 
 
