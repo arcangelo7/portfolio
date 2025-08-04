@@ -143,8 +143,8 @@ class _LandingPageState extends State<LandingPage>
   late AnimationController _fabAnimationController;
 
   bool _isInTestEnvironment() {
-    return WidgetsBinding.instance.runtimeType.toString() == 
-           'TestWidgetsFlutterBinding';
+    return WidgetsBinding.instance.runtimeType.toString() ==
+        'TestWidgetsFlutterBinding';
   }
 
   @override
@@ -252,7 +252,7 @@ class _LandingPageState extends State<LandingPage>
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
-          height: _isFabExpanded ? 40 : 0,
+          height: _isFabExpanded ? 56 : 0,
           child: AnimatedOpacity(
             duration: const Duration(milliseconds: 300),
             opacity: _isFabExpanded ? 1.0 : 0.0,
@@ -260,7 +260,6 @@ class _LandingPageState extends State<LandingPage>
                 _isFabExpanded
                     ? FloatingActionButton(
                       heroTag: "theme_toggle_mobile",
-                      mini: true,
                       shape: const CircleBorder(),
                       onPressed: () {
                         widget.onThemeToggle();
@@ -271,7 +270,7 @@ class _LandingPageState extends State<LandingPage>
                         isDarkMode: widget.isDarkMode,
                         onToggle:
                             () {}, // Il toggle è gestito dall'onPressed del FAB
-                        size: 32.0,
+                        size: 24.0,
                       ),
                     )
                     : const SizedBox.shrink(),
@@ -282,7 +281,7 @@ class _LandingPageState extends State<LandingPage>
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
-          height: _isFabExpanded ? 40 : 0,
+          height: _isFabExpanded ? 56 : 0,
           child: AnimatedOpacity(
             duration: const Duration(milliseconds: 300),
             opacity: _isFabExpanded ? 1.0 : 0.0,
@@ -290,7 +289,6 @@ class _LandingPageState extends State<LandingPage>
                 _isFabExpanded
                     ? FloatingActionButton(
                       heroTag: "language_selector_mobile",
-                      mini: true,
                       shape: const CircleBorder(),
                       onPressed: () {
                         _showLanguageSelector(context);
@@ -300,6 +298,7 @@ class _LandingPageState extends State<LandingPage>
                       child: Icon(
                         Icons.language,
                         color: Theme.of(context).colorScheme.onSecondary,
+                        size: 24.0,
                       ),
                     )
                     : const SizedBox.shrink(),
@@ -318,6 +317,7 @@ class _LandingPageState extends State<LandingPage>
             child: Icon(
               _isFabExpanded ? Icons.close : Icons.settings,
               color: Theme.of(context).colorScheme.onTertiary,
+              size: 24.0,
             ),
           ),
         ),
@@ -413,7 +413,7 @@ class _LandingPageState extends State<LandingPage>
             elementSize: isMobile ? 120.0 : 180.0,
             enableAnimation: !_isInTestEnvironment(),
           ),
-          
+
           // Full screen transparent PNG image
           _buildFullScreenProfileImage(isDark),
 
