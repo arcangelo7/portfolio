@@ -130,7 +130,7 @@ void main() {
     await tester.pumpWidget(createTestApp());
     await tester.pumpAndSettle();
 
-    expect(find.byType(FloatingActionButton), findsNWidgets(3));
+    expect(find.byType(FloatingActionButton), findsNWidgets(4));
     expect(find.byIcon(Icons.language), findsWidgets);
     expect(find.byType(ThemeToggleWidget), findsOneWidget);
   });
@@ -218,7 +218,7 @@ void main() {
       findsOneWidget,
     );
     expect(find.byType(ThemeToggleWidget), findsOneWidget);
-    expect(find.byType(FloatingActionButton), findsNWidgets(3));
+    expect(find.byType(FloatingActionButton), findsNWidgets(4));
 
     final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
     expect(materialApp.themeMode, equals(ThemeMode.light));
@@ -307,7 +307,7 @@ void main() {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
-    expect(find.byType(FloatingActionButton), findsNWidgets(3));
+    expect(find.byType(FloatingActionButton), findsNWidgets(4));
 
     await tester.drag(
       find.byType(SingleChildScrollView).first,
@@ -315,7 +315,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.byType(FloatingActionButton), findsNWidgets(3));
+    expect(find.byType(FloatingActionButton), findsNWidgets(4));
     expect(find.byType(ThemeToggleWidget), findsOneWidget);
     expect(find.byIcon(Icons.language), findsWidgets);
   });

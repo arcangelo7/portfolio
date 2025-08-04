@@ -22,7 +22,11 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
 
-  Widget _buildStrikethroughText(String text, TextStyle? style, BuildContext context) {
+  Widget _buildStrikethroughText(
+    String text,
+    TextStyle? style,
+    BuildContext context,
+  ) {
     final strikethroughRegex = RegExp(r'~~([^~]+)~~');
     final match = strikethroughRegex.firstMatch(text);
 
@@ -56,7 +60,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
       ),
     );
   }
-  
+
   @override
   void initState() {
     super.initState();
@@ -64,13 +68,9 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-    _scaleAnimation = Tween<double>(
-      begin: 0.95,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOut,
-    ));
+    _scaleAnimation = Tween<double>(begin: 0.95, end: 1.0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+    );
     _animationController.forward();
   }
 
@@ -84,7 +84,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
     final key = widget.sectionKeys[sectionKey];
     if (key?.currentContext != null) {
       HapticFeedback.lightImpact();
-      
+
       setState(() {
         _activeSectionKey = sectionKey;
       });
@@ -107,7 +107,11 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
       {'key': 'about', 'title': l10n.aboutMe, 'icon': '👤'},
       {'key': 'work', 'title': l10n.workExperience, 'icon': '💼'},
       {'key': 'education', 'title': l10n.education, 'icon': '🎓'},
-      {'key': 'conferences', 'title': l10n.conferencesAndSeminars, 'icon': '🎤'},
+      {
+        'key': 'conferences',
+        'title': l10n.conferencesAndSeminars,
+        'icon': '🎤',
+      },
       {'key': 'skills', 'title': l10n.skills, 'icon': '🛠️'},
       {'key': 'publications', 'title': l10n.publications, 'icon': '📐'},
       {'key': 'astrogods', 'title': l10n.astroGodsTitle, 'icon': '🪐'},
@@ -115,18 +119,15 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
     ];
   }
 
-
   @override
   Widget build(BuildContext context) {
     final sections = _getSections(context);
     final isMobile = MediaQuery.of(context).size.width < 768;
-    
+
     return ScaleTransition(
       scale: _scaleAnimation,
       child: Container(
-        constraints: BoxConstraints(
-          maxWidth: isMobile ? 250 : 280,
-        ),
+        constraints: BoxConstraints(maxWidth: isMobile ? 250 : 280),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
@@ -137,7 +138,9 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
               offset: const Offset(0, 8),
             ),
             BoxShadow(
-              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+              color: Theme.of(
+                context,
+              ).colorScheme.primary.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -153,7 +156,9 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
             Container(
               padding: EdgeInsets.all(isMobile ? 16 : 20),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.05),
+                color: Theme.of(
+                  context,
+                ).colorScheme.primary.withValues(alpha: 0.05),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),
@@ -180,76 +185,89 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                 ],
               ),
             ),
-            Expanded(
-              child: ListView.separated(
-                shrinkWrap: true,
-                padding: EdgeInsets.all(isMobile ? 8 : 12),
-                itemCount: sections.length,
-                separatorBuilder: (context, index) => SizedBox(height: isMobile ? 4 : 6),
-                itemBuilder: (context, index) {
-                  final section = sections[index];
-                  final isActive = _activeSectionKey == section['key'];
-                  
-                  return AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    decoration: BoxDecoration(
-                      color: isActive
-                          ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1)
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(12),
-                      border: isActive
-                          ? Border.all(
-                              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+            ListView.separated(
+              shrinkWrap: true,
+              padding: EdgeInsets.all(isMobile ? 8 : 12),
+              itemCount: sections.length,
+              separatorBuilder:
+                  (context, index) => SizedBox(height: isMobile ? 4 : 6),
+              itemBuilder: (context, index) {
+                final section = sections[index];
+                final isActive = _activeSectionKey == section['key'];
+
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  decoration: BoxDecoration(
+                    color:
+                        isActive
+                            ? Theme.of(
+                              context,
+                            ).colorScheme.primary.withValues(alpha: 0.1)
+                            : Colors.transparent,
+                    borderRadius: BorderRadius.circular(12),
+                    border:
+                        isActive
+                            ? Border.all(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primary.withValues(alpha: 0.3),
                               width: 1,
                             )
-                          : null,
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () => _scrollToSection(section['key']!),
-                        borderRadius: BorderRadius.circular(12),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: isMobile ? 12 : 16,
-                            vertical: isMobile ? 10 : 12,
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                section['icon']!,
-                                style: TextStyle(
-                                  fontSize: isMobile ? 16 : 18,
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: _buildStrikethroughText(
-                                  section['title']!,
-                                  Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-                                    color: isActive
-                                        ? Theme.of(context).colorScheme.primary
-                                        : Theme.of(context).colorScheme.onSurface,
-                                    fontSize: isMobile ? 14 : 15,
-                                  ),
+                            : null,
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => _scrollToSection(section['key']!),
+                      borderRadius: BorderRadius.circular(12),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isMobile ? 12 : 16,
+                          vertical: isMobile ? 10 : 12,
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              section['icon']!,
+                              style: TextStyle(fontSize: isMobile ? 16 : 18),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: _buildStrikethroughText(
+                                section['title']!,
+                                Theme.of(
                                   context,
+                                ).textTheme.bodyMedium?.copyWith(
+                                  fontWeight:
+                                      isActive
+                                          ? FontWeight.w600
+                                          : FontWeight.w500,
+                                  color:
+                                      isActive
+                                          ? Theme.of(
+                                            context,
+                                          ).colorScheme.primary
+                                          : Theme.of(
+                                            context,
+                                          ).colorScheme.onSurface,
+                                  fontSize: isMobile ? 14 : 15,
                                 ),
+                                context,
                               ),
-                              if (isActive)
-                                Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: isMobile ? 12 : 14,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                            ],
-                          ),
+                            ),
+                            if (isActive)
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: isMobile ? 12 : 14,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                          ],
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ],
         ),
