@@ -205,7 +205,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Basic structure
-      expect(find.text('Publications'), findsOneWidget);
+      expect(find.text('For Science'), findsOneWidget);
       expect(find.byType(FilterChip), findsWidgets);
       expect(find.text('All'), findsOneWidget);
 
@@ -371,7 +371,7 @@ void main() {
       await tester.pumpWidget(createTestWidget());
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
-      expect(find.text('Publications'), findsOneWidget);
+      expect(find.text('For Science'), findsOneWidget);
     });
 
     testWidgets('handles different locales', (WidgetTester tester) async {
@@ -397,7 +397,7 @@ void main() {
 
         expect(find.byType(PublicationsSection), findsOneWidget);
         if (locale == const Locale('en')) {
-          expect(find.text('Publications'), findsOneWidget);
+          expect(find.text('For Science'), findsOneWidget);
         }
       }
     });

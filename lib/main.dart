@@ -24,6 +24,18 @@ class PortfolioTheme {
   static const Color black = Color(0xFF1A1A1A);
   static const List<Color> gold = [Color(0xFFFFD700), Color(0xFFFFA500)];
 
+  // AstroGods section colors
+  static const Color astroMysticBlue = Color(0xFF1A1A2E);
+  static const Color astroDarkViolet = Color(0xFF16213E);
+  static const Color astroDeepBlue = Color(0xFF0F3460);
+  static const Color astroGold = Color(0xFFFFD700);
+  static const Color astroLightGray = Color(0xFFE0E0E0);
+  static const Color astroProblemRed = Color(0xFFE74C3C);
+  static const Color astroElementViolet = Color(0xFF9B59B6);
+  static const Color astroComplexityOrange = Color(0xFFE67E22);
+  static const Color astroTraditionBlue = Color(0xFF3498DB);
+  static const Color astroAiGreen = Color(0xFF2ECC71);
+
   static final ColorScheme lightColorScheme = ColorScheme.light(
     primary: cobaltBlue,
     secondary: emeraldGreen,
@@ -144,7 +156,7 @@ class _LandingPageState extends State<LandingPage>
     with TickerProviderStateMixin {
   final GlobalKey _publicationsKey = GlobalKey();
   bool _isFabExpanded = false;
-  bool _isLanguageModalOpen = false;
+
   late AnimationController _fabAnimationController;
 
   bool _isInTestEnvironment() {
@@ -203,7 +215,7 @@ class _LandingPageState extends State<LandingPage>
             const ConferencesSeminarsSection(),
             _buildSkillsSection(context),
             PublicationsSection(key: _publicationsKey),
-            AstroGodsSection(isLanguageModalOpen: _isLanguageModalOpen),
+            const AstroGodsSection(),
             _buildContactSection(context),
           ],
         ),
@@ -335,10 +347,6 @@ class _LandingPageState extends State<LandingPage>
   }
 
   void _showLanguageSelector(BuildContext context) {
-    setState(() {
-      _isLanguageModalOpen = true;
-    });
-
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -380,11 +388,7 @@ class _LandingPageState extends State<LandingPage>
           ),
         );
       },
-    ).then((_) {
-      setState(() {
-        _isLanguageModalOpen = false;
-      });
-    });
+    );
   }
 
   Widget _buildFullScreenProfileImage(bool isDark) {

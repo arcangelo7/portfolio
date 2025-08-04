@@ -208,7 +208,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get publicationsDescription =>
-      'La parte ufficiale e scientificamente rigorosa del mio lavoro - dove la peer review regna sovrana';
+      'Le mie pubblicazioni e contributi accademici';
 
   @override
   String get categoryAll => 'Tutte';
@@ -499,7 +499,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'L\'IA elabora tutti gli elementi per unire gli aspetti astrologici con il contesto più ampio, creando interpretazioni complete.';
 
   @override
-  String get astroGodsCard6Title => 'Spunti universali';
+  String get astroGodsCard6Title => 'Nosce te ipsum';
 
   @override
   String get astroGodsCard6Description =>

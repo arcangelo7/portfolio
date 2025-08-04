@@ -97,7 +97,11 @@ void main() {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byIcon(Icons.language));
+    final languageButton = find.descendant(
+      of: find.byType(FloatingActionButton),
+      matching: find.byIcon(Icons.language),
+    );
+    await tester.tap(languageButton);
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Español'));
@@ -127,7 +131,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(FloatingActionButton), findsNWidgets(2));
-    expect(find.byIcon(Icons.language), findsOneWidget);
+    expect(find.byIcon(Icons.language), findsWidgets);
     expect(find.byType(ThemeToggleWidget), findsOneWidget);
   });
 
@@ -167,9 +171,13 @@ void main() {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.language), findsOneWidget);
+    expect(find.byIcon(Icons.language), findsWidgets);
 
-    await tester.tap(find.byIcon(Icons.language));
+    final languageButton = find.descendant(
+      of: find.byType(FloatingActionButton),
+      matching: find.byIcon(Icons.language),
+    );
+    await tester.tap(languageButton);
     await tester.pumpAndSettle();
 
     expect(find.text('Select Language'), findsOneWidget);
@@ -251,7 +259,11 @@ void main() {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byIcon(Icons.language));
+    final languageButton = find.descendant(
+      of: find.byType(FloatingActionButton),
+      matching: find.byIcon(Icons.language),
+    );
+    await tester.tap(languageButton);
     await tester.pumpAndSettle();
 
     expect(find.text('Select Language'), findsOneWidget);
@@ -272,7 +284,11 @@ void main() {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byIcon(Icons.language));
+    final languageButton = find.descendant(
+      of: find.byType(FloatingActionButton),
+      matching: find.byIcon(Icons.language),
+    );
+    await tester.tap(languageButton);
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('English'));
@@ -301,7 +317,7 @@ void main() {
 
     expect(find.byType(FloatingActionButton), findsNWidgets(2));
     expect(find.byType(ThemeToggleWidget), findsOneWidget);
-    expect(find.byIcon(Icons.language), findsOneWidget);
+    expect(find.byIcon(Icons.language), findsWidgets);
   });
 
   testWidgets('Contact section buttons can be tapped', (
@@ -354,7 +370,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(PublicationsSection), findsOneWidget);
-    expect(find.text('Publications'), findsOneWidget);
+    expect(find.text('For Science'), findsOneWidget);
   });
 
   testWidgets('Publications section shows in Italian', (
@@ -363,7 +379,7 @@ void main() {
     await tester.pumpWidget(createTestApp(locale: const Locale('it')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Pubblicazioni'), findsOneWidget);
+    expect(find.text('Per la Scienza'), findsOneWidget);
   });
 
   testWidgets('Publications section loads content', (
@@ -394,7 +410,7 @@ void main() {
 
     // Should show either publications content or error message
     expect(
-      find.text('Publications').evaluate().isNotEmpty ||
+      find.text('For Science').evaluate().isNotEmpty ||
           find.textContaining('No publications').evaluate().isNotEmpty ||
           find.byIcon(Icons.error_outline).evaluate().isNotEmpty,
       true,
@@ -565,7 +581,11 @@ void main() {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byIcon(Icons.language));
+    final languageButton = find.descendant(
+      of: find.byType(FloatingActionButton),
+      matching: find.byIcon(Icons.language),
+    );
+    await tester.tap(languageButton);
     await tester.pumpAndSettle();
 
     expect(find.text('🇺🇸'), findsOneWidget);
@@ -589,7 +609,11 @@ void main() {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byIcon(Icons.language));
+    final languageButton = find.descendant(
+      of: find.byType(FloatingActionButton),
+      matching: find.byIcon(Icons.language),
+    );
+    await tester.tap(languageButton);
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Italiano'));
@@ -813,7 +837,7 @@ void main() {
 
     expect(find.byIcon(Icons.close), findsOneWidget);
     expect(find.byType(ThemeToggleWidget), findsOneWidget);
-    expect(find.byIcon(Icons.language), findsOneWidget);
+    expect(find.byIcon(Icons.language), findsWidgets);
 
     final themeFab = find.ancestor(
       of: find.byType(ThemeToggleWidget),
@@ -827,7 +851,11 @@ void main() {
     await tester.tap(find.byIcon(Icons.settings));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byIcon(Icons.language));
+    final languageButton = find.descendant(
+      of: find.byType(FloatingActionButton),
+      matching: find.byIcon(Icons.language),
+    );
+    await tester.tap(languageButton);
     await tester.pumpAndSettle();
 
     expect(find.text('Select Language'), findsOneWidget);
@@ -874,7 +902,7 @@ void main() {
     await tester.pumpWidget(const portfolio_main.PortfolioApp());
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.language), findsOneWidget);
+    expect(find.byIcon(Icons.language), findsWidgets);
     expect(find.byType(ThemeToggleWidget), findsOneWidget);
     expect(find.byIcon(Icons.settings), findsNothing);
 

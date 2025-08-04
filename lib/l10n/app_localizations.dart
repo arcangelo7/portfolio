@@ -493,7 +493,7 @@ abstract class AppLocalizations {
   /// No description provided for @publicationsDescription.
   ///
   /// In en, this message translates to:
-  /// **'The official and scientifically rigorous part of my work - where peer review reigns supreme'**
+  /// **'My publications and academic contributions'**
   String get publicationsDescription;
 
   /// No description provided for @categoryAll.
@@ -1015,7 +1015,7 @@ abstract class AppLocalizations {
   /// No description provided for @astroGodsCard6Title.
   ///
   /// In en, this message translates to:
-  /// **'Universal insights'**
+  /// **'Nosce te ipsum'**
   String get astroGodsCard6Title;
 
   /// No description provided for @astroGodsCard6Description.
