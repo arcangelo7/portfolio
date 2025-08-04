@@ -74,7 +74,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     needs: [check-release-trigger, release]
-    if: needs.release.outputs.released == 'true'
+    if: needs.check-release-trigger.outputs.should-release == 'true'
     
     steps:
     - uses: actions/checkout@v4
@@ -91,17 +91,37 @@ jobs:
     - name: Get dependencies
       run: flutter pub get
     
+    - name: Determine version
+      id: version
+      run: |
+        # Usa la versione da semantic-release se disponibile, altrimenti crea una versione fallback
+        if [ -n "${{ needs.release.outputs.version }}" ] && [ "${{ needs.release.outputs.version }}" != "" ]; then
+          VERSION="${{ needs.release.outputs.version }}"
+          echo "Using semantic-release version: $VERSION"
+        else
+          # Fallback: usa data + commit SHA abbreviato
+          VERSION="$(date +%Y.%m.%d)-$(git rev-parse --short HEAD)"
+          echo "Using fallback version: $VERSION"
+        fi
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+    
     - name: Update pubspec.yaml version
       run: |
-        VERSION="${{ needs.release.outputs.version }}"
         # Aggiorna la versione nel pubspec.yaml
-        sed -i "s/^version: .*/version: $VERSION+${{ github.run_number }}/" pubspec.yaml
-        echo "Updated pubspec.yaml to version $VERSION+${{ github.run_number }}"
+        sed -i "s/^version: .*/version: ${{ steps.version.outputs.version }}+${{ github.run_number }}/" pubspec.yaml
+        echo "Updated pubspec.yaml to version ${{ steps.version.outputs.version }}+${{ github.run_number }}"
     
     - name: Install Linux dependencies
       run: |
         sudo apt-get update -y
         sudo apt-get install -y ninja-build libgtk-3-dev
+    
+    - name: Setup Java for Android
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '17'
     
     - name: Enable Linux desktop
       run: flutter config --enable-linux-desktop
@@ -110,25 +130,52 @@ jobs:
       run: |
         flutter build web --release --base-href /portfolio/ --dart-define=FLUTTER_WEB_CANVASKIT_URL=https://www.gstatic.com/flutter-canvaskit/
         cd build/web
-        zip -r ../../portfolio-web-${{ needs.release.outputs.version }}.zip .
+        zip -r ../../portfolio-web-${{ steps.version.outputs.version }}.zip .
         cd ../..
     
     - name: Build Linux release
       run: |
         flutter build linux --release
         cd build/linux/x64/release/bundle
-        tar -czf ../../../../../portfolio-linux-${{ needs.release.outputs.version }}.tar.gz .
+        tar -czf ../../../../../portfolio-linux-${{ steps.version.outputs.version }}.tar.gz .
         cd ../../../../../
+    
+    - name: Build Android APK
+      run: |
+        flutter build apk --release
+        mv build/app/outputs/flutter-apk/app-release.apk portfolio-android-${{ steps.version.outputs.version }}.apk
+    
+    - name: Create release body
+      run: |
+        if [ -f "CHANGELOG.md" ] && [ -n "${{ needs.release.outputs.version }}" ]; then
+          echo "Using CHANGELOG.md from semantic-release"
+          echo "body_path=CHANGELOG.md" >> $GITHUB_ENV
+        else
+          echo "Creating fallback release notes"
+          echo "Portfolio release ${{ steps.version.outputs.version }}" > release_notes.md
+          echo "" >> release_notes.md
+          echo "🚀 **Release manually triggered with [release] tag**" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "📱 **Builds included:**" >> release_notes.md
+          echo "- Android APK" >> release_notes.md
+          echo "- Web build" >> release_notes.md
+          echo "- Linux build" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "**Commit:** ${{ github.sha }}" >> release_notes.md
+          echo "**Commit message:** ${{ needs.check-release-trigger.outputs.commit-message }}" >> release_notes.md
+          echo "body_path=release_notes.md" >> $GITHUB_ENV
+        fi
     
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: v${{ needs.release.outputs.version }}
-        name: Release v${{ needs.release.outputs.version }}
-        body_path: CHANGELOG.md
+        tag_name: v${{ steps.version.outputs.version }}
+        name: Release v${{ steps.version.outputs.version }}
+        body_path: ${{ env.body_path }}
         files: |
-          portfolio-web-${{ needs.release.outputs.version }}.zip
-          portfolio-linux-${{ needs.release.outputs.version }}.tar.gz
+          portfolio-web-${{ steps.version.outputs.version }}.zip
+          portfolio-linux-${{ steps.version.outputs.version }}.tar.gz
+          portfolio-android-${{ steps.version.outputs.version }}.apk
         draft: false
         prerelease: false
       env:
@@ -136,5 +183,7 @@ jobs:
     
     - name: Cleanup artifacts
       run: |
-        rm -f portfolio-web-${{ needs.release.outputs.version }}.zip
-        rm -f portfolio-linux-${{ needs.release.outputs.version }}.tar.gz
+        rm -f portfolio-web-${{ steps.version.outputs.version }}.zip
+        rm -f portfolio-linux-${{ steps.version.outputs.version }}.tar.gz
+        rm -f portfolio-android-${{ steps.version.outputs.version }}.apk
+        rm -f release_notes.md
