@@ -132,6 +132,8 @@ jobs:
         cd build/web
         zip -r ../../portfolio-web-${{ steps.version.outputs.version }}.zip .
         cd ../..
+        # Crea anche una copia con nome fisso per link diretto
+        cp portfolio-web-${{ steps.version.outputs.version }}.zip portfolio-web-latest.zip
     
     - name: Build Linux release
       run: |
@@ -139,11 +141,15 @@ jobs:
         cd build/linux/x64/release/bundle
         tar -czf ../../../../../portfolio-linux-${{ steps.version.outputs.version }}.tar.gz .
         cd ../../../../../
+        # Crea anche una copia con nome fisso per link diretto
+        cp portfolio-linux-${{ steps.version.outputs.version }}.tar.gz portfolio-linux-latest.tar.gz
     
     - name: Build Android APK
       run: |
         flutter build apk --release
         mv build/app/outputs/flutter-apk/app-release.apk portfolio-android-${{ steps.version.outputs.version }}.apk
+        # Crea anche una copia con nome fisso per link diretto
+        cp portfolio-android-${{ steps.version.outputs.version }}.apk portfolio-android-latest.apk
     
     - name: Create release body
       run: |
@@ -176,6 +182,9 @@ jobs:
           portfolio-web-${{ steps.version.outputs.version }}.zip
           portfolio-linux-${{ steps.version.outputs.version }}.tar.gz
           portfolio-android-${{ steps.version.outputs.version }}.apk
+          portfolio-web-latest.zip
+          portfolio-linux-latest.tar.gz
+          portfolio-android-latest.apk
         draft: false
         prerelease: false
       env:
@@ -186,4 +195,7 @@ jobs:
         rm -f portfolio-web-${{ steps.version.outputs.version }}.zip
         rm -f portfolio-linux-${{ steps.version.outputs.version }}.tar.gz
         rm -f portfolio-android-${{ steps.version.outputs.version }}.apk
+        rm -f portfolio-web-latest.zip
+        rm -f portfolio-linux-latest.tar.gz
+        rm -f portfolio-android-latest.apk
         rm -f release_notes.md
