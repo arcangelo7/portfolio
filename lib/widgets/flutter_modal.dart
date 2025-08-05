@@ -129,7 +129,7 @@ class FlutterModal extends StatelessWidget {
                   Icons.laptop_mac,
                   const Color(0xFF000000),
                   () => _launchUrl(
-                    'https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-macos-latest.dmg',
+                    'https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-macos-latest.tar.gz',
                   ),
                 ),
                 _buildDownloadButton(

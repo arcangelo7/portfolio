@@ -4,6 +4,13 @@
 [![Coverage](test/coverage-badge.svg)](https://arcangelo7.github.io/portfolio/test/coverage/)
 [![Built with Flutter](https://img.shields.io/badge/Built%20with-Flutter-02569B?style=flat&logo=flutter)](https://flutter.dev)
 
+[![Web](https://img.shields.io/badge/Platform-Web-4285F4?style=flat&logo=google-chrome&logoColor=white)](https://arcangelo7.github.io/portfolio/)
+[![Android](https://img.shields.io/badge/Platform-Android-3DDC84?style=flat&logo=android&logoColor=white)](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-android-latest.apk)
+[![iOS](https://img.shields.io/badge/Platform-iOS-000000?style=flat&logo=apple&logoColor=white)](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-ios-latest.ipa)
+[![Windows](https://img.shields.io/badge/Platform-Windows-0078D6?style=flat&logo=windows&logoColor=white)](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-windows-latest.zip)
+[![macOS](https://img.shields.io/badge/Platform-macOS-000000?style=flat&logo=apple&logoColor=white)](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-macos-latest.tar.gz)
+[![Linux](https://img.shields.io/badge/Platform-Linux-FCC624?style=flat&logo=linux&logoColor=black)](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-linux-latest.tar.gz)
+
 A responsive Flutter portfolio website showcasing my institutional profile and skills.
 
 **🌐 Portfolio Website**: [https://arcangelo7.github.io/portfolio/](https://arcangelo7.github.io/portfolio/)
@@ -22,9 +29,9 @@ A responsive Flutter portfolio website showcasing my institutional profile and s
 
 - **Web**: [Live Demo](https://arcangelo7.github.io/portfolio/) - Also installable as Progressive Web App (PWA)
 - **Android**: [Download APK](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-android-latest.apk)
-- **iOS**: [Download IPA](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-ios-latest.ipa) (unsigned - requires sideloading)
+- **iOS**: [Download IPA](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-ios-latest.ipa) (unsigned - requires sideloading) ⚠️ **Note**: I don't own a Mac or iPhone, so iOS builds are untested
 - **Windows**: [Download Windows Build](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-windows-latest.zip)
-- **macOS**: [Download macOS Build](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-macos-latest.tar.gz)
+- **macOS**: [Download macOS Build](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-macos-latest.tar.gz) ⚠️ **Note**: I don't own a Mac, so macOS builds are untested
 - **Linux**: [Download Linux Build](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-linux-latest.tar.gz)
 
 ### Platform-specific Installation
