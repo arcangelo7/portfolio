@@ -308,7 +308,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tutorDescription =>
-      'Sesiones de laboratorio para la enseñanza de [Computational Management of Data](https://www.unibo.it/it/studiare/insegnamenti-competenze-trasversali-moocs/insegnamenti/insegnamento/2025/542133) en la Maestría en [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) de la Universidad de Bolonia.';
+      'Sesiones de laboratorio para la enseñanza de [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) en la Maestría en [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) de la Universidad de Bolonia.';
 
   @override
   String get researchFellowTitle => 'Investigador asociado';

@@ -6,6 +6,19 @@ import '../models/publication.dart';
 import '../services/zotero_service.dart';
 
 class DynamicCVGeneratorService {
+  static String _normalizeUrl(String url) {
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      if (url.startsWith('www.')) {
+        return 'https://$url';
+      } else if (url.contains('@')) {
+        return 'mailto:$url';
+      } else {
+        return 'https://$url';
+      }
+    }
+    return url;
+  }
+
   static Future<pw.ThemeData> _createUnicodeTheme() async {
     final dejaVuRegular = pw.Font.ttf(
       await rootBundle.load("assets/fonts/DejaVuSans-Regular.ttf"),
@@ -52,7 +65,8 @@ class DynamicCVGeneratorService {
 
       // Add the clickable link
       final linkText = match.group(1) ?? '';
-      final linkUrl = match.group(2) ?? '';
+      var linkUrl = _normalizeUrl(match.group(2) ?? '');
+
       spans.add(
         pw.TextSpan(
           text: linkText,
@@ -61,7 +75,7 @@ class DynamicCVGeneratorService {
             color: PdfColor.fromHex('#0066cc'),
             decoration: pw.TextDecoration.underline,
           ),
-          annotation: pw.AnnotationLink(linkUrl),
+          annotation: pw.AnnotationUrl(linkUrl),
         ),
       );
 
@@ -286,12 +300,32 @@ class DynamicCVGeneratorService {
               style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
             ),
           ),
-          pw.Expanded(
-            child: pw.Text(value, style: const pw.TextStyle(fontSize: 10)),
-          ),
+          pw.Expanded(child: _buildClickableValue(value)),
         ],
       ),
     );
+  }
+
+  static pw.Widget _buildClickableValue(String value) {
+    if (value.contains('@') ||
+        value.contains('github.com') ||
+        value.contains('orcid.org')) {
+      var url = _normalizeUrl(value);
+
+      return pw.RichText(
+        text: pw.TextSpan(
+          text: value,
+          style: pw.TextStyle(
+            fontSize: 10,
+            color: PdfColor.fromHex('#0066cc'),
+            decoration: pw.TextDecoration.underline,
+          ),
+          annotation: pw.AnnotationUrl(url),
+        ),
+      );
+    } else {
+      return pw.Text(value, style: const pw.TextStyle(fontSize: 10));
+    }
   }
 
   static pw.Widget _buildSectionHeader(
@@ -562,6 +596,7 @@ class DynamicCVGeneratorService {
 
     // If there's a DOI or URL, make the title clickable
     if (pub.doi != null && pub.doi!.isNotEmpty) {
+      var doiUrl = 'https://doi.org/${pub.doi}';
       return pw.RichText(
         text: pw.TextSpan(
           text: titleText,
@@ -571,10 +606,12 @@ class DynamicCVGeneratorService {
             color: PdfColor.fromHex('#0066cc'),
             decoration: pw.TextDecoration.underline,
           ),
-          annotation: pw.AnnotationLink('https://doi.org/${pub.doi}'),
+          annotation: pw.AnnotationUrl(doiUrl),
         ),
       );
     } else if (pub.url != null && pub.url!.isNotEmpty) {
+      var url = _normalizeUrl(pub.url!);
+
       return pw.RichText(
         text: pw.TextSpan(
           text: titleText,
@@ -584,7 +621,7 @@ class DynamicCVGeneratorService {
             color: PdfColor.fromHex('#0066cc'),
             decoration: pw.TextDecoration.underline,
           ),
-          annotation: pw.AnnotationLink(pub.url!),
+          annotation: pw.AnnotationUrl(url),
         ),
       );
     } else {
@@ -600,6 +637,7 @@ class DynamicCVGeneratorService {
     final List<pw.InlineSpan> linkSpans = [];
 
     if (pub.doi != null && pub.doi!.isNotEmpty) {
+      var doiUrl = 'https://doi.org/${pub.doi}';
       linkSpans.add(
         pw.TextSpan(
           text: 'DOI: ${pub.doi}',
@@ -608,7 +646,7 @@ class DynamicCVGeneratorService {
             color: PdfColor.fromHex('#0066cc'),
             decoration: pw.TextDecoration.underline,
           ),
-          annotation: pw.AnnotationLink('https://doi.org/${pub.doi}'),
+          annotation: pw.AnnotationUrl(doiUrl),
         ),
       );
     }
@@ -619,6 +657,9 @@ class DynamicCVGeneratorService {
           pw.TextSpan(text: ' | ', style: const pw.TextStyle(fontSize: 8)),
         );
       }
+
+      var url = _normalizeUrl(pub.url!);
+
       linkSpans.add(
         pw.TextSpan(
           text: 'URL',
@@ -627,7 +668,7 @@ class DynamicCVGeneratorService {
             color: PdfColor.fromHex('#0066cc'),
             decoration: pw.TextDecoration.underline,
           ),
-          annotation: pw.AnnotationLink(pub.url!),
+          annotation: pw.AnnotationUrl(url),
         ),
       );
     }
