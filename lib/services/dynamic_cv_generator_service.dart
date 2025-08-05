@@ -54,7 +54,7 @@ class DynamicCVGeneratorService {
     );
   }
 
-  static pw.Widget _buildRichText(String text, {double fontSize = 9}) {
+  static pw.Widget _buildRichText(String text, {double fontSize = 12}) {
     final linkRegex = RegExp(r'\[([^\]]+)\]\(([^)]+)\)');
     final matches = linkRegex.allMatches(text).toList();
 
@@ -158,7 +158,7 @@ class DynamicCVGeneratorService {
       ),
     );
 
-    // Second page: Work Experience
+    // Second page: Work Experience, Conferences and Skills
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
@@ -173,33 +173,38 @@ class DynamicCVGeneratorService {
               lightBlue,
             ),
             pw.SizedBox(height: 20),
-            _buildSection(
+            // Conferences using the same pattern as publications
+            _buildSectionHeader(
               l10n.cvConferencesTitle,
-              _buildConferencesContent(l10n, cvData.conferences),
               sectionColor,
               lightBlue,
             ),
+            pw.SizedBox(height: 10),
+            ..._buildConferencesAsList(l10n, cvData.conferences),
+            pw.SizedBox(height: 20),
+            // Skills using the same pattern as publications and conferences
+            _buildSectionHeader(l10n.cvSkillsTitle, sectionColor, lightBlue),
+            pw.SizedBox(height: 10),
+            ..._buildSkillsAsList(l10n, cvData.skills),
+            // Add footer here if no publications
+            if (publications.isEmpty) ...[
+              pw.SizedBox(height: 20),
+              _buildFooter(l10n),
+            ],
           ];
         },
       ),
     );
 
-    // Third page: Skills and Publications
-    pdf.addPage(
-      pw.MultiPage(
-        pageFormat: PdfPageFormat.a4,
-        margin: const pw.EdgeInsets.all(40),
-        maxPages: 20,
-        build: (pw.Context context) {
-          return [
-            _buildSection(
-              l10n.cvSkillsTitle,
-              _buildSkillsContent(l10n, cvData.skills),
-              sectionColor,
-              lightBlue,
-            ),
-            if (publications.isNotEmpty) ...[
-              pw.SizedBox(height: 20),
+    // Third page: Publications (if any) and Footer
+    if (publications.isNotEmpty) {
+      pdf.addPage(
+        pw.MultiPage(
+          pageFormat: PdfPageFormat.a4,
+          margin: const pw.EdgeInsets.all(40),
+          maxPages: 20,
+          build: (pw.Context context) {
+            return [
               _buildSectionHeader(
                 l10n.cvPublicationsTitle,
                 sectionColor,
@@ -207,13 +212,13 @@ class DynamicCVGeneratorService {
               ),
               pw.SizedBox(height: 10),
               ..._buildPublications(publications, l10n),
-            ],
-            pw.SizedBox(height: 20),
-            _buildFooter(l10n),
-          ];
-        },
-      ),
-    );
+              pw.SizedBox(height: 20),
+              _buildFooter(l10n),
+            ];
+          },
+        ),
+      );
+    }
 
     return pdf.save();
   }
@@ -378,7 +383,7 @@ class DynamicCVGeneratorService {
             width: 120,
             child: pw.Text(
               label,
-              style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
+              style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
             ),
           ),
           pw.Expanded(child: _buildClickableValue(value)),
@@ -397,7 +402,7 @@ class DynamicCVGeneratorService {
         text: pw.TextSpan(
           text: value,
           style: pw.TextStyle(
-            fontSize: 10,
+            fontSize: 12,
             color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
             decoration: pw.TextDecoration.underline,
           ),
@@ -405,7 +410,7 @@ class DynamicCVGeneratorService {
         ),
       );
     } else {
-      return pw.Text(value, style: const pw.TextStyle(fontSize: 10));
+      return pw.Text(value, style: const pw.TextStyle(fontSize: 12));
     }
   }
 
@@ -494,7 +499,7 @@ class DynamicCVGeneratorService {
         pw.Text(
           period,
           style: pw.TextStyle(
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: pw.FontWeight.bold,
             color: _convertFlutterToPdfColor(
               PortfolioTheme.wine.withValues(alpha: 0.7),
@@ -504,13 +509,13 @@ class DynamicCVGeneratorService {
         pw.SizedBox(height: 2),
         pw.Text(
           title,
-          style: pw.TextStyle(fontSize: 11, fontWeight: pw.FontWeight.bold),
+          style: pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold),
         ),
         pw.SizedBox(height: 2),
-        pw.Text(institution, style: const pw.TextStyle(fontSize: 10)),
+        pw.Text(institution, style: const pw.TextStyle(fontSize: 12)),
         if (description.isNotEmpty) ...[
           pw.SizedBox(height: 4),
-          _buildRichText(description, fontSize: 9),
+          _buildRichText(description, fontSize: 12),
         ],
       ],
     );
@@ -562,7 +567,7 @@ class DynamicCVGeneratorService {
         pw.Text(
           period,
           style: pw.TextStyle(
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: pw.FontWeight.bold,
             color: _convertFlutterToPdfColor(
               PortfolioTheme.wine.withValues(alpha: 0.7),
@@ -572,48 +577,34 @@ class DynamicCVGeneratorService {
         pw.SizedBox(height: 2),
         pw.Text(
           title,
-          style: pw.TextStyle(fontSize: 11, fontWeight: pw.FontWeight.bold),
+          style: pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold),
         ),
         pw.SizedBox(height: 2),
-        pw.Text(company, style: const pw.TextStyle(fontSize: 10)),
+        pw.Text(company, style: const pw.TextStyle(fontSize: 12)),
         pw.SizedBox(height: 4),
-        _buildRichText(description, fontSize: 9),
+        _buildRichText(description, fontSize: 12),
       ],
     );
   }
 
-  static pw.Widget _buildConferencesContent(
+  /// Build conferences as a list of widgets like publications for better page breaking
+  static List<pw.Widget> _buildConferencesAsList(
     AppLocalizations l10n,
     List<ConferenceEntry> conferenceEntries,
   ) {
-    return pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
-      children:
-          conferenceEntries
-              .map(
-                (entry) => pw.Column(
-                  children: [
-                    _buildConferenceEntry(
-                      LocalizationHelper.getLocalizedText(
-                        l10n,
-                        entry.periodKey,
-                      ),
-                      LocalizationHelper.getLocalizedText(l10n, entry.titleKey),
-                      LocalizationHelper.getLocalizedText(
-                        l10n,
-                        entry.locationKey,
-                      ),
-                      LocalizationHelper.getLocalizedText(
-                        l10n,
-                        entry.descriptionKey,
-                      ),
-                    ),
-                    pw.SizedBox(height: 8),
-                  ],
-                ),
-              )
-              .toList(),
-    );
+    return conferenceEntries
+        .map(
+          (entry) => pw.Container(
+            margin: const pw.EdgeInsets.only(bottom: 8),
+            child: _buildConferenceEntry(
+              LocalizationHelper.getLocalizedText(l10n, entry.periodKey),
+              LocalizationHelper.getLocalizedText(l10n, entry.titleKey),
+              LocalizationHelper.getLocalizedText(l10n, entry.locationKey),
+              LocalizationHelper.getLocalizedText(l10n, entry.descriptionKey),
+            ),
+          ),
+        )
+        .toList();
   }
 
   static pw.Widget _buildConferenceEntry(
@@ -628,7 +619,7 @@ class DynamicCVGeneratorService {
         pw.Text(
           period,
           style: pw.TextStyle(
-            fontSize: 9,
+            fontSize: 12,
             fontWeight: pw.FontWeight.bold,
             color: _convertFlutterToPdfColor(
               PortfolioTheme.wine.withValues(alpha: 0.7),
@@ -638,20 +629,21 @@ class DynamicCVGeneratorService {
         pw.SizedBox(height: 2),
         pw.Text(
           title,
-          style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
+          style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
         ),
         pw.SizedBox(height: 1),
         pw.Text(
           location,
-          style: pw.TextStyle(fontSize: 9, fontStyle: pw.FontStyle.italic),
+          style: pw.TextStyle(fontSize: 12, fontStyle: pw.FontStyle.italic),
         ),
         pw.SizedBox(height: 3),
-        _buildRichText(description, fontSize: 8),
+        _buildRichText(description, fontSize: 12),
       ],
     );
   }
 
-  static pw.Widget _buildSkillsContent(
+  /// Build skills as a list of widgets like publications and conferences for better page breaking
+  static List<pw.Widget> _buildSkillsAsList(
     AppLocalizations l10n,
     SkillsData skillsData,
   ) {
@@ -679,7 +671,7 @@ class DynamicCVGeneratorService {
               pw.Text(
                 categoryName,
                 style: pw.TextStyle(
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: pw.FontWeight.bold,
                   color: _convertFlutterToPdfColor(
                     PortfolioTheme.wine.withValues(alpha: 0.7),
@@ -715,7 +707,7 @@ class DynamicCVGeneratorService {
                             child: pw.Text(
                               skill,
                               style: pw.TextStyle(
-                                fontSize: 8,
+                                fontSize: 11,
                                 color: _convertFlutterToPdfColor(
                                   PortfolioTheme.cobaltBlue,
                                 ),
@@ -732,10 +724,7 @@ class DynamicCVGeneratorService {
       );
     }
 
-    return pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
-      children: skillWidgets,
-    );
+    return skillWidgets;
   }
 
   static pw.Widget _buildPublicationTitle(Publication pub) {
@@ -748,7 +737,7 @@ class DynamicCVGeneratorService {
         text: pw.TextSpan(
           text: titleText,
           style: pw.TextStyle(
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: pw.FontWeight.bold,
             color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
             decoration: pw.TextDecoration.underline,
@@ -763,7 +752,7 @@ class DynamicCVGeneratorService {
         text: pw.TextSpan(
           text: titleText,
           style: pw.TextStyle(
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: pw.FontWeight.bold,
             color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
             decoration: pw.TextDecoration.underline,
@@ -774,7 +763,7 @@ class DynamicCVGeneratorService {
     } else {
       return pw.Text(
         titleText,
-        style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
+        style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
       );
     }
   }
@@ -799,7 +788,7 @@ class DynamicCVGeneratorService {
       text: pw.TextSpan(
         text: pub.getViewButtonText(l10n),
         style: pw.TextStyle(
-          fontSize: 8,
+          fontSize: 11,
           color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
           decoration: pw.TextDecoration.underline,
         ),
@@ -862,9 +851,9 @@ class DynamicCVGeneratorService {
                   _buildPublicationTitle(pub),
                   pw.SizedBox(height: 2),
                   pw.Text(
-                    '${pub.authorsString}. ${pub.displayVenue}',
+                    pub.displayVenue,
                     style: pw.TextStyle(
-                      fontSize: 9,
+                      fontSize: 12,
                       fontStyle: pw.FontStyle.italic,
                     ),
                   ),
@@ -889,14 +878,14 @@ class DynamicCVGeneratorService {
       children: [
         pw.Divider(color: PdfColors.grey400),
         pw.SizedBox(height: 10),
-        pw.Text(l10n.cvGdprConsent, style: const pw.TextStyle(fontSize: 8)),
+        pw.Text(l10n.cvGdprConsent, style: const pw.TextStyle(fontSize: 11)),
         pw.SizedBox(height: 15),
         pw.Row(
           mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
           children: [
             pw.Text(
               'Bologna, ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
-              style: const pw.TextStyle(fontSize: 10),
+              style: const pw.TextStyle(fontSize: 12),
             ),
             pw.Text(
               l10n.name,
