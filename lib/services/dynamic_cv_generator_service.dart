@@ -116,6 +116,8 @@ class DynamicCVGeneratorService {
     final sectionColor = PdfColor.fromHex('#4a90e2');
     final lightBlue = PdfColor.fromHex('#e8f4fd');
 
+    final header = await _buildHeader(headerColor, l10n);
+
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
@@ -123,7 +125,7 @@ class DynamicCVGeneratorService {
         maxPages: 20,
         build: (pw.Context context) {
           return [
-            _buildHeader(headerColor, l10n),
+            header,
             pw.SizedBox(height: 20),
             _buildPersonalInfo(l10n),
             pw.SizedBox(height: 20),
@@ -233,7 +235,16 @@ class DynamicCVGeneratorService {
     return grouped;
   }
 
-  static pw.Widget _buildHeader(PdfColor headerColor, AppLocalizations l10n) {
+  static Future<pw.Widget> _buildHeader(PdfColor headerColor, AppLocalizations l10n) async {
+    final imageBytes = await rootBundle.load('assets/images/foto_cv.png');
+    final image = pw.MemoryImage(imageBytes.buffer.asUint8List());
+    
+    final photoWidget = pw.Container(
+      width: 80,
+      height: 80,
+      child: pw.Image(image, fit: pw.BoxFit.contain),
+    );
+
     return pw.Container(
       width: double.infinity,
       decoration: pw.BoxDecoration(color: headerColor),
@@ -260,6 +271,8 @@ class DynamicCVGeneratorService {
               ],
             ),
           ),
+          pw.SizedBox(width: 20),
+          photoWidget,
         ],
       ),
     );

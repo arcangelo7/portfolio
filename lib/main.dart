@@ -261,7 +261,7 @@ class _LandingPageState extends State<LandingPage>
       
       await Printing.sharePdf(
         bytes: pdfBytes,
-        filename: 'CV_Arcangelo_Massari.pdf',
+        filename: 'CV_Arcangelo_Massari_${widget.currentLocale.languageCode}.pdf',
       );
 
       if (mounted) {
