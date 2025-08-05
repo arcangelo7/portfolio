@@ -1113,18 +1113,18 @@ class _SkillsBubbleChart extends StatelessWidget {
     required this.isMobile,
   });
 
-  // Colori distintivi per ogni categoria
+  // Colori distintivi per ogni categoria (ordinati secondo la scala cromatica)
   List<Color> get _categoryColors => [
-    const Color(0xFF6366F1), // Indigo
-    const Color(0xFF8B5CF6), // Violet
-    const Color(0xFF06B6D4), // Cyan
-    const Color(0xFF10B981), // Emerald
-    const Color(0xFFF59E0B), // Amber
     const Color(0xFFEF4444), // Red
-    const Color(0xFFEC4899), // Pink
-    const Color(0xFF8B5A2B), // Brown
-    const Color(0xFF6B7280), // Gray
-    const Color(0xFF059669), // Teal
+    const Color(0xFFF97316), // Orange
+    const Color(0xFFEAB308), // Yellow
+    const Color(0xFF10B981), // Green/Emerald
+    const Color(0xFF059669), // Teal (verde-azzurro)
+    const Color(0xFF06B6D4), // Cyan
+    const Color(0xFF6366F1), // Blue/Indigo
+    const Color(0xFF8B5CF6), // Violet
+    const Color(0xFFEC4899), // Pink/Magenta
+    const Color(0xFF6B7280), // Gray (neutro)
   ];
 
   Color _getCategoryColor(int index, BuildContext context) {

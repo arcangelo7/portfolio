@@ -687,22 +687,14 @@ class DynamicCVGeneratorService {
                         .map(
                           (skill) => pw.Container(
                             padding: const pw.EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 3,
+                              horizontal: 10,
+                              vertical: 4,
                             ),
                             decoration: pw.BoxDecoration(
                               color: _convertFlutterToPdfColor(
                                 PortfolioTheme.iceWhite,
                               ),
-                              borderRadius: pw.BorderRadius.circular(12),
-                              border: pw.Border.all(
-                                color: _convertFlutterToPdfColor(
-                                  PortfolioTheme.cobaltBlue.withValues(
-                                    alpha: 0.4,
-                                  ),
-                                ),
-                                width: 0.8,
-                              ),
+                              borderRadius: pw.BorderRadius.circular(10),
                             ),
                             child: pw.Text(
                               skill,
