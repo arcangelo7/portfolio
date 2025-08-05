@@ -14,6 +14,7 @@ import 'widgets/astrogods_section.dart';
 import 'widgets/theme_toggle_widget.dart';
 import 'widgets/orbiting_planets_widget.dart';
 import 'widgets/table_of_contents_widget.dart';
+import 'widgets/flutter_modal.dart';
 import 'services/dynamic_cv_generator_service.dart';
 import 'services/zotero_service.dart';
 import 'package:printing/printing.dart';
@@ -1451,6 +1452,12 @@ class _SkillsBubbleChart extends StatelessWidget {
     Color categoryColor,
   ) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
+    final isFlutter = skill == l10n.skillFlutter;
+
+    if (isFlutter) {
+      return _buildFlutterSkillBubble(context, skill);
+    }
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -1482,4 +1489,80 @@ class _SkillsBubbleChart extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildFlutterSkillBubble(BuildContext context, String skill) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: InkWell(
+        onTap: () => _showFlutterModal(context),
+        borderRadius: BorderRadius.circular(isMobile ? 20 : 24),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: EdgeInsets.symmetric(
+            horizontal: isMobile ? 14 : 18,
+            vertical: isMobile ? 10 : 12,
+          ),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                PortfolioTheme.cobaltBlue,
+                PortfolioTheme.cobaltBlue.withValues(alpha: 0.8),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(isMobile ? 20 : 24),
+            boxShadow: [
+              BoxShadow(
+                color: PortfolioTheme.cobaltBlue.withValues(alpha: 0.4),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+                spreadRadius: 1,
+              ),
+              BoxShadow(
+                color: PortfolioTheme.cobaltBlue.withValues(alpha: 0.2),
+                blurRadius: 16,
+                offset: const Offset(0, 8),
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.flutter_dash,
+                color: Colors.white,
+                size: isMobile ? 16 : 18,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                skill,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: isMobile ? 13 : 14,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Icon(
+                Icons.open_in_new,
+                color: Colors.white.withValues(alpha: 0.8),
+                size: isMobile ? 12 : 14,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showFlutterModal(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => const FlutterModal(),
+    );
+  }
+
 }

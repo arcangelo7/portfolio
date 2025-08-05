@@ -1155,6 +1155,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select Language'**
   String get selectLanguage;
+
+  /// No description provided for @flutterAppTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Made with Flutter'**
+  String get flutterAppTitle;
+
+  /// No description provided for @flutterAppSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Install as an app too'**
+  String get flutterAppSubtitle;
+
+  /// No description provided for @flutterAppDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This portfolio is built with Flutter, which means you can download it as a native app for Android and Linux, or install it as a Progressive Web App. Why would you want my portfolio as an installable app? I have no idea, but it\'s pretty cool'**
+  String get flutterAppDescription;
+
+  /// No description provided for @downloadForAndroid.
+  ///
+  /// In en, this message translates to:
+  /// **'Download for Android'**
+  String get downloadForAndroid;
+
+  /// No description provided for @downloadForLinux.
+  ///
+  /// In en, this message translates to:
+  /// **'Download for Linux'**
+  String get downloadForLinux;
+
+  /// No description provided for @viewSourceCode.
+  ///
+  /// In en, this message translates to:
+  /// **'View source code'**
+  String get viewSourceCode;
+
+  /// No description provided for @closeFlutterInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it!'**
+  String get closeFlutterInfo;
 }
 
 class _AppLocalizationsDelegate

@@ -34,7 +34,7 @@ Run tests with coverage (auto-excludes generated files):
 
 ## Supported Platforms
 
-- **Web**: [Live Demo](https://arcangelo7.github.io/portfolio/)
+- **Web**: [Live Demo](https://arcangelo7.github.io/portfolio/) - Also installable as Progressive Web App (PWA)
 - **Android**: [Download APK](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-android-latest.apk)
 - **Linux**: [Download Linux Build](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-linux-latest.tar.gz)
 

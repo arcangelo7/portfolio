@@ -174,5 +174,12 @@
   "cvNationalityValue": "Italiana",
   "cvBirthDate": "23 agosto 1997",
   "cvGdprConsent": "Autorizo el tratamiento de mis datos personales contenidos en este CV de conformidad con el art. 13 del Decreto Legislativo 196/2003 - \"Código de protección de datos personales\" y el art. 13 del GDPR 679/16 - \"Reglamento europeo sobre la protección de datos personales\".",
-  "selectLanguage": "Seleccionar idioma"
+  "selectLanguage": "Seleccionar idioma",
+  "flutterAppTitle": "Hecho con Flutter",
+  "flutterAppSubtitle": "Instálalo también como app",
+  "flutterAppDescription": "Este portafolio está hecho con Flutter, lo que significa que puedes descargarlo como app nativa para Android y Linux, o instalarlo como Progressive Web App. ¿Por qué querrías mi portafolio como app instalable? No tengo ni idea, pero mola",
+  "downloadForAndroid": "Descargar para Android",
+  "downloadForLinux": "Descargar para Linux",
+  "viewSourceCode": "Ver código fuente",
+  "closeFlutterInfo": "¡Entendido!"
 }

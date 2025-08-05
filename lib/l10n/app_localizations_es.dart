@@ -574,4 +574,26 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get selectLanguage => 'Seleccionar idioma';
+
+  @override
+  String get flutterAppTitle => 'Hecho con Flutter';
+
+  @override
+  String get flutterAppSubtitle => 'Instálalo también como app';
+
+  @override
+  String get flutterAppDescription =>
+      'Este portafolio está hecho con Flutter, lo que significa que puedes descargarlo como app nativa para Android y Linux, o instalarlo como Progressive Web App. ¿Por qué querrías mi portafolio como app instalable? No tengo ni idea, pero mola';
+
+  @override
+  String get downloadForAndroid => 'Descargar para Android';
+
+  @override
+  String get downloadForLinux => 'Descargar para Linux';
+
+  @override
+  String get viewSourceCode => 'Ver código fuente';
+
+  @override
+  String get closeFlutterInfo => '¡Entendido!';
 }
