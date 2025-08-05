@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
+import 'starry_background.dart';
 
-class AstroGodsSection extends StatelessWidget {
+class AstroGodsSection extends StatefulWidget {
   const AstroGodsSection({super.key});
+
+  @override
+  State<AstroGodsSection> createState() => _AstroGodsSectionState();
+}
+
+class _AstroGodsSectionState extends State<AstroGodsSection> {
 
   Future<void> _launchUrl(String url) async {
     final uri = Uri.parse(url);
@@ -53,28 +60,21 @@ class AstroGodsSection extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            PortfolioTheme.astroMysticBlue, // Blu scuro mistico
-            PortfolioTheme.astroDarkViolet, // Viola scuro
-            PortfolioTheme.astroDeepBlue, // Blu profondo
-          ],
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.3),
-            blurRadius: 16,
-            offset: const Offset(0, 8),
+      child: StarryBackground(
+        showHorizon: true,
+        child: Container(
+          padding: EdgeInsets.all(isMobile ? 20 : 64),
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.3),
+                blurRadius: 16,
+                offset: const Offset(0, 8),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Container(
-        padding: EdgeInsets.all(isMobile ? 20 : 64),
-        child: Column(
-          children: [
+          child: Column(
+            children: [
             // Titolo principale
             _buildStrikethroughText(
               l10n.astroGodsTitle,
@@ -131,7 +131,8 @@ class AstroGodsSection extends StatelessWidget {
 
             // Pulsante di azione
             _buildActionButtons(context, l10n, isMobile),
-          ],
+            ],
+          ),
         ),
       ),
     );
