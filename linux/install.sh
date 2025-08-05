@@ -87,7 +87,8 @@ Icon=$APP_NAME
 Terminal=false
 Type=Application
 Categories=Development;
-StartupWMClass=$APP_NAME
+StartupWMClass=com.arcangelo.portfolio.portfolio
+StartupNotify=true
 EOF
 
 # Update applications database
