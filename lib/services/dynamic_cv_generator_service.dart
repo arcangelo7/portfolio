@@ -632,48 +632,30 @@ class DynamicCVGeneratorService {
     }
   }
 
-  /// Build publication links (DOI and URL)
-  static pw.Widget _buildPublicationLinks(Publication pub) {
-    final List<pw.InlineSpan> linkSpans = [];
-
+  /// Build publication links using localized view button text
+  static pw.Widget _buildPublicationLinks(Publication pub, AppLocalizations l10n) {
+    String? url;
     if (pub.doi != null && pub.doi!.isNotEmpty) {
-      var doiUrl = 'https://doi.org/${pub.doi}';
-      linkSpans.add(
-        pw.TextSpan(
-          text: 'DOI: ${pub.doi}',
-          style: pw.TextStyle(
-            fontSize: 8,
-            color: PdfColor.fromHex('#0066cc'),
-            decoration: pw.TextDecoration.underline,
-          ),
-          annotation: pw.AnnotationUrl(doiUrl),
-        ),
-      );
+      url = 'https://doi.org/${pub.doi}';
+    } else if (pub.url != null && pub.url!.isNotEmpty) {
+      url = _normalizeUrl(pub.url!);
     }
 
-    if (pub.url != null && pub.url!.isNotEmpty) {
-      if (linkSpans.isNotEmpty) {
-        linkSpans.add(
-          pw.TextSpan(text: ' | ', style: const pw.TextStyle(fontSize: 8)),
-        );
-      }
-
-      var url = _normalizeUrl(pub.url!);
-
-      linkSpans.add(
-        pw.TextSpan(
-          text: 'URL',
-          style: pw.TextStyle(
-            fontSize: 8,
-            color: PdfColor.fromHex('#0066cc'),
-            decoration: pw.TextDecoration.underline,
-          ),
-          annotation: pw.AnnotationUrl(url),
-        ),
-      );
+    if (url == null) {
+      return pw.SizedBox.shrink();
     }
 
-    return pw.RichText(text: pw.TextSpan(children: linkSpans));
+    return pw.RichText(
+      text: pw.TextSpan(
+        text: pub.getViewButtonText(l10n),
+        style: pw.TextStyle(
+          fontSize: 8,
+          color: PdfColor.fromHex('#0066cc'),
+          decoration: pw.TextDecoration.underline,
+        ),
+        annotation: pw.AnnotationUrl(url),
+      ),
+    );
   }
 
   /// Build publications organized by category with subsections
@@ -736,7 +718,7 @@ class DynamicCVGeneratorService {
                   ),
                   if (pub.doi != null || pub.url != null) ...[
                     pw.SizedBox(height: 2),
-                    _buildPublicationLinks(pub),
+                    _buildPublicationLinks(pub, l10n),
                   ],
                 ],
               ),

@@ -727,7 +727,7 @@ abstract class AppLocalizations {
   /// No description provided for @phdCulturalHeritageDescription.
   ///
   /// In en, this message translates to:
-  /// **'Doctoral research focusing on creating user-friendly interfaces for semantic data, specifically Semantic Web technologies with emphasis on change tracking and provenance. The main focus is [HERITRACE](https://opencitations.github.io/heritrace/), which won the [Gigliozzi Prize](https://www.aiucd.it/premio-gigliozzi-2024/) for best presentation at AIUCD 2024 conference. More info: [PhD program](https://phd.unibo.it/chede).'**
+  /// **'Doctoral research focusing on creating user-friendly interfaces for semantic data, specifically Semantic Web technologies with emphasis on change tracking and provenance. The main focus is [HERITRACE](https://opencitations.github.io/heritrace/), which won the [Gigliozzi Prize](https://www.aiucd.it/premio-gigliozzi-2024/) for best presentation at AIUCD 2024 conference. More info: [PhD program](https://phd.unibo.it/chede/en).'**
   String get phdCulturalHeritageDescription;
 
   /// No description provided for @phdEngineeringTitle.

@@ -333,7 +333,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get phdCulturalHeritageDescription =>
-      'Investigación doctoral centrada en crear interfaces user-friendly para datos semánticos, específicamente tecnologías de Web Semántica con énfasis en change tracking y provenance. El enfoque principal es [HERITRACE](https://opencitations.github.io/heritrace/), que ganó el [Premio Gigliozzi](https://www.aiucd.it/premio-gigliozzi-2024/) por la mejor presentación en la conferencia AIUCD 2024. Más info: [Programa de doctorado](https://phd.unibo.it/chede).';
+      'Investigación doctoral centrada en crear interfaces user-friendly para datos semánticos, específicamente tecnologías de Web Semántica con énfasis en change tracking y provenance. El enfoque principal es [HERITRACE](https://opencitations.github.io/heritrace/), que ganó el [Premio Gigliozzi](https://www.aiucd.it/premio-gigliozzi-2024/) por la mejor presentación en la conferencia AIUCD 2024. Más info: [Programa de doctorado](https://phd.unibo.it/chede/en).';
 
   @override
   String get phdEngineeringTitle => 'Doctorado en tecnología de ingeniería';
