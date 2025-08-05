@@ -83,7 +83,7 @@ jobs:
           echo "No release published"
         fi
 
-  build-and-deploy:
+  build-web-linux-android:
     runs-on: ubuntu-latest
     needs: [check-release-trigger, release]
     if: needs.check-release-trigger.outputs.should-release == 'true'
@@ -214,12 +214,216 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Cleanup artifacts
+    - name: Upload artifacts for multi-platform release
+      uses: actions/upload-artifact@v4
+      with:
+        name: web-linux-android-builds
+        path: |
+          portfolio-web-${{ steps.version.outputs.version }}.zip
+          portfolio-linux-${{ steps.version.outputs.version }}.tar.gz
+          portfolio-android-${{ steps.version.outputs.version }}.apk
+          portfolio-web-latest.zip
+          portfolio-linux-latest.tar.gz
+          portfolio-android-latest.apk
+        retention-days: 1
+
+  build-windows:
+    runs-on: windows-latest
+    needs: [check-release-trigger, release]
+    if: needs.check-release-trigger.outputs.should-release == 'true'
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: main
+        fetch-depth: 0
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.29.2'
+        channel: 'stable'
+    
+    - name: Get dependencies
+      run: flutter pub get
+    
+    - name: Determine version
+      id: version
+      shell: bash
       run: |
-        rm -f portfolio-web-${{ steps.version.outputs.version }}.zip
-        rm -f portfolio-linux-${{ steps.version.outputs.version }}.tar.gz
-        rm -f portfolio-android-${{ steps.version.outputs.version }}.apk
-        rm -f portfolio-web-latest.zip
-        rm -f portfolio-linux-latest.tar.gz
-        rm -f portfolio-android-latest.apk
-        rm -f release_notes.md
+        if [ -n "${{ needs.release.outputs.version }}" ] && [ "${{ needs.release.outputs.version }}" != "" ]; then
+          VERSION="${{ needs.release.outputs.version }}"
+          echo "Using semantic-release version: $VERSION"
+        else
+          VERSION="$(date +%Y.%m.%d)-$(git rev-parse --short HEAD)"
+          echo "Using fallback version: $VERSION"
+        fi
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+    
+    - name: Update pubspec.yaml version
+      shell: bash
+      run: |
+        sed -i "s/^version: .*/version: ${{ steps.version.outputs.version }}+${{ github.run_number }}/" pubspec.yaml
+        echo "Updated pubspec.yaml to version ${{ steps.version.outputs.version }}+${{ github.run_number }}"
+    
+    - name: Enable Windows desktop
+      run: flutter config --enable-windows-desktop
+    
+    - name: Build Windows release
+      run: |
+        flutter build windows --release
+        Compress-Archive -Path "build/windows/x64/runner/Release/*" -DestinationPath "portfolio-windows-${{ steps.version.outputs.version }}.zip"
+        Copy-Item "portfolio-windows-${{ steps.version.outputs.version }}.zip" -Destination "portfolio-windows-latest.zip"
+    
+    - name: Upload Windows artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-builds
+        path: |
+          portfolio-windows-${{ steps.version.outputs.version }}.zip
+          portfolio-windows-latest.zip
+        retention-days: 1
+
+  build-macos-ios:
+    runs-on: macos-latest
+    needs: [check-release-trigger, release]
+    if: needs.check-release-trigger.outputs.should-release == 'true'
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: main
+        fetch-depth: 0
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.29.2'
+        channel: 'stable'
+    
+    - name: Get dependencies
+      run: flutter pub get
+    
+    - name: Determine version
+      id: version
+      run: |
+        if [ -n "${{ needs.release.outputs.version }}" ] && [ "${{ needs.release.outputs.version }}" != "" ]; then
+          VERSION="${{ needs.release.outputs.version }}"
+          echo "Using semantic-release version: $VERSION"
+        else
+          VERSION="$(date +%Y.%m.%d)-$(git rev-parse --short HEAD)"
+          echo "Using fallback version: $VERSION"
+        fi
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+    
+    - name: Update pubspec.yaml version
+      run: |
+        sed -i '' "s/^version: .*/version: ${{ steps.version.outputs.version }}+${{ github.run_number }}/" pubspec.yaml
+        echo "Updated pubspec.yaml to version ${{ steps.version.outputs.version }}+${{ github.run_number }}"
+    
+    - name: Enable macOS desktop
+      run: flutter config --enable-macos-desktop
+    
+    - name: Build macOS release
+      run: |
+        flutter build macos --release
+        cd build/macos/Build/Products/Release
+        tar -czf ../../../../../portfolio-macos-${{ steps.version.outputs.version }}.tar.gz portfolio.app
+        cd ../../../../../
+        cp portfolio-macos-${{ steps.version.outputs.version }}.tar.gz portfolio-macos-latest.tar.gz
+    
+    - name: Build iOS release
+      run: |
+        flutter build ios --release --no-codesign
+        cd build/ios/iphoneos
+        mkdir -p Payload
+        cp -r Runner.app Payload/
+        zip -r ../../../portfolio-ios-${{ steps.version.outputs.version }}.ipa Payload/
+        cd ../../..
+        cp portfolio-ios-${{ steps.version.outputs.version }}.ipa portfolio-ios-latest.ipa
+    
+    - name: Upload macOS and iOS artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: macos-ios-builds
+        path: |
+          portfolio-macos-${{ steps.version.outputs.version }}.tar.gz
+          portfolio-macos-latest.tar.gz
+          portfolio-ios-${{ steps.version.outputs.version }}.ipa
+          portfolio-ios-latest.ipa
+        retention-days: 1
+
+  create-release:
+    runs-on: ubuntu-latest
+    needs: [check-release-trigger, release, build-web-linux-android, build-windows, build-macos-ios]
+    if: needs.check-release-trigger.outputs.should-release == 'true'
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: main
+        fetch-depth: 0
+    
+    - name: Determine version
+      id: version
+      run: |
+        if [ -n "${{ needs.release.outputs.version }}" ] && [ "${{ needs.release.outputs.version }}" != "" ]; then
+          VERSION="${{ needs.release.outputs.version }}"
+          echo "Using semantic-release version: $VERSION"
+        else
+          VERSION="$(date +%Y.%m.%d)-$(git rev-parse --short HEAD)"
+          echo "Using fallback version: $VERSION"
+        fi
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+    
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+    
+    - name: Create release body
+      run: |
+        if [ -f "CHANGELOG.md" ] && [ -n "${{ needs.release.outputs.version }}" ]; then
+          echo "Using CHANGELOG.md from semantic-release"
+          echo "body_path=CHANGELOG.md" >> $GITHUB_ENV
+        else
+          echo "Creating fallback release notes"
+          echo "Portfolio release ${{ steps.version.outputs.version }}" > release_notes.md
+          echo "" >> release_notes.md
+          echo "📱 **Builds included:**" >> release_notes.md
+          echo "- Android APK" >> release_notes.md
+          echo "- iOS IPA (unsigned)" >> release_notes.md
+          echo "- Web build" >> release_notes.md
+          echo "- Linux build" >> release_notes.md
+          echo "- Windows build" >> release_notes.md
+          echo "- macOS build" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "**Commit:** ${{ github.sha }}" >> release_notes.md
+          echo "**Commit message:** ${{ needs.check-release-trigger.outputs.commit-message }}" >> release_notes.md
+          echo "body_path=release_notes.md" >> $GITHUB_ENV
+        fi
+    
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: v${{ steps.version.outputs.version }}
+        name: Release v${{ steps.version.outputs.version }}
+        body_path: ${{ env.body_path }}
+        files: |
+          web-linux-android-builds/portfolio-web-${{ steps.version.outputs.version }}.zip
+          web-linux-android-builds/portfolio-linux-${{ steps.version.outputs.version }}.tar.gz
+          web-linux-android-builds/portfolio-android-${{ steps.version.outputs.version }}.apk
+          web-linux-android-builds/portfolio-web-latest.zip
+          web-linux-android-builds/portfolio-linux-latest.tar.gz
+          web-linux-android-builds/portfolio-android-latest.apk
+          windows-builds/portfolio-windows-${{ steps.version.outputs.version }}.zip
+          windows-builds/portfolio-windows-latest.zip
+          macos-ios-builds/portfolio-macos-${{ steps.version.outputs.version }}.tar.gz
+          macos-ios-builds/portfolio-macos-latest.tar.gz
+          macos-ios-builds/portfolio-ios-${{ steps.version.outputs.version }}.ipa
+          macos-ios-builds/portfolio-ios-latest.ipa
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

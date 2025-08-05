@@ -1171,7 +1171,7 @@ abstract class AppLocalizations {
   /// No description provided for @flutterAppDescription.
   ///
   /// In en, this message translates to:
-  /// **'This portfolio is built with Flutter, which means you can download it as a native app for Android and Linux, or install it as a Progressive Web App. Why would you want my portfolio as an installable app? I have no idea, but it\'s pretty cool'**
+  /// **'This portfolio is built with Flutter, which means you can download it as a native app for Android, iOS, Windows, macOS and Linux, or install it as a Progressive Web App. Why would you want my portfolio as an installable app? I have no idea, but it\'s pretty cool'**
   String get flutterAppDescription;
 
   /// No description provided for @downloadForAndroid.
@@ -1179,6 +1179,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Download for Android'**
   String get downloadForAndroid;
+
+  /// No description provided for @downloadForIOS.
+  ///
+  /// In en, this message translates to:
+  /// **'Download for iOS'**
+  String get downloadForIOS;
+
+  /// No description provided for @downloadForWindows.
+  ///
+  /// In en, this message translates to:
+  /// **'Download for Windows'**
+  String get downloadForWindows;
+
+  /// No description provided for @downloadForMacOS.
+  ///
+  /// In en, this message translates to:
+  /// **'Download for macOS'**
+  String get downloadForMacOS;
 
   /// No description provided for @downloadForLinux.
   ///
@@ -1191,6 +1209,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View source code'**
   String get viewSourceCode;
+
+  /// No description provided for @installationInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'For installation instructions, check the README on GitHub'**
+  String get installationInstructions;
 
   /// No description provided for @closeFlutterInfo.
   ///

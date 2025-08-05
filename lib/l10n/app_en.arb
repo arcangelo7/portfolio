@@ -177,9 +177,13 @@
   "selectLanguage": "Select Language",
   "flutterAppTitle": "Made with Flutter",
   "flutterAppSubtitle": "Install as an app too",
-  "flutterAppDescription": "This portfolio is built with Flutter, which means you can download it as a native app for Android and Linux, or install it as a Progressive Web App. Why would you want my portfolio as an installable app? I have no idea, but it's pretty cool",
+  "flutterAppDescription": "This portfolio is built with Flutter, which means you can download it as a native app for Android, iOS, Windows, macOS and Linux, or install it as a Progressive Web App. Why would you want my portfolio as an installable app? I have no idea, but it's pretty cool",
   "downloadForAndroid": "Download for Android",
+  "downloadForIOS": "Download for iOS",
+  "downloadForWindows": "Download for Windows",
+  "downloadForMacOS": "Download for macOS",
   "downloadForLinux": "Download for Linux",
   "viewSourceCode": "View source code",
+  "installationInstructions": "For installation instructions, check the README on GitHub",
   "closeFlutterInfo": "Got it!"
 }

@@ -177,9 +177,13 @@
   "selectLanguage": "Seleccionar idioma",
   "flutterAppTitle": "Hecho con Flutter",
   "flutterAppSubtitle": "Instálalo también como app",
-  "flutterAppDescription": "Este portafolio está hecho con Flutter, lo que significa que puedes descargarlo como app nativa para Android y Linux, o instalarlo como Progressive Web App. ¿Por qué querrías mi portafolio como app instalable? No tengo ni idea, pero mola",
+  "flutterAppDescription": "Este portafolio está hecho con Flutter, lo que significa que puedes descargarlo como app nativa para Android, iOS, Windows, macOS y Linux, o instalarlo como Progressive Web App. ¿Por qué querrías mi portafolio como app instalable? No tengo ni idea, pero mola",
   "downloadForAndroid": "Descargar para Android",
+  "downloadForIOS": "Descargar para iOS",
+  "downloadForWindows": "Descargar para Windows",
+  "downloadForMacOS": "Descargar para macOS",
   "downloadForLinux": "Descargar para Linux",
   "viewSourceCode": "Ver código fuente",
+  "installationInstructions": "Para instrucciones de instalación, consulta el README en GitHub",
   "closeFlutterInfo": "¡Entendido!"
 }

@@ -580,16 +580,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get flutterAppDescription =>
-      'This portfolio is built with Flutter, which means you can download it as a native app for Android and Linux, or install it as a Progressive Web App. Why would you want my portfolio as an installable app? I have no idea, but it\'s pretty cool';
+      'This portfolio is built with Flutter, which means you can download it as a native app for Android, iOS, Windows, macOS and Linux, or install it as a Progressive Web App. Why would you want my portfolio as an installable app? I have no idea, but it\'s pretty cool';
 
   @override
   String get downloadForAndroid => 'Download for Android';
+
+  @override
+  String get downloadForIOS => 'Download for iOS';
+
+  @override
+  String get downloadForWindows => 'Download for Windows';
+
+  @override
+  String get downloadForMacOS => 'Download for macOS';
 
   @override
   String get downloadForLinux => 'Download for Linux';
 
   @override
   String get viewSourceCode => 'View source code';
+
+  @override
+  String get installationInstructions =>
+      'For installation instructions, check the README on GitHub';
 
   @override
   String get closeFlutterInfo => 'Got it!';

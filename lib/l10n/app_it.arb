@@ -177,9 +177,13 @@
   "selectLanguage": "Seleziona lingua",
   "flutterAppTitle": "Realizzato con Flutter",
   "flutterAppSubtitle": "Installalo anche come app",
-  "flutterAppDescription": "Questo portfolio è realizzato con Flutter, il che significa che puoi scaricarlo come app nativa per Android e Linux, o installarlo come Progressive Web App. Perché mai vorresti il mio portfolio come app installabile? Non ne ho la minima idea, però fa figo",
+  "flutterAppDescription": "Questo portfolio è realizzato con Flutter, il che significa che puoi scaricarlo come app nativa per Android, iOS, Windows, macOS e Linux, o installarlo come Progressive Web App. Perché mai vorresti il mio portfolio come app installabile? Non ne ho la minima idea, però fa figo",
   "downloadForAndroid": "Scarica per Android",
+  "downloadForIOS": "Scarica per iOS",
+  "downloadForWindows": "Scarica per Windows",
+  "downloadForMacOS": "Scarica per macOS",
   "downloadForLinux": "Scarica per Linux",
   "viewSourceCode": "Visualizza codice sorgente",
+  "installationInstructions": "Per le istruzioni di installazione, consulta il README su GitHub",
   "closeFlutterInfo": "Capito!"
 }
