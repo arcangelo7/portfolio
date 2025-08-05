@@ -1,3 +1,15 @@
+# [1.3.0](https://github.com/arcangelo7/portfolio/compare/v1.2.0...v1.3.0) (2025-08-05)
+
+
+### Bug Fixes
+
+* Set the desktop file name to help with dock/taskbar icon display ([17e657d](https://github.com/arcangelo7/portfolio/commit/17e657de50b6eb9251395d20cd58c87e7f252671))
+
+
+### Features
+
+* add flutter modal [release] ([c38aa54](https://github.com/arcangelo7/portfolio/commit/c38aa540c2d629ab5c58b14fce021cbf181bc826))
+
 # [1.2.0](https://github.com/arcangelo7/portfolio/compare/v1.1.0...v1.2.0) (2025-08-05)
 
 
