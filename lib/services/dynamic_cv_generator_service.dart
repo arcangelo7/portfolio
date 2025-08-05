@@ -802,19 +802,7 @@ class DynamicCVGeneratorService {
     List<Publication> publications,
     AppLocalizations l10n,
   ) {
-    // Filter to keep only main publication types for debugging
-    final filteredPublications =
-        publications
-            .where(
-              (pub) =>
-                  pub.itemType == 'journalArticle' ||
-                  pub.itemType == 'conferencePaper' ||
-                  pub.itemType == 'bookSection',
-            )
-            .toList();
-    final groupedPublications = _groupPublicationsByCategory(
-      filteredPublications,
-    );
+    final groupedPublications = _groupPublicationsByCategory(publications);
     final categoryOrder = _getCategoryOrder();
     final List<pw.Widget> widgets = [];
 
@@ -850,15 +838,21 @@ class DynamicCVGeneratorService {
                 children: [
                   _buildPublicationTitle(pub),
                   pw.SizedBox(height: 2),
-                  pw.Text(
-                    pub.displayVenue,
-                    style: pw.TextStyle(
-                      fontSize: 12,
-                      fontStyle: pw.FontStyle.italic,
+                  if (pub.itemType != 'computerProgram' &&
+                      pub.displayVenue != 'Unknown Venue') ...[
+                    pw.Text(
+                      pub.displayVenue,
+                      style: pw.TextStyle(
+                        fontSize: 12,
+                        fontStyle: pw.FontStyle.italic,
+                      ),
                     ),
-                  ),
-                  if (pub.doi != null || pub.url != null) ...[
                     pw.SizedBox(height: 2),
+                  ],
+                  if (pub.doi != null || pub.url != null) ...[
+                    if (pub.itemType == 'computerProgram' ||
+                        pub.displayVenue == 'Unknown Venue')
+                      pw.SizedBox(height: 2),
                     _buildPublicationLinks(pub, l10n),
                   ],
                 ],
