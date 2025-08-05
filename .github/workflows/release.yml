@@ -106,12 +106,12 @@ jobs:
     - name: Determine version
       id: version
       run: |
-        # Usa la versione da semantic-release se disponibile, altrimenti crea una versione fallback
+        # Use semantic-release version if available, otherwise create fallback version
         if [ -n "${{ needs.release.outputs.version }}" ] && [ "${{ needs.release.outputs.version }}" != "" ]; then
           VERSION="${{ needs.release.outputs.version }}"
           echo "Using semantic-release version: $VERSION"
         else
-          # Fallback: usa data + commit SHA abbreviato
+          # Fallback: use date + short commit SHA
           VERSION="$(date +%Y.%m.%d)-$(git rev-parse --short HEAD)"
           echo "Using fallback version: $VERSION"
         fi
@@ -120,7 +120,7 @@ jobs:
     
     - name: Update pubspec.yaml version
       run: |
-        # Aggiorna la versione nel pubspec.yaml
+        # Update version in pubspec.yaml
         sed -i "s/^version: .*/version: ${{ steps.version.outputs.version }}+${{ github.run_number }}/" pubspec.yaml
         echo "Updated pubspec.yaml to version ${{ steps.version.outputs.version }}+${{ github.run_number }}"
     
@@ -144,23 +144,37 @@ jobs:
         cd build/web
         zip -r ../../portfolio-web-${{ steps.version.outputs.version }}.zip .
         cd ../..
-        # Crea anche una copia con nome fisso per link diretto
+        # Create fixed-name copy for direct links
         cp portfolio-web-${{ steps.version.outputs.version }}.zip portfolio-web-latest.zip
     
     - name: Build Linux release
       run: |
         flutter build linux --release
-        cd build/linux/x64/release/bundle
-        tar -czf ../../../../../portfolio-linux-${{ steps.version.outputs.version }}.tar.gz .
-        cd ../../../../../
-        # Crea anche una copia con nome fisso per link diretto
+        
+        mkdir -p linux-package
+        
+        cp -r build/linux/x64/release/bundle/* linux-package/
+        
+        cp linux/install.sh linux-package/
+        cp linux/uninstall.sh linux-package/
+        
+        chmod +x linux-package/install.sh
+        chmod +x linux-package/uninstall.sh
+        chmod +x linux-package/portfolio
+        
+        cd linux-package
+        tar -czf ../portfolio-linux-${{ steps.version.outputs.version }}.tar.gz .
+        cd ..
+        
         cp portfolio-linux-${{ steps.version.outputs.version }}.tar.gz portfolio-linux-latest.tar.gz
+        
+        rm -rf linux-package
     
     - name: Build Android APK
       run: |
         flutter build apk --release
         mv build/app/outputs/flutter-apk/app-release.apk portfolio-android-${{ steps.version.outputs.version }}.apk
-        # Crea anche una copia con nome fisso per link diretto
+        # Create fixed-name copy for direct links
         cp portfolio-android-${{ steps.version.outputs.version }}.apk portfolio-android-latest.apk
     
     - name: Create release body

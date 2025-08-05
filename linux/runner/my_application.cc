@@ -4,6 +4,9 @@
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
 #endif
+#include <filesystem>
+using namespace std;
+using namespace std::filesystem;
 
 #include "flutter/generated_plugin_registrant.h"
 
@@ -19,6 +22,21 @@ static void my_application_activate(GApplication* application) {
   MyApplication* self = MY_APPLICATION(application);
   GtkWindow* window =
       GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
+
+  const string iconFilename = "assets/images/icon-512.png";
+  path execDir = canonical(read_symlink("/proc/self/exe")).parent_path();
+  path iconPath = execDir / "data/flutter_assets" / iconFilename;
+  
+  // Carica l'icona della finestra
+  GError* error = nullptr;
+  if (!gtk_window_set_icon_from_file(GTK_WINDOW(window), iconPath.c_str(), &error)) {
+    if (error) {
+      g_print("Failed to load icon: %s\n", error->message);
+      g_error_free(error);
+    }
+  } else {
+    g_print("Icon loaded successfully from: %s\n", iconPath.c_str());
+  }
 
   // Use a header bar when running in GNOME as this is the common style used
   // by applications and is the setup most users will be using (e.g. Ubuntu

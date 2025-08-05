@@ -37,3 +37,18 @@ Run tests with coverage (auto-excludes generated files):
 - **Web**: [Live Demo](https://arcangelo7.github.io/portfolio/)
 - **Android**: [Download APK](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-android-latest.apk)
 - **Linux**: [Download Linux Build](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-linux-latest.tar.gz)
+
+### Linux Installation
+
+Download and extract the Linux build, then run:
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+To uninstall:
+
+```bash
+./uninstall.sh
+```
