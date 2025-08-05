@@ -28,13 +28,57 @@ class DynamicCVGeneratorService {
     );
   }
 
-  // Utility function to clean markdown links from text for PDF
-  static String _cleanDescription(String description) {
-    // Remove markdown links [text](url) -> text
-    return description.replaceAllMapped(
-      RegExp(r'\[([^\]]+)\]\([^)]+\)'),
-      (match) => match.group(1) ?? '',
-    );
+  static pw.Widget _buildRichText(String text, {double fontSize = 9}) {
+    final linkRegex = RegExp(r'\[([^\]]+)\]\(([^)]+)\)');
+    final matches = linkRegex.allMatches(text).toList();
+
+    if (matches.isEmpty) {
+      return pw.Text(text, style: pw.TextStyle(fontSize: fontSize));
+    }
+
+    final List<pw.InlineSpan> spans = [];
+    int lastMatchEnd = 0;
+
+    for (final match in matches) {
+      // Add text before the link
+      if (match.start > lastMatchEnd) {
+        spans.add(
+          pw.TextSpan(
+            text: text.substring(lastMatchEnd, match.start),
+            style: pw.TextStyle(fontSize: fontSize),
+          ),
+        );
+      }
+
+      // Add the clickable link
+      final linkText = match.group(1) ?? '';
+      final linkUrl = match.group(2) ?? '';
+      spans.add(
+        pw.TextSpan(
+          text: linkText,
+          style: pw.TextStyle(
+            fontSize: fontSize,
+            color: PdfColor.fromHex('#0066cc'),
+            decoration: pw.TextDecoration.underline,
+          ),
+          annotation: pw.AnnotationLink(linkUrl),
+        ),
+      );
+
+      lastMatchEnd = match.end;
+    }
+
+    // Add remaining text after the last link
+    if (lastMatchEnd < text.length) {
+      spans.add(
+        pw.TextSpan(
+          text: text.substring(lastMatchEnd),
+          style: pw.TextStyle(fontSize: fontSize),
+        ),
+      );
+    }
+
+    return pw.RichText(text: pw.TextSpan(children: spans));
   }
 
   static Future<Uint8List> generateCV(
@@ -91,12 +135,13 @@ class DynamicCVGeneratorService {
             ),
             if (publications.isNotEmpty) ...[
               pw.SizedBox(height: 15),
-              _buildSection(
+              _buildSectionHeader(
                 l10n.cvPublicationsTitle,
-                _buildPublications(publications, l10n),
                 sectionColor,
                 lightBlue,
               ),
+              pw.SizedBox(height: 10),
+              ..._buildPublications(publications, l10n),
             ],
             pw.SizedBox(height: 20),
             _buildFooter(l10n),
@@ -249,6 +294,29 @@ class DynamicCVGeneratorService {
     );
   }
 
+  static pw.Widget _buildSectionHeader(
+    String title,
+    PdfColor sectionColor,
+    PdfColor lightColor,
+  ) {
+    return pw.Container(
+      width: double.infinity,
+      decoration: pw.BoxDecoration(
+        color: lightColor,
+        border: pw.Border(left: pw.BorderSide(color: sectionColor, width: 4)),
+      ),
+      padding: const pw.EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+      child: pw.Text(
+        title,
+        style: pw.TextStyle(
+          fontSize: 14,
+          fontWeight: pw.FontWeight.bold,
+          color: sectionColor,
+        ),
+      ),
+    );
+  }
+
   static pw.Widget _buildSection(
     String title,
     pw.Widget content,
@@ -258,24 +326,7 @@ class DynamicCVGeneratorService {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       children: [
-        pw.Container(
-          width: double.infinity,
-          decoration: pw.BoxDecoration(
-            color: lightColor,
-            border: pw.Border(
-              left: pw.BorderSide(color: sectionColor, width: 4),
-            ),
-          ),
-          padding: const pw.EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-          child: pw.Text(
-            title,
-            style: pw.TextStyle(
-              fontSize: 14,
-              fontWeight: pw.FontWeight.bold,
-              color: sectionColor,
-            ),
-          ),
-        ),
+        _buildSectionHeader(title, sectionColor, lightColor),
         pw.SizedBox(height: 10),
         content,
       ],
@@ -288,25 +339,25 @@ class DynamicCVGeneratorService {
         'period': l10n.phdCulturalHeritagePeriod,
         'title': l10n.phdCulturalHeritageTitle,
         'institution': l10n.universityBologna,
-        'description': _cleanDescription(l10n.phdCulturalHeritageDescription),
+        'description': l10n.phdCulturalHeritageDescription,
       },
       {
         'period': l10n.phdEngineeringPeriod,
         'title': l10n.phdEngineeringTitle,
         'institution': l10n.kuLeuven,
-        'description': _cleanDescription(l10n.phdEngineeringDescription),
+        'description': l10n.phdEngineeringDescription,
       },
       {
         'period': l10n.mastersPeriod,
         'title': l10n.mastersDegreeTitle,
         'institution': l10n.universityBologna,
-        'description': _cleanDescription(l10n.mastersDescription),
+        'description': l10n.mastersDescription,
       },
       {
         'period': l10n.bachelorsPeriod,
         'title': l10n.bachelorsDegreeTitle,
         'institution': l10n.universityBologna,
-        'description': _cleanDescription(l10n.bachelorsDescription),
+        'description': l10n.bachelorsDescription,
       },
     ];
 
@@ -357,7 +408,7 @@ class DynamicCVGeneratorService {
         pw.Text(institution, style: const pw.TextStyle(fontSize: 10)),
         if (description.isNotEmpty) ...[
           pw.SizedBox(height: 4),
-          pw.Text(description, style: const pw.TextStyle(fontSize: 9)),
+          _buildRichText(description, fontSize: 9),
         ],
       ],
     );
@@ -369,13 +420,13 @@ class DynamicCVGeneratorService {
         'period': l10n.tutorPeriod,
         'title': l10n.tutorTitle,
         'company': l10n.universityBologna,
-        'description': _cleanDescription(l10n.tutorDescription),
+        'description': l10n.tutorDescription,
       },
       {
         'period': l10n.researchFellowPeriod,
         'title': l10n.researchFellowTitle,
         'company': l10n.researchCentreOpenScholarly,
-        'description': _cleanDescription(l10n.researchFellowDescription),
+        'description': l10n.researchFellowDescription,
       },
     ];
 
@@ -425,7 +476,7 @@ class DynamicCVGeneratorService {
         pw.SizedBox(height: 2),
         pw.Text(company, style: const pw.TextStyle(fontSize: 10)),
         pw.SizedBox(height: 4),
-        pw.Text(description, style: const pw.TextStyle(fontSize: 9)),
+        _buildRichText(description, fontSize: 9),
       ],
     );
   }
@@ -436,19 +487,19 @@ class DynamicCVGeneratorService {
         'period': l10n.aiucdConference2024Period,
         'title': l10n.aiucdConference2024Title,
         'location': l10n.aiucdConference2024Location,
-        'description': _cleanDescription(l10n.aiucdConference2024Description),
+        'description': l10n.aiucdConference2024Description,
       },
       {
         'period': l10n.cziHackathon2023Period,
         'title': l10n.cziHackathon2023Title,
         'location': l10n.cziHackathon2023Location,
-        'description': _cleanDescription(l10n.cziHackathon2023Description),
+        'description': l10n.cziHackathon2023Description,
       },
       {
         'period': l10n.adhoDhConf2023Period,
         'title': l10n.adhoDhConf2023Title,
         'location': l10n.adhoDhConf2023Location,
-        'description': _cleanDescription(l10n.adhoDhConf2023Description),
+        'description': l10n.adhoDhConf2023Description,
       },
     ];
 
@@ -501,13 +552,91 @@ class DynamicCVGeneratorService {
           style: pw.TextStyle(fontSize: 9, fontStyle: pw.FontStyle.italic),
         ),
         pw.SizedBox(height: 3),
-        pw.Text(description, style: const pw.TextStyle(fontSize: 8)),
+        _buildRichText(description, fontSize: 8),
       ],
     );
   }
 
+  static pw.Widget _buildPublicationTitle(Publication pub) {
+    final titleText = '${pub.displayYear} - ${pub.title}';
+
+    // If there's a DOI or URL, make the title clickable
+    if (pub.doi != null && pub.doi!.isNotEmpty) {
+      return pw.RichText(
+        text: pw.TextSpan(
+          text: titleText,
+          style: pw.TextStyle(
+            fontSize: 10,
+            fontWeight: pw.FontWeight.bold,
+            color: PdfColor.fromHex('#0066cc'),
+            decoration: pw.TextDecoration.underline,
+          ),
+          annotation: pw.AnnotationLink('https://doi.org/${pub.doi}'),
+        ),
+      );
+    } else if (pub.url != null && pub.url!.isNotEmpty) {
+      return pw.RichText(
+        text: pw.TextSpan(
+          text: titleText,
+          style: pw.TextStyle(
+            fontSize: 10,
+            fontWeight: pw.FontWeight.bold,
+            color: PdfColor.fromHex('#0066cc'),
+            decoration: pw.TextDecoration.underline,
+          ),
+          annotation: pw.AnnotationLink(pub.url!),
+        ),
+      );
+    } else {
+      return pw.Text(
+        titleText,
+        style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
+      );
+    }
+  }
+
+  /// Build publication links (DOI and URL)
+  static pw.Widget _buildPublicationLinks(Publication pub) {
+    final List<pw.InlineSpan> linkSpans = [];
+
+    if (pub.doi != null && pub.doi!.isNotEmpty) {
+      linkSpans.add(
+        pw.TextSpan(
+          text: 'DOI: ${pub.doi}',
+          style: pw.TextStyle(
+            fontSize: 8,
+            color: PdfColor.fromHex('#0066cc'),
+            decoration: pw.TextDecoration.underline,
+          ),
+          annotation: pw.AnnotationLink('https://doi.org/${pub.doi}'),
+        ),
+      );
+    }
+
+    if (pub.url != null && pub.url!.isNotEmpty) {
+      if (linkSpans.isNotEmpty) {
+        linkSpans.add(
+          pw.TextSpan(text: ' | ', style: const pw.TextStyle(fontSize: 8)),
+        );
+      }
+      linkSpans.add(
+        pw.TextSpan(
+          text: 'URL',
+          style: pw.TextStyle(
+            fontSize: 8,
+            color: PdfColor.fromHex('#0066cc'),
+            decoration: pw.TextDecoration.underline,
+          ),
+          annotation: pw.AnnotationLink(pub.url!),
+        ),
+      );
+    }
+
+    return pw.RichText(text: pw.TextSpan(children: linkSpans));
+  }
+
   /// Build publications organized by category with subsections
-  static pw.Widget _buildPublications(
+  static List<pw.Widget> _buildPublications(
     List<Publication> publications,
     AppLocalizations l10n,
   ) {
@@ -555,13 +684,7 @@ class DynamicCVGeneratorService {
               child: pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
-                  pw.Text(
-                    '${pub.displayYear} - ${pub.title}',
-                    style: pw.TextStyle(
-                      fontSize: 10,
-                      fontWeight: pw.FontWeight.bold,
-                    ),
-                  ),
+                  _buildPublicationTitle(pub),
                   pw.SizedBox(height: 2),
                   pw.Text(
                     '${pub.authorsString}. ${pub.displayVenue}',
@@ -570,6 +693,10 @@ class DynamicCVGeneratorService {
                       fontStyle: pw.FontStyle.italic,
                     ),
                   ),
+                  if (pub.doi != null || pub.url != null) ...[
+                    pw.SizedBox(height: 2),
+                    _buildPublicationLinks(pub),
+                  ],
                 ],
               ),
             ),
@@ -578,10 +705,7 @@ class DynamicCVGeneratorService {
       }
     }
 
-    return pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
-      children: widgets,
-    );
+    return widgets;
   }
 
   static pw.Widget _buildFooter(AppLocalizations l10n) {
