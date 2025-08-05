@@ -1,3 +1,31 @@
+# [1.2.0](https://github.com/arcangelo7/portfolio/compare/v1.1.0...v1.2.0) (2025-08-05)
+
+
+### Bug Fixes
+
+* _buildPublicationLinks in pdfs ([f984f4f](https://github.com/arcangelo7/portfolio/commit/f984f4f3dbd25b2777b5da32faefd5cbd969044a))
+* add internet permissions on Android ([62b2313](https://github.com/arcangelo7/portfolio/commit/62b2313a16239b5f6034e1ce2921856337ade8b8))
+* add Linux icon ([04b94ad](https://github.com/arcangelo7/portfolio/commit/04b94adeebb32ce5a9ac280bd4b5823b2e4dc5d7))
+* add page breaks in cv pdf ([abe0d07](https://github.com/arcangelo7/portfolio/commit/abe0d076018628e055ee44e7879317ff8eb79b32))
+* ConferencesSeminarsSection, EducationSection, WorkExperienceSection must be StatefulWidget ([d32bdd7](https://github.com/arcangelo7/portfolio/commit/d32bdd71ea81f127964da182d39886df624a0f32))
+* country_flags instead of unicode emojis ([8576508](https://github.com/arcangelo7/portfolio/commit/8576508dca58013a19398d004bf3383552b67929))
+* each element in conferences and skills is a widget in cv, allowing page breaks ([b7a770a](https://github.com/arcangelo7/portfolio/commit/b7a770a6f4b69c5ea18f3e58c41c7300bf7bd36d))
+* fix overflow error in dynamic cv generator ([155b885](https://github.com/arcangelo7/portfolio/commit/155b8850785e67b68aae6fb8b30f862e3b848545))
+* fix urls in dynamic cv generator ([1ebb68e](https://github.com/arcangelo7/portfolio/commit/1ebb68e85c5ae516ce8f820eb8902e06c4cb505b))
+* skill colors ordered following the chromatic ladder ([027feb5](https://github.com/arcangelo7/portfolio/commit/027feb553c7331257faffe2448c8cd47244b9a54))
+* update icons with green gradient background ([fc072c4](https://github.com/arcangelo7/portfolio/commit/fc072c4180c96a2729d59b40136858304b97f2b5))
+
+
+### Features
+
+* add ios and android icons ([f53822d](https://github.com/arcangelo7/portfolio/commit/f53822d5b780866b2610367f494d4341f4cb0a73))
+* add picture in cv and language in the cv name ([bc71f35](https://github.com/arcangelo7/portfolio/commit/bc71f35f9ad2af1c6ff882a9bbc52bc093ae28b6))
+* add skills section in cv ([027cc66](https://github.com/arcangelo7/portfolio/commit/027cc66399f653fed9deacc788f875d7d5d8d92f))
+* add starry background ([549285b](https://github.com/arcangelo7/portfolio/commit/549285b1521bdd0e42067c66cb142b72e683e50d))
+* add venue extraction for thesis publications [release] ([f0bdc10](https://github.com/arcangelo7/portfolio/commit/f0bdc105935918dccdf6661b45dd26a26d5769ba))
+* add window_manager ([47ac825](https://github.com/arcangelo7/portfolio/commit/47ac8250c95960fbd6aa11369c65836ff2dd9b3f))
+* centralize CV data using JSON files as single source of truth ([d0f8912](https://github.com/arcangelo7/portfolio/commit/d0f8912f9b26eca35f6ae0169639ffe2dcb29fba))
+
 # [1.1.0](https://github.com/arcangelo7/portfolio/compare/v1.0.1...v1.1.0) (2025-08-04)
 
 
