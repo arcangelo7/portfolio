@@ -75,7 +75,7 @@ class _ThemeToggleWidgetState extends State<ThemeToggleWidget>
                         : Transform.translate(
                           offset: const Offset(5.0, 2.0),
                           child: Image.asset(
-                            'assets/images/dark_mode.png',
+                            'assets/images/dark_mode_button.png',
                             fit: BoxFit.cover,
                           ),
                         ),

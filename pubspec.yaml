@@ -38,6 +38,7 @@ dependencies:
   flutter_html: ^3.0.0-beta.2
   pdf: ^3.11.3
   printing: ^5.12.0
+  country_flags: ^3.3.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

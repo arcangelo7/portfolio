@@ -101,21 +101,21 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
     }
   }
 
-  List<Map<String, String>> _getSections(BuildContext context) {
+  List<Map<String, dynamic>> _getSections(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return [
-      {'key': 'about', 'title': l10n.aboutMe, 'icon': '👤'},
-      {'key': 'work', 'title': l10n.workExperience, 'icon': '💼'},
-      {'key': 'education', 'title': l10n.education, 'icon': '🎓'},
+      {'key': 'about', 'title': l10n.aboutMe, 'icon': Icons.person},
+      {'key': 'work', 'title': l10n.workExperience, 'icon': Icons.work},
+      {'key': 'education', 'title': l10n.education, 'icon': Icons.school},
       {
         'key': 'conferences',
         'title': l10n.conferencesAndSeminars,
-        'icon': '🎤',
+        'icon': Icons.mic,
       },
-      {'key': 'skills', 'title': l10n.skills, 'icon': '🛠️'},
-      {'key': 'publications', 'title': l10n.publications, 'icon': '📐'},
-      {'key': 'astrogods', 'title': l10n.astroGodsTitle, 'icon': '🪐'},
-      {'key': 'contact', 'title': l10n.getInTouch, 'icon': '📧'},
+      {'key': 'skills', 'title': l10n.skills, 'icon': Icons.build},
+      {'key': 'publications', 'title': l10n.publications, 'icon': Icons.article},
+      {'key': 'astrogods', 'title': l10n.astroGodsTitle, 'icon': Icons.travel_explore},
+      {'key': 'contact', 'title': l10n.getInTouch, 'icon': Icons.email},
     ];
   }
 
@@ -227,9 +227,12 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                         ),
                         child: Row(
                           children: [
-                            Text(
-                              section['icon']!,
-                              style: TextStyle(fontSize: isMobile ? 16 : 18),
+                            Icon(
+                              section['icon'] as IconData,
+                              size: isMobile ? 16 : 18,
+                              color: isActive
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
                             ),
                             const SizedBox(width: 12),
                             Expanded(

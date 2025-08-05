@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:country_flags/country_flags.dart';
 import 'l10n/app_localizations.dart';
 import 'widgets/publications_section.dart';
 import 'widgets/work_experience_section.dart';
@@ -594,7 +595,7 @@ class _LandingPageState extends State<LandingPage>
               ),
               const SizedBox(height: 20),
               ListTile(
-                leading: const Text('🇺🇸'),
+                leading: CountryFlag.fromCountryCode('US', width: 20, height: 15),
                 title: const Text('English'),
                 onTap: () {
                   widget.onLanguageChanged(const Locale('en'));
@@ -602,7 +603,7 @@ class _LandingPageState extends State<LandingPage>
                 },
               ),
               ListTile(
-                leading: const Text('🇮🇹'),
+                leading: CountryFlag.fromCountryCode('IT', width: 20, height: 15),
                 title: const Text('Italiano'),
                 onTap: () {
                   widget.onLanguageChanged(const Locale('it'));
@@ -610,7 +611,7 @@ class _LandingPageState extends State<LandingPage>
                 },
               ),
               ListTile(
-                leading: const Text('🇪🇸'),
+                leading: CountryFlag.fromCountryCode('ES', width: 20, height: 15),
                 title: const Text('Español'),
                 onTap: () {
                   widget.onLanguageChanged(const Locale('es'));
