@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import '../l10n/app_localizations.dart';
+import '../l10n/localization_helper.dart';
 import '../models/publication.dart';
 import '../models/cv_data.dart';
 import '../services/zotero_service.dart';
@@ -9,191 +10,6 @@ import '../services/cv_data_service.dart';
 import '../main.dart';
 
 class DynamicCVGeneratorService {
-  static String _getLocalizedText(AppLocalizations l10n, String key) {
-    switch (key) {
-      case 'jobTitle':
-        return l10n.jobTitle;
-      case 'cvBirthDate':
-        return l10n.cvBirthDate;
-      case 'cvNationalityValue':
-        return l10n.cvNationalityValue;
-      case 'phdCulturalHeritageTitle':
-        return l10n.phdCulturalHeritageTitle;
-      case 'phdCulturalHeritagePeriod':
-        return l10n.phdCulturalHeritagePeriod;
-      case 'phdCulturalHeritageDescription':
-        return l10n.phdCulturalHeritageDescription;
-      case 'phdEngineeringTitle':
-        return l10n.phdEngineeringTitle;
-      case 'phdEngineeringPeriod':
-        return l10n.phdEngineeringPeriod;
-      case 'phdEngineeringDescription':
-        return l10n.phdEngineeringDescription;
-      case 'mastersDegreeTitle':
-        return l10n.mastersDegreeTitle;
-      case 'mastersPeriod':
-        return l10n.mastersPeriod;
-      case 'mastersDescription':
-        return l10n.mastersDescription;
-      case 'bachelorsDegreeTitle':
-        return l10n.bachelorsDegreeTitle;
-      case 'bachelorsPeriod':
-        return l10n.bachelorsPeriod;
-      case 'bachelorsDescription':
-        return l10n.bachelorsDescription;
-      case 'universityBologna':
-        return l10n.universityBologna;
-      case 'kuLeuven':
-        return l10n.kuLeuven;
-      case 'tutorTitle':
-        return l10n.tutorTitle;
-      case 'tutorPeriod':
-        return l10n.tutorPeriod;
-      case 'tutorDescription':
-        return l10n.tutorDescription;
-      case 'researchFellowTitle':
-        return l10n.researchFellowTitle;
-      case 'researchFellowPeriod':
-        return l10n.researchFellowPeriod;
-      case 'researchFellowDescription':
-        return l10n.researchFellowDescription;
-      case 'researchCentreOpenScholarly':
-        return l10n.researchCentreOpenScholarly;
-      case 'aiucdConference2024Title':
-        return l10n.aiucdConference2024Title;
-      case 'aiucdConference2024Period':
-        return l10n.aiucdConference2024Period;
-      case 'aiucdConference2024Location':
-        return l10n.aiucdConference2024Location;
-      case 'aiucdConference2024Description':
-        return l10n.aiucdConference2024Description;
-      case 'cziHackathon2023Title':
-        return l10n.cziHackathon2023Title;
-      case 'cziHackathon2023Period':
-        return l10n.cziHackathon2023Period;
-      case 'cziHackathon2023Location':
-        return l10n.cziHackathon2023Location;
-      case 'cziHackathon2023Description':
-        return l10n.cziHackathon2023Description;
-      case 'adhoDhConf2023Title':
-        return l10n.adhoDhConf2023Title;
-      case 'adhoDhConf2023Period':
-        return l10n.adhoDhConf2023Period;
-      case 'adhoDhConf2023Location':
-        return l10n.adhoDhConf2023Location;
-      case 'adhoDhConf2023Description':
-        return l10n.adhoDhConf2023Description;
-      case 'rdaPlenary2023Title':
-        return l10n.rdaPlenary2023Title;
-      case 'rdaPlenary2023Period':
-        return l10n.rdaPlenary2023Period;
-      case 'rdaPlenary2023Location':
-        return l10n.rdaPlenary2023Location;
-      case 'rdaPlenary2023Description':
-        return l10n.rdaPlenary2023Description;
-      case 'unaEuropaWorkshop2025Title':
-        return l10n.unaEuropaWorkshop2025Title;
-      case 'unaEuropaWorkshop2025Period':
-        return l10n.unaEuropaWorkshop2025Period;
-      case 'unaEuropaWorkshop2025Location':
-        return l10n.unaEuropaWorkshop2025Location;
-      case 'unaEuropaWorkshop2025Description':
-        return l10n.unaEuropaWorkshop2025Description;
-      case 'skillCategoryProgrammingLanguages':
-        return l10n.skillCategoryProgrammingLanguages;
-      case 'skillCategoryMarkupAndTemplating':
-        return l10n.skillCategoryMarkupAndTemplating;
-      case 'skillCategoryStylingAndDesign':
-        return l10n.skillCategoryStylingAndDesign;
-      case 'skillCategoryQueryAndTransform':
-        return l10n.skillCategoryQueryAndTransform;
-      case 'skillCategorySemanticWebAndRDF':
-        return l10n.skillCategorySemanticWebAndRDF;
-      case 'skillCategoryFrontendLibraries':
-        return l10n.skillCategoryFrontendLibraries;
-      case 'skillCategoryBackendFrameworks':
-        return l10n.skillCategoryBackendFrameworks;
-      case 'skillCategoryDatabases':
-        return l10n.skillCategoryDatabases;
-      case 'skillCategoryInfrastructureDevOps':
-        return l10n.skillCategoryInfrastructureDevOps;
-      case 'skillCategoryOperatingSystems':
-        return l10n.skillCategoryOperatingSystems;
-      case 'skillPython':
-        return l10n.skillPython;
-      case 'skillJavaScript':
-        return l10n.skillJavaScript;
-      case 'skillTypeScript':
-        return l10n.skillTypeScript;
-      case 'skillDart':
-        return l10n.skillDart;
-      case 'skillHTML':
-        return l10n.skillHTML;
-      case 'skillXML':
-        return l10n.skillXML;
-      case 'skillTEI':
-        return l10n.skillTEI;
-      case 'skillCSS':
-        return l10n.skillCSS;
-      case 'skillSASS':
-        return l10n.skillSASS;
-      case 'skillBootstrap':
-        return l10n.skillBootstrap;
-      case 'skillSPARQL':
-        return l10n.skillSPARQL;
-      case 'skillSQL':
-        return l10n.skillSQL;
-      case 'skillXPath':
-        return l10n.skillXPath;
-      case 'skillXQuery':
-        return l10n.skillXQuery;
-      case 'skillXSLT':
-        return l10n.skillXSLT;
-      case 'skillRDF':
-        return l10n.skillRDF;
-      case 'skillSHACL':
-        return l10n.skillSHACL;
-      case 'skillApacheJenaFuseki':
-        return l10n.skillApacheJenaFuseki;
-      case 'skillGraphDB':
-        return l10n.skillGraphDB;
-      case 'skillBlazeGraph':
-        return l10n.skillBlazeGraph;
-      case 'skillOpenLinkVirtuoso':
-        return l10n.skillOpenLinkVirtuoso;
-      case 'skillReact':
-        return l10n.skillReact;
-      case 'skillD3JS':
-        return l10n.skillD3JS;
-      case 'skillFlutter':
-        return l10n.skillFlutter;
-      case 'skillNodeJS':
-        return l10n.skillNodeJS;
-      case 'skillFlask':
-        return l10n.skillFlask;
-      case 'skillPrisma':
-        return l10n.skillPrisma;
-      case 'skillMongoDB':
-        return l10n.skillMongoDB;
-      case 'skillPostgreSQL':
-        return l10n.skillPostgreSQL;
-      case 'skillRedis':
-        return l10n.skillRedis;
-      case 'skillDocker':
-        return l10n.skillDocker;
-      case 'skillProxmox':
-        return l10n.skillProxmox;
-      case 'skillGitHubActions':
-        return l10n.skillGitHubActions;
-      case 'skillDebian':
-        return l10n.skillDebian;
-      case 'skillFedora':
-        return l10n.skillFedora;
-      default:
-        return key;
-    }
-  }
-
   static PdfColor _convertFlutterToPdfColor(Color flutterColor) {
     return PdfColor(
       (flutterColor.r * 255.0).round() / 255.0,
@@ -312,7 +128,9 @@ class DynamicCVGeneratorService {
     final cvData = await CVDataService.loadCVData();
 
     final headerColor = _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue);
-    final sectionColor = _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue.withValues(alpha: 0.8));
+    final sectionColor = _convertFlutterToPdfColor(
+      PortfolioTheme.cobaltBlue.withValues(alpha: 0.8),
+    );
     final lightBlue = _convertFlutterToPdfColor(PortfolioTheme.iceWhite);
 
     final header = await _buildHeader(headerColor, l10n, cvData.personalInfo);
@@ -441,10 +259,14 @@ class DynamicCVGeneratorService {
     return grouped;
   }
 
-  static Future<pw.Widget> _buildHeader(PdfColor headerColor, AppLocalizations l10n, PersonalInfo personalInfo) async {
+  static Future<pw.Widget> _buildHeader(
+    PdfColor headerColor,
+    AppLocalizations l10n,
+    PersonalInfo personalInfo,
+  ) async {
     final imageBytes = await rootBundle.load(personalInfo.photoPath);
     final image = pw.MemoryImage(imageBytes.buffer.asUint8List());
-    
+
     final photoWidget = pw.Container(
       width: 80,
       height: 80,
@@ -471,7 +293,10 @@ class DynamicCVGeneratorService {
                 ),
                 pw.SizedBox(height: 5),
                 pw.Text(
-                  _getLocalizedText(l10n, personalInfo.jobTitleKey),
+                  LocalizationHelper.getLocalizedText(
+                    l10n,
+                    personalInfo.jobTitleKey,
+                  ),
                   style: pw.TextStyle(fontSize: 14, color: PdfColors.white),
                 ),
               ],
@@ -484,17 +309,29 @@ class DynamicCVGeneratorService {
     );
   }
 
-  static pw.Widget _buildPersonalInfo(AppLocalizations l10n, PersonalInfo personalInfo) {
+  static pw.Widget _buildPersonalInfo(
+    AppLocalizations l10n,
+    PersonalInfo personalInfo,
+  ) {
     final personalData = [
-      {'label': l10n.cvDateOfBirth, 'value': _getLocalizedText(l10n, personalInfo.birthDateKey)},
-      {'label': l10n.cvNationality, 'value': _getLocalizedText(l10n, personalInfo.nationalityKey)},
+      {
+        'label': l10n.cvDateOfBirth,
+        'value': LocalizationHelper.getLocalizedText(
+          l10n,
+          personalInfo.birthDateKey,
+        ),
+      },
+      {
+        'label': l10n.cvNationality,
+        'value': LocalizationHelper.getLocalizedText(
+          l10n,
+          personalInfo.nationalityKey,
+        ),
+      },
       {'label': 'Email:', 'value': personalInfo.email},
       {'label': 'GitHub:', 'value': personalInfo.github},
       {'label': 'ORCID:', 'value': personalInfo.orcid},
-      {
-        'label': l10n.cvAddress,
-        'value': personalInfo.addressKey,
-      },
+      {'label': l10n.cvAddress, 'value': personalInfo.addressKey},
     ];
 
     return pw.Column(
@@ -586,8 +423,10 @@ class DynamicCVGeneratorService {
     );
   }
 
-  static pw.Widget _buildEducationContent(AppLocalizations l10n, List<EducationEntry> educationEntries) {
-
+  static pw.Widget _buildEducationContent(
+    AppLocalizations l10n,
+    List<EducationEntry> educationEntries,
+  ) {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       children:
@@ -596,10 +435,19 @@ class DynamicCVGeneratorService {
                 (entry) => pw.Column(
                   children: [
                     _buildEducationEntry(
-                      _getLocalizedText(l10n, entry.periodKey),
-                      _getLocalizedText(l10n, entry.titleKey),
-                      _getLocalizedText(l10n, entry.institutionKey),
-                      _getLocalizedText(l10n, entry.descriptionKey),
+                      LocalizationHelper.getLocalizedText(
+                        l10n,
+                        entry.periodKey,
+                      ),
+                      LocalizationHelper.getLocalizedText(l10n, entry.titleKey),
+                      LocalizationHelper.getLocalizedText(
+                        l10n,
+                        entry.institutionKey,
+                      ),
+                      LocalizationHelper.getLocalizedText(
+                        l10n,
+                        entry.descriptionKey,
+                      ),
                     ),
                     pw.SizedBox(height: 10),
                   ],
@@ -623,7 +471,9 @@ class DynamicCVGeneratorService {
           style: pw.TextStyle(
             fontSize: 10,
             fontWeight: pw.FontWeight.bold,
-            color: _convertFlutterToPdfColor(PortfolioTheme.wine.withValues(alpha: 0.7)),
+            color: _convertFlutterToPdfColor(
+              PortfolioTheme.wine.withValues(alpha: 0.7),
+            ),
           ),
         ),
         pw.SizedBox(height: 2),
@@ -641,8 +491,10 @@ class DynamicCVGeneratorService {
     );
   }
 
-  static pw.Widget _buildWorkExperienceContent(AppLocalizations l10n, List<WorkExperienceEntry> workEntries) {
-
+  static pw.Widget _buildWorkExperienceContent(
+    AppLocalizations l10n,
+    List<WorkExperienceEntry> workEntries,
+  ) {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       children:
@@ -651,10 +503,19 @@ class DynamicCVGeneratorService {
                 (entry) => pw.Column(
                   children: [
                     _buildWorkEntry(
-                      _getLocalizedText(l10n, entry.periodKey),
-                      _getLocalizedText(l10n, entry.titleKey),
-                      _getLocalizedText(l10n, entry.companyKey),
-                      _getLocalizedText(l10n, entry.descriptionKey),
+                      LocalizationHelper.getLocalizedText(
+                        l10n,
+                        entry.periodKey,
+                      ),
+                      LocalizationHelper.getLocalizedText(l10n, entry.titleKey),
+                      LocalizationHelper.getLocalizedText(
+                        l10n,
+                        entry.companyKey,
+                      ),
+                      LocalizationHelper.getLocalizedText(
+                        l10n,
+                        entry.descriptionKey,
+                      ),
                     ),
                     pw.SizedBox(height: 10),
                   ],
@@ -678,7 +539,9 @@ class DynamicCVGeneratorService {
           style: pw.TextStyle(
             fontSize: 10,
             fontWeight: pw.FontWeight.bold,
-            color: _convertFlutterToPdfColor(PortfolioTheme.wine.withValues(alpha: 0.7)),
+            color: _convertFlutterToPdfColor(
+              PortfolioTheme.wine.withValues(alpha: 0.7),
+            ),
           ),
         ),
         pw.SizedBox(height: 2),
@@ -694,8 +557,10 @@ class DynamicCVGeneratorService {
     );
   }
 
-  static pw.Widget _buildConferencesContent(AppLocalizations l10n, List<ConferenceEntry> conferenceEntries) {
-
+  static pw.Widget _buildConferencesContent(
+    AppLocalizations l10n,
+    List<ConferenceEntry> conferenceEntries,
+  ) {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       children:
@@ -704,10 +569,19 @@ class DynamicCVGeneratorService {
                 (entry) => pw.Column(
                   children: [
                     _buildConferenceEntry(
-                      _getLocalizedText(l10n, entry.periodKey),
-                      _getLocalizedText(l10n, entry.titleKey),
-                      _getLocalizedText(l10n, entry.locationKey),
-                      _getLocalizedText(l10n, entry.descriptionKey),
+                      LocalizationHelper.getLocalizedText(
+                        l10n,
+                        entry.periodKey,
+                      ),
+                      LocalizationHelper.getLocalizedText(l10n, entry.titleKey),
+                      LocalizationHelper.getLocalizedText(
+                        l10n,
+                        entry.locationKey,
+                      ),
+                      LocalizationHelper.getLocalizedText(
+                        l10n,
+                        entry.descriptionKey,
+                      ),
                     ),
                     pw.SizedBox(height: 8),
                   ],
@@ -731,7 +605,9 @@ class DynamicCVGeneratorService {
           style: pw.TextStyle(
             fontSize: 9,
             fontWeight: pw.FontWeight.bold,
-            color: _convertFlutterToPdfColor(PortfolioTheme.wine.withValues(alpha: 0.7)),
+            color: _convertFlutterToPdfColor(
+              PortfolioTheme.wine.withValues(alpha: 0.7),
+            ),
           ),
         ),
         pw.SizedBox(height: 2),
@@ -750,14 +626,25 @@ class DynamicCVGeneratorService {
     );
   }
 
-  static pw.Widget _buildSkillsContent(AppLocalizations l10n, SkillsData skillsData) {
-
+  static pw.Widget _buildSkillsContent(
+    AppLocalizations l10n,
+    SkillsData skillsData,
+  ) {
     final List<pw.Widget> skillWidgets = [];
 
     for (final category in skillsData.categories) {
-      final categoryName = _getLocalizedText(l10n, category.nameKey);
-      final skillNames = category.skills.map((skill) => _getLocalizedText(l10n, skill.nameKey)).toList();
-      
+      final categoryName = LocalizationHelper.getLocalizedText(
+        l10n,
+        category.nameKey,
+      );
+      final skillNames =
+          category.skills
+              .map(
+                (skill) =>
+                    LocalizationHelper.getLocalizedText(l10n, skill.nameKey),
+              )
+              .toList();
+
       skillWidgets.add(
         pw.Container(
           margin: const pw.EdgeInsets.only(bottom: 8),
@@ -769,32 +656,50 @@ class DynamicCVGeneratorService {
                 style: pw.TextStyle(
                   fontSize: 10,
                   fontWeight: pw.FontWeight.bold,
-                  color: _convertFlutterToPdfColor(PortfolioTheme.wine.withValues(alpha: 0.7)),
+                  color: _convertFlutterToPdfColor(
+                    PortfolioTheme.wine.withValues(alpha: 0.7),
+                  ),
                 ),
               ),
               pw.SizedBox(height: 3),
               pw.Wrap(
                 spacing: 8,
                 runSpacing: 4,
-                children: skillNames.map((skill) => pw.Container(
-                  padding: const pw.EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                  decoration: pw.BoxDecoration(
-                    color: _convertFlutterToPdfColor(PortfolioTheme.iceWhite),
-                    borderRadius: pw.BorderRadius.circular(12),
-                    border: pw.Border.all(
-                      color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue.withValues(alpha: 0.4)),
-                      width: 0.8,
-                    ),
-                  ),
-                  child: pw.Text(
-                    skill,
-                    style: pw.TextStyle(
-                      fontSize: 8,
-                      color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
-                      fontWeight: pw.FontWeight.normal,
-                    ),
-                  ),
-                )).toList(),
+                children:
+                    skillNames
+                        .map(
+                          (skill) => pw.Container(
+                            padding: const pw.EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 3,
+                            ),
+                            decoration: pw.BoxDecoration(
+                              color: _convertFlutterToPdfColor(
+                                PortfolioTheme.iceWhite,
+                              ),
+                              borderRadius: pw.BorderRadius.circular(12),
+                              border: pw.Border.all(
+                                color: _convertFlutterToPdfColor(
+                                  PortfolioTheme.cobaltBlue.withValues(
+                                    alpha: 0.4,
+                                  ),
+                                ),
+                                width: 0.8,
+                              ),
+                            ),
+                            child: pw.Text(
+                              skill,
+                              style: pw.TextStyle(
+                                fontSize: 8,
+                                color: _convertFlutterToPdfColor(
+                                  PortfolioTheme.cobaltBlue,
+                                ),
+                                fontWeight: pw.FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
               ),
             ],
           ),
@@ -850,7 +755,10 @@ class DynamicCVGeneratorService {
   }
 
   /// Build publication links using localized view button text
-  static pw.Widget _buildPublicationLinks(Publication pub, AppLocalizations l10n) {
+  static pw.Widget _buildPublicationLinks(
+    Publication pub,
+    AppLocalizations l10n,
+  ) {
     String? url;
     if (pub.doi != null && pub.doi!.isNotEmpty) {
       url = 'https://doi.org/${pub.doi}';
@@ -909,7 +817,9 @@ class DynamicCVGeneratorService {
               style: pw.TextStyle(
                 fontSize: 11,
                 fontWeight: pw.FontWeight.bold,
-                color: _convertFlutterToPdfColor(PortfolioTheme.wine.withValues(alpha: 0.7)),
+                color: _convertFlutterToPdfColor(
+                  PortfolioTheme.wine.withValues(alpha: 0.7),
+                ),
               ),
             ),
           ),

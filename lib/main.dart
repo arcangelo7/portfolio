@@ -589,7 +589,7 @@ class _LandingPageState extends State<LandingPage>
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Select Language',
+                AppLocalizations.of(context)!.selectLanguage,
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(height: 20),

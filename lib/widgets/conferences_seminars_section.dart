@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../l10n/app_localizations.dart';
+import '../l10n/localization_helper.dart';
 import '../services/cv_data_service.dart';
 import '../models/cv_data.dart';
 
@@ -12,53 +13,6 @@ class ConferencesSeminarsSection extends StatelessWidget {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
-
-  String _getLocalizedText(AppLocalizations l10n, String key) {
-    switch (key) {
-      case 'unaEuropaWorkshop2025Title':
-        return l10n.unaEuropaWorkshop2025Title;
-      case 'unaEuropaWorkshop2025Period':
-        return l10n.unaEuropaWorkshop2025Period;
-      case 'unaEuropaWorkshop2025Location':
-        return l10n.unaEuropaWorkshop2025Location;
-      case 'unaEuropaWorkshop2025Description':
-        return l10n.unaEuropaWorkshop2025Description;
-      case 'aiucdConference2024Title':
-        return l10n.aiucdConference2024Title;
-      case 'aiucdConference2024Period':
-        return l10n.aiucdConference2024Period;
-      case 'aiucdConference2024Location':
-        return l10n.aiucdConference2024Location;
-      case 'aiucdConference2024Description':
-        return l10n.aiucdConference2024Description;
-      case 'cziHackathon2023Title':
-        return l10n.cziHackathon2023Title;
-      case 'cziHackathon2023Period':
-        return l10n.cziHackathon2023Period;
-      case 'cziHackathon2023Location':
-        return l10n.cziHackathon2023Location;
-      case 'cziHackathon2023Description':
-        return l10n.cziHackathon2023Description;
-      case 'adhoDhConf2023Title':
-        return l10n.adhoDhConf2023Title;
-      case 'adhoDhConf2023Period':
-        return l10n.adhoDhConf2023Period;
-      case 'adhoDhConf2023Location':
-        return l10n.adhoDhConf2023Location;
-      case 'adhoDhConf2023Description':
-        return l10n.adhoDhConf2023Description;
-      case 'rdaPlenary2023Title':
-        return l10n.rdaPlenary2023Title;
-      case 'rdaPlenary2023Period':
-        return l10n.rdaPlenary2023Period;
-      case 'rdaPlenary2023Location':
-        return l10n.rdaPlenary2023Location;
-      case 'rdaPlenary2023Description':
-        return l10n.rdaPlenary2023Description;
-      default:
-        return key;
     }
   }
 
@@ -94,19 +48,16 @@ class ConferencesSeminarsSection extends StatelessWidget {
               final conferenceEntries = snapshot.data ?? [];
 
               return Column(
-                children: conferenceEntries.map((entry) {
-                  return Column(
-                    children: [
-                      _buildConferenceItem(
-                        context,
-                        l10n,
-                        entry,
-                        isMobile,
-                      ),
-                      if (entry != conferenceEntries.last) const SizedBox(height: 32),
-                    ],
-                  );
-                }).toList(),
+                children:
+                    conferenceEntries.map((entry) {
+                      return Column(
+                        children: [
+                          _buildConferenceItem(context, l10n, entry, isMobile),
+                          if (entry != conferenceEntries.last)
+                            const SizedBox(height: 32),
+                        ],
+                      );
+                    }).toList(),
               );
             },
           ),
@@ -121,10 +72,16 @@ class ConferencesSeminarsSection extends StatelessWidget {
     ConferenceEntry entry,
     bool isMobile,
   ) {
-    final title = _getLocalizedText(l10n, entry.titleKey);
-    final location = _getLocalizedText(l10n, entry.locationKey);
-    final period = _getLocalizedText(l10n, entry.periodKey);
-    final description = _getLocalizedText(l10n, entry.descriptionKey);
+    final title = LocalizationHelper.getLocalizedText(l10n, entry.titleKey);
+    final location = LocalizationHelper.getLocalizedText(
+      l10n,
+      entry.locationKey,
+    );
+    final period = LocalizationHelper.getLocalizedText(l10n, entry.periodKey);
+    final description = LocalizationHelper.getLocalizedText(
+      l10n,
+      entry.descriptionKey,
+    );
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(isMobile ? 20 : 24),

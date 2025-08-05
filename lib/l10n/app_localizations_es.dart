@@ -571,4 +571,7 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get cvGdprConsent =>
       'Autorizo el tratamiento de mis datos personales contenidos en este CV de conformidad con el art. 13 del Decreto Legislativo 196/2003 - \"Código de protección de datos personales\" y el art. 13 del GDPR 679/16 - \"Reglamento europeo sobre la protección de datos personales\".';
+
+  @override
+  String get selectLanguage => 'Seleccionar idioma';
 }

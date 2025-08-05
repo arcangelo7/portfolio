@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../l10n/app_localizations.dart';
+import '../l10n/localization_helper.dart';
 import '../services/cv_data_service.dart';
 import '../models/cv_data.dart';
 
@@ -12,41 +13,6 @@ class EducationSection extends StatelessWidget {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
-
-  String _getLocalizedText(AppLocalizations l10n, String key) {
-    switch (key) {
-      case 'phdCulturalHeritageTitle':
-        return l10n.phdCulturalHeritageTitle;
-      case 'phdCulturalHeritagePeriod':
-        return l10n.phdCulturalHeritagePeriod;
-      case 'phdCulturalHeritageDescription':
-        return l10n.phdCulturalHeritageDescription;
-      case 'phdEngineeringTitle':
-        return l10n.phdEngineeringTitle;
-      case 'phdEngineeringPeriod':
-        return l10n.phdEngineeringPeriod;
-      case 'phdEngineeringDescription':
-        return l10n.phdEngineeringDescription;
-      case 'mastersDegreeTitle':
-        return l10n.mastersDegreeTitle;
-      case 'mastersPeriod':
-        return l10n.mastersPeriod;
-      case 'mastersDescription':
-        return l10n.mastersDescription; 
-      case 'bachelorsDegreeTitle':
-        return l10n.bachelorsDegreeTitle;
-      case 'bachelorsPeriod':
-        return l10n.bachelorsPeriod;
-      case 'bachelorsDescription':
-        return l10n.bachelorsDescription;
-      case 'universityBologna':
-        return l10n.universityBologna;
-      case 'kuLeuven':
-        return l10n.kuLeuven;
-      default:
-        return key;
     }
   }
 
@@ -84,19 +50,16 @@ class EducationSection extends StatelessWidget {
               final educationEntries = snapshot.data ?? [];
 
               return Column(
-                children: educationEntries.map((entry) {
-                  return Column(
-                    children: [
-                      _buildEducationItem(
-                        context,
-                        l10n,
-                        entry,
-                        isMobile,
-                      ),
-                      if (entry != educationEntries.last) const SizedBox(height: 24),
-                    ],
-                  );
-                }).toList(),
+                children:
+                    educationEntries.map((entry) {
+                      return Column(
+                        children: [
+                          _buildEducationItem(context, l10n, entry, isMobile),
+                          if (entry != educationEntries.last)
+                            const SizedBox(height: 24),
+                        ],
+                      );
+                    }).toList(),
               );
             },
           ),
@@ -111,10 +74,16 @@ class EducationSection extends StatelessWidget {
     EducationEntry entry,
     bool isMobile,
   ) {
-    final degree = _getLocalizedText(l10n, entry.titleKey);
-    final institution = _getLocalizedText(l10n, entry.institutionKey);
-    final period = _getLocalizedText(l10n, entry.periodKey);
-    final description = _getLocalizedText(l10n, entry.descriptionKey);
+    final degree = LocalizationHelper.getLocalizedText(l10n, entry.titleKey);
+    final institution = LocalizationHelper.getLocalizedText(
+      l10n,
+      entry.institutionKey,
+    );
+    final period = LocalizationHelper.getLocalizedText(l10n, entry.periodKey);
+    final description = LocalizationHelper.getLocalizedText(
+      l10n,
+      entry.descriptionKey,
+    );
     final isOngoing = entry.current;
     return Container(
       width: double.infinity,
@@ -123,9 +92,12 @@ class EducationSection extends StatelessWidget {
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(isMobile ? 12 : 16),
         border: Border.all(
-          color: isOngoing
-              ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.3)
-              : Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
+          color:
+              isOngoing
+                  ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.3)
+                  : Theme.of(
+                    context,
+                  ).colorScheme.outline.withValues(alpha: 0.3),
           width: isOngoing ? 2 : 1,
         ),
         boxShadow: [
@@ -163,9 +135,10 @@ class EducationSection extends StatelessWidget {
                       degree,
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: isOngoing
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.onSurface,
+                        color:
+                            isOngoing
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context).colorScheme.onSurface,
                         fontSize: isMobile ? 16 : null,
                       ),
                     ),
@@ -182,7 +155,10 @@ class EducationSection extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: (isOngoing
                           ? Theme.of(context).colorScheme.primary
@@ -199,9 +175,10 @@ class EducationSection extends StatelessWidget {
                 child: Text(
                   period,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: isOngoing
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.onSurface,
+                    color:
+                        isOngoing
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.w600,
                     fontSize: isMobile ? 11 : null,
                   ),

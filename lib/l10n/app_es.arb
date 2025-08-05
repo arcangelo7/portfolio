@@ -173,5 +173,6 @@
   "cvAddress": "Dirección:",
   "cvNationalityValue": "Italiana",
   "cvBirthDate": "23 agosto 1997",
-  "cvGdprConsent": "Autorizo el tratamiento de mis datos personales contenidos en este CV de conformidad con el art. 13 del Decreto Legislativo 196/2003 - \"Código de protección de datos personales\" y el art. 13 del GDPR 679/16 - \"Reglamento europeo sobre la protección de datos personales\"."
+  "cvGdprConsent": "Autorizo el tratamiento de mis datos personales contenidos en este CV de conformidad con el art. 13 del Decreto Legislativo 196/2003 - \"Código de protección de datos personales\" y el art. 13 del GDPR 679/16 - \"Reglamento europeo sobre la protección de datos personales\".",
+  "selectLanguage": "Seleccionar idioma"
 }
