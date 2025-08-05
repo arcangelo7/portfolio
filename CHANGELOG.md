@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/arcangelo7/portfolio/compare/v1.3.0...v1.4.0) (2025-08-05)
+
+
+### Features
+
+* add windows, macos and ios app [release] ([ffeebc1](https://github.com/arcangelo7/portfolio/commit/ffeebc179c515d309a727c34e2a06e1ea1c3b172))
+
 # [1.3.0](https://github.com/arcangelo7/portfolio/compare/v1.2.0...v1.3.0) (2025-08-05)
 
 
