@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:country_flags/country_flags.dart';
+import 'package:window_manager/window_manager.dart';
 import 'l10n/app_localizations.dart';
 import 'widgets/publications_section.dart';
 import 'widgets/work_experience_section.dart';
@@ -16,7 +18,30 @@ import 'services/dynamic_cv_generator_service.dart';
 import 'services/zotero_service.dart';
 import 'package:printing/printing.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Only initialize window_manager on desktop platforms
+  if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
+      defaultTargetPlatform == TargetPlatform.linux ||
+      defaultTargetPlatform == TargetPlatform.macOS)) {
+    await windowManager.ensureInitialized();
+
+    WindowOptions windowOptions = const WindowOptions(
+      size: Size(1200, 800),
+      minimumSize: Size(800, 600),
+      center: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.hidden,
+    );
+
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
+
   runApp(const PortfolioApp());
 }
 
@@ -105,6 +130,7 @@ class _PortfolioAppState extends State<PortfolioApp> {
     setState(() {
       _locale = locale;
     });
+    _updateWindowTitle();
   }
 
   void _toggleTheme() {
@@ -114,10 +140,31 @@ class _PortfolioAppState extends State<PortfolioApp> {
     });
   }
 
+  void _updateWindowTitle() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && !kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
+          defaultTargetPlatform == TargetPlatform.linux ||
+          defaultTargetPlatform == TargetPlatform.macOS)) {
+        final title = AppLocalizations.of(context)!.appTitle;
+        windowManager.setTitle(title);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+      onGenerateTitle: (context) {
+        final title = AppLocalizations.of(context)!.appTitle;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
+              defaultTargetPlatform == TargetPlatform.linux ||
+              defaultTargetPlatform == TargetPlatform.macOS)) {
+            windowManager.setTitle(title);
+          }
+        });
+        return title;
+      },
       theme: PortfolioTheme.lightTheme,
       darkTheme: PortfolioTheme.darkTheme,
       themeMode: _themeMode,
@@ -295,23 +342,34 @@ class _LandingPageState extends State<LandingPage>
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
+    final isDesktop = !kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
+        defaultTargetPlatform == TargetPlatform.linux ||
+        defaultTargetPlatform == TargetPlatform.macOS);
+    
     return Scaffold(
       body: Stack(
         children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                _buildHeroSection(context),
-                _buildAboutSection(context, key: _aboutKey),
-                WorkExperienceSection(key: _workKey),
-                EducationSection(key: _educationKey),
-                ConferencesSeminarsSection(key: _conferencesKey),
-                _buildSkillsSection(context, key: _skillsKey),
-                PublicationsSection(key: _publicationsKey),
-                AstroGodsSection(key: _astrogodsKey),
-                _buildContactSection(context, key: _contactKey),
-              ],
-            ),
+          Column(
+            children: [
+              if (!isMobile && isDesktop) _buildCustomTitleBar(context),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _buildHeroSection(context),
+                      _buildAboutSection(context, key: _aboutKey),
+                      WorkExperienceSection(key: _workKey),
+                      EducationSection(key: _educationKey),
+                      ConferencesSeminarsSection(key: _conferencesKey),
+                      _buildSkillsSection(context, key: _skillsKey),
+                      PublicationsSection(key: _publicationsKey),
+                      AstroGodsSection(key: _astrogodsKey),
+                      _buildContactSection(context, key: _contactKey),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
           if (_isTocVisible) _buildTocOverlay(context),
         ],
@@ -324,6 +382,107 @@ class _LandingPageState extends State<LandingPage>
           isMobile
               ? FloatingActionButtonLocation.endFloat
               : FloatingActionButtonLocation.endTop,
+    );
+  }
+
+  Widget _buildCustomTitleBar(BuildContext context) {
+    return GestureDetector(
+      onPanStart: (details) {
+        if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
+          windowManager.startDragging();
+        }
+      },
+      child: Container(
+        height: 32,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomRight,
+            end: Alignment.topLeft,
+            colors:
+                Theme.of(context).brightness == Brightness.dark
+                    ? [PortfolioTheme.cobaltBlue, PortfolioTheme.violet]
+                    : [PortfolioTheme.cobaltBlue, PortfolioTheme.emeraldGreen],
+          ),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(
+                  AppLocalizations.of(context)!.appTitle,
+                  style: TextStyle(
+                    color: PortfolioTheme.iceWhite,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildTitleBarButton(
+                  Icons.minimize,
+                  () {
+                    if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
+                        defaultTargetPlatform == TargetPlatform.linux ||
+                        defaultTargetPlatform == TargetPlatform.macOS)) {
+                      windowManager.minimize();
+                    }
+                  },
+                ),
+                _buildTitleBarButton(Icons.crop_square, () async {
+                  if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
+                      defaultTargetPlatform == TargetPlatform.linux ||
+                      defaultTargetPlatform == TargetPlatform.macOS)) {
+                    if (await windowManager.isMaximized()) {
+                      windowManager.unmaximize();
+                    } else {
+                      windowManager.maximize();
+                    }
+                  }
+                }),
+                _buildTitleBarButton(
+                  Icons.close,
+                  () {
+                    if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
+                        defaultTargetPlatform == TargetPlatform.linux ||
+                        defaultTargetPlatform == TargetPlatform.macOS)) {
+                      windowManager.close();
+                    }
+                  },
+                  isClose: true,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTitleBarButton(
+    IconData icon,
+    VoidCallback onPressed, {
+    bool isClose = false,
+  }) {
+    return SizedBox(
+      width: 32,
+      height: 32,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          hoverColor:
+              isClose
+                  ? Colors.red.withValues(alpha: 0.3)
+                  : Colors.white.withValues(alpha: 0.1),
+          child: Icon(icon, size: 14, color: PortfolioTheme.iceWhite),
+        ),
+      ),
     );
   }
 
@@ -595,7 +754,11 @@ class _LandingPageState extends State<LandingPage>
               ),
               const SizedBox(height: 20),
               ListTile(
-                leading: CountryFlag.fromCountryCode('US', width: 20, height: 15),
+                leading: CountryFlag.fromCountryCode(
+                  'US',
+                  width: 20,
+                  height: 15,
+                ),
                 title: const Text('English'),
                 onTap: () {
                   widget.onLanguageChanged(const Locale('en'));
@@ -603,7 +766,11 @@ class _LandingPageState extends State<LandingPage>
                 },
               ),
               ListTile(
-                leading: CountryFlag.fromCountryCode('IT', width: 20, height: 15),
+                leading: CountryFlag.fromCountryCode(
+                  'IT',
+                  width: 20,
+                  height: 15,
+                ),
                 title: const Text('Italiano'),
                 onTap: () {
                   widget.onLanguageChanged(const Locale('it'));
@@ -611,7 +778,11 @@ class _LandingPageState extends State<LandingPage>
                 },
               ),
               ListTile(
-                leading: CountryFlag.fromCountryCode('ES', width: 20, height: 15),
+                leading: CountryFlag.fromCountryCode(
+                  'ES',
+                  width: 20,
+                  height: 15,
+                ),
                 title: const Text('Español'),
                 onTap: () {
                   widget.onLanguageChanged(const Locale('es'));
