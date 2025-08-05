@@ -1,0 +1,12 @@
+{
+  "name": "Arcangelo Massari",
+  "jobTitleKey": "jobTitle",
+  "birthDate": "1997-08-23",
+  "birthDateKey": "cvBirthDate",
+  "nationalityKey": "cvNationalityValue",
+  "email": "arcangelo.massari@unibo.it",
+  "github": "https://github.com/arcangelo7",
+  "orcid": "https://orcid.org/0000-0002-8420-0696",
+  "addressKey": "Via Zamboni 33, 40126, Bologna, Italia",
+  "photoPath": "assets/images/foto_cv.png"
+}

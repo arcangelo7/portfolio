@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../l10n/app_localizations.dart';
+import '../services/cv_data_service.dart';
+import '../models/cv_data.dart';
 
 class ConferencesSeminarsSection extends StatelessWidget {
   const ConferencesSeminarsSection({super.key});
@@ -10,6 +12,53 @@ class ConferencesSeminarsSection extends StatelessWidget {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  String _getLocalizedText(AppLocalizations l10n, String key) {
+    switch (key) {
+      case 'unaEuropaWorkshop2025Title':
+        return l10n.unaEuropaWorkshop2025Title;
+      case 'unaEuropaWorkshop2025Period':
+        return l10n.unaEuropaWorkshop2025Period;
+      case 'unaEuropaWorkshop2025Location':
+        return l10n.unaEuropaWorkshop2025Location;
+      case 'unaEuropaWorkshop2025Description':
+        return l10n.unaEuropaWorkshop2025Description;
+      case 'aiucdConference2024Title':
+        return l10n.aiucdConference2024Title;
+      case 'aiucdConference2024Period':
+        return l10n.aiucdConference2024Period;
+      case 'aiucdConference2024Location':
+        return l10n.aiucdConference2024Location;
+      case 'aiucdConference2024Description':
+        return l10n.aiucdConference2024Description;
+      case 'cziHackathon2023Title':
+        return l10n.cziHackathon2023Title;
+      case 'cziHackathon2023Period':
+        return l10n.cziHackathon2023Period;
+      case 'cziHackathon2023Location':
+        return l10n.cziHackathon2023Location;
+      case 'cziHackathon2023Description':
+        return l10n.cziHackathon2023Description;
+      case 'adhoDhConf2023Title':
+        return l10n.adhoDhConf2023Title;
+      case 'adhoDhConf2023Period':
+        return l10n.adhoDhConf2023Period;
+      case 'adhoDhConf2023Location':
+        return l10n.adhoDhConf2023Location;
+      case 'adhoDhConf2023Description':
+        return l10n.adhoDhConf2023Description;
+      case 'rdaPlenary2023Title':
+        return l10n.rdaPlenary2023Title;
+      case 'rdaPlenary2023Period':
+        return l10n.rdaPlenary2023Period;
+      case 'rdaPlenary2023Location':
+        return l10n.rdaPlenary2023Location;
+      case 'rdaPlenary2023Description':
+        return l10n.rdaPlenary2023Description;
+      default:
+        return key;
     }
   }
 
@@ -31,53 +80,35 @@ class ConferencesSeminarsSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          Column(
-            children: [
-              _buildConferenceItem(
-                context,
-                l10n.unaEuropaWorkshop2025Title,
-                l10n.unaEuropaWorkshop2025Location,
-                l10n.unaEuropaWorkshop2025Period,
-                l10n.unaEuropaWorkshop2025Description,
-                isMobile,
-              ),
-              const SizedBox(height: 32),
-              _buildConferenceItem(
-                context,
-                l10n.aiucdConference2024Title,
-                l10n.aiucdConference2024Location,
-                l10n.aiucdConference2024Period,
-                l10n.aiucdConference2024Description,
-                isMobile,
-              ),
-              const SizedBox(height: 32),
-              _buildConferenceItem(
-                context,
-                l10n.cziHackathon2023Title,
-                l10n.cziHackathon2023Location,
-                l10n.cziHackathon2023Period,
-                l10n.cziHackathon2023Description,
-                isMobile,
-              ),
-              const SizedBox(height: 32),
-              _buildConferenceItem(
-                context,
-                l10n.adhoDhConf2023Title,
-                l10n.adhoDhConf2023Location,
-                l10n.adhoDhConf2023Period,
-                l10n.adhoDhConf2023Description,
-                isMobile,
-              ),
-              const SizedBox(height: 32),
-              _buildConferenceItem(
-                context,
-                l10n.rdaPlenary2023Title,
-                l10n.rdaPlenary2023Location,
-                l10n.rdaPlenary2023Period,
-                l10n.rdaPlenary2023Description,
-                isMobile,
-              ),
-            ],
+          FutureBuilder<List<ConferenceEntry>>(
+            future: CVDataService.getConferences(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
+
+              final conferenceEntries = snapshot.data ?? [];
+
+              return Column(
+                children: conferenceEntries.map((entry) {
+                  return Column(
+                    children: [
+                      _buildConferenceItem(
+                        context,
+                        l10n,
+                        entry,
+                        isMobile,
+                      ),
+                      if (entry != conferenceEntries.last) const SizedBox(height: 32),
+                    ],
+                  );
+                }).toList(),
+              );
+            },
           ),
         ],
       ),
@@ -86,12 +117,14 @@ class ConferencesSeminarsSection extends StatelessWidget {
 
   Widget _buildConferenceItem(
     BuildContext context,
-    String title,
-    String location,
-    String period,
-    String description,
+    AppLocalizations l10n,
+    ConferenceEntry entry,
     bool isMobile,
   ) {
+    final title = _getLocalizedText(l10n, entry.titleKey);
+    final location = _getLocalizedText(l10n, entry.locationKey);
+    final period = _getLocalizedText(l10n, entry.periodKey);
+    final description = _getLocalizedText(l10n, entry.descriptionKey);
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(isMobile ? 20 : 24),
@@ -122,7 +155,9 @@ class ConferencesSeminarsSection extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      style: Theme.of(
+                        context,
+                      ).textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.primary,
                         fontSize: isMobile ? 18 : null,
@@ -141,12 +176,19 @@ class ConferencesSeminarsSection extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.tertiary.withValues(alpha: 0.1),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.tertiary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: Theme.of(context).colorScheme.tertiary.withValues(alpha: 0.3),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.tertiary.withValues(alpha: 0.3),
                   ),
                 ),
                 child: Text(

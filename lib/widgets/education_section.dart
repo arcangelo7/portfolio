@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../l10n/app_localizations.dart';
+import '../services/cv_data_service.dart';
+import '../models/cv_data.dart';
 
 class EducationSection extends StatelessWidget {
   const EducationSection({super.key});
@@ -10,6 +12,41 @@ class EducationSection extends StatelessWidget {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  String _getLocalizedText(AppLocalizations l10n, String key) {
+    switch (key) {
+      case 'phdCulturalHeritageTitle':
+        return l10n.phdCulturalHeritageTitle;
+      case 'phdCulturalHeritagePeriod':
+        return l10n.phdCulturalHeritagePeriod;
+      case 'phdCulturalHeritageDescription':
+        return l10n.phdCulturalHeritageDescription;
+      case 'phdEngineeringTitle':
+        return l10n.phdEngineeringTitle;
+      case 'phdEngineeringPeriod':
+        return l10n.phdEngineeringPeriod;
+      case 'phdEngineeringDescription':
+        return l10n.phdEngineeringDescription;
+      case 'mastersDegreeTitle':
+        return l10n.mastersDegreeTitle;
+      case 'mastersPeriod':
+        return l10n.mastersPeriod;
+      case 'mastersDescription':
+        return l10n.mastersDescription; 
+      case 'bachelorsDegreeTitle':
+        return l10n.bachelorsDegreeTitle;
+      case 'bachelorsPeriod':
+        return l10n.bachelorsPeriod;
+      case 'bachelorsDescription':
+        return l10n.bachelorsDescription;
+      case 'universityBologna':
+        return l10n.universityBologna;
+      case 'kuLeuven':
+        return l10n.kuLeuven;
+      default:
+        return key;
     }
   }
 
@@ -33,58 +70,35 @@ class EducationSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          Column(
-            children: [
-              _buildEducationItem(
-                context,
-                l10n.phdCulturalHeritageTitle,
-                l10n.universityBologna,
-                l10n.phdCulturalHeritagePeriod,
-                l10n.phdCulturalHeritageDescription,
-                true,
-                isMobile,
-              ),
-              const SizedBox(height: 24),
-              _buildEducationItem(
-                context,
-                l10n.phdEngineeringTitle,
-                l10n.kuLeuven,
-                l10n.phdEngineeringPeriod,
-                l10n.phdEngineeringDescription,
-                true,
-                isMobile,
-              ),
-              const SizedBox(height: 24),
-              _buildEducationItem(
-                context,
-                l10n.unaEuropaPhdTitle,
-                l10n.unaEuropa,
-                l10n.unaEuropaPhdPeriod,
-                l10n.unaEuropaPhdDescription,
-                true,
-                isMobile,
-              ),
-              const SizedBox(height: 24),
-              _buildEducationItem(
-                context,
-                l10n.mastersDegreeTitle,
-                l10n.universityBologna,
-                l10n.mastersPeriod,
-                l10n.mastersDescription,
-                false,
-                isMobile,
-              ),
-              const SizedBox(height: 24),
-              _buildEducationItem(
-                context,
-                l10n.bachelorsDegreeTitle,
-                l10n.universityBologna,
-                l10n.bachelorsPeriod,
-                l10n.bachelorsDescription,
-                false,
-                isMobile,
-              ),
-            ],
+          FutureBuilder<List<EducationEntry>>(
+            future: CVDataService.getEducation(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
+
+              final educationEntries = snapshot.data ?? [];
+
+              return Column(
+                children: educationEntries.map((entry) {
+                  return Column(
+                    children: [
+                      _buildEducationItem(
+                        context,
+                        l10n,
+                        entry,
+                        isMobile,
+                      ),
+                      if (entry != educationEntries.last) const SizedBox(height: 24),
+                    ],
+                  );
+                }).toList(),
+              );
+            },
           ),
         ],
       ),
@@ -93,13 +107,15 @@ class EducationSection extends StatelessWidget {
 
   Widget _buildEducationItem(
     BuildContext context,
-    String degree,
-    String institution,
-    String period,
-    String description,
-    bool isOngoing,
+    AppLocalizations l10n,
+    EducationEntry entry,
     bool isMobile,
   ) {
+    final degree = _getLocalizedText(l10n, entry.titleKey);
+    final institution = _getLocalizedText(l10n, entry.institutionKey);
+    final period = _getLocalizedText(l10n, entry.periodKey);
+    final description = _getLocalizedText(l10n, entry.descriptionKey);
+    final isOngoing = entry.current;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(isMobile ? 16 : 20),

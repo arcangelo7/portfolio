@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../l10n/app_localizations.dart';
+import '../services/cv_data_service.dart';
+import '../models/cv_data.dart';
 
 class WorkExperienceSection extends StatelessWidget {
   const WorkExperienceSection({super.key});
@@ -10,6 +12,29 @@ class WorkExperienceSection extends StatelessWidget {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  String _getLocalizedText(AppLocalizations l10n, String key) {
+    switch (key) {
+      case 'tutorTitle':
+        return l10n.tutorTitle;
+      case 'tutorPeriod':
+        return l10n.tutorPeriod;
+      case 'tutorDescription':
+        return l10n.tutorDescription;
+      case 'researchFellowTitle':
+        return l10n.researchFellowTitle;
+      case 'researchFellowPeriod':
+        return l10n.researchFellowPeriod;
+      case 'researchFellowDescription':
+        return l10n.researchFellowDescription;
+      case 'universityBologna':
+        return l10n.universityBologna;
+      case 'researchCentreOpenScholarly':
+        return l10n.researchCentreOpenScholarly;
+      default:
+        return key;
     }
   }
 
@@ -31,26 +56,35 @@ class WorkExperienceSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          Column(
-            children: [
-              _buildExperienceItem(
-                context,
-                l10n.tutorTitle,
-                l10n.universityBologna,
-                l10n.tutorPeriod,
-                l10n.tutorDescription,
-                isMobile,
-              ),
-              const SizedBox(height: 32),
-              _buildExperienceItem(
-                context,
-                l10n.researchFellowTitle,
-                l10n.researchCentreOpenScholarly,
-                l10n.researchFellowPeriod,
-                l10n.researchFellowDescription,
-                isMobile,
-              ),
-            ],
+          FutureBuilder<List<WorkExperienceEntry>>(
+            future: CVDataService.getWorkExperience(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
+
+              final workEntries = snapshot.data ?? [];
+
+              return Column(
+                children: workEntries.map((entry) {
+                  return Column(
+                    children: [
+                      _buildExperienceItem(
+                        context,
+                        l10n,
+                        entry,
+                        isMobile,
+                      ),
+                      if (entry != workEntries.last) const SizedBox(height: 32),
+                    ],
+                  );
+                }).toList(),
+              );
+            },
           ),
         ],
       ),
@@ -59,12 +93,14 @@ class WorkExperienceSection extends StatelessWidget {
 
   Widget _buildExperienceItem(
     BuildContext context,
-    String title,
-    String company,
-    String period,
-    String description,
+    AppLocalizations l10n,
+    WorkExperienceEntry entry,
     bool isMobile,
   ) {
+    final title = _getLocalizedText(l10n, entry.titleKey);
+    final company = _getLocalizedText(l10n, entry.companyKey);
+    final period = _getLocalizedText(l10n, entry.periodKey);
+    final description = _getLocalizedText(l10n, entry.descriptionKey);
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(isMobile ? 20 : 24),

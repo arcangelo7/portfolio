@@ -1,0 +1,52 @@
+[
+  {
+    "id": "una_europa_workshop_2025",
+    "date": "2025-05-05",
+    "endDate": "2025-05-10",
+    "titleKey": "unaEuropaWorkshop2025Title",
+    "periodKey": "unaEuropaWorkshop2025Period",
+    "locationKey": "unaEuropaWorkshop2025Location",
+    "descriptionKey": "unaEuropaWorkshop2025Description",
+    "order": 1
+  },
+  {
+    "id": "aiucd_conference_2024",
+    "date": "2024-05-28",
+    "endDate": "2024-05-30",
+    "titleKey": "aiucdConference2024Title",
+    "periodKey": "aiucdConference2024Period",
+    "locationKey": "aiucdConference2024Location",
+    "descriptionKey": "aiucdConference2024Description",
+    "order": 2
+  },
+  {
+    "id": "czi_hackathon_2023",
+    "date": "2023-10-24",
+    "endDate": "2023-10-27",
+    "titleKey": "cziHackathon2023Title",
+    "periodKey": "cziHackathon2023Period",
+    "locationKey": "cziHackathon2023Location",
+    "descriptionKey": "cziHackathon2023Description",
+    "order": 3
+  },
+  {
+    "id": "adho_dh_conf_2023",
+    "date": "2023-07-10",
+    "endDate": "2023-07-15",
+    "titleKey": "adhoDhConf2023Title",
+    "periodKey": "adhoDhConf2023Period",
+    "locationKey": "adhoDhConf2023Location",
+    "descriptionKey": "adhoDhConf2023Description",
+    "order": 4
+  },
+  {
+    "id": "rda_plenary_2023",
+    "date": "2023-03-21",
+    "endDate": "2023-03-23",
+    "titleKey": "rdaPlenary2023Title",
+    "periodKey": "rdaPlenary2023Period",
+    "locationKey": "rdaPlenary2023Location",
+    "descriptionKey": "rdaPlenary2023Description",
+    "order": 5
+  }
+]

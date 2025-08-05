@@ -1,0 +1,46 @@
+[
+  {
+    "id": "phd_cultural_heritage",
+    "startDate": "2022-11",
+    "endDate": null,
+    "current": true,
+    "institutionKey": "universityBologna",
+    "titleKey": "phdCulturalHeritageTitle",
+    "periodKey": "phdCulturalHeritagePeriod",
+    "descriptionKey": "phdCulturalHeritageDescription",
+    "order": 1
+  },
+  {
+    "id": "phd_engineering",
+    "startDate": "2023-03",
+    "endDate": null,
+    "current": true,
+    "institutionKey": "kuLeuven",
+    "titleKey": "phdEngineeringTitle",
+    "periodKey": "phdEngineeringPeriod",
+    "descriptionKey": "phdEngineeringDescription",
+    "order": 2
+  },
+  {
+    "id": "masters_degree",
+    "startDate": "2019-08",
+    "endDate": "2021-11",
+    "current": false,
+    "institutionKey": "universityBologna",
+    "titleKey": "mastersDegreeTitle",
+    "periodKey": "mastersPeriod",
+    "descriptionKey": "mastersDescription",
+    "order": 3
+  },
+  {
+    "id": "bachelors_degree",
+    "startDate": "2017-08",
+    "endDate": "2019-11",
+    "current": false,
+    "institutionKey": "universityBologna",
+    "titleKey": "bachelorsDegreeTitle",
+    "periodKey": "bachelorsPeriod",
+    "descriptionKey": "bachelorsDescription",
+    "order": 4
+  }
+]

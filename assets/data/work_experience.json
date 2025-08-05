@@ -1,0 +1,24 @@
+[
+  {
+    "id": "tutor",
+    "startDate": "2022-10",
+    "endDate": null,
+    "current": true,
+    "companyKey": "universityBologna",
+    "titleKey": "tutorTitle",
+    "periodKey": "tutorPeriod",
+    "descriptionKey": "tutorDescription",
+    "order": 1
+  },
+  {
+    "id": "research_fellow",
+    "startDate": "2021-11",
+    "endDate": "2022-10",
+    "current": false,
+    "companyKey": "researchCentreOpenScholarly",
+    "titleKey": "researchFellowTitle",
+    "periodKey": "researchFellowPeriod",
+    "descriptionKey": "researchFellowDescription",
+    "order": 2
+  }
+]

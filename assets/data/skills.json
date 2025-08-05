@@ -1,0 +1,114 @@
+{
+  "categories": [
+    {
+      "id": "programming_languages",
+      "nameKey": "skillCategoryProgrammingLanguages",
+      "skills": [
+        {"id": "python", "nameKey": "skillPython"},
+        {"id": "javascript", "nameKey": "skillJavaScript"},
+        {"id": "typescript", "nameKey": "skillTypeScript"},
+        {"id": "dart", "nameKey": "skillDart"}
+      ],
+      "order": 1
+    },
+    {
+      "id": "markup_templating",
+      "nameKey": "skillCategoryMarkupAndTemplating",
+      "skills": [
+        {"id": "html", "nameKey": "skillHTML"},
+        {"id": "xml", "nameKey": "skillXML"},
+        {"id": "tei", "nameKey": "skillTEI"}
+      ],
+      "order": 2
+    },
+    {
+      "id": "styling_design",
+      "nameKey": "skillCategoryStylingAndDesign",
+      "skills": [
+        {"id": "css", "nameKey": "skillCSS"},
+        {"id": "sass", "nameKey": "skillSASS"},
+        {"id": "bootstrap", "nameKey": "skillBootstrap"}
+      ],
+      "order": 3
+    },
+    {
+      "id": "query_transform",
+      "nameKey": "skillCategoryQueryAndTransform",
+      "skills": [
+        {"id": "sparql", "nameKey": "skillSPARQL"},
+        {"id": "sql", "nameKey": "skillSQL"},
+        {"id": "xpath", "nameKey": "skillXPath"},
+        {"id": "xquery", "nameKey": "skillXQuery"},
+        {"id": "xslt", "nameKey": "skillXSLT"}
+      ],
+      "order": 4
+    },
+    {
+      "id": "semantic_web_rdf",
+      "nameKey": "skillCategorySemanticWebAndRDF",
+      "skills": [
+        {"id": "rdf", "nameKey": "skillRDF"},
+        {"id": "sparql", "nameKey": "skillSPARQL"},
+        {"id": "shacl", "nameKey": "skillSHACL"},
+        {"id": "apache_jena_fuseki", "nameKey": "skillApacheJenaFuseki"},
+        {"id": "graphdb", "nameKey": "skillGraphDB"},
+        {"id": "blazegraph", "nameKey": "skillBlazeGraph"},
+        {"id": "openlink_virtuoso", "nameKey": "skillOpenLinkVirtuoso"}
+      ],
+      "order": 5
+    },
+    {
+      "id": "frontend_libraries",
+      "nameKey": "skillCategoryFrontendLibraries",
+      "skills": [
+        {"id": "react", "nameKey": "skillReact"},
+        {"id": "d3js", "nameKey": "skillD3JS"},
+        {"id": "flutter", "nameKey": "skillFlutter"}
+      ],
+      "order": 6
+    },
+    {
+      "id": "backend_frameworks",
+      "nameKey": "skillCategoryBackendFrameworks",
+      "skills": [
+        {"id": "nodejs", "nameKey": "skillNodeJS"},
+        {"id": "flask", "nameKey": "skillFlask"},
+        {"id": "prisma", "nameKey": "skillPrisma"}
+      ],
+      "order": 7
+    },
+    {
+      "id": "databases",
+      "nameKey": "skillCategoryDatabases",
+      "skills": [
+        {"id": "mongodb", "nameKey": "skillMongoDB"},
+        {"id": "postgresql", "nameKey": "skillPostgreSQL"},
+        {"id": "redis", "nameKey": "skillRedis"},
+        {"id": "apache_jena_fuseki", "nameKey": "skillApacheJenaFuseki"},
+        {"id": "blazegraph", "nameKey": "skillBlazeGraph"},
+        {"id": "openlink_virtuoso", "nameKey": "skillOpenLinkVirtuoso"},
+        {"id": "graphdb", "nameKey": "skillGraphDB"}
+      ],
+      "order": 8
+    },
+    {
+      "id": "infrastructure_devops",
+      "nameKey": "skillCategoryInfrastructureDevOps",
+      "skills": [
+        {"id": "docker", "nameKey": "skillDocker"},
+        {"id": "proxmox", "nameKey": "skillProxmox"},
+        {"id": "github_actions", "nameKey": "skillGitHubActions"}
+      ],
+      "order": 9
+    },
+    {
+      "id": "operating_systems",
+      "nameKey": "skillCategoryOperatingSystems",
+      "skills": [
+        {"id": "debian", "nameKey": "skillDebian"},
+        {"id": "fedora", "nameKey": "skillFedora"}
+      ],
+      "order": 10
+    }
+  ]
+}
