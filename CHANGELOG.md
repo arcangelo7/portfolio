@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/arcangelo7/portfolio/compare/v1.4.0...v1.4.1) (2025-08-05)
+
+
+### Bug Fixes
+
+* fix macos download link [release] ([757a594](https://github.com/arcangelo7/portfolio/commit/757a594d9ca3afff7a724ac6e15045260641f62c))
+
 # [1.4.0](https://github.com/arcangelo7/portfolio/compare/v1.3.0...v1.4.0) (2025-08-05)
 
 
