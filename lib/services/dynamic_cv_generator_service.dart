@@ -135,6 +135,7 @@ class DynamicCVGeneratorService {
 
     final header = await _buildHeader(headerColor, l10n, cvData.personalInfo);
 
+    // First page: Header, Personal Info, Education
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
@@ -152,21 +153,45 @@ class DynamicCVGeneratorService {
               sectionColor,
               lightBlue,
             ),
-            pw.SizedBox(height: 15),
+          ];
+        },
+      ),
+    );
+
+    // Second page: Work Experience
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: const pw.EdgeInsets.all(40),
+        maxPages: 20,
+        build: (pw.Context context) {
+          return [
             _buildSection(
               l10n.cvWorkExperienceTitle,
               _buildWorkExperienceContent(l10n, cvData.workExperience),
               sectionColor,
               lightBlue,
             ),
-            pw.SizedBox(height: 15),
+            pw.SizedBox(height: 20),
             _buildSection(
               l10n.cvConferencesTitle,
               _buildConferencesContent(l10n, cvData.conferences),
               sectionColor,
               lightBlue,
             ),
-            pw.SizedBox(height: 15),
+          ];
+        },
+      ),
+    );
+
+    // Third page: Skills and Publications
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: const pw.EdgeInsets.all(40),
+        maxPages: 20,
+        build: (pw.Context context) {
+          return [
             _buildSection(
               l10n.cvSkillsTitle,
               _buildSkillsContent(l10n, cvData.skills),
@@ -174,7 +199,7 @@ class DynamicCVGeneratorService {
               lightBlue,
             ),
             if (publications.isNotEmpty) ...[
-              pw.SizedBox(height: 15),
+              pw.SizedBox(height: 20),
               _buildSectionHeader(
                 l10n.cvPublicationsTitle,
                 sectionColor,
