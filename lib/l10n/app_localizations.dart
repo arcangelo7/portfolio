@@ -955,7 +955,7 @@ abstract class AppLocalizations {
   /// No description provided for @astroGodsIntroduction.
   ///
   /// In en, this message translates to:
-  /// **'In my free time, I dedicate myself to AstroGods, an application that uses artificial intelligence to create astrological interpretations.'**
+  /// **'In my free time I work on AstroGods, a project that applies artificial intelligence to astrological interpretations.'**
   String get astroGodsIntroduction;
 
   /// No description provided for @astroGodsCard1Title.
@@ -991,7 +991,7 @@ abstract class AppLocalizations {
   /// No description provided for @astroGodsCard3Description.
   ///
   /// In en, this message translates to:
-  /// **'Complexity multiplies when comparing different people\'s charts or making temporal predictions with current sky positions.'**
+  /// **'Complexity grows exponentially when comparing different charts: two people, a person and a specific moment, or why not, entire social groups.'**
   String get astroGodsCard3Description;
 
   /// No description provided for @astroGodsCard4Title.
@@ -1003,7 +1003,7 @@ abstract class AppLocalizations {
   /// No description provided for @astroGodsCard4Description.
   ///
   /// In en, this message translates to:
-  /// **'Using methodologically grounded Egyptian astrological tradition with equal-area houses (Vehlow system) as foundation.'**
+  /// **'AstroGods uses the Egyptian astrological tradition and the equal-area house system (Vehlow system) as methodological foundation.'**
   String get astroGodsCard4Description;
 
   /// No description provided for @astroGodsCard5Title.
@@ -1015,7 +1015,7 @@ abstract class AppLocalizations {
   /// No description provided for @astroGodsCard5Description.
   ///
   /// In en, this message translates to:
-  /// **'AI processes all elements to unite astrological aspects with broader context, creating comprehensive interpretations.'**
+  /// **'AI connects all pieces of the astrological puzzle to find hidden connections and generate complete interpretations.'**
   String get astroGodsCard5Description;
 
   /// No description provided for @astroGodsCard6Title.

@@ -465,7 +465,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get astroGodsIntroduction =>
-      'En mi tiempo libre me dedico a AstroGods, una aplicación que utiliza inteligencia artificial para hacer interpretaciones astrológicas.';
+      'En mi tiempo libre trabajo en AstroGods, un proyecto que aplica inteligencia artificial a las interpretaciones astrológicas.';
 
   @override
   String get astroGodsCard1Title => 'Un problema complejo';
@@ -486,21 +486,21 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get astroGodsCard3Description =>
-      'La complejidad se multiplica al comparar cartas de diferentes personas o hacer predicciones temporales con posiciones actuales del cielo.';
+      'La complejidad crece exponencialmente en la comparación entre cartas diferentes: dos personas, una persona y un momento específico, o por qué no, grupos sociales enteros.';
 
   @override
   String get astroGodsCard4Title => 'Tradición egipcia';
 
   @override
   String get astroGodsCard4Description =>
-      'Uso de la tradición astrológica egipcia metodológicamente fundamentada con casas de área igual (sistema Vehlow) como base.';
+      'AstroGods utiliza la tradición astrológica egipcia y el sistema de casas de área igual (sistema Vehlow) como fundamento metodológico.';
 
   @override
   String get astroGodsCard5Title => 'Inteligencia artificial';
 
   @override
   String get astroGodsCard5Description =>
-      'La IA procesa todos los elementos para unir aspectos astrológicos con contexto amplio, creando interpretaciones completas.';
+      'La IA une todas las piezas del puzzle astrológico para encontrar conexiones ocultas y generar interpretaciones completas.';
 
   @override
   String get astroGodsCard6Title => 'Nosce te ipsum';
