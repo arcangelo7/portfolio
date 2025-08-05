@@ -24,7 +24,7 @@ class PortfolioTheme {
   static const Color emeraldGreen = Color(0xFF226C3B);
   static const Color violet = Color(0xFF420075);
   static const Color wine = Color(0xFF800020);
-  static const Color cobaltBlue = Color(0xFF0000FF);
+  static const Color cobaltBlue = Color(0xFF000075);
   static const Color black = Color(0xFF1A1A1A);
   static const List<Color> gold = [Color(0xFFFFD700), Color(0xFFFFA500)];
 
@@ -166,7 +166,7 @@ class _LandingPageState extends State<LandingPage>
   final GlobalKey _publicationsKey = GlobalKey();
   final GlobalKey _astrogodsKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
-  
+
   bool _isFabExpanded = false;
   bool _isTocVisible = false;
   bool _isDownloadingCV = false;
@@ -253,15 +253,16 @@ class _LandingPageState extends State<LandingPage>
     try {
       final l10n = AppLocalizations.of(context)!;
       final zoteroService = ZoteroService();
-      
+
       final pdfBytes = await DynamicCVGeneratorService.generateCV(
         l10n,
         zoteroService: zoteroService,
       );
-      
+
       await Printing.sharePdf(
         bytes: pdfBytes,
-        filename: 'CV_Arcangelo_Massari_${widget.currentLocale.languageCode}.pdf',
+        filename:
+            'CV_Arcangelo_Massari_${widget.currentLocale.languageCode}.pdf',
       );
 
       if (mounted) {
@@ -360,20 +361,21 @@ class _LandingPageState extends State<LandingPage>
             shape: const CircleBorder(),
             onPressed: _isDownloadingCV ? null : _downloadCV,
             backgroundColor: Theme.of(context).colorScheme.error,
-            child: _isDownloadingCV
-                ? SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
+            child:
+                _isDownloadingCV
+                    ? SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Theme.of(context).colorScheme.onError,
+                      ),
+                    )
+                    : Icon(
+                      Icons.download_rounded,
                       color: Theme.of(context).colorScheme.onError,
+                      size: 32.0,
                     ),
-                  )
-                : Icon(
-                    Icons.download_rounded,
-                    color: Theme.of(context).colorScheme.onError,
-                    size: 32.0,
-                  ),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
@@ -470,25 +472,29 @@ class _LandingPageState extends State<LandingPage>
                     ? FloatingActionButton(
                       heroTag: "download_cv_mobile",
                       shape: const CircleBorder(),
-                      onPressed: _isDownloadingCV ? null : () {
-                        _downloadCV();
-                        _toggleFab();
-                      },
+                      onPressed:
+                          _isDownloadingCV
+                              ? null
+                              : () {
+                                _downloadCV();
+                                _toggleFab();
+                              },
                       backgroundColor: Theme.of(context).colorScheme.error,
-                      child: _isDownloadingCV
-                          ? SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
+                      child:
+                          _isDownloadingCV
+                              ? SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Theme.of(context).colorScheme.onError,
+                                ),
+                              )
+                              : Icon(
+                                Icons.download_rounded,
                                 color: Theme.of(context).colorScheme.onError,
+                                size: 24.0,
                               ),
-                            )
-                          : Icon(
-                              Icons.download_rounded,
-                              color: Theme.of(context).colorScheme.onError,
-                              size: 24.0,
-                            ),
                     )
                     : const SizedBox.shrink(),
           ),
@@ -548,7 +554,7 @@ class _LandingPageState extends State<LandingPage>
 
   Widget _buildTocOverlay(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
-    
+
     return GestureDetector(
       onTap: _toggleToc,
       child: Container(

@@ -545,6 +545,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get cvConferencesTitle => 'CONFERENZE E SEMINARI';
 
   @override
+  String get cvSkillsTitle => 'COMPETENZE';
+
+  @override
   String get cvPublicationsTitle => 'PUBBLICAZIONI';
 
   @override

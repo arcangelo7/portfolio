@@ -1096,6 +1096,12 @@ abstract class AppLocalizations {
   /// **'CONFERENCES AND SEMINARS'**
   String get cvConferencesTitle;
 
+  /// No description provided for @cvSkillsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SKILLS'**
+  String get cvSkillsTitle;
+
   /// No description provided for @cvPublicationsTitle.
   ///
   /// In en, this message translates to:

@@ -4,8 +4,18 @@ import 'package:pdf/widgets.dart' as pw;
 import '../l10n/app_localizations.dart';
 import '../models/publication.dart';
 import '../services/zotero_service.dart';
+import '../main.dart';
 
 class DynamicCVGeneratorService {
+  static PdfColor _convertFlutterToPdfColor(Color flutterColor) {
+    return PdfColor(
+      (flutterColor.r * 255.0).round() / 255.0,
+      (flutterColor.g * 255.0).round() / 255.0,
+      (flutterColor.b * 255.0).round() / 255.0,
+      flutterColor.a,
+    );
+  }
+
   static String _normalizeUrl(String url) {
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       if (url.startsWith('www.')) {
@@ -72,7 +82,7 @@ class DynamicCVGeneratorService {
           text: linkText,
           style: pw.TextStyle(
             fontSize: fontSize,
-            color: PdfColor.fromHex('#0066cc'),
+            color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
             decoration: pw.TextDecoration.underline,
           ),
           annotation: pw.AnnotationUrl(linkUrl),
@@ -112,9 +122,9 @@ class DynamicCVGeneratorService {
       }
     }
 
-    final headerColor = PdfColor.fromHex('#1f4e79');
-    final sectionColor = PdfColor.fromHex('#4a90e2');
-    final lightBlue = PdfColor.fromHex('#e8f4fd');
+    final headerColor = _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue);
+    final sectionColor = _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue.withValues(alpha: 0.8));
+    final lightBlue = _convertFlutterToPdfColor(PortfolioTheme.iceWhite);
 
     final header = await _buildHeader(headerColor, l10n);
 
@@ -146,6 +156,13 @@ class DynamicCVGeneratorService {
             _buildSection(
               l10n.cvConferencesTitle,
               _buildConferencesContent(l10n),
+              sectionColor,
+              lightBlue,
+            ),
+            pw.SizedBox(height: 15),
+            _buildSection(
+              l10n.cvSkillsTitle,
+              _buildSkillsContent(l10n),
               sectionColor,
               lightBlue,
             ),
@@ -330,7 +347,7 @@ class DynamicCVGeneratorService {
           text: value,
           style: pw.TextStyle(
             fontSize: 10,
-            color: PdfColor.fromHex('#0066cc'),
+            color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
             decoration: pw.TextDecoration.underline,
           ),
           annotation: pw.AnnotationUrl(url),
@@ -443,7 +460,7 @@ class DynamicCVGeneratorService {
           style: pw.TextStyle(
             fontSize: 10,
             fontWeight: pw.FontWeight.bold,
-            color: PdfColor.fromHex('#666666'),
+            color: _convertFlutterToPdfColor(PortfolioTheme.wine.withValues(alpha: 0.7)),
           ),
         ),
         pw.SizedBox(height: 2),
@@ -512,7 +529,7 @@ class DynamicCVGeneratorService {
           style: pw.TextStyle(
             fontSize: 10,
             fontWeight: pw.FontWeight.bold,
-            color: PdfColor.fromHex('#666666'),
+            color: _convertFlutterToPdfColor(PortfolioTheme.wine.withValues(alpha: 0.7)),
           ),
         ),
         pw.SizedBox(height: 2),
@@ -585,7 +602,7 @@ class DynamicCVGeneratorService {
           style: pw.TextStyle(
             fontSize: 9,
             fontWeight: pw.FontWeight.bold,
-            color: PdfColor.fromHex('#666666'),
+            color: _convertFlutterToPdfColor(PortfolioTheme.wine.withValues(alpha: 0.7)),
           ),
         ),
         pw.SizedBox(height: 2),
@@ -604,6 +621,120 @@ class DynamicCVGeneratorService {
     );
   }
 
+  static pw.Widget _buildSkillsContent(AppLocalizations l10n) {
+    final skillsCategories = {
+      l10n.skillCategoryProgrammingLanguages: [
+        l10n.skillPython,
+        l10n.skillJavaScript,
+        l10n.skillTypeScript,
+        l10n.skillDart,
+      ],
+      l10n.skillCategoryMarkupAndTemplating: [
+        l10n.skillHTML,
+        l10n.skillXML,
+        l10n.skillTEI,
+      ],
+      l10n.skillCategoryStylingAndDesign: [
+        l10n.skillCSS,
+        l10n.skillSASS,
+        l10n.skillBootstrap,
+      ],
+      l10n.skillCategoryQueryAndTransform: [
+        l10n.skillSPARQL,
+        l10n.skillSQL,
+        l10n.skillXPath,
+        l10n.skillXQuery,
+        l10n.skillXSLT,
+      ],
+      l10n.skillCategorySemanticWebAndRDF: [
+        l10n.skillRDF,
+        l10n.skillSPARQL,
+        l10n.skillSHACL,
+        l10n.skillApacheJenaFuseki,
+        l10n.skillGraphDB,
+        l10n.skillBlazeGraph,
+        l10n.skillOpenLinkVirtuoso,
+      ],
+      l10n.skillCategoryFrontendLibraries: [
+        l10n.skillReact,
+        l10n.skillD3JS,
+        l10n.skillFlutter,
+      ],
+      l10n.skillCategoryBackendFrameworks: [
+        l10n.skillNodeJS,
+        l10n.skillFlask,
+        l10n.skillPrisma,
+      ],
+      l10n.skillCategoryDatabases: [
+        l10n.skillMongoDB,
+        l10n.skillPostgreSQL,
+        l10n.skillRedis,
+        l10n.skillApacheJenaFuseki,
+        l10n.skillBlazeGraph,
+        l10n.skillOpenLinkVirtuoso,
+        l10n.skillGraphDB,
+      ],
+      l10n.skillCategoryInfrastructureDevOps: [
+        l10n.skillDocker,
+        l10n.skillProxmox,
+        l10n.skillGitHubActions,
+      ],
+      l10n.skillCategoryOperatingSystems: [l10n.skillDebian, l10n.skillFedora],
+    };
+
+    final List<pw.Widget> skillWidgets = [];
+
+    skillsCategories.forEach((category, skills) {
+      skillWidgets.add(
+        pw.Container(
+          margin: const pw.EdgeInsets.only(bottom: 8),
+          child: pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Text(
+                category,
+                style: pw.TextStyle(
+                  fontSize: 10,
+                  fontWeight: pw.FontWeight.bold,
+                  color: _convertFlutterToPdfColor(PortfolioTheme.wine.withValues(alpha: 0.7)),
+                ),
+              ),
+              pw.SizedBox(height: 3),
+              pw.Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                children: skills.map((skill) => pw.Container(
+                  padding: const pw.EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: pw.BoxDecoration(
+                    color: _convertFlutterToPdfColor(PortfolioTheme.iceWhite),
+                    borderRadius: pw.BorderRadius.circular(12),
+                    border: pw.Border.all(
+                      color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue.withValues(alpha: 0.4)),
+                      width: 0.8,
+                    ),
+                  ),
+                  child: pw.Text(
+                    skill,
+                    style: pw.TextStyle(
+                      fontSize: 8,
+                      color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
+                      fontWeight: pw.FontWeight.normal,
+                    ),
+                  ),
+                )).toList(),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+
+    return pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: skillWidgets,
+    );
+  }
+
   static pw.Widget _buildPublicationTitle(Publication pub) {
     final titleText = '${pub.displayYear} - ${pub.title}';
 
@@ -616,7 +747,7 @@ class DynamicCVGeneratorService {
           style: pw.TextStyle(
             fontSize: 10,
             fontWeight: pw.FontWeight.bold,
-            color: PdfColor.fromHex('#0066cc'),
+            color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
             decoration: pw.TextDecoration.underline,
           ),
           annotation: pw.AnnotationUrl(doiUrl),
@@ -631,7 +762,7 @@ class DynamicCVGeneratorService {
           style: pw.TextStyle(
             fontSize: 10,
             fontWeight: pw.FontWeight.bold,
-            color: PdfColor.fromHex('#0066cc'),
+            color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
             decoration: pw.TextDecoration.underline,
           ),
           annotation: pw.AnnotationUrl(url),
@@ -663,7 +794,7 @@ class DynamicCVGeneratorService {
         text: pub.getViewButtonText(l10n),
         style: pw.TextStyle(
           fontSize: 8,
-          color: PdfColor.fromHex('#0066cc'),
+          color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
           decoration: pw.TextDecoration.underline,
         ),
         annotation: pw.AnnotationUrl(url),
@@ -705,7 +836,7 @@ class DynamicCVGeneratorService {
               style: pw.TextStyle(
                 fontSize: 11,
                 fontWeight: pw.FontWeight.bold,
-                color: PdfColor.fromHex('#666666'),
+                color: _convertFlutterToPdfColor(PortfolioTheme.wine.withValues(alpha: 0.7)),
               ),
             ),
           ),
