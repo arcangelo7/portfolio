@@ -423,7 +423,7 @@ void main() {
       expect(PortfolioTheme.emeraldGreen, equals(const Color(0xFF226C3B)));
       expect(PortfolioTheme.violet, equals(const Color(0xFF420075)));
       expect(PortfolioTheme.wine, equals(const Color(0xFF800020)));
-      expect(PortfolioTheme.cobaltBlue, equals(const Color(0xFF0000FF)));
+      expect(PortfolioTheme.cobaltBlue, equals(const Color(0xFF000075)));
       expect(PortfolioTheme.black, equals(const Color(0xFF1A1A1A)));
     });
 
