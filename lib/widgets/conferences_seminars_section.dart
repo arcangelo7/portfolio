@@ -6,8 +6,44 @@ import '../l10n/localization_helper.dart';
 import '../services/cv_data_service.dart';
 import '../models/cv_data.dart';
 
-class ConferencesSeminarsSection extends StatelessWidget {
+class ConferencesSeminarsSection extends StatefulWidget {
   const ConferencesSeminarsSection({super.key});
+
+  @override
+  State<ConferencesSeminarsSection> createState() => _ConferencesSeminarsSectionState();
+}
+
+class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection> {
+  List<ConferenceEntry>? _conferenceEntries;
+  bool _isLoading = true;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadConferences();
+  }
+
+  Future<void> _loadConferences() async {
+    try {
+      final conferenceEntries = await CVDataService.getConferences();
+      if (mounted) {
+        setState(() {
+          _conferenceEntries = conferenceEntries;
+          _isLoading = false;
+          _error = null;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _conferenceEntries = null;
+          _isLoading = false;
+          _error = e.toString();
+        });
+      }
+    }
+  }
 
   Future<void> _launchUrl(String url) async {
     final uri = Uri.parse(url);
@@ -34,35 +70,32 @@ class ConferencesSeminarsSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          FutureBuilder<List<ConferenceEntry>>(
-            future: CVDataService.getConferences(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-
-              final conferenceEntries = snapshot.data ?? [];
-
-              return Column(
-                children:
-                    conferenceEntries.map((entry) {
-                      return Column(
-                        children: [
-                          _buildConferenceItem(context, l10n, entry, isMobile),
-                          if (entry != conferenceEntries.last)
-                            const SizedBox(height: 32),
-                        ],
-                      );
-                    }).toList(),
-              );
-            },
-          ),
+          _buildConferencesContent(l10n, isMobile),
         ],
       ),
+    );
+  }
+
+  Widget _buildConferencesContent(AppLocalizations l10n, bool isMobile) {
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_error != null) {
+      return Text('Error: $_error');
+    }
+
+    final conferenceEntries = _conferenceEntries ?? [];
+
+    return Column(
+      children: conferenceEntries.map((entry) {
+        return Column(
+          children: [
+            _buildConferenceItem(context, l10n, entry, isMobile),
+            if (entry != conferenceEntries.last) const SizedBox(height: 32),
+          ],
+        );
+      }).toList(),
     );
   }
 

@@ -6,8 +6,44 @@ import '../l10n/localization_helper.dart';
 import '../services/cv_data_service.dart';
 import '../models/cv_data.dart';
 
-class EducationSection extends StatelessWidget {
+class EducationSection extends StatefulWidget {
   const EducationSection({super.key});
+
+  @override
+  State<EducationSection> createState() => _EducationSectionState();
+}
+
+class _EducationSectionState extends State<EducationSection> {
+  List<EducationEntry>? _educationEntries;
+  bool _isLoading = true;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadEducation();
+  }
+
+  Future<void> _loadEducation() async {
+    try {
+      final educationEntries = await CVDataService.getEducation();
+      if (mounted) {
+        setState(() {
+          _educationEntries = educationEntries;
+          _isLoading = false;
+          _error = null;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _educationEntries = null;
+          _isLoading = false;
+          _error = e.toString();
+        });
+      }
+    }
+  }
 
   Future<void> _launchUrl(String url) async {
     final uri = Uri.parse(url);
@@ -36,35 +72,32 @@ class EducationSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          FutureBuilder<List<EducationEntry>>(
-            future: CVDataService.getEducation(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-
-              final educationEntries = snapshot.data ?? [];
-
-              return Column(
-                children:
-                    educationEntries.map((entry) {
-                      return Column(
-                        children: [
-                          _buildEducationItem(context, l10n, entry, isMobile),
-                          if (entry != educationEntries.last)
-                            const SizedBox(height: 24),
-                        ],
-                      );
-                    }).toList(),
-              );
-            },
-          ),
+          _buildEducationContent(l10n, isMobile),
         ],
       ),
+    );
+  }
+
+  Widget _buildEducationContent(AppLocalizations l10n, bool isMobile) {
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_error != null) {
+      return Text('Error: $_error');
+    }
+
+    final educationEntries = _educationEntries ?? [];
+
+    return Column(
+      children: educationEntries.map((entry) {
+        return Column(
+          children: [
+            _buildEducationItem(context, l10n, entry, isMobile),
+            if (entry != educationEntries.last) const SizedBox(height: 24),
+          ],
+        );
+      }).toList(),
     );
   }
 

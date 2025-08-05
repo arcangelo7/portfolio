@@ -6,8 +6,44 @@ import '../l10n/localization_helper.dart';
 import '../services/cv_data_service.dart';
 import '../models/cv_data.dart';
 
-class WorkExperienceSection extends StatelessWidget {
+class WorkExperienceSection extends StatefulWidget {
   const WorkExperienceSection({super.key});
+
+  @override
+  State<WorkExperienceSection> createState() => _WorkExperienceSectionState();
+}
+
+class _WorkExperienceSectionState extends State<WorkExperienceSection> {
+  List<WorkExperienceEntry>? _workEntries;
+  bool _isLoading = true;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadWorkExperience();
+  }
+
+  Future<void> _loadWorkExperience() async {
+    try {
+      final workEntries = await CVDataService.getWorkExperience();
+      if (mounted) {
+        setState(() {
+          _workEntries = workEntries;
+          _isLoading = false;
+          _error = null;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _workEntries = null;
+          _isLoading = false;
+          _error = e.toString();
+        });
+      }
+    }
+  }
 
   Future<void> _launchUrl(String url) async {
     final uri = Uri.parse(url);
@@ -34,35 +70,32 @@ class WorkExperienceSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          FutureBuilder<List<WorkExperienceEntry>>(
-            future: CVDataService.getWorkExperience(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-
-              final workEntries = snapshot.data ?? [];
-
-              return Column(
-                children:
-                    workEntries.map((entry) {
-                      return Column(
-                        children: [
-                          _buildExperienceItem(context, l10n, entry, isMobile),
-                          if (entry != workEntries.last)
-                            const SizedBox(height: 32),
-                        ],
-                      );
-                    }).toList(),
-              );
-            },
-          ),
+          _buildWorkExperienceContent(l10n, isMobile),
         ],
       ),
+    );
+  }
+
+  Widget _buildWorkExperienceContent(AppLocalizations l10n, bool isMobile) {
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_error != null) {
+      return Text('Error: $_error');
+    }
+
+    final workEntries = _workEntries ?? [];
+
+    return Column(
+      children: workEntries.map((entry) {
+        return Column(
+          children: [
+            _buildExperienceItem(context, l10n, entry, isMobile),
+            if (entry != workEntries.last) const SizedBox(height: 32),
+          ],
+        );
+      }).toList(),
     );
   }
 

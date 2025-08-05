@@ -4,12 +4,22 @@ import '../models/cv_data.dart';
 
 class CVDataService {
   static CVData? _cachedData;
+  static Future<CVData>? _loadingFuture;
 
   static Future<CVData> loadCVData() async {
     if (_cachedData != null) {
       return _cachedData!;
     }
 
+    if (_loadingFuture != null) {
+      return _loadingFuture!;
+    }
+
+    _loadingFuture = _loadCVDataInternal();
+    return _loadingFuture!;
+  }
+
+  static Future<CVData> _loadCVDataInternal() async {
     try {
       final personalInfoJson = await rootBundle.loadString(
         'assets/data/personal_info.json',
@@ -64,6 +74,7 @@ class CVDataService {
 
   static void clearCache() {
     _cachedData = null;
+    _loadingFuture = null;
   }
 
   static Future<List<EducationEntry>> getEducation() async {
