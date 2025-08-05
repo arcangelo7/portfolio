@@ -34,7 +34,7 @@ class Publication {
       case 'presentation':
         final meetingName = data['meetingName'] as String?;
         final place = data['place'] as String?;
-        
+
         if (meetingName != null && place != null) {
           return '$meetingName, $place';
         } else if (meetingName != null) {
@@ -46,10 +46,23 @@ class Publication {
         }
       case 'bookSection':
         return data['bookTitle'] as String?;
+      case 'thesis':
+        final university = data['university'] as String?;
+        final place = data['place'] as String?;
+
+        if (university != null && place != null) {
+          return '$university, $place';
+        } else if (university != null) {
+          return university;
+        } else if (place != null) {
+          return place;
+        } else {
+          return null;
+        }
       case 'report':
         final institution = data['institution'] as String?;
         final place = data['place'] as String?;
-        
+
         if (institution != null && place != null) {
           return '$institution, $place';
         } else if (institution != null) {
