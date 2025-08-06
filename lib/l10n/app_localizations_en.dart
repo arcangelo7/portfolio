@@ -25,7 +25,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutMeDescription =>
-      'I\'m pursuing a PhD in cultural heritage in digital ecosystem between the University of Bologna and KU Leuven. My research focuses on creating user-friendly interfaces for semantic data, specifically Semantic Web technologies with emphasis on change tracking and provenance. I won the [Gigliozzi Prize](https://www.aiucd.it/premio-gigliozzi-2024/) for the best presentation at AIUCD conference with [HERITRACE](https://opencitations.github.io/heritrace/), which is the main focus of my doctoral work.';
+      'I\'m pursuing a PhD in cultural heritage in digital ecosystem between the University of Bologna and KU Leuven. My research focuses on creating user-friendly interfaces for semantic data, specifically Semantic Web technologies with emphasis on change tracking and provenance. I won the [Gigliozzi Prize](https://www.aiucd.it/premio-gigliozzi-2024/) for the best presentation at AIUCD 2024 conference with [HERITRACE](https://opencitations.github.io/heritrace/), which is the main focus of my doctoral work.';
 
   @override
   String get skills => 'My toolbox';
