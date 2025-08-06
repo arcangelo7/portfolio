@@ -23,9 +23,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Only initialize window_manager on desktop platforms
-  if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
-      defaultTargetPlatform == TargetPlatform.linux ||
-      defaultTargetPlatform == TargetPlatform.macOS)) {
+  if (!kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.windows ||
+          defaultTargetPlatform == TargetPlatform.linux ||
+          defaultTargetPlatform == TargetPlatform.macOS)) {
     await windowManager.ensureInitialized();
 
     WindowOptions windowOptions = const WindowOptions(
@@ -143,9 +144,11 @@ class _PortfolioAppState extends State<PortfolioApp> {
 
   void _updateWindowTitle() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && !kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
-          defaultTargetPlatform == TargetPlatform.linux ||
-          defaultTargetPlatform == TargetPlatform.macOS)) {
+      if (mounted &&
+          !kIsWeb &&
+          (defaultTargetPlatform == TargetPlatform.windows ||
+              defaultTargetPlatform == TargetPlatform.linux ||
+              defaultTargetPlatform == TargetPlatform.macOS)) {
         final title = AppLocalizations.of(context)!.appTitle;
         windowManager.setTitle(title);
       }
@@ -158,9 +161,10 @@ class _PortfolioAppState extends State<PortfolioApp> {
       onGenerateTitle: (context) {
         final title = AppLocalizations.of(context)!.appTitle;
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
-              defaultTargetPlatform == TargetPlatform.linux ||
-              defaultTargetPlatform == TargetPlatform.macOS)) {
+          if (!kIsWeb &&
+              (defaultTargetPlatform == TargetPlatform.windows ||
+                  defaultTargetPlatform == TargetPlatform.linux ||
+                  defaultTargetPlatform == TargetPlatform.macOS)) {
             windowManager.setTitle(title);
           }
         });
@@ -343,10 +347,12 @@ class _LandingPageState extends State<LandingPage>
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
-    final isDesktop = !kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
-        defaultTargetPlatform == TargetPlatform.linux ||
-        defaultTargetPlatform == TargetPlatform.macOS);
-    
+    final isDesktop =
+        !kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.macOS);
+
     return Scaffold(
       body: Stack(
         children: [
@@ -389,9 +395,10 @@ class _LandingPageState extends State<LandingPage>
   Widget _buildCustomTitleBar(BuildContext context) {
     return GestureDetector(
       onPanStart: (details) {
-        if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
-            defaultTargetPlatform == TargetPlatform.linux ||
-            defaultTargetPlatform == TargetPlatform.macOS)) {
+        if (!kIsWeb &&
+            (defaultTargetPlatform == TargetPlatform.windows ||
+                defaultTargetPlatform == TargetPlatform.linux ||
+                defaultTargetPlatform == TargetPlatform.macOS)) {
           windowManager.startDragging();
         }
       },
@@ -425,20 +432,19 @@ class _LandingPageState extends State<LandingPage>
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                _buildTitleBarButton(
-                  Icons.minimize,
-                  () {
-                    if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
-                        defaultTargetPlatform == TargetPlatform.linux ||
-                        defaultTargetPlatform == TargetPlatform.macOS)) {
-                      windowManager.minimize();
-                    }
-                  },
-                ),
+                _buildTitleBarButton(Icons.minimize, () {
+                  if (!kIsWeb &&
+                      (defaultTargetPlatform == TargetPlatform.windows ||
+                          defaultTargetPlatform == TargetPlatform.linux ||
+                          defaultTargetPlatform == TargetPlatform.macOS)) {
+                    windowManager.minimize();
+                  }
+                }),
                 _buildTitleBarButton(Icons.crop_square, () async {
-                  if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
-                      defaultTargetPlatform == TargetPlatform.linux ||
-                      defaultTargetPlatform == TargetPlatform.macOS)) {
+                  if (!kIsWeb &&
+                      (defaultTargetPlatform == TargetPlatform.windows ||
+                          defaultTargetPlatform == TargetPlatform.linux ||
+                          defaultTargetPlatform == TargetPlatform.macOS)) {
                     if (await windowManager.isMaximized()) {
                       windowManager.unmaximize();
                     } else {
@@ -446,17 +452,14 @@ class _LandingPageState extends State<LandingPage>
                     }
                   }
                 }),
-                _buildTitleBarButton(
-                  Icons.close,
-                  () {
-                    if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows ||
-                        defaultTargetPlatform == TargetPlatform.linux ||
-                        defaultTargetPlatform == TargetPlatform.macOS)) {
-                      windowManager.close();
-                    }
-                  },
-                  isClose: true,
-                ),
+                _buildTitleBarButton(Icons.close, () {
+                  if (!kIsWeb &&
+                      (defaultTargetPlatform == TargetPlatform.windows ||
+                          defaultTargetPlatform == TargetPlatform.linux ||
+                          defaultTargetPlatform == TargetPlatform.macOS)) {
+                    windowManager.close();
+                  }
+                }, isClose: true),
               ],
             ),
           ],
@@ -1194,39 +1197,47 @@ class _LandingPageState extends State<LandingPage>
             ],
           ),
           const SizedBox(height: 32),
-          Column(
-            children: [
-              Text(
-                l10n.copyright,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.7),
-                  fontSize: isMobile ? 12 : null,
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth:
+                  isMobile
+                      ? MediaQuery.of(context).size.width - 130
+                      : double.infinity,
+            ),
+            child: Column(
+              children: [
+                Text(
+                  l10n.copyright,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.7),
+                    fontSize: isMobile ? 12 : null,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              Container(
-                width: 50,
-                height: 2,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(colors: PortfolioTheme.gold),
+                const SizedBox(height: 16),
+                Container(
+                  width: 50,
+                  height: 2,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(colors: PortfolioTheme.gold),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                l10n.laoTzuQuote,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.7),
-                  fontSize: isMobile ? 10 : 12,
-                  fontStyle: FontStyle.italic,
+                const SizedBox(height: 16),
+                Text(
+                  l10n.laoTzuQuote,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.7),
+                    fontSize: isMobile ? 10 : 12,
+                    fontStyle: FontStyle.italic,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
@@ -1564,5 +1575,4 @@ class _SkillsBubbleChart extends StatelessWidget {
       builder: (context) => const FlutterModal(),
     );
   }
-
 }

@@ -157,7 +157,7 @@ abstract class AppLocalizations {
   /// No description provided for @laoTzuQuote.
   ///
   /// In en, this message translates to:
-  /// **'\'Those who have virtue (Dharma) attend to their duty; those who have no virtue attend to their presumed rights.\' — Lao Tzu, Tao Te Ching'**
+  /// **'\'Those who have virtue (Dharma) attend to their duty,\nthose who have no virtue attend to their presumed rights.\'\n— Lao Tzu, Tao Te Ching'**
   String get laoTzuQuote;
 
   /// No description provided for @skillCategoryProgrammingLanguages.

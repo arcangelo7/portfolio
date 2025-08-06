@@ -13,10 +13,12 @@ class FlutterModal extends StatelessWidget {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Container(
-        padding: const EdgeInsets.all(24),
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width < 600 ? 16 : 24),
         constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.8,
-          maxHeight: MediaQuery.of(context).size.height * 0.7,
+          maxWidth: MediaQuery.of(context).size.width < 600 
+              ? MediaQuery.of(context).size.width * 0.95
+              : MediaQuery.of(context).size.width * 0.8,
+          maxHeight: MediaQuery.of(context).size.height * 0.8,
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -29,9 +31,10 @@ class FlutterModal extends StatelessWidget {
             ],
           ),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
             Row(
               children: [
                 Container(
@@ -189,6 +192,7 @@ class FlutterModal extends StatelessWidget {
               child: Text(l10n.closeFlutterInfo),
             ),
           ],
+        ),
         ),
       ),
     );

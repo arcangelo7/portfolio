@@ -39,7 +39,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get laoTzuQuote =>
-      '\'Quienes tienen virtud (Dharma) se ocupan de su deber; quienes carecen de ella se ocupan de sus presuntos derechos.\' — Lao Tzu, Tao Te Ching';
+      '\'Quienes tienen virtud (Dharma) se ocupan de su deber,\nquienes carecen de ella se ocupan de sus presuntos derechos.\'\n— Lao Tzu, Tao Te Ching';
 
   @override
   String get skillCategoryProgrammingLanguages => 'Lenguajes de programación';

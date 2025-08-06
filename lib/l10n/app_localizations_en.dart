@@ -38,7 +38,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get laoTzuQuote =>
-      '\'Those who have virtue (Dharma) attend to their duty; those who have no virtue attend to their presumed rights.\' — Lao Tzu, Tao Te Ching';
+      '\'Those who have virtue (Dharma) attend to their duty,\nthose who have no virtue attend to their presumed rights.\'\n— Lao Tzu, Tao Te Ching';
 
   @override
   String get skillCategoryProgrammingLanguages => 'Programming languages';
