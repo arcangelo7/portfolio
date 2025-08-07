@@ -106,6 +106,12 @@ abstract class AppLocalizations {
   /// **'Arcangelo Massari Portfolio'**
   String get appTitle;
 
+  /// No description provided for @seoDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'PhD candidate in Digital Humanities at University of Bologna and KU Leuven. Research in semantic web technologies, change tracking, provenance, and cultural heritage metadata. Winner of Gigliozzi Prize 2024.'**
+  String get seoDescription;
+
   /// No description provided for @name.
   ///
   /// In en, this message translates to:

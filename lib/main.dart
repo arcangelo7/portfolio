@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:web/web.dart' as web;
 import 'l10n/app_localizations.dart';
 import 'widgets/publications_section.dart';
 import 'widgets/work_experience_section.dart';
@@ -17,6 +18,7 @@ import 'widgets/table_of_contents_widget.dart';
 import 'widgets/flutter_modal.dart';
 import 'services/dynamic_cv_generator_service.dart';
 import 'services/zotero_service.dart';
+import 'services/seo_service.dart';
 import 'package:printing/printing.dart';
 
 void main() async {
@@ -127,12 +129,107 @@ class PortfolioApp extends StatefulWidget {
 class _PortfolioAppState extends State<PortfolioApp> {
   Locale? _locale;
   ThemeMode _themeMode = ThemeMode.light;
+  GlobalKey<_LandingPageState>? _landingPageKey;
+
+  @override
+  void initState() {
+    super.initState();
+    _landingPageKey = GlobalKey<_LandingPageState>();
+    if (kIsWeb) {
+      _initializeLanguageFromUrl();
+    }
+  }
+
+  void _initializeLanguageFromUrl() {
+    try {
+      final uri = Uri.parse(web.window.location.href);
+      final langParam = uri.queryParameters['lang'];
+      final fragment = uri.fragment;
+
+      if (langParam != null && ['en', 'it', 'es'].contains(langParam)) {
+        setState(() {
+          _locale = Locale(langParam);
+        });
+      } else {
+        // Default to English if no valid lang parameter
+        setState(() {
+          _locale = const Locale('en');
+        });
+        _updateUrlWithLanguage('en', replaceState: true);
+      }
+
+      // Handle fragment (anchor) navigation after the widget is built
+      if (fragment.isNotEmpty) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          // Add a small delay to ensure all widgets are rendered
+          Future.delayed(const Duration(milliseconds: 500), () {
+            _navigateToSection(fragment);
+          });
+        });
+      }
+    } catch (e) {
+      // Fallback to English on any error
+      setState(() {
+        _locale = const Locale('en');
+      });
+    }
+  }
+
+  void _navigateToSection(String sectionId) {
+    // Call the landing page to scroll to the section
+    _landingPageKey?.currentState?.scrollToSectionById(sectionId);
+  }
+
+  void _updateUrlWithLanguage(
+    String languageCode, {
+    bool replaceState = false,
+  }) {
+    if (kIsWeb) {
+      try {
+        final uri = Uri.parse(web.window.location.href);
+        final newUri = uri.replace(queryParameters: {'lang': languageCode});
+
+        if (replaceState) {
+          web.window.history.replaceState(null, '', newUri.toString());
+        } else {
+          web.window.history.pushState(null, '', newUri.toString());
+        }
+      } catch (e) {
+        debugPrint('Error updating URL: $e');
+      }
+    }
+  }
+
+  void updateUrlWithSection(String section) {
+    if (kIsWeb) {
+      try {
+        final uri = Uri.parse(web.window.location.href);
+        final currentLang = _locale?.languageCode ?? 'en';
+        final newUri = uri.replace(
+          queryParameters: {'lang': currentLang},
+          fragment: section,
+        );
+        web.window.history.pushState(null, '', newUri.toString());
+      } catch (e) {
+        debugPrint('Error updating URL with section: $e');
+      }
+    }
+  }
 
   void _changeLanguage(Locale locale) {
     setState(() {
       _locale = locale;
     });
+    _updateUrlWithLanguage(locale.languageCode);
     _updateWindowTitle();
+
+    // Update SEO meta tags when language changes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        SEOService.updateMetaTags(l10n, locale.languageCode);
+      }
+    });
   }
 
   void _toggleTheme() {
@@ -182,10 +279,12 @@ class _PortfolioAppState extends State<PortfolioApp> {
       ],
       supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
       home: LandingPage(
+        key: _landingPageKey,
         onLanguageChanged: _changeLanguage,
         currentLocale: _locale ?? const Locale('en'),
         onThemeToggle: _toggleTheme,
         isDarkMode: _themeMode == ThemeMode.dark,
+        onSectionChanged: updateUrlWithSection,
       ),
     );
   }
@@ -196,6 +295,7 @@ class LandingPage extends StatefulWidget {
   final Locale currentLocale;
   final VoidCallback onThemeToggle;
   final bool isDarkMode;
+  final Function(String) onSectionChanged;
 
   const LandingPage({
     super.key,
@@ -203,6 +303,7 @@ class LandingPage extends StatefulWidget {
     required this.currentLocale,
     required this.onThemeToggle,
     required this.isDarkMode,
+    required this.onSectionChanged,
   });
 
   @override
@@ -252,16 +353,25 @@ class _LandingPageState extends State<LandingPage>
     super.dispose();
   }
 
-  void _scrollToPublications() {
-    final context = _publicationsKey.currentContext;
+  void _scrollToSection(String sectionName, GlobalKey sectionKey) {
+    final context = sectionKey.currentContext;
     if (context != null) {
       Scrollable.ensureVisible(
         context,
         duration: const Duration(milliseconds: 800),
         curve: Curves.easeInOut,
       );
+      widget.onSectionChanged(sectionName);
     }
   }
+
+  void scrollToSectionById(String sectionId) {
+    final sectionKey = _sectionKeys[sectionId];
+    if (sectionKey != null) {
+      _scrollToSection(sectionId, sectionKey);
+    }
+  }
+
 
   void _toggleFab() {
     setState(() {
@@ -734,6 +844,7 @@ class _LandingPageState extends State<LandingPage>
                 child: TableOfContentsWidget(
                   sectionKeys: _sectionKeys,
                   onTap: _toggleToc,
+                  onSectionChanged: widget.onSectionChanged,
                 ),
               ),
             ),
@@ -862,7 +973,7 @@ class _LandingPageState extends State<LandingPage>
                         ? CrossAxisAlignment.center
                         : CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.name,
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(
                       color: PortfolioTheme.iceWhite,
@@ -879,7 +990,7 @@ class _LandingPageState extends State<LandingPage>
                     textAlign: isMobile ? TextAlign.center : TextAlign.start,
                   ),
                   const SizedBox(height: 16),
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!.jobTitle,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       color: PortfolioTheme.iceWhite,
@@ -896,7 +1007,7 @@ class _LandingPageState extends State<LandingPage>
                   ),
                   const SizedBox(height: 32),
                   ElevatedButton(
-                    onPressed: () => _scrollToPublications(),
+                    onPressed: () => scrollToSectionById('publications'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: PortfolioTheme.iceWhite,
                       foregroundColor: PortfolioTheme.cobaltBlue,

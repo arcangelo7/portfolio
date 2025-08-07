@@ -5,11 +5,13 @@ import '../l10n/app_localizations.dart';
 class TableOfContentsWidget extends StatefulWidget {
   final Map<String, GlobalKey> sectionKeys;
   final VoidCallback? onTap;
+  final Function(String)? onSectionChanged;
 
   const TableOfContentsWidget({
     super.key,
     required this.sectionKeys,
     this.onTap,
+    this.onSectionChanged,
   });
 
   @override
@@ -94,6 +96,9 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
         duration: const Duration(milliseconds: 800),
         curve: Curves.easeInOut,
       ).then((_) {
+        if (widget.onSectionChanged != null) {
+          widget.onSectionChanged!(sectionKey);
+        }
         if (widget.onTap != null) {
           widget.onTap!();
         }

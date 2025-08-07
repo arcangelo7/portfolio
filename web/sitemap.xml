@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Main pages with language alternatives -->
+  <url>
+    <loc>https://arcangelomassari.com/</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://arcangelomassari.com/?lang=en" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://arcangelomassari.com/?lang=it" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://arcangelomassari.com/?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://arcangelomassari.com/" />
+  </url>
+  
+  <!-- English version -->
+  <url>
+    <loc>https://arcangelomassari.com/?lang=en</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Italian version -->
+  <url>
+    <loc>https://arcangelomassari.com/?lang=it</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Spanish version -->
+  <url>
+    <loc>https://arcangelomassari.com/?lang=es</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Section anchors (main sections) -->
+  <url>
+    <loc>https://arcangelomassari.com/#about</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://arcangelomassari.com/#work</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://arcangelomassari.com/#education</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://arcangelomassari.com/#conferences</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://arcangelomassari.com/#skills</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://arcangelomassari.com/#publications</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://arcangelomassari.com/#astrogods</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://arcangelomassari.com/#contact</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Additional important external links mentioned in portfolio -->
+  <url>
+    <loc>https://opencitations.github.io/heritrace/</loc>
+    <lastmod>2025-08-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>

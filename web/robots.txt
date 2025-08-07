@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://arcangelomassari.com/sitemap.xml
+
+# Block access to sensitive directories
+Disallow: /flutter_service_worker.js
+Disallow: /flutter_bootstrap.js
+
+# Additional optimization hints
+Crawl-delay: 1
+
+# Allow social media bots
+User-agent: facebookexternalhit/*
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: Applebot
+Allow: /

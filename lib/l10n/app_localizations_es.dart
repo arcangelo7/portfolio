@@ -12,6 +12,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appTitle => 'Portfolio de Arcangelo Massari';
 
   @override
+  String get seoDescription =>
+      'Candidato a PhD en Humanidades Digitales en la Universidad de Bolonia y KU Leuven. Investigación en tecnologías de web semántica, change tracking, provenance y metadatos del patrimonio cultural. Ganador del Premio Gigliozzi 2024.';
+
+  @override
   String get name => 'Arcangelo Massari';
 
   @override
