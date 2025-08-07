@@ -283,6 +283,36 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     await _launchUrl(url);
   }
 
+  /// Build venue display with volume, issue and pages information
+  String _buildVenueWithDetails(String venue, String? volume, String? issue, String? pages) {
+    final parts = <String>[];
+    
+    if (volume != null && volume.isNotEmpty) {
+      parts.add(volume);
+    }
+    
+    if (issue != null && issue.isNotEmpty) {
+      parts.add('($issue)');
+    }
+    
+    if (pages != null && pages.isNotEmpty) {
+      parts.add('pp. $pages');
+    }
+    
+    if (parts.isNotEmpty) {
+      return '$venue, ${parts.join(', ')}';
+    }
+    
+    return venue;
+  }
+
+  /// Check if publication type should show venue details (volume, issue, pages)
+  bool _shouldShowVenueDetails(String itemType) {
+    return itemType == 'journalArticle' || 
+           itemType == 'bookSection' || 
+           itemType == 'conferencePaper';
+  }
+
   /// Build the launch button for a publication
   Widget _buildLaunchButton(Publication publication, AppLocalizations l10n) {
     return ElevatedButton.icon(
@@ -651,7 +681,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                       const SizedBox(height: 4),
                       if (citation.displayVenue != 'Unknown Venue') ...[
                         Text(
-                          citation.displayVenue,
+                          _buildVenueWithDetails(citation.displayVenue, citation.volume, citation.issue, citation.page),
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             fontStyle: FontStyle.italic,
                             color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
@@ -916,7 +946,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           if (publication.itemType != 'computerProgram' &&
               publication.displayVenue != 'Unknown Venue') ...[
             Text(
-              publication.displayVenue,
+              _shouldShowVenueDetails(publication.itemType)
+                  ? _buildVenueWithDetails(publication.displayVenue, publication.volume, publication.issue, publication.pages)
+                  : publication.displayVenue,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontStyle: FontStyle.italic,
                 color: Theme.of(

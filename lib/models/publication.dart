@@ -5,6 +5,9 @@ class Publication {
   final String? journal;
   final String? venue;
   final String? year;
+  final String? volume;
+  final String? issue;
+  final String? pages;
   final String? doi;
   final String? url;
   final String? abstractText;
@@ -21,6 +24,9 @@ class Publication {
     this.journal,
     this.venue,
     this.year,
+    this.volume,
+    this.issue,
+    this.pages,
     this.doi,
     this.url,
     this.abstractText,
@@ -119,6 +125,9 @@ class Publication {
       journal: data['publicationTitle'] as String?,
       venue: _extractVenue(data, itemType),
       year: data['date'] as String?,
+      volume: data['volume'] as String?,
+      issue: data['issue'] as String?,
+      pages: data['pages'] as String?,
       doi: data['DOI'] as String?,
       url: data['url'] as String?,
       abstractText: data['abstractNote'] as String?,
@@ -215,6 +224,9 @@ class Publication {
     String? journal,
     String? venue,
     String? year,
+    String? volume,
+    String? issue,
+    String? pages,
     String? doi,
     String? url,
     String? abstractText,
@@ -231,6 +243,9 @@ class Publication {
       journal: journal ?? this.journal,
       venue: venue ?? this.venue,
       year: year ?? this.year,
+      volume: volume ?? this.volume,
+      issue: issue ?? this.issue,
+      pages: pages ?? this.pages,
       doi: doi ?? this.doi,
       url: url ?? this.url,
       abstractText: abstractText ?? this.abstractText,
