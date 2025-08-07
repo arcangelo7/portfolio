@@ -11,6 +11,8 @@ class Publication {
   final String itemType;
   final DateTime? dateAdded;
   final DateTime? dateModified;
+  final int? citationCount;
+  final bool hasLoadedCitations;
 
   const Publication({
     required this.key,
@@ -25,6 +27,8 @@ class Publication {
     required this.itemType,
     this.dateAdded,
     this.dateModified,
+    this.citationCount,
+    this.hasLoadedCitations = false,
   });
 
   static String? _extractVenue(Map<String, dynamic> data, String itemType) {
@@ -203,6 +207,42 @@ class Publication {
       return '$authorsString ($yearText). $title.';
     }
   }
+
+  Publication copyWith({
+    String? key,
+    String? title,
+    List<String>? authors,
+    String? journal,
+    String? venue,
+    String? year,
+    String? doi,
+    String? url,
+    String? abstractText,
+    String? itemType,
+    DateTime? dateAdded,
+    DateTime? dateModified,
+    int? citationCount,
+    bool? hasLoadedCitations,
+  }) {
+    return Publication(
+      key: key ?? this.key,
+      title: title ?? this.title,
+      authors: authors ?? this.authors,
+      journal: journal ?? this.journal,
+      venue: venue ?? this.venue,
+      year: year ?? this.year,
+      doi: doi ?? this.doi,
+      url: url ?? this.url,
+      abstractText: abstractText ?? this.abstractText,
+      itemType: itemType ?? this.itemType,
+      dateAdded: dateAdded ?? this.dateAdded,
+      dateModified: dateModified ?? this.dateModified,
+      citationCount: citationCount ?? this.citationCount,
+      hasLoadedCitations: hasLoadedCitations ?? this.hasLoadedCitations,
+    );
+  }
+
+  bool get hasDoi => doi != null && doi!.isNotEmpty;
 
   @override
   String toString() => citation;

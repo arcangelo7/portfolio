@@ -262,6 +262,59 @@ class AppLocalizationsEs extends AppLocalizations {
   String get readMore => 'Leer más';
 
   @override
+  String get citations => 'Citas';
+
+  @override
+  String citationCount(Object count) {
+    return 'Citado $count veces';
+  }
+
+  @override
+  String get noCitations => 'No hay citas disponibles';
+
+  @override
+  String get viewCitations => 'Ver citas';
+
+  @override
+  String get citationsFrom => 'Citas de OpenCitations';
+
+  @override
+  String get loadingCitations => 'Cargando citas...';
+
+  @override
+  String get citedBy => 'Cita de';
+
+  @override
+  String get citedOn => 'Citado el';
+
+  @override
+  String get citation => 'Cita';
+
+  @override
+  String get citationFrom => 'Cita de';
+
+  @override
+  String get unknownDate => 'Fecha desconocida';
+
+  @override
+  String get unknownYear => 'Año desconocido';
+
+  @override
+  String get citedAfter => 'Citado después de';
+
+  @override
+  String get unknownJournal => 'Revista desconocida';
+
+  @override
+  String get citationId => 'ID de cita';
+
+  @override
+  String get timeSpan => 'Duración';
+
+  @override
+  String get doi => 'DOI';
+
+  @override
   String get previousPage => 'Página anterior';
 
   @override

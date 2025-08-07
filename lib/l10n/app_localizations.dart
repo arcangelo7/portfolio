@@ -592,6 +592,108 @@ abstract class AppLocalizations {
   /// **'Read more'**
   String get readMore;
 
+  /// No description provided for @citations.
+  ///
+  /// In en, this message translates to:
+  /// **'Citations'**
+  String get citations;
+
+  /// No description provided for @citationCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Cited {count} times'**
+  String citationCount(Object count);
+
+  /// No description provided for @noCitations.
+  ///
+  /// In en, this message translates to:
+  /// **'No citations available'**
+  String get noCitations;
+
+  /// No description provided for @viewCitations.
+  ///
+  /// In en, this message translates to:
+  /// **'View citations'**
+  String get viewCitations;
+
+  /// No description provided for @citationsFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Citations from OpenCitations'**
+  String get citationsFrom;
+
+  /// No description provided for @loadingCitations.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading citations...'**
+  String get loadingCitations;
+
+  /// No description provided for @citedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Citation from'**
+  String get citedBy;
+
+  /// No description provided for @citedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Cited on'**
+  String get citedOn;
+
+  /// No description provided for @citation.
+  ///
+  /// In en, this message translates to:
+  /// **'Citation'**
+  String get citation;
+
+  /// No description provided for @citationFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Citation from'**
+  String get citationFrom;
+
+  /// No description provided for @unknownDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown Date'**
+  String get unknownDate;
+
+  /// No description provided for @unknownYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown Year'**
+  String get unknownYear;
+
+  /// No description provided for @citedAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'Cited after'**
+  String get citedAfter;
+
+  /// No description provided for @unknownJournal.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown Journal'**
+  String get unknownJournal;
+
+  /// No description provided for @citationId.
+  ///
+  /// In en, this message translates to:
+  /// **'Citation ID'**
+  String get citationId;
+
+  /// No description provided for @timeSpan.
+  ///
+  /// In en, this message translates to:
+  /// **'Time span'**
+  String get timeSpan;
+
+  /// No description provided for @doi.
+  ///
+  /// In en, this message translates to:
+  /// **'DOI'**
+  String get doi;
+
   /// No description provided for @previousPage.
   ///
   /// In en, this message translates to:
