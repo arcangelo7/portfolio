@@ -1,3 +1,17 @@
+# [1.5.0](https://github.com/arcangelo7/portfolio/compare/v1.4.1...v1.5.0) (2025-08-07)
+
+
+### Bug Fixes
+
+* AIUCD 2024 in about me ([ca6a66c](https://github.com/arcangelo7/portfolio/commit/ca6a66c3b9810a6da22019b5353f09c3d08644ea))
+* fix layout problems on mobile (footer, fab, modal) ([fe7c5a8](https://github.com/arcangelo7/portfolio/commit/fe7c5a8244992c0f5642c68bf38691050381ec74))
+* update windows app icon ([aa88fa8](https://github.com/arcangelo7/portfolio/commit/aa88fa87ea8e3db4ae2af99662340d64f33acb9a))
+
+
+### Features
+
+* add OpenCitations citations [release] ([cef13ea](https://github.com/arcangelo7/portfolio/commit/cef13ea61dde3512fc3b7edd43de25f12316a354))
+
 ## [1.4.1](https://github.com/arcangelo7/portfolio/compare/v1.4.0...v1.4.1) (2025-08-05)
 
 
