@@ -483,7 +483,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                 color: Theme.of(context).colorScheme.primary,
               ),
               const SizedBox(width: 8),
-              Text(
+              SelectableText(
                 l10n.abstract,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.bold,
@@ -573,7 +573,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                 color: Theme.of(context).colorScheme.primary,
               ),
               const SizedBox(width: 8),
-              Text(
+              SelectableText(
                 l10n.citations,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.bold,
@@ -588,7 +588,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                     color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Text(
+                  child: SelectableText(
                     l10n.citationCount(citationCount),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w600,
@@ -601,7 +601,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           ),
           const SizedBox(height: 12),
           if (citationCount == null || citationCount == 0) ...[
-            Text(
+            SelectableText(
               l10n.noCitations,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
@@ -610,7 +610,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             ),
           ] else ...[
             if (!isExpanded) ...[
-              Text(
+              SelectableText(
                 l10n.citationsFrom,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
@@ -642,13 +642,13 @@ class _PublicationsSectionState extends State<PublicationsSection> {
               if (isLoading) ...[
                 const Center(child: CircularProgressIndicator()),
                 const SizedBox(height: 8),
-                Text(
+                SelectableText(
                   l10n.loadingCitations,
                   style: Theme.of(context).textTheme.bodySmall,
                   textAlign: TextAlign.center,
                 ),
               ] else if (citationMetadata.isEmpty) ...[
-                Text(
+                SelectableText(
                   l10n.noCitations,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
@@ -669,7 +669,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      SelectableText(
                         citation.displayTitle,
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
@@ -698,7 +698,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                       ),
                       const SizedBox(height: 4),
                       if (citation.displayVenue != 'Unknown Venue') ...[
-                        Text(
+                        SelectableText(
                           _buildVenueWithDetails(citation.displayVenue, citation.volume, citation.issue, citation.page),
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             fontStyle: FontStyle.italic,
@@ -715,7 +715,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                               color: Theme.of(context).colorScheme.tertiary.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Text(
+                            child: SelectableText(
                               citation.displayYear,
                               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                 fontWeight: FontWeight.w600,
@@ -740,7 +740,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                                         color: Theme.of(context).colorScheme.primary,
                                       ),
                                       const SizedBox(width: 4),
-                                      Text(
+                                      SelectableText(
                                         l10n.viewUrl,
                                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                                           color: Theme.of(context).colorScheme.primary,
@@ -809,7 +809,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       ),
       child: Column(
         children: [
-          Text(
+          SelectableText(
             l10n.publications,
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontWeight: FontWeight.bold,
@@ -817,7 +817,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             ),
           ),
           const SizedBox(height: 16),
-          Text(
+          SelectableText(
             l10n.publicationsDescription,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Theme.of(
@@ -888,7 +888,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
         children: [
           const CircularProgressIndicator(),
           const SizedBox(height: 16),
-          Text(
+          SelectableText(
             l10n.loadingPublications,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
@@ -909,7 +909,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             ).colorScheme.onSurface.withValues(alpha: 0.5),
           ),
           const SizedBox(height: 16),
-          Text(
+          SelectableText(
             _filteredPublications != null && _filteredPublications!.isEmpty
                 ? l10n.noPublicationsForCategory
                 : l10n.noPublications,
@@ -951,7 +951,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          SelectableText(
             publication.title,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
@@ -963,7 +963,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           const SizedBox(height: 12),
           if (publication.itemType != 'computerProgram' &&
               publication.displayVenue != 'Unknown Venue') ...[
-            Text(
+            SelectableText(
               _shouldShowVenueDetails(publication.itemType)
                   ? _buildVenueWithDetails(publication.displayVenue, publication.volume, publication.issue, publication.pages)
                   : publication.displayVenue,
@@ -987,7 +987,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                   ).colorScheme.secondary.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Text(
+                child: SelectableText(
                   publication.getCategoryDisplayName(l10n),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w600,
@@ -1004,7 +1004,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                   ).colorScheme.tertiary.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Text(
+                child: SelectableText(
                   publication.displayYear,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w600,

@@ -61,7 +61,7 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
-          Text(
+          SelectableText(
             l10n.conferencesAndSeminars,
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
     }
 
     if (_error != null) {
-      return Text('Error: $_error');
+      return SelectableText('Error: $_error');
     }
 
     final conferenceEntries = _conferenceEntries ?? [];
@@ -140,7 +140,7 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    SelectableText(
                       title,
                       style: Theme.of(
                         context,
@@ -151,7 +151,7 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(
+                    SelectableText(
                       location,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: Theme.of(context).colorScheme.secondary,
@@ -178,7 +178,7 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
                             ).colorScheme.tertiary.withValues(alpha: 0.3),
                           ),
                         ),
-                        child: Text(
+                        child: SelectableText(
                           period,
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: Theme.of(context).colorScheme.onSurface,
@@ -197,7 +197,7 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          SelectableText(
                             title,
                             style: Theme.of(
                               context,
@@ -207,7 +207,7 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
                             ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
+                          SelectableText(
                             location,
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               color: Theme.of(context).colorScheme.secondary,
@@ -233,7 +233,7 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
                           ).colorScheme.tertiary.withValues(alpha: 0.3),
                         ),
                       ),
-                      child: Text(
+                      child: SelectableText(
                         period,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface,
@@ -267,7 +267,7 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
     final matches = markdownRegex.allMatches(text);
 
     if (matches.isEmpty) {
-      return Text(text, style: style);
+      return SelectableText(text, style: style);
     }
 
     List<TextSpan> spans = [];
@@ -303,6 +303,6 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
       spans.add(TextSpan(text: text.substring(currentIndex), style: style));
     }
 
-    return RichText(text: TextSpan(children: spans));
+    return SelectableText.rich(TextSpan(children: spans));
   }
 }

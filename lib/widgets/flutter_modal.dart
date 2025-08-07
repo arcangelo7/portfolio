@@ -90,7 +90,7 @@ class _FlutterModalState extends State<FlutterModal> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      SelectableText(
                         l10n.flutterAppTitle,
                         style: Theme.of(
                           context,
@@ -99,7 +99,7 @@ class _FlutterModalState extends State<FlutterModal> {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
-                      Text(
+                      SelectableText(
                         l10n.flutterAppSubtitle,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -121,7 +121,7 @@ class _FlutterModalState extends State<FlutterModal> {
               ],
             ),
             const SizedBox(height: 24),
-            Text(
+            SelectableText(
               l10n.flutterAppDescription,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: Theme.of(context).colorScheme.onSurface,
@@ -185,7 +185,7 @@ class _FlutterModalState extends State<FlutterModal> {
             const SizedBox(height: 24),
             Column(
               children: [
-                Text(
+                SelectableText(
                   l10n.installationInstructions,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,

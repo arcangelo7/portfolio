@@ -1048,7 +1048,7 @@ class _LandingPageState extends State<LandingPage>
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
-          Text(
+          SelectableText(
             AppLocalizations.of(context)!.aboutMe,
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontWeight: FontWeight.bold,
@@ -1082,7 +1082,7 @@ class _LandingPageState extends State<LandingPage>
     final matches = markdownRegex.allMatches(text);
 
     if (matches.isEmpty) {
-      return Text(text, style: style, textAlign: textAlign);
+      return SelectableText(text, style: style, textAlign: textAlign);
     }
 
     List<TextSpan> spans = [];
@@ -1121,7 +1121,7 @@ class _LandingPageState extends State<LandingPage>
       spans.add(TextSpan(text: text.substring(currentIndex), style: style));
     }
 
-    return RichText(textAlign: textAlign, text: TextSpan(children: spans));
+    return SelectableText.rich(TextSpan(children: spans), textAlign: textAlign);
   }
 
   Future<void> _launchUrl(String url) async {
@@ -1202,7 +1202,7 @@ class _LandingPageState extends State<LandingPage>
       color: Theme.of(context).colorScheme.surfaceContainer,
       child: Column(
         children: [
-          Text(
+          SelectableText(
             AppLocalizations.of(context)!.skills,
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontWeight: FontWeight.bold,
@@ -1234,7 +1234,7 @@ class _LandingPageState extends State<LandingPage>
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
-          Text(
+          SelectableText(
             l10n.getInTouch,
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontWeight: FontWeight.bold,
@@ -1324,7 +1324,7 @@ class _LandingPageState extends State<LandingPage>
             ),
             child: Column(
               children: [
-                Text(
+                SelectableText(
                   l10n.copyright,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(
@@ -1343,7 +1343,7 @@ class _LandingPageState extends State<LandingPage>
                   ),
                 ),
                 const SizedBox(height: 16),
-                Text(
+                SelectableText(
                   l10n.laoTzuQuote,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(
@@ -1390,7 +1390,7 @@ class _LandingPageState extends State<LandingPage>
           ),
         ),
         const SizedBox(height: 8),
-        Text(
+        SelectableText(
           label,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
             color: Theme.of(
@@ -1544,7 +1544,7 @@ class _SkillsBubbleChart extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Flexible(
-                child: Text(
+                child: SelectableText(
                   category,
                   style: TextStyle(
                     fontSize: isMobile ? 16 : 18,
@@ -1608,7 +1608,7 @@ class _SkillsBubbleChart extends StatelessWidget {
           ),
         ],
       ),
-      child: Text(
+      child: SelectableText(
         skill,
         style: TextStyle(
           color: isDark ? Colors.white : Colors.white,
@@ -1665,7 +1665,7 @@ class _SkillsBubbleChart extends StatelessWidget {
                 size: isMobile ? 16 : 18,
               ),
               const SizedBox(width: 6),
-              Text(
+              SelectableText(
                 skill,
                 style: TextStyle(
                   color: Colors.white,

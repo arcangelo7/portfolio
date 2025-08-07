@@ -37,7 +37,7 @@ class _ExpandableAuthorsWidgetState extends State<ExpandableAuthorsWidget> {
     final isExpanded = widget.expandedAuthors.contains(widget.uniqueKey);
 
     if (widget.authors.length <= widget.threshold) {
-      return Text(
+      return SelectableText(
         _authorsString,
         style: widget.textStyle ?? Theme.of(context).textTheme.bodyLarge?.copyWith(
           fontWeight: FontWeight.w500,
@@ -49,7 +49,7 @@ class _ExpandableAuthorsWidgetState extends State<ExpandableAuthorsWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        SelectableText(
           isExpanded
               ? _authorsString
               : '${widget.authors.take(3).join(', ')} ${l10n.andMoreAuthors(widget.authors.length - 3)}',

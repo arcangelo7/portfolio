@@ -25,16 +25,15 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
     final match = strikethroughRegex.firstMatch(text);
 
     if (match == null) {
-      return Text(text, style: style, textAlign: textAlign);
+      return SelectableText(text, style: style, textAlign: textAlign);
     }
 
     final beforeText = text.substring(0, match.start);
     final strikethroughText = match.group(1)!;
     final afterText = text.substring(match.end);
 
-    return RichText(
-      textAlign: textAlign,
-      text: TextSpan(
+    return SelectableText.rich(
+      TextSpan(
         style: style,
         children: [
           if (beforeText.isNotEmpty) TextSpan(text: beforeText),
@@ -96,7 +95,7 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
             const SizedBox(height: 24),
 
             // Sottotitolo ironico
-            Text(
+            SelectableText(
               l10n.astroGodsSubtitle,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 color: PortfolioTheme.astroLightGray,
@@ -111,7 +110,7 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
             // Introduzione
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
+              child: SelectableText(
                 l10n.astroGodsIntroduction,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: PortfolioTheme.astroLightGray,
@@ -237,7 +236,7 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
                       ),
                       const SizedBox(width: 16),
                       Expanded(
-                        child: Text(
+                        child: SelectableText(
                           card['title'] as String,
                           style: Theme.of(
                             context,
@@ -251,7 +250,7 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  Text(
+                  SelectableText(
                     card['description'] as String,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: PortfolioTheme.astroLightGray,

@@ -61,7 +61,7 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
-          Text(
+          SelectableText(
             l10n.workExperience,
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
     }
 
     if (_error != null) {
-      return Text('Error: $_error');
+      return SelectableText('Error: $_error');
     }
 
     final workEntries = _workEntries ?? [];
@@ -137,7 +137,7 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    SelectableText(
                       title,
                       style: Theme.of(
                         context,
@@ -148,7 +148,7 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(
+                    SelectableText(
                       company,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: Theme.of(context).colorScheme.secondary,
@@ -175,7 +175,7 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
                             ).colorScheme.tertiary.withValues(alpha: 0.3),
                           ),
                         ),
-                        child: Text(
+                        child: SelectableText(
                           period,
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: Theme.of(context).colorScheme.onSurface,
@@ -194,7 +194,7 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          SelectableText(
                             title,
                             style: Theme.of(
                               context,
@@ -204,7 +204,7 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
                             ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
+                          SelectableText(
                             company,
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               color: Theme.of(context).colorScheme.secondary,
@@ -230,7 +230,7 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
                           ).colorScheme.tertiary.withValues(alpha: 0.3),
                         ),
                       ),
-                      child: Text(
+                      child: SelectableText(
                         period,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface,
@@ -264,7 +264,7 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
     final matches = markdownRegex.allMatches(text);
 
     if (matches.isEmpty) {
-      return Text(text, style: style);
+      return SelectableText(text, style: style);
     }
 
     List<TextSpan> spans = [];
@@ -300,6 +300,6 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
       spans.add(TextSpan(text: text.substring(currentIndex), style: style));
     }
 
-    return RichText(text: TextSpan(children: spans));
+    return SelectableText.rich(TextSpan(children: spans));
   }
 }

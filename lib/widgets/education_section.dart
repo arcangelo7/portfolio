@@ -63,7 +63,7 @@ class _EducationSectionState extends State<EducationSection> {
       color: Theme.of(context).colorScheme.surfaceContainer,
       child: Column(
         children: [
-          Text(
+          SelectableText(
             l10n.education,
             style: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontWeight: FontWeight.bold,
@@ -84,7 +84,7 @@ class _EducationSectionState extends State<EducationSection> {
     }
 
     if (_error != null) {
-      return Text('Error: $_error');
+      return SelectableText('Error: $_error');
     }
 
     final educationEntries = _educationEntries ?? [];
@@ -165,7 +165,7 @@ class _EducationSectionState extends State<EducationSection> {
                             ),
                           ),
                         Expanded(
-                          child: Text(
+                          child: SelectableText(
                             degree,
                             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.bold,
@@ -180,7 +180,7 @@ class _EducationSectionState extends State<EducationSection> {
                       ],
                     ),
                     const SizedBox(height: 4),
-                    Text(
+                    SelectableText(
                       institution,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: Theme.of(context).colorScheme.secondary,
@@ -209,7 +209,7 @@ class _EducationSectionState extends State<EducationSection> {
                                 .withValues(alpha: 0.3),
                           ),
                         ),
-                        child: Text(
+                        child: SelectableText(
                           period,
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color:
@@ -241,7 +241,7 @@ class _EducationSectionState extends State<EducationSection> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          SelectableText(
                             degree,
                             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.bold,
@@ -252,7 +252,7 @@ class _EducationSectionState extends State<EducationSection> {
                             ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
+                          SelectableText(
                             institution,
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               color: Theme.of(context).colorScheme.secondary,
@@ -280,7 +280,7 @@ class _EducationSectionState extends State<EducationSection> {
                               .withValues(alpha: 0.3),
                         ),
                       ),
-                      child: Text(
+                      child: SelectableText(
                         period,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color:
@@ -317,7 +317,7 @@ class _EducationSectionState extends State<EducationSection> {
     final matches = markdownRegex.allMatches(text);
 
     if (matches.isEmpty) {
-      return Text(text, style: style);
+      return SelectableText(text, style: style);
     }
 
     List<TextSpan> spans = [];
@@ -353,6 +353,6 @@ class _EducationSectionState extends State<EducationSection> {
       spans.add(TextSpan(text: text.substring(currentIndex), style: style));
     }
 
-    return RichText(text: TextSpan(children: spans));
+    return SelectableText.rich(TextSpan(children: spans));
   }
 }
