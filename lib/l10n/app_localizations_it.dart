@@ -211,6 +211,12 @@ class AppLocalizationsIt extends AppLocalizations {
   String get viewPresentation => 'Visualizza Presentazione';
 
   @override
+  String get viewThesis => 'Visualizza Tesi';
+
+  @override
+  String get viewReport => 'Visualizza Report';
+
+  @override
   String get publicationsDescription =>
       'Le mie pubblicazioni e contributi accademici';
 

@@ -198,16 +198,20 @@ class Publication {
       case 'presentation':
         return l10n.viewPresentation; // "View Presentation"
       case 'thesis':
-        return l10n.viewUrl; // "View Thesis"
+        return l10n.viewThesis; // "View Thesis"
       case 'report':
-        return l10n.viewUrl; // "View Report"
+        return l10n.viewReport; // "View Report"
       default:
         return l10n.viewUrl; // fallback to "View Article"
     }
   }
 
   String get citation {
-    final venueText = displayVenue.isNotEmpty ? displayVenue : '';
+    final venueText = (journal?.isNotEmpty == true) 
+        ? journal! 
+        : (venue?.isNotEmpty == true) 
+            ? venue! 
+            : '';
     final yearText = displayYear;
 
     if (venueText.isNotEmpty) {

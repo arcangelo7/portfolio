@@ -8,6 +8,7 @@ import '../models/cv_data.dart';
 import '../services/zotero_service.dart';
 import '../services/cv_data_service.dart';
 import '../main.dart';
+import '../utils/publication_utils.dart';
 
 class DynamicCVGeneratorService {
   static PdfColor _convertFlutterToPdfColor(Color flutterColor) {
@@ -19,18 +20,6 @@ class DynamicCVGeneratorService {
     );
   }
 
-  static String _normalizeUrl(String url) {
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-      if (url.startsWith('www.')) {
-        return 'https://$url';
-      } else if (url.contains('@')) {
-        return 'mailto:$url';
-      } else {
-        return 'https://$url';
-      }
-    }
-    return url;
-  }
 
   static Future<pw.ThemeData> _createUnicodeTheme() async {
     final dejaVuRegular = pw.Font.ttf(
@@ -78,7 +67,7 @@ class DynamicCVGeneratorService {
 
       // Add the clickable link
       final linkText = match.group(1) ?? '';
-      var linkUrl = _normalizeUrl(match.group(2) ?? '');
+      var linkUrl = PublicationUtils.normalizeUrl(match.group(2) ?? '');
 
       spans.add(
         pw.TextSpan(
@@ -223,71 +212,8 @@ class DynamicCVGeneratorService {
     return pdf.save();
   }
 
-  static String _getCategoryDisplayName(
-    String categoryKey,
-    AppLocalizations l10n,
-  ) {
-    switch (categoryKey) {
-      case 'journalArticle':
-        return l10n.categoryJournalArticle;
-      case 'conferencePaper':
-        return l10n.categoryConferencePaper;
-      case 'bookSection':
-        return l10n.categoryBookSection;
-      case 'computerProgram':
-        return l10n.categorySoftware;
-      case 'presentation':
-        return l10n.categoryPresentation;
-      case 'thesis':
-        return l10n.categoryThesis;
-      case 'report':
-        return l10n.categoryReport;
-      default:
-        return categoryKey;
-    }
-  }
 
-  /// Get the ordered list of publication categories by importance
-  static List<String> _getCategoryOrder() {
-    return [
-      'journalArticle',
-      'conferencePaper',
-      'bookSection',
-      'thesis',
-      'presentation',
-      'report',
-      'computerProgram',
-    ];
-  }
 
-  /// Group publications by category and return them in order of importance
-  static Map<String, List<Publication>> _groupPublicationsByCategory(
-    List<Publication> publications,
-  ) {
-    final Map<String, List<Publication>> grouped = {};
-    final categoryOrder = _getCategoryOrder();
-
-    // Initialize groups for all categories
-    for (final category in categoryOrder) {
-      grouped[category] = [];
-    }
-
-    // Group publications by category
-    for (final publication in publications) {
-      final category = publication.itemType;
-      if (grouped.containsKey(category)) {
-        grouped[category]!.add(publication);
-      } else {
-        // For unknown categories, add them to a separate list
-        grouped.putIfAbsent('other', () => []).add(publication);
-      }
-    }
-
-    // Remove empty categories
-    grouped.removeWhere((key, value) => value.isEmpty);
-
-    return grouped;
-  }
 
   static Future<pw.Widget> _buildHeader(
     PdfColor headerColor,
@@ -396,7 +322,7 @@ class DynamicCVGeneratorService {
     if (value.contains('@') ||
         value.contains('github.com') ||
         value.contains('orcid.org')) {
-      var url = _normalizeUrl(value);
+      var url = PublicationUtils.normalizeUrl(value);
 
       return pw.RichText(
         text: pw.TextSpan(
@@ -719,6 +645,7 @@ class DynamicCVGeneratorService {
     return skillWidgets;
   }
 
+
   static pw.Widget _buildPublicationTitle(Publication pub) {
     final titleText = '${pub.displayYear} - ${pub.title}';
 
@@ -738,7 +665,7 @@ class DynamicCVGeneratorService {
         ),
       );
     } else if (pub.url != null && pub.url!.isNotEmpty) {
-      var url = _normalizeUrl(pub.url!);
+      var url = PublicationUtils.normalizeUrl(pub.url!);
 
       return pw.RichText(
         text: pw.TextSpan(
@@ -769,7 +696,7 @@ class DynamicCVGeneratorService {
     if (pub.doi != null && pub.doi!.isNotEmpty) {
       url = 'https://doi.org/${pub.doi}';
     } else if (pub.url != null && pub.url!.isNotEmpty) {
-      url = _normalizeUrl(pub.url!);
+      url = PublicationUtils.normalizeUrl(pub.url!);
     }
 
     if (url == null) {
@@ -794,8 +721,8 @@ class DynamicCVGeneratorService {
     List<Publication> publications,
     AppLocalizations l10n,
   ) {
-    final groupedPublications = _groupPublicationsByCategory(publications);
-    final categoryOrder = _getCategoryOrder();
+    final groupedPublications = PublicationUtils.groupPublicationsByCategory(publications);
+    final categoryOrder = PublicationUtils.getCategoryOrder();
     final List<pw.Widget> widgets = [];
 
     // Build widgets for each category
@@ -807,7 +734,7 @@ class DynamicCVGeneratorService {
           pw.Container(
             margin: const pw.EdgeInsets.only(top: 12, bottom: 8),
             child: pw.Text(
-              _getCategoryDisplayName(categoryKey, l10n).toUpperCase(),
+              PublicationUtils.getCategoryDisplayName(categoryKey, l10n).toUpperCase(),
               style: pw.TextStyle(
                 fontSize: 11,
                 fontWeight: pw.FontWeight.bold,
@@ -833,7 +760,7 @@ class DynamicCVGeneratorService {
                   if (pub.itemType != 'computerProgram' &&
                       pub.displayVenue != 'Unknown Venue') ...[
                     pw.Text(
-                      pub.displayVenue,
+                      PublicationUtils.buildVenueWithDetails(pub.displayVenue, pub.volume, pub.issue, pub.pages),
                       style: pw.TextStyle(
                         fontSize: 12,
                         fontStyle: pw.FontStyle.italic,

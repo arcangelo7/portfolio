@@ -17,6 +17,8 @@ class MockLocalizations {
   String get viewChapter => 'View Chapter';
   String get viewSoftware => 'View Software';
   String get viewPresentation => 'View Presentation';
+  String get viewThesis => 'View Thesis';
+  String get viewReport => 'View Report';
 }
 
 void main() {
@@ -78,7 +80,7 @@ void main() {
       );
 
       final viewText = thesis.getViewButtonText(mockL10n);
-      expect(viewText, equals('View Article')); // Default fallback for thesis
+      expect(viewText, equals('View Thesis'));
     });
 
     test('should display venue correctly for thesis', () {

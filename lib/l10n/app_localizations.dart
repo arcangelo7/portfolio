@@ -496,6 +496,18 @@ abstract class AppLocalizations {
   /// **'View Presentation'**
   String get viewPresentation;
 
+  /// No description provided for @viewThesis.
+  ///
+  /// In en, this message translates to:
+  /// **'View Thesis'**
+  String get viewThesis;
+
+  /// No description provided for @viewReport.
+  ///
+  /// In en, this message translates to:
+  /// **'View Report'**
+  String get viewReport;
+
   /// No description provided for @publicationsDescription.
   ///
   /// In en, this message translates to:

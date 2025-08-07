@@ -140,7 +140,7 @@ jobs:
     
     - name: Build web release
       run: |
-        flutter build web --release --base-href /portfolio/ --dart-define=FLUTTER_WEB_CANVASKIT_URL=https://www.gstatic.com/flutter-canvaskit/
+        flutter build web --release --base-href /portfolio/
         cd build/web
         zip -r ../../portfolio-web-${{ steps.version.outputs.version }}.zip .
         cd ../..

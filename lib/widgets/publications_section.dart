@@ -8,6 +8,7 @@ import '../services/zotero_service.dart';
 import '../services/opencitations_service.dart';
 import '../services/seo_service.dart';
 import 'expandable_authors_widget.dart';
+import '../utils/publication_utils.dart';
 
 /// Interface for URL launching to enable dependency injection and testing
 abstract class UrlLauncher {
@@ -272,63 +273,28 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       categories.add(pub.itemType);
     }
 
-    final sortedCategories =
-        categories.where((cat) => cat != 'all').toList()..sort();
-    return ['all', ...sortedCategories];
+    // Use priority order from PublicationUtils instead of alphabetical
+    final categoryOrder = PublicationUtils.getCategoryOrder();
+    final sortedCategories = categoryOrder
+        .where((cat) => categories.contains(cat))
+        .toList();
+    
+    // Add any unknown categories at the end
+    final unknownCategories = categories
+        .where((cat) => cat != 'all' && !categoryOrder.contains(cat))
+        .toList()..sort();
+    
+    return ['all', ...sortedCategories, ...unknownCategories];
   }
 
   Future<void> _launchUrl(String url) async {
     await _urlLauncher.openUrl(url);
   }
 
-  /// Check if a publication should show a launch button (DOI or URL)
-  bool _shouldShowLaunchButton(Publication publication) {
-    return publication.doi != null || publication.url != null;
-  }
-
-  /// Get the URL to launch for a publication (DOI takes precedence over URL)
-  String _getLaunchUrl(Publication publication) {
-    if (publication.doi != null) {
-      return 'https://doi.org/${publication.doi}';
-    } else {
-      return publication.url!;
-    }
-  }
-
   /// Handle the launch button press for a publication
   Future<void> _handleLaunchButtonPress(Publication publication) async {
-    final url = _getLaunchUrl(publication);
+    final url = PublicationUtils.getLaunchUrl(publication);
     await _launchUrl(url);
-  }
-
-  /// Build venue display with volume, issue and pages information
-  String _buildVenueWithDetails(String venue, String? volume, String? issue, String? pages) {
-    final parts = <String>[];
-    
-    if (volume != null && volume.isNotEmpty) {
-      parts.add(volume);
-    }
-    
-    if (issue != null && issue.isNotEmpty) {
-      parts.add('($issue)');
-    }
-    
-    if (pages != null && pages.isNotEmpty) {
-      parts.add('pp. $pages');
-    }
-    
-    if (parts.isNotEmpty) {
-      return '$venue, ${parts.join(', ')}';
-    }
-    
-    return venue;
-  }
-
-  /// Check if publication type should show venue details (volume, issue, pages)
-  bool _shouldShowVenueDetails(String itemType) {
-    return itemType == 'journalArticle' || 
-           itemType == 'bookSection' || 
-           itemType == 'conferencePaper';
   }
 
   /// Build the launch button for a publication
@@ -348,10 +314,6 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     );
   }
 
-  bool _containsHtml(String text) {
-    final htmlTags = RegExp(r'<[^>]+>');
-    return htmlTags.hasMatch(text);
-  }
 
   Widget _buildTextWithClickableLinks(String text, TextStyle? style) {
     final urlRegex = RegExp(
@@ -402,7 +364,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       height: 1.6,
     );
 
-    if (_containsHtml(content)) {
+    if (PublicationUtils.containsHtml(content)) {
       return Html(
         data: content,
         style: {
@@ -699,7 +661,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                       const SizedBox(height: 4),
                       if (citation.displayVenue != 'Unknown Venue') ...[
                         SelectableText(
-                          _buildVenueWithDetails(citation.displayVenue, citation.volume, citation.issue, citation.page),
+                          PublicationUtils.buildVenueWithDetails(citation.displayVenue, citation.volume, citation.issue, citation.page),
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             fontStyle: FontStyle.italic,
                             color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
@@ -964,8 +926,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           if (publication.itemType != 'computerProgram' &&
               publication.displayVenue != 'Unknown Venue') ...[
             SelectableText(
-              _shouldShowVenueDetails(publication.itemType)
-                  ? _buildVenueWithDetails(publication.displayVenue, publication.volume, publication.issue, publication.pages)
+              PublicationUtils.shouldShowVenueDetails(publication.itemType)
+                  ? PublicationUtils.buildVenueWithDetails(publication.displayVenue, publication.volume, publication.issue, publication.pages)
                   : publication.displayVenue,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontStyle: FontStyle.italic,
@@ -1017,7 +979,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           _buildAbstractSection(publication, l10n),
           if (publication.hasDoi) 
             _buildCitationSection(publication, l10n),
-          if (_shouldShowLaunchButton(publication)) ...[
+          if (PublicationUtils.shouldShowLaunchButton(publication)) ...[
             const SizedBox(height: 16),
             _buildLaunchButton(publication, l10n),
           ],

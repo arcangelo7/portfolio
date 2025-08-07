@@ -210,6 +210,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewPresentation => 'View Presentation';
 
   @override
+  String get viewThesis => 'View Thesis';
+
+  @override
+  String get viewReport => 'View Report';
+
+  @override
   String get publicationsDescription =>
       'My publications and academic contributions';
 

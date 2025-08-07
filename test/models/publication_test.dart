@@ -17,6 +17,8 @@ class MockLocalizations {
   String get viewChapter => 'View Chapter';
   String get viewSoftware => 'View Software';
   String get viewPresentation => 'View Presentation';
+  String get viewThesis => 'View Thesis';
+  String get viewReport => 'View Report';
 }
 
 void main() {
@@ -814,8 +816,8 @@ void main() {
         presentation.getViewButtonText(mockL10n),
         equals('View Presentation'),
       );
-      expect(thesis.getViewButtonText(mockL10n), equals('View Article'));
-      expect(report.getViewButtonText(mockL10n), equals('View Article'));
+      expect(thesis.getViewButtonText(mockL10n), equals('View Thesis'));
+      expect(report.getViewButtonText(mockL10n), equals('View Report'));
       expect(unknown.getViewButtonText(mockL10n), equals('View Article'));
     });
   });
@@ -850,7 +852,7 @@ void main() {
 
       expect(
         publication.citation,
-        equals('John Doe (2023). Test Publication Title. Unknown Venue.'),
+        equals('John Doe (2023). Test Publication Title.'),
       );
     });
 
@@ -865,7 +867,7 @@ void main() {
 
       expect(
         publication.citation,
-        equals('John Doe (2023). Test Publication Title. Unknown Venue.'),
+        equals('John Doe (2023). Test Publication Title.'),
       );
     });
 
@@ -882,7 +884,7 @@ void main() {
 
       expect(
         publication.citation,
-        equals('John Doe (2023). Test Publication Title. Unknown Venue.'),
+        equals('John Doe (2023). Test Publication Title.'),
       );
     });
 
