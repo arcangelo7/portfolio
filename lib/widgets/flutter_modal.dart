@@ -2,9 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
+import '../services/github_release_service.dart';
 
-class FlutterModal extends StatelessWidget {
+class FlutterModal extends StatefulWidget {
   const FlutterModal({super.key});
+
+  @override
+  State<FlutterModal> createState() => _FlutterModalState();
+}
+
+class _FlutterModalState extends State<FlutterModal> {
+  Map<String, String>? downloadUrls;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDownloadUrls();
+  }
+
+  Future<void> _loadDownloadUrls() async {
+    try {
+      final urls = await GitHubReleaseService.getLatestReleaseDownloadUrls();
+      setState(() {
+        downloadUrls = urls;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  String _getDownloadUrl(String platform) {
+    if (downloadUrls != null && downloadUrls!.containsKey(platform)) {
+      return downloadUrls![platform]!;
+    }
+    return 'https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-$platform-latest.${platform == 'windows' ? 'zip' : platform == 'android' ? 'apk' : platform == 'ios' ? 'ipa' : 'tar.gz'}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,55 +130,48 @@ class FlutterModal extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),
-            Wrap(
-              spacing: 16,
-              runSpacing: 16,
-              alignment: WrapAlignment.center,
-              children: [
+            if (isLoading)
+              const CircularProgressIndicator()
+            else
+              Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                alignment: WrapAlignment.center,
+                children: [
                 _buildDownloadButton(
                   context,
                   l10n.downloadForAndroid,
                   Icons.android,
                   const Color(0xFF3DDC84),
-                  () => _launchUrl(
-                    'https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-android-latest.apk',
-                  ),
+                  () => _launchUrl(_getDownloadUrl('android')),
                 ),
                 _buildDownloadButton(
                   context,
                   l10n.downloadForIOS,
                   Icons.phone_iphone,
                   const Color(0xFF007AFF),
-                  () => _launchUrl(
-                    'https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-ios-latest.ipa',
-                  ),
+                  () => _launchUrl(_getDownloadUrl('ios')),
                 ),
                 _buildDownloadButton(
                   context,
                   l10n.downloadForWindows,
                   Icons.window,
                   const Color(0xFF0078D4),
-                  () => _launchUrl(
-                    'https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-windows-latest.zip',
-                  ),
+                  () => _launchUrl(_getDownloadUrl('windows')),
                 ),
                 _buildDownloadButton(
                   context,
                   l10n.downloadForMacOS,
                   Icons.laptop_mac,
                   const Color(0xFF000000),
-                  () => _launchUrl(
-                    'https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-macos-latest.tar.gz',
-                  ),
+                  () => _launchUrl(_getDownloadUrl('macos')),
                 ),
                 _buildDownloadButton(
                   context,
                   l10n.downloadForLinux,
                   Icons.desktop_windows,
                   const Color(0xFF1F1F1F),
-                  () => _launchUrl(
-                    'https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-linux-latest.tar.gz',
-                  ),
+                  () => _launchUrl(_getDownloadUrl('linux')),
                 ),
                 _buildDownloadButton(
                   context,
