@@ -2,7 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:portfolio/l10n/app_localizations.dart';
-import 'package:portfolio/main.dart';
+
+class PortfolioTheme {
+  static const Color iceWhite = Color(0xFFF0F8FF);
+  static const Color emeraldGreen = Color(0xFF226C3B);
+  static const Color violet = Color(0xFF420075);
+  static const Color wine = Color(0xFF800020);
+  static const Color cobaltBlue = Color(0xFF000075);
+  static const Color black = Color(0xFF1A1A1A);
+
+  static ThemeData get lightTheme => ThemeData(
+    brightness: Brightness.light,
+    useMaterial3: true,
+    scaffoldBackgroundColor: iceWhite,
+  );
+
+  static ThemeData get darkTheme => ThemeData(
+    brightness: Brightness.dark,
+    useMaterial3: true,
+    scaffoldBackgroundColor: black,
+  );
+}
 
 void main() {
   group('Portfolio App Basic Tests', () {
