@@ -226,8 +226,10 @@ class _PortfolioAppState extends State<PortfolioApp> {
     // Update SEO meta tags when language changes
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        final l10n = AppLocalizations.of(context)!;
-        SEOService.updateMetaTags(l10n, locale.languageCode);
+        final l10n = AppLocalizations.of(context);
+        if (l10n != null) {
+          SEOService.updateMetaTags(l10n, locale.languageCode);
+        }
       }
     });
   }
@@ -263,6 +265,11 @@ class _PortfolioAppState extends State<PortfolioApp> {
                   defaultTargetPlatform == TargetPlatform.linux ||
                   defaultTargetPlatform == TargetPlatform.macOS)) {
             windowManager.setTitle(title);
+          }
+          // Update SEO meta tags when app starts or title is generated
+          final l10n = AppLocalizations.of(context);
+          if (l10n != null && kIsWeb) {
+            SEOService.updateMetaTags(l10n, _locale?.languageCode ?? 'en');
           }
         });
         return title;

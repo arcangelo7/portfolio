@@ -6,6 +6,7 @@ import '../l10n/app_localizations.dart';
 import '../models/publication.dart';
 import '../services/zotero_service.dart';
 import '../services/opencitations_service.dart';
+import '../services/seo_service.dart';
 import 'expandable_authors_widget.dart';
 
 /// Interface for URL launching to enable dependency injection and testing
@@ -78,6 +79,23 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           _isLoading = false;
           _error = null;
         });
+        
+        // Update SEO structured data for publications
+        final publicationsData = publications.map((pub) => {
+          'title': pub.title,
+          'type': pub.itemType,
+          'doi': pub.doi,
+          'datePublished': pub.year,
+          'venue': pub.venue,
+          'authors': pub.authors,
+          'abstract': pub.abstractText,
+          'url': pub.url,
+          'journal': pub.journal,
+          'volume': pub.volume,
+          'issue': pub.issue,
+          'pages': pub.pages,
+        }).toList();
+        SEOService.addStructuredDataForPublications(publicationsData);
         
         _loadCitationCounts();
       }
