@@ -970,7 +970,6 @@ class _LandingPageState extends State<LandingPage>
       child: LazyImage(
         assetPath: 'assets/images/profile_cutout.png',
         fit: BoxFit.cover,
-        critical: true, // This is above the fold, load immediately
         semanticLabel: AppLocalizations.of(context)?.profileImageAlt,
         errorBuilder: (context, error, stackTrace) {
           return Center(

@@ -87,8 +87,6 @@ class _StaticThemeElementsWidgetState extends State<StaticThemeElementsWidget>
               fit: BoxFit.cover,
               width: widget.elementSize,
               height: widget.elementSize,
-              critical:
-                  true, // Orbiting planets are in hero section, load immediately
               semanticLabel: AppLocalizations.of(context)?.orbitingPlanetAlt,
               errorBuilder: (context, error, stackTrace) {
                 return Container(

@@ -81,8 +81,6 @@ class _ThemeToggleWidgetState extends State<ThemeToggleWidget>
                           ? LazyImage(
                             assetPath: 'assets/images/light_mode.png',
                             fit: BoxFit.cover,
-                            critical:
-                                true, // Theme toggle is immediately visible
                             semanticLabel:
                                 AppLocalizations.of(context)?.lightModeIconAlt,
                           )
@@ -91,8 +89,6 @@ class _ThemeToggleWidgetState extends State<ThemeToggleWidget>
                             child: LazyImage(
                               assetPath: 'assets/images/dark_mode_button.png',
                               fit: BoxFit.cover,
-                              critical:
-                                  true, // Theme toggle is immediately visible
                               semanticLabel:
                                   AppLocalizations.of(context)?.darkModeIconAlt,
                             ),

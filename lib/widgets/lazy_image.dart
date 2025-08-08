@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+/// A lightweight lazy-loading image widget for assets.
+///
+/// - Defers decoding and painting of the underlying image until it is about to
+///   enter the viewport (preloads ~200px before it appears).
 class LazyImage extends StatefulWidget {
   final String assetPath;
   final double? width;
@@ -9,8 +13,8 @@ class LazyImage extends StatefulWidget {
   final Widget Function(BuildContext, Object, StackTrace?)? errorBuilder;
   final FilterQuality filterQuality;
   final Alignment alignment;
-  final bool critical;
 
+  /// Creates a [LazyImage] that displays an asset image lazily when near view.
   const LazyImage({
     super.key,
     required this.assetPath,
@@ -21,7 +25,6 @@ class LazyImage extends StatefulWidget {
     this.errorBuilder,
     this.filterQuality = FilterQuality.low,
     this.alignment = Alignment.center,
-    this.critical = false,
   });
 
   @override
@@ -31,37 +34,51 @@ class LazyImage extends StatefulWidget {
 class _LazyImageState extends State<LazyImage> {
   bool _isVisible = false;
   bool _hasBeenVisible = false;
+  ScrollPosition? _scrollPosition;
+
+  @override
+  void initState() {
+    super.initState();
+    // Schedule a post-frame check so images already in view load without requiring a scroll.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _checkVisibility();
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Re-check when inherited widgets like MediaQuery/Scrollables change.
+    _checkVisibility();
+
+    // Attach to the nearest Scrollable's position to react to scrolls (if any).
+    final ScrollableState? scrollableState = Scrollable.maybeOf(context);
+    if (scrollableState?.position != _scrollPosition) {
+      _detachScrollListener();
+      _scrollPosition = scrollableState?.position;
+      _scrollPosition?.addListener(_checkVisibility);
+    }
+  }
+
+  @override
+  void dispose() {
+    _detachScrollListener();
+    super.dispose();
+  }
+
+  void _detachScrollListener() {
+    _scrollPosition?.removeListener(_checkVisibility);
+    _scrollPosition = null;
+  }
 
   @override
   Widget build(BuildContext context) {
-    // For critical images, skip lazy loading and load immediately
-    if (widget.critical) {
-      return _buildActualImage();
-    }
-
     return LayoutBuilder(
       builder: (context, constraints) {
         return NotificationListener<ScrollNotification>(
           onNotification: (scrollNotification) {
-            if (!_hasBeenVisible) {
-              final renderBox = context.findRenderObject() as RenderBox?;
-              if (renderBox?.hasSize == true) {
-                final position = renderBox!.localToGlobal(Offset.zero);
-                final screenHeight = MediaQuery.of(context).size.height;
-
-                // Check if image is within viewport or close to it (preload 200px before)
-                final isInViewport =
-                    position.dy < screenHeight + 200 &&
-                    position.dy + renderBox.size.height > -200;
-
-                if (isInViewport && !_isVisible) {
-                  setState(() {
-                    _isVisible = true;
-                    _hasBeenVisible = true;
-                  });
-                }
-              }
-            }
+            _checkVisibility();
             return false;
           },
           child: _buildImageContainer(),
@@ -70,22 +87,30 @@ class _LazyImageState extends State<LazyImage> {
     );
   }
 
-  Widget _buildActualImage() {
-    final imageWidget = Image.asset(
-      widget.assetPath,
-      width: widget.width,
-      height: widget.height,
-      fit: widget.fit,
-      semanticLabel: widget.semanticLabel,
-      errorBuilder: widget.errorBuilder,
-      filterQuality: widget.filterQuality,
-      alignment: widget.alignment,
-    );
+  /// Checks whether this widget's render box is in or near the viewport and, if so,
+  /// marks the image as visible so it can be built and decoded.
+  void _checkVisibility() {
+    if (_hasBeenVisible || !mounted) return;
 
-    if (widget.semanticLabel == null || widget.semanticLabel!.isEmpty) {
-      return ExcludeSemantics(child: imageWidget);
+    final renderBox = context.findRenderObject() as RenderBox?;
+    if (renderBox?.hasSize != true) return;
+
+    final position = renderBox!.localToGlobal(Offset.zero);
+    final size = renderBox.size;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    // Consider the image visible if within the viewport or close to it (±200px)
+    final isInOrNearViewport =
+        position.dy < screenHeight + 200 && (position.dy + size.height) > -200;
+
+    if (isInOrNearViewport && !_isVisible) {
+      setState(() {
+        _isVisible = true;
+        _hasBeenVisible = true;
+      });
+      // Once visible, no need to keep listening for scrolls for this widget.
+      _detachScrollListener();
     }
-    return imageWidget;
   }
 
   Widget _buildImageContainer() {
