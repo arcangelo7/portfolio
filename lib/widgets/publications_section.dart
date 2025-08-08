@@ -32,8 +32,8 @@ class PublicationsSection extends StatefulWidget {
   final UrlLauncher? urlLauncher;
 
   const PublicationsSection({
-    super.key, 
-    this.zoteroService, 
+    super.key,
+    this.zoteroService,
     this.openCitationsService,
     this.urlLauncher,
   });
@@ -65,7 +65,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   void initState() {
     super.initState();
     _zoteroService = widget.zoteroService ?? ZoteroService();
-    _openCitationsService = widget.openCitationsService ?? OpenCitationsService();
+    _openCitationsService =
+        widget.openCitationsService ?? OpenCitationsService();
     _urlLauncher = widget.urlLauncher ?? DefaultUrlLauncher();
     _loadPublications();
   }
@@ -80,24 +81,29 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           _isLoading = false;
           _error = null;
         });
-        
+
         // Update SEO structured data for publications
-        final publicationsData = publications.map((pub) => {
-          'title': pub.title,
-          'type': pub.itemType,
-          'doi': pub.doi,
-          'datePublished': pub.year,
-          'venue': pub.venue,
-          'authors': pub.authors,
-          'abstract': pub.abstractText,
-          'url': pub.url,
-          'journal': pub.journal,
-          'volume': pub.volume,
-          'issue': pub.issue,
-          'pages': pub.pages,
-        }).toList();
+        final publicationsData =
+            publications
+                .map(
+                  (pub) => {
+                    'title': pub.title,
+                    'type': pub.itemType,
+                    'doi': pub.doi,
+                    'datePublished': pub.year,
+                    'venue': pub.venue,
+                    'authors': pub.authors,
+                    'abstract': pub.abstractText,
+                    'url': pub.url,
+                    'journal': pub.journal,
+                    'volume': pub.volume,
+                    'issue': pub.issue,
+                    'pages': pub.pages,
+                  },
+                )
+                .toList();
         SEOService.addStructuredDataForPublications(publicationsData);
-        
+
         _loadCitationCounts();
       }
     } catch (e) {
@@ -115,23 +121,31 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   Future<void> _loadCitationCounts() async {
     if (_publications == null) return;
 
-    final publicationsWithDoi = _publications!.where((pub) => pub.hasDoi).toList();
-    
+    final publicationsWithDoi =
+        _publications!.where((pub) => pub.hasDoi).toList();
+
     for (final publication in publicationsWithDoi) {
       if (publication.doi != null && !publication.hasLoadedCitations) {
         try {
-          final citationCount = await _openCitationsService.getCitationCount(publication.doi!);
+          final citationCount = await _openCitationsService.getCitationCount(
+            publication.doi!,
+          );
           final updatedPublication = publication.copyWith(
             citationCount: citationCount,
             hasLoadedCitations: true,
           );
-          
+
           if (mounted) {
             setState(() {
-              final index = _publications!.indexWhere((p) => p.key == publication.key);
+              final index = _publications!.indexWhere(
+                (p) => p.key == publication.key,
+              );
               if (index != -1) {
                 _publications![index] = updatedPublication;
-                _filterPublications(_selectedCategoryKey, AppLocalizations.of(context)!);
+                _filterPublications(
+                  _selectedCategoryKey,
+                  AppLocalizations.of(context)!,
+                );
               }
             });
           }
@@ -143,7 +157,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   }
 
   Future<void> _loadCitations(String doi, String publicationKey) async {
-    if (_citationMetadataCache.containsKey(publicationKey) || 
+    if (_citationMetadataCache.containsKey(publicationKey) ||
         _loadingCitations[publicationKey] == true) {
       return;
     }
@@ -153,7 +167,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     });
 
     try {
-      final citationMetadata = await _openCitationsService.getCitationMetadata(doi);
+      final citationMetadata = await _openCitationsService.getCitationMetadata(
+        doi,
+      );
       if (mounted) {
         setState(() {
           _citationMetadataCache[publicationKey] = citationMetadata;
@@ -275,15 +291,16 @@ class _PublicationsSectionState extends State<PublicationsSection> {
 
     // Use priority order from PublicationUtils instead of alphabetical
     final categoryOrder = PublicationUtils.getCategoryOrder();
-    final sortedCategories = categoryOrder
-        .where((cat) => categories.contains(cat))
-        .toList();
-    
+    final sortedCategories =
+        categoryOrder.where((cat) => categories.contains(cat)).toList();
+
     // Add any unknown categories at the end
-    final unknownCategories = categories
-        .where((cat) => cat != 'all' && !categoryOrder.contains(cat))
-        .toList()..sort();
-    
+    final unknownCategories =
+        categories
+            .where((cat) => cat != 'all' && !categoryOrder.contains(cat))
+            .toList()
+          ..sort();
+
     return ['all', ...sortedCategories, ...unknownCategories];
   }
 
@@ -306,14 +323,10 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.tertiary,
         foregroundColor: Theme.of(context).colorScheme.onTertiary,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 8,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
     );
   }
-
 
   Widget _buildTextWithClickableLinks(String text, TextStyle? style) {
     final urlRegex = RegExp(
@@ -543,11 +556,16 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                 ),
               ),
               const Spacer(),
-              if (citationCount != null && citationCount > 0) ...[
+              if (citationCount != null) ...[
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: SelectableText(
@@ -562,11 +580,13 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             ],
           ),
           const SizedBox(height: 12),
-          if (citationCount == null || citationCount == 0) ...[
+          if (citationCount == null) ...[
             SelectableText(
               l10n.noCitations,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.6),
                 fontStyle: FontStyle.italic,
               ),
             ),
@@ -575,7 +595,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
               SelectableText(
                 l10n.citationsFrom,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.8),
                 ),
               ),
               const SizedBox(height: 12),
@@ -593,7 +615,10 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                   icon: const Icon(Icons.expand_more, size: 16),
                   label: Text(l10n.viewCitations),
                   style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 0,
+                      vertical: 4,
+                    ),
                     minimumSize: Size.zero,
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     alignment: Alignment.centerLeft,
@@ -613,114 +638,153 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                 SelectableText(
                   l10n.noCitations,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.6),
                     fontStyle: FontStyle.italic,
                   ),
                 ),
               ] else ...[
-                for (final citation in citationMetadata) Container(
-                  margin: const EdgeInsets.only(bottom: 16),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.1),
+                for (final citation in citationMetadata)
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 16),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.outline.withValues(alpha: 0.1),
+                      ),
                     ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SelectableText(
-                        citation.displayTitle,
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      ExpandableAuthorsWidget(
-                        authors: citation.authorsList,
-                        uniqueKey: 'citation_${citation.id ?? citation.title}_$publicationKey',
-                        expandedAuthors: _expandedCitationAuthors,
-                        onToggle: (key) {
-                          setState(() {
-                            if (_expandedCitationAuthors.contains(key)) {
-                              _expandedCitationAuthors.remove(key);
-                            } else {
-                              _expandedCitationAuthors.add(key);
-                            }
-                          });
-                        },
-                        threshold: 3,
-                        textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      if (citation.displayVenue != 'Unknown Venue') ...[
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         SelectableText(
-                          PublicationUtils.buildVenueWithDetails(citation.displayVenue, citation.volume, citation.issue, citation.page),
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontStyle: FontStyle.italic,
-                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
+                          citation.displayTitle,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        ExpandableAuthorsWidget(
+                          authors: citation.authorsList,
+                          uniqueKey:
+                              'citation_${citation.id ?? citation.title}_$publicationKey',
+                          expandedAuthors: _expandedCitationAuthors,
+                          onToggle: (key) {
+                            setState(() {
+                              if (_expandedCitationAuthors.contains(key)) {
+                                _expandedCitationAuthors.remove(key);
+                              } else {
+                                _expandedCitationAuthors.add(key);
+                              }
+                            });
+                          },
+                          threshold: 3,
+                          textStyle: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                         const SizedBox(height: 4),
-                      ],
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.tertiary.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(8),
+                        if (citation.displayVenue != 'Unknown Venue') ...[
+                          SelectableText(
+                            PublicationUtils.buildVenueWithDetails(
+                              citation.displayVenue,
+                              citation.volume,
+                              citation.issue,
+                              citation.page,
                             ),
-                            child: SelectableText(
-                              citation.displayYear,
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodySmall?.copyWith(
+                              fontStyle: FontStyle.italic,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurface.withValues(alpha: 0.8),
                             ),
                           ),
-                          if (citation.hasDoi) ...[
-                            const Spacer(),
-                            MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: GestureDetector(
-                                onTap: () => _launchUrl(citation.doiUrl),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        Icons.open_in_new,
-                                        size: 12,
-                                        color: Theme.of(context).colorScheme.primary,
-                                      ),
-                                      const SizedBox(width: 4),
-                                      SelectableText(
-                                        l10n.viewUrl,
-                                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                          color: Theme.of(context).colorScheme.primary,
-                                          decoration: TextDecoration.underline,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                          const SizedBox(height: 4),
+                        ],
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.tertiary.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: SelectableText(
+                                citation.displayYear,
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.bodySmall?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
                                 ),
                               ),
                             ),
+                            if (citation.hasDoi) ...[
+                              const Spacer(),
+                              MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: GestureDetector(
+                                  onTap: () => _launchUrl(citation.doiUrl),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 4,
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.open_in_new,
+                                          size: 12,
+                                          color:
+                                              Theme.of(
+                                                context,
+                                              ).colorScheme.primary,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          l10n.viewUrl,
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodySmall?.copyWith(
+                                            color:
+                                                Theme.of(
+                                                  context,
+                                                ).colorScheme.primary,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ],
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
               ],
               const SizedBox(height: 12),
               Container(
@@ -734,7 +798,10 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                   icon: const Icon(Icons.expand_less, size: 16),
                   label: Text(l10n.showLess),
                   style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 0,
+                      vertical: 4,
+                    ),
                     minimumSize: Size.zero,
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     alignment: Alignment.centerLeft,
@@ -756,7 +823,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     return Container(
       key: _publicationsSectionKey,
       margin: const EdgeInsets.symmetric(vertical: 32),
-      padding: EdgeInsets.all(isMobile? 20 : 64),
+      padding: EdgeInsets.all(isMobile ? 20 : 64),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         boxShadow: [
@@ -927,7 +994,12 @@ class _PublicationsSectionState extends State<PublicationsSection> {
               publication.displayVenue != 'Unknown Venue') ...[
             SelectableText(
               PublicationUtils.shouldShowVenueDetails(publication.itemType)
-                  ? PublicationUtils.buildVenueWithDetails(publication.displayVenue, publication.volume, publication.issue, publication.pages)
+                  ? PublicationUtils.buildVenueWithDetails(
+                    publication.displayVenue,
+                    publication.volume,
+                    publication.issue,
+                    publication.pages,
+                  )
                   : publication.displayVenue,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontStyle: FontStyle.italic,
@@ -977,8 +1049,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             ],
           ),
           _buildAbstractSection(publication, l10n),
-          if (publication.hasDoi) 
-            _buildCitationSection(publication, l10n),
+          if (publication.hasDoi) _buildCitationSection(publication, l10n),
           if (PublicationUtils.shouldShowLaunchButton(publication)) ...[
             const SizedBox(height: 16),
             _buildLaunchButton(publication, l10n),
