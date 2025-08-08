@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
+import '../l10n/app_localizations.dart';
 
 class ThemeToggleWidget extends StatefulWidget {
   final bool isDarkMode;
@@ -71,12 +72,14 @@ class _ThemeToggleWidgetState extends State<ThemeToggleWidget>
                         ? Image.asset(
                           'assets/images/light_mode.png',
                           fit: BoxFit.cover,
+                          semanticLabel: AppLocalizations.of(context)?.lightModeIconAlt,
                         )
                         : Transform.translate(
                           offset: const Offset(5.0, 2.0),
                           child: Image.asset(
                             'assets/images/dark_mode_button.png',
                             fit: BoxFit.cover,
+                            semanticLabel: AppLocalizations.of(context)?.darkModeIconAlt,
                           ),
                         ),
               ),

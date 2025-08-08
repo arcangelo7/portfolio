@@ -669,4 +669,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get closeFlutterInfo => 'Got it!';
+
+  @override
+  String get profileImageAlt => 'Arcangelo Massari\'s professional photo';
+
+  @override
+  String get openCitationsLogoAlt => 'OpenCitations logo';
+
+  @override
+  String get lightModeIconAlt => 'Switch to light mode';
+
+  @override
+  String get darkModeIconAlt => 'Switch to dark mode';
+
+  @override
+  String get orbitingPlanetAlt => 'Decorative orbiting element';
 }

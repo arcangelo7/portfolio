@@ -923,6 +923,7 @@ class _LandingPageState extends State<LandingPage>
       child: Image.asset(
         'assets/images/profile_cutout.png',
         fit: BoxFit.cover,
+        semanticLabel: AppLocalizations.of(context)?.profileImageAlt,
         errorBuilder: (context, error, stackTrace) {
           return Center(
             child: Icon(

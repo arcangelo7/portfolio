@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import '../l10n/app_localizations.dart';
 
 class StaticThemeElementsWidget extends StatefulWidget {
   final bool isDarkMode;
@@ -80,6 +81,7 @@ class _StaticThemeElementsWidgetState extends State<StaticThemeElementsWidget>
           fit: BoxFit.cover,
           width: widget.elementSize,
           height: widget.elementSize,
+          semanticLabel: AppLocalizations.of(context)?.orbitingPlanetAlt,
           errorBuilder: (context, error, stackTrace) {
             return Container(
               decoration: BoxDecoration(

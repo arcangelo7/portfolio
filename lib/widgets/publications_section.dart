@@ -611,7 +611,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                       ),
                       const SizedBox(width: 8),
                       Semantics(
-                        label: 'OpenCitations',
+                        label: AppLocalizations.of(context)?.openCitationsLogoAlt ?? 'OpenCitations',
                         button: true,
                         child: Image.asset(
                           'assets/images/icon_oc_positive.png',

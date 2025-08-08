@@ -205,5 +205,10 @@
   "downloadForLinux": "Descargar para Linux",
   "viewSourceCode": "Ver código fuente",
   "installationInstructions": "Para instrucciones de instalación, consulta el README en GitHub",
-  "closeFlutterInfo": "¡Entendido!"
+  "closeFlutterInfo": "¡Entendido!",
+  "profileImageAlt": "Foto profesional de Arcangelo Massari",
+  "openCitationsLogoAlt": "Logo de OpenCitations",
+  "lightModeIconAlt": "Cambiar a modo claro",
+  "darkModeIconAlt": "Cambiar a modo oscuro",
+  "orbitingPlanetAlt": "Elemento decorativo orbitante"
 }

@@ -672,4 +672,19 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get closeFlutterInfo => 'Capito!';
+
+  @override
+  String get profileImageAlt => 'Foto professionale di Arcangelo Massari';
+
+  @override
+  String get openCitationsLogoAlt => 'Logo di OpenCitations';
+
+  @override
+  String get lightModeIconAlt => 'Passa alla modalità chiara';
+
+  @override
+  String get darkModeIconAlt => 'Passa alla modalità scura';
+
+  @override
+  String get orbitingPlanetAlt => 'Elemento decorativo orbitante';
 }

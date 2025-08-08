@@ -1341,6 +1341,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Got it!'**
   String get closeFlutterInfo;
+
+  /// No description provided for @profileImageAlt.
+  ///
+  /// In en, this message translates to:
+  /// **'Arcangelo Massari\'s professional photo'**
+  String get profileImageAlt;
+
+  /// No description provided for @openCitationsLogoAlt.
+  ///
+  /// In en, this message translates to:
+  /// **'OpenCitations logo'**
+  String get openCitationsLogoAlt;
+
+  /// No description provided for @lightModeIconAlt.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to light mode'**
+  String get lightModeIconAlt;
+
+  /// No description provided for @darkModeIconAlt.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to dark mode'**
+  String get darkModeIconAlt;
+
+  /// No description provided for @orbitingPlanetAlt.
+  ///
+  /// In en, this message translates to:
+  /// **'Decorative orbiting element'**
+  String get orbitingPlanetAlt;
 }
 
 class _AppLocalizationsDelegate
