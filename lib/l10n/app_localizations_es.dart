@@ -13,7 +13,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get seoDescription =>
-      'Candidato a PhD en Humanidades Digitales en la Universidad de Bolonia y KU Leuven. Investigación en tecnologías de web semántica, change tracking, provenance y metadatos del patrimonio cultural. Ganador del Premio Gigliozzi 2024.';
+      'Candidato a PhD en Humanidades Digitales en Bolonia y KU Leuven. Investigación sobre Web Semántica, provenance, change tracking y patrimonio cultural.';
 
   @override
   String get name => 'Arcangelo Massari';

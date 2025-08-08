@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -132,6 +133,7 @@ class _PortfolioAppState extends State<PortfolioApp> {
   Locale? _locale;
   ThemeMode _themeMode = ThemeMode.light;
   GlobalKey<_LandingPageState>? _landingPageKey;
+  Timer? _fragmentNavigationTimer;
 
   @override
   void initState() {
@@ -170,10 +172,14 @@ class _PortfolioAppState extends State<PortfolioApp> {
       // Handle fragment (anchor) navigation after the widget is built
       if (fragment.isNotEmpty) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          // Add a small delay to ensure all widgets are rendered
-          Future.delayed(const Duration(milliseconds: 500), () {
-            _navigateToSection(fragment);
-          });
+          _fragmentNavigationTimer?.cancel();
+          _fragmentNavigationTimer = Timer(
+            const Duration(milliseconds: 1000),
+            () {
+              if (!mounted) return;
+              _navigateToSection(fragment);
+            },
+          );
         });
       }
     } catch (e) {
@@ -294,6 +300,12 @@ class _PortfolioAppState extends State<PortfolioApp> {
         onSectionChanged: updateUrlWithSection,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _fragmentNavigationTimer?.cancel();
+    super.dispose();
   }
 }
 

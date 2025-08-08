@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -20,38 +20,48 @@
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   
   <!-- Primary Meta Tags -->
-  <title>Arcangelo Massari - PhD in Digital Humanities | Semantic Web Research</title>
-  <meta name="title" content="Arcangelo Massari - PhD in Digital Humanities | Semantic Web Research">
-  <meta name="description" content="PhD candidate in Digital Humanities at University of Bologna and KU Leuven. Research in semantic web technologies, change tracking, provenance, and cultural heritage metadata. Winner of Gigliozzi Prize 2024.">
+  <title>Arcangelo Massari - PhD in Digital Humanities</title>
+  <meta name="title" content="Arcangelo Massari - PhD in Digital Humanities">
+  <meta name="description" content="PhD candidate in Digital Humanities at University of Bologna and KU Leuven. I design interfaces that make Semantic Web data usable in cultural heritage, focusing on provenance and change tracking.">
   <meta name="keywords" content="Digital Humanities, Semantic Web, RDF, SPARQL, Cultural Heritage, Metadata, Provenance, Change Tracking, HERITRACE, OpenCitations, PhD Research">
   <meta name="author" content="Arcangelo Massari">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <link rel="canonical" href="https://arcangelomassari.com">
+  <link rel="canonical" href="https://arcangelomassari.com/">
+  <link rel="alternate" hreflang="en" href="https://arcangelomassari.com/?lang=en" />
+  <link rel="alternate" hreflang="it" href="https://arcangelomassari.com/?lang=it" />
+  <link rel="alternate" hreflang="es" href="https://arcangelomassari.com/?lang=es" />
+  <link rel="alternate" hreflang="x-default" href="https://arcangelomassari.com/" />
   
   <!-- Performance and resource hints -->
   <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="//api.zotero.org">
   <link rel="dns-prefetch" href="//opencitations.net">
   <link rel="preconnect" href="https://api.zotero.org" crossorigin="anonymous">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://arcangelomassari.com">
-  <meta property="og:title" content="Arcangelo Massari - PhD in Digital Humanities | Semantic Web Research">
-  <meta property="og:description" content="PhD candidate in Digital Humanities at University of Bologna and KU Leuven. Research in semantic web technologies, change tracking, provenance, and cultural heritage metadata.">
+  <meta property="og:url" content="https://arcangelomassari.com/">
+  <meta property="og:title" content="Arcangelo Massari - PhD in Digital Humanities">
+  <meta property="og:description" content="PhD candidate in Digital Humanities at University of Bologna and KU Leuven. I design interfaces that make Semantic Web data usable in cultural heritage, focusing on provenance and change tracking.">
   <meta property="og:image" content="https://arcangelomassari.com/assets/assets/images/preview.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Arcangelo Massari Portfolio">
   <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:image:alt" content="Portrait and research topics of Arcangelo Massari">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://arcangelomassari.com">
-  <meta property="twitter:title" content="Arcangelo Massari - PhD in Digital Humanities | Semantic Web Research">
-  <meta property="twitter:description" content="PhD candidate in Digital Humanities at University of Bologna and KU Leuven. Research in semantic web technologies, change tracking, provenance, and cultural heritage metadata.">
+  <meta property="twitter:url" content="https://arcangelomassari.com/">
+  <meta property="twitter:title" content="Arcangelo Massari - PhD in Digital Humanities">
+  <meta property="twitter:description" content="PhD candidate in Digital Humanities at University of Bologna and KU Leuven. I design interfaces that make Semantic Web data usable in cultural heritage, focusing on provenance and change tracking.">
   <meta property="twitter:image" content="https://arcangelomassari.com/assets/assets/images/preview.png">
   <meta name="twitter:creator" content="@arcangelo_wd">
+  <meta name="twitter:site" content="@arcangelo_wd">
+  <meta name="twitter:image:alt" content="Portrait and research topics of Arcangelo Massari">
 
   <!-- LinkedIn -->
   <meta property="article:author" content="https://www.linkedin.com/in/arcangelo-massari-4a736822b/">
@@ -71,6 +81,7 @@
 
   <!-- Android -->
   <meta name="theme-color" content="#000075">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000012">
   <meta name="msapplication-TileColor" content="#000075">
 
   <!-- Favicon -->
@@ -235,6 +246,15 @@
   }
   </script>
 
+  <noscript>
+    <style>
+      .no-js-message { max-width: 720px; margin: 24px auto; padding: 12px 16px; background: #fffbe6; color: #333; border: 1px solid #ffe58f; border-radius: 8px; font-family: system-ui, sans-serif; }
+    </style>
+    <div class="no-js-message">
+      JavaScript is disabled. This site is a web app; basic information is available in the page head and structured data, but for the full interactive experience please enable JavaScript.
+    </div>
+  </noscript>
+
   <!-- HERITRACE Project Schema -->
   <script type="application/ld+json">
   {
@@ -269,10 +289,31 @@
 </head>
 <body>
   <script>
-    // Register custom service worker for enhanced caching
-    if ('serviceWorker' in navigator) {
+    // Register custom service worker only in production, and ensure it's unregistered in local dev
+    (function() {
+      if (!('serviceWorker' in navigator)) return;
+      const hostname = window.location.hostname;
+      const protocol = window.location.protocol;
+      const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '' || hostname === '::1';
+      const isDev = isLocalhost || protocol !== 'https:';
+
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        if (isDev) {
+          // In development/hot-reload: unregister SWs and clear caches to avoid stale assets/engine
+          navigator.serviceWorker.getRegistrations()
+            .then(registrations => Promise.all(registrations.map(reg => reg.unregister())))
+            .then(() => {
+              if ('caches' in window) {
+                return caches.keys().then(keys => Promise.all(keys.map(key => caches.delete(key))));
+              }
+            })
+            .catch(() => {})
+            .finally(() => {});
+          return;
+        }
+
+        // In production: register the custom service worker
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
           .then(registration => {
             console.log('Custom SW registered: ', registration);
           })
@@ -280,8 +321,8 @@
             console.log('Custom SW registration failed: ', registrationError);
           });
       });
-    }
+    })();
   </script>
-  <script src="flutter_bootstrap.js" async></script>
+  <script src="flutter_bootstrap.js" defer></script>
 </body>
 </html>
