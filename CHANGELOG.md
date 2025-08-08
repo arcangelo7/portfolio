@@ -1,3 +1,12 @@
+## [1.6.1](https://github.com/arcangelo7/portfolio/compare/v1.6.0...v1.6.1) (2025-08-08)
+
+
+### Bug Fixes
+
+* improv og:image and twitter:image [release] ([e935b1a](https://github.com/arcangelo7/portfolio/commit/e935b1ad050983207a716222b27d9b898ff23e2f))
+* move web import to stub utils ([afe5c7b](https://github.com/arcangelo7/portfolio/commit/afe5c7b306a9a404165b0a45b638c5fc20d718e1))
+* remove user agent from zoter call for firefox compatibility ([02cf5f9](https://github.com/arcangelo7/portfolio/commit/02cf5f93af316e0eb805a45cac5421ade76e9c01))
+
 # [1.6.0](https://github.com/arcangelo7/portfolio/compare/v1.5.0...v1.6.0) (2025-08-08)
 
 
