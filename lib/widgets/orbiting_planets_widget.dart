@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import '../l10n/app_localizations.dart';
+import 'lazy_image.dart';
 
 class StaticThemeElementsWidget extends StatefulWidget {
   final bool isDarkMode;
@@ -76,11 +77,12 @@ class _StaticThemeElementsWidgetState extends State<StaticThemeElementsWidget>
         ],
       ),
       child: ClipOval(
-        child: Image.asset(
-          assetPath,
+        child: LazyImage(
+          assetPath: assetPath,
           fit: BoxFit.cover,
           width: widget.elementSize,
           height: widget.elementSize,
+          critical: true, // Orbiting planets are in hero section, load immediately
           semanticLabel: AppLocalizations.of(context)?.orbitingPlanetAlt,
           errorBuilder: (context, error, stackTrace) {
             return Container(

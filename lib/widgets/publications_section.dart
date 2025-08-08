@@ -9,6 +9,7 @@ import '../services/opencitations_service.dart';
 import '../services/seo_service.dart';
 import 'expandable_authors_widget.dart';
 import '../utils/publication_utils.dart';
+import 'lazy_image.dart';
 
 /// Interface for URL launching to enable dependency injection and testing
 abstract class UrlLauncher {
@@ -613,8 +614,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                       Semantics(
                         label: AppLocalizations.of(context)?.openCitationsLogoAlt ?? 'OpenCitations',
                         button: true,
-                        child: Image.asset(
-                          'assets/images/icon_oc_positive.png',
+                        child: LazyImage(
+                          assetPath: 'assets/images/icon_oc_positive.png',
                           height: 20,
                           filterQuality: FilterQuality.medium,
                         ),

@@ -16,6 +16,7 @@ import 'widgets/orbiting_planets_widget.dart';
 import 'widgets/table_of_contents_widget.dart';
 import 'widgets/flutter_modal.dart';
 import 'widgets/faq_section.dart';
+import 'widgets/lazy_image.dart';
 import 'services/dynamic_cv_generator_service.dart';
 import 'services/zotero_service.dart';
 import 'services/seo_service.dart';
@@ -924,9 +925,10 @@ class _LandingPageState extends State<LandingPage>
 
   Widget _buildFullScreenProfileImage(bool isDark) {
     return Positioned.fill(
-      child: Image.asset(
-        'assets/images/profile_cutout.png',
+      child: LazyImage(
+        assetPath: 'assets/images/profile_cutout.png',
         fit: BoxFit.cover,
+        critical: true, // This is above the fold, load immediately
         semanticLabel: AppLocalizations.of(context)?.profileImageAlt,
         errorBuilder: (context, error, stackTrace) {
           return Center(
