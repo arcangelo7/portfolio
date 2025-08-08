@@ -31,7 +31,6 @@ class ZoteroService {
         ),
         headers: {
           'Accept': 'application/json',
-          'User-Agent': 'Portfolio App/1.0',
         },
       );
 
