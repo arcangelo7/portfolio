@@ -7,6 +7,7 @@ Sitemap: https://arcangelomassari.com/sitemap.xml
 # Block access to sensitive directories
 Disallow: /flutter_service_worker.js
 Disallow: /flutter_bootstrap.js
+Disallow: /sw.js
 
 # Additional optimization hints
 Crawl-delay: 1

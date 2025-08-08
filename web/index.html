@@ -94,12 +94,42 @@
     "familyName": "Massari",
     "jobTitle": "PhD Candidate in Digital Humanities",
     "description": "PhD candidate in Digital Humanities at University of Bologna and KU Leuven. Research in semantic web technologies, change tracking, provenance, and cultural heritage metadata.",
+    "about": "Researcher specializing in semantic web technologies and digital humanities with focus on cultural heritage preservation. Currently pursuing dual PhD degrees investigating change tracking systems, provenance management, and metadata frameworks for GLAM institutions. Developer of HERITRACE, a semantic data editor that bridges the gap between technical RDF complexity and user-friendly interfaces for cultural heritage professionals. Winner of the Gigliozzi Prize 2024 for innovative research in digital humanities applications.",
+    "expertise": [
+      {
+        "@type": "DefinedTerm",
+        "name": "Semantic Web Technologies",
+        "description": "RDF modeling, SPARQL querying, knowledge graph construction"
+      },
+      {
+        "@type": "DefinedTerm", 
+        "name": "Digital Humanities Research",
+        "description": "Cultural heritage digitization, metadata standards, digital preservation"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Provenance and Change Tracking", 
+        "description": "Version control systems for semantic data, temporal metadata management"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Software Development",
+        "description": "Python, JavaScript, Flutter, web application development for research tools"
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Research Data Management",
+        "description": "Metadata frameworks, data interoperability, scholarly communication systems"
+      }
+    ],
     "url": "https://arcangelomassari.com",
     "sameAs": [
       "https://orcid.org/0000-0002-8420-0696",
       "https://www.linkedin.com/in/arcangelo-massari-4a736822b/",
       "https://github.com/arcangelo7",
       "https://x.com/arcangelo_wd",
+      "https://www.instagram.com/arcangelomassari/",
+      "https://www.facebook.com/arcangelo.massari",
       "https://www.unibo.it/sitoweb/arcangelo.massari/en",
       "https://www.kuleuven.be/wieiswie/en/person/00170256"
     ],
@@ -240,6 +270,20 @@
 
 </head>
 <body>
+  <script>
+    // Register custom service worker for enhanced caching
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('Custom SW registered: ', registration);
+          })
+          .catch(registrationError => {
+            console.log('Custom SW registration failed: ', registrationError);
+          });
+      });
+    }
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
