@@ -489,7 +489,8 @@ void main() {
       await tester.pumpWidget(
         createMockedTestWidget(publications: publications),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
 
       // Verify publications are displayed
       expect(find.text('Publication with DOI'), findsOneWidget);
@@ -500,9 +501,9 @@ void main() {
       if (viewButtons.evaluate().isNotEmpty) {
         for (int i = 0; i < viewButtons.evaluate().length && i < 2; i++) {
           await tester.ensureVisible(viewButtons.at(i));
-          await tester.pumpAndSettle();
+          await tester.pump();
           await tester.tap(viewButtons.at(i), warnIfMissed: false);
-          await tester.pumpAndSettle();
+          await tester.pump();
         }
 
         // Verify URL launcher was called if buttons were found and tapped
@@ -526,7 +527,8 @@ void main() {
       await tester.pumpWidget(
         createMockedTestWidget(publications: [publication]),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
 
       // Verify HTML widget is present and simulate link tap
       expect(find.byType(Html), findsOneWidget);
