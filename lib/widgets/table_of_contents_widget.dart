@@ -120,6 +120,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
       {'key': 'skills', 'title': l10n.skills, 'icon': Icons.build},
       {'key': 'publications', 'title': l10n.publications, 'icon': Icons.article},
       {'key': 'astrogods', 'title': l10n.astroGodsTitle, 'icon': Icons.travel_explore},
+      {'key': 'faq', 'title': l10n.frequentlyAskedQuestions, 'icon': Icons.help_outline},
       {'key': 'contact', 'title': l10n.getInTouch, 'icon': Icons.email},
     ];
   }

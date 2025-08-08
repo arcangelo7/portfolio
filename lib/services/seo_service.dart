@@ -13,4 +13,11 @@ class SEOService {
   ) {
     platform.SEOService.addStructuredDataForPublications(publications);
   }
+
+  static void addFAQStructuredData(
+    List<Map<String, String>> faqs,
+    AppLocalizations l10n,
+  ) {
+    platform.SEOService.addFAQStructuredData(faqs, l10n);
+  }
 }

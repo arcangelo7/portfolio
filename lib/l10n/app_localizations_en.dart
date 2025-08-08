@@ -684,4 +684,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get orbitingPlanetAlt => 'Decorative orbiting element';
+
+  @override
+  String get frequentlyAskedQuestions => 'Frequently Asked Questions';
+
+  @override
+  String get faqResearchQuestion => 'What is your research about?';
+
+  @override
+  String get faqResearchAnswer =>
+      'My research focuses on creating user-friendly interfaces for semantic data in cultural heritage. I work on [HERITRACE](https://opencitations.github.io/heritrace/), a tool that helps cultural heritage institutions manage metadata with change tracking and provenance, making complex semantic web technologies accessible to curators and researchers.';
+
+  @override
+  String get faqTechnicalQuestion => 'What technologies do you work with?';
+
+  @override
+  String get faqTechnicalAnswer =>
+      'I primarily work with semantic web technologies like RDF, SPARQL, and various triple stores. For development, I use Python, JavaScript/TypeScript, and Flutter. I\'m experienced with knowledge graphs and creating interfaces that bridge the gap between complex data structures and user-friendly applications.';
+
+  @override
+  String get faqContactQuestion => 'What\'s the best way to contact you?';
+
+  @override
+  String get faqContactAnswer =>
+      'Email is usually the best way to reach me at [arcangelo.massari@unibo.it](mailto:arcangelo.massari@unibo.it). You can also find me on [LinkedIn](https://www.linkedin.com/in/arcangelo-massari-4a736822b/), [GitHub](https://github.com/arcangelo7), or visit my [institutional page](https://www.unibo.it/sitoweb/arcangelo.massari/en) at the University of Bologna. I\'m responsive and always happy to discuss research or answer questions about my work.';
 }

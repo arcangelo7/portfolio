@@ -253,6 +253,46 @@ class SEOService {
     ];
   }
 
+  static void addFAQStructuredData(
+    List<Map<String, String>> faqs,
+    AppLocalizations l10n,
+  ) {
+    if (!kIsWeb) return;
+
+    // Remove existing FAQ structured data
+    final existingScripts = document.querySelectorAll(
+      'script[type="application/ld+json"][data-type="faq"]',
+    );
+    for (var i = 0; i < existingScripts.length; i++) {
+      final element = existingScripts.item(i);
+      if (element != null) {
+        element.parentNode?.removeChild(element);
+      }
+    }
+
+    if (faqs.isEmpty) return;
+
+    // Create structured data for FAQ
+    final faqData = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': faqs.map((faq) => {
+        '@type': 'Question',
+        'name': faq['question'],
+        'acceptedAnswer': {
+          '@type': 'Answer',
+          'text': faq['answer'],
+        },
+      }).toList(),
+    };
+
+    final script = HTMLScriptElement();
+    script.type = 'application/ld+json';
+    script.setAttribute('data-type', 'faq');
+    script.text = _jsonEncode(faqData);
+    document.head?.appendChild(script);
+  }
+
   static String _jsonEncode(Map<String, dynamic> data) {
     // Simple JSON encoding for web
     final buffer = StringBuffer();
