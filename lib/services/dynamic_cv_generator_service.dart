@@ -20,7 +20,6 @@ class DynamicCVGeneratorService {
     );
   }
 
-
   static Future<pw.ThemeData> _createUnicodeTheme() async {
     final dejaVuRegular = pw.Font.ttf(
       await rootBundle.load("assets/fonts/DejaVuSans-Regular.ttf"),
@@ -136,12 +135,9 @@ class DynamicCVGeneratorService {
             pw.SizedBox(height: 20),
             _buildPersonalInfo(l10n, cvData.personalInfo),
             pw.SizedBox(height: 20),
-            _buildSection(
-              l10n.cvEducationTitle,
-              _buildEducationContent(l10n, cvData.education),
-              sectionColor,
-              lightBlue,
-            ),
+            _buildSectionHeader(l10n.cvEducationTitle, sectionColor, lightBlue),
+            pw.SizedBox(height: 10),
+            ..._buildEducationAsList(l10n, cvData.education),
           ];
         },
       ),
@@ -155,12 +151,13 @@ class DynamicCVGeneratorService {
         maxPages: 20,
         build: (pw.Context context) {
           return [
-            _buildSection(
+            _buildSectionHeader(
               l10n.cvWorkExperienceTitle,
-              _buildWorkExperienceContent(l10n, cvData.workExperience),
               sectionColor,
               lightBlue,
             ),
+            pw.SizedBox(height: 10),
+            ..._buildWorkExperienceAsList(l10n, cvData.workExperience),
             pw.SizedBox(height: 20),
             // Conferences using the same pattern as publications
             _buildSectionHeader(
@@ -211,9 +208,6 @@ class DynamicCVGeneratorService {
 
     return pdf.save();
   }
-
-
-
 
   static Future<pw.Widget> _buildHeader(
     PdfColor headerColor,
@@ -363,54 +357,23 @@ class DynamicCVGeneratorService {
     );
   }
 
-  static pw.Widget _buildSection(
-    String title,
-    pw.Widget content,
-    PdfColor sectionColor,
-    PdfColor lightColor,
-  ) {
-    return pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
-      children: [
-        _buildSectionHeader(title, sectionColor, lightColor),
-        pw.SizedBox(height: 10),
-        content,
-      ],
-    );
-  }
-
-  static pw.Widget _buildEducationContent(
+  static List<pw.Widget> _buildEducationAsList(
     AppLocalizations l10n,
     List<EducationEntry> educationEntries,
   ) {
-    return pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
-      children:
-          educationEntries
-              .map(
-                (entry) => pw.Column(
-                  children: [
-                    _buildEducationEntry(
-                      LocalizationHelper.getLocalizedText(
-                        l10n,
-                        entry.periodKey,
-                      ),
-                      LocalizationHelper.getLocalizedText(l10n, entry.titleKey),
-                      LocalizationHelper.getLocalizedText(
-                        l10n,
-                        entry.institutionKey,
-                      ),
-                      LocalizationHelper.getLocalizedText(
-                        l10n,
-                        entry.descriptionKey,
-                      ),
-                    ),
-                    pw.SizedBox(height: 10),
-                  ],
-                ),
-              )
-              .toList(),
-    );
+    return educationEntries
+        .map(
+          (entry) => pw.Container(
+            margin: const pw.EdgeInsets.only(bottom: 8),
+            child: _buildEducationEntry(
+              LocalizationHelper.getLocalizedText(l10n, entry.periodKey),
+              LocalizationHelper.getLocalizedText(l10n, entry.titleKey),
+              LocalizationHelper.getLocalizedText(l10n, entry.institutionKey),
+              LocalizationHelper.getLocalizedText(l10n, entry.descriptionKey),
+            ),
+          ),
+        )
+        .toList();
   }
 
   static pw.Widget _buildEducationEntry(
@@ -447,38 +410,24 @@ class DynamicCVGeneratorService {
     );
   }
 
-  static pw.Widget _buildWorkExperienceContent(
+  /// Build work experience as a list of widgets like conferences and skills for better page breaking
+  static List<pw.Widget> _buildWorkExperienceAsList(
     AppLocalizations l10n,
     List<WorkExperienceEntry> workEntries,
   ) {
-    return pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
-      children:
-          workEntries
-              .map(
-                (entry) => pw.Column(
-                  children: [
-                    _buildWorkEntry(
-                      LocalizationHelper.getLocalizedText(
-                        l10n,
-                        entry.periodKey,
-                      ),
-                      LocalizationHelper.getLocalizedText(l10n, entry.titleKey),
-                      LocalizationHelper.getLocalizedText(
-                        l10n,
-                        entry.companyKey,
-                      ),
-                      LocalizationHelper.getLocalizedText(
-                        l10n,
-                        entry.descriptionKey,
-                      ),
-                    ),
-                    pw.SizedBox(height: 10),
-                  ],
-                ),
-              )
-              .toList(),
-    );
+    return workEntries
+        .map(
+          (entry) => pw.Container(
+            margin: const pw.EdgeInsets.only(bottom: 8),
+            child: _buildWorkEntry(
+              LocalizationHelper.getLocalizedText(l10n, entry.periodKey),
+              LocalizationHelper.getLocalizedText(l10n, entry.titleKey),
+              LocalizationHelper.getLocalizedText(l10n, entry.companyKey),
+              LocalizationHelper.getLocalizedText(l10n, entry.descriptionKey),
+            ),
+          ),
+        )
+        .toList();
   }
 
   static pw.Widget _buildWorkEntry(
@@ -645,7 +594,6 @@ class DynamicCVGeneratorService {
     return skillWidgets;
   }
 
-
   static pw.Widget _buildPublicationTitle(Publication pub) {
     final titleText = '${pub.displayYear} - ${pub.title}';
 
@@ -721,7 +669,9 @@ class DynamicCVGeneratorService {
     List<Publication> publications,
     AppLocalizations l10n,
   ) {
-    final groupedPublications = PublicationUtils.groupPublicationsByCategory(publications);
+    final groupedPublications = PublicationUtils.groupPublicationsByCategory(
+      publications,
+    );
     final categoryOrder = PublicationUtils.getCategoryOrder();
     final List<pw.Widget> widgets = [];
 
@@ -734,7 +684,10 @@ class DynamicCVGeneratorService {
           pw.Container(
             margin: const pw.EdgeInsets.only(top: 12, bottom: 8),
             child: pw.Text(
-              PublicationUtils.getCategoryDisplayName(categoryKey, l10n).toUpperCase(),
+              PublicationUtils.getCategoryDisplayName(
+                categoryKey,
+                l10n,
+              ).toUpperCase(),
               style: pw.TextStyle(
                 fontSize: 11,
                 fontWeight: pw.FontWeight.bold,
@@ -760,7 +713,12 @@ class DynamicCVGeneratorService {
                   if (pub.itemType != 'computerProgram' &&
                       pub.displayVenue != 'Unknown Venue') ...[
                     pw.Text(
-                      PublicationUtils.buildVenueWithDetails(pub.displayVenue, pub.volume, pub.issue, pub.pages),
+                      PublicationUtils.buildVenueWithDetails(
+                        pub.displayVenue,
+                        pub.volume,
+                        pub.issue,
+                        pub.pages,
+                      ),
                       style: pw.TextStyle(
                         fontSize: 12,
                         fontStyle: pw.FontStyle.italic,
