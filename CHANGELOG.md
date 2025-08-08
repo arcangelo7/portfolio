@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/arcangelo7/portfolio/compare/v1.7.0...v1.7.1) (2025-08-08)
+
+
+### Bug Fixes
+
+* Build education as a list of widgets like conferences and skills for better page breaking [release] ([e186794](https://github.com/arcangelo7/portfolio/commit/e186794ed1149d13d85ac99bd85df8b8d9f8be18))
+
 # [1.7.0](https://github.com/arcangelo7/portfolio/compare/v1.6.1...v1.7.0) (2025-08-08)
 
 
