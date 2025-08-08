@@ -77,26 +77,34 @@ class _StaticThemeElementsWidgetState extends State<StaticThemeElementsWidget>
         ],
       ),
       child: ClipOval(
-        child: LazyImage(
-          assetPath: assetPath,
-          fit: BoxFit.cover,
-          width: widget.elementSize,
-          height: widget.elementSize,
-          critical: true, // Orbiting planets are in hero section, load immediately
-          semanticLabel: AppLocalizations.of(context)?.orbitingPlanetAlt,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: fallbackColor,
-              ),
-              child: Icon(
-                fallbackIcon,
-                color: Colors.white,
-                size: widget.elementSize * 0.6,
-              ),
-            );
-          },
+        child: Semantics(
+          image: true,
+          label: AppLocalizations.of(context)?.orbitingPlanetAlt,
+          child: ExcludeSemantics(
+            excluding: true,
+            child: LazyImage(
+              assetPath: assetPath,
+              fit: BoxFit.cover,
+              width: widget.elementSize,
+              height: widget.elementSize,
+              critical:
+                  true, // Orbiting planets are in hero section, load immediately
+              semanticLabel: AppLocalizations.of(context)?.orbitingPlanetAlt,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: fallbackColor,
+                  ),
+                  child: Icon(
+                    fallbackIcon,
+                    color: Colors.white,
+                    size: widget.elementSize * 0.6,
+                  ),
+                );
+              },
+            ),
+          ),
         ),
       ),
     );

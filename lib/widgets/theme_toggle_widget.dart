@@ -60,31 +60,44 @@ class _ThemeToggleWidgetState extends State<ThemeToggleWidget>
       builder: (context, child) {
         return Transform.rotate(
           angle: _rotationAnimation.value * 2 * 3.14159,
-          child: Container(
-            decoration: BoxDecoration(
-              color: PortfolioTheme.iceWhite,
-              shape: BoxShape.circle,
-            ),
-            child: ClipOval(
-              child: Transform.scale(
-                scale: 1.4,
-                child:
-                    widget.isDarkMode
-                        ? LazyImage(
-                          assetPath: 'assets/images/light_mode.png',
-                          fit: BoxFit.cover,
-                          critical: true, // Theme toggle is immediately visible
-                          semanticLabel: AppLocalizations.of(context)?.lightModeIconAlt,
-                        )
-                        : Transform.translate(
-                          offset: const Offset(5.0, 2.0),
-                          child: LazyImage(
-                            assetPath: 'assets/images/dark_mode_button.png',
+          child: Semantics(
+            image: true,
+            label:
+                widget.isDarkMode
+                    ? (AppLocalizations.of(context)?.lightModeIconAlt ??
+                        'Switch to light mode')
+                    : (AppLocalizations.of(context)?.darkModeIconAlt ??
+                        'Switch to dark mode'),
+            child: Container(
+              decoration: BoxDecoration(
+                color: PortfolioTheme.iceWhite,
+                shape: BoxShape.circle,
+              ),
+              child: ClipOval(
+                child: Transform.scale(
+                  scale: 1.4,
+                  child:
+                      widget.isDarkMode
+                          ? LazyImage(
+                            assetPath: 'assets/images/light_mode.png',
                             fit: BoxFit.cover,
-                            critical: true, // Theme toggle is immediately visible
-                            semanticLabel: AppLocalizations.of(context)?.darkModeIconAlt,
+                            critical:
+                                true, // Theme toggle is immediately visible
+                            semanticLabel:
+                                AppLocalizations.of(context)?.lightModeIconAlt,
+                          )
+                          : Transform.translate(
+                            offset: const Offset(5.0, 2.0),
+                            child: LazyImage(
+                              assetPath: 'assets/images/dark_mode_button.png',
+                              fit: BoxFit.cover,
+                              critical:
+                                  true, // Theme toggle is immediately visible
+                              semanticLabel:
+                                  AppLocalizations.of(context)?.darkModeIconAlt,
+                            ),
                           ),
-                        ),
+                ),
               ),
             ),
           ),

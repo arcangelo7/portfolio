@@ -38,7 +38,7 @@ class _LazyImageState extends State<LazyImage> {
     if (widget.critical) {
       return _buildActualImage();
     }
-    
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return NotificationListener<ScrollNotification>(
@@ -48,11 +48,12 @@ class _LazyImageState extends State<LazyImage> {
               if (renderBox?.hasSize == true) {
                 final position = renderBox!.localToGlobal(Offset.zero);
                 final screenHeight = MediaQuery.of(context).size.height;
-                
+
                 // Check if image is within viewport or close to it (preload 200px before)
-                final isInViewport = position.dy < screenHeight + 200 && 
-                                   position.dy + renderBox.size.height > -200;
-                
+                final isInViewport =
+                    position.dy < screenHeight + 200 &&
+                    position.dy + renderBox.size.height > -200;
+
                 if (isInViewport && !_isVisible) {
                   setState(() {
                     _isVisible = true;
@@ -70,7 +71,7 @@ class _LazyImageState extends State<LazyImage> {
   }
 
   Widget _buildActualImage() {
-    return Image.asset(
+    final imageWidget = Image.asset(
       widget.assetPath,
       width: widget.width,
       height: widget.height,
@@ -80,6 +81,11 @@ class _LazyImageState extends State<LazyImage> {
       filterQuality: widget.filterQuality,
       alignment: widget.alignment,
     );
+
+    if (widget.semanticLabel == null || widget.semanticLabel!.isEmpty) {
+      return ExcludeSemantics(child: imageWidget);
+    }
+    return imageWidget;
   }
 
   Widget _buildImageContainer() {
@@ -103,7 +109,7 @@ class _LazyImageState extends State<LazyImage> {
     }
 
     // Load actual image when visible
-    return Image.asset(
+    final imageWidget = Image.asset(
       widget.assetPath,
       width: widget.width,
       height: widget.height,
@@ -137,5 +143,9 @@ class _LazyImageState extends State<LazyImage> {
         );
       },
     );
+    if (widget.semanticLabel == null || widget.semanticLabel!.isEmpty) {
+      return ExcludeSemantics(child: imageWidget);
+    }
+    return imageWidget;
   }
 }

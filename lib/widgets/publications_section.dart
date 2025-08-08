@@ -612,12 +612,18 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                       ),
                       const SizedBox(width: 8),
                       Semantics(
-                        label: AppLocalizations.of(context)?.openCitationsLogoAlt ?? 'OpenCitations',
+                        label:
+                            AppLocalizations.of(
+                              context,
+                            )?.openCitationsLogoAlt ??
+                            'OpenCitations',
                         button: true,
-                        child: LazyImage(
-                          assetPath: 'assets/images/icon_oc_positive.png',
-                          height: 20,
-                          filterQuality: FilterQuality.medium,
+                        child: ExcludeSemantics(
+                          child: LazyImage(
+                            assetPath: 'assets/images/icon_oc_positive.png',
+                            height: 20,
+                            filterQuality: FilterQuality.medium,
+                          ),
                         ),
                       ),
                     ],

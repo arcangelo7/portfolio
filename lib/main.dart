@@ -150,7 +150,7 @@ class _PortfolioAppState extends State<PortfolioApp> {
       });
       return;
     }
-    
+
     try {
       final langParam = WebUtils.getLanguageFromUrl();
       final fragment = WebUtils.getFragmentFromUrl();
@@ -380,8 +380,6 @@ class _LandingPageState extends State<LandingPage>
     }
   }
 
-
-
   void _toggleFab() {
     setState(() {
       _isFabExpanded = !_isFabExpanded;
@@ -513,7 +511,6 @@ class _LandingPageState extends State<LandingPage>
     );
   }
 
-
   Widget _buildCustomTitleBar(BuildContext context) {
     return GestureDetector(
       onPanStart: (details) {
@@ -623,10 +620,21 @@ class _LandingPageState extends State<LandingPage>
             shape: const CircleBorder(),
             onPressed: widget.onThemeToggle,
             backgroundColor: Theme.of(context).colorScheme.primary,
-            child: ThemeToggleWidget(
-              isDarkMode: widget.isDarkMode,
-              onToggle: () {},
-              size: 40.0,
+            tooltip:
+                widget.isDarkMode
+                    ? AppLocalizations.of(context)!.lightModeIconAlt
+                    : AppLocalizations.of(context)!.darkModeIconAlt,
+            child: Semantics(
+              button: true,
+              label:
+                  widget.isDarkMode
+                      ? AppLocalizations.of(context)!.lightModeIconAlt
+                      : AppLocalizations.of(context)!.darkModeIconAlt,
+              child: ThemeToggleWidget(
+                isDarkMode: widget.isDarkMode,
+                onToggle: () {},
+                size: 40.0,
+              ),
             ),
           ),
           const SizedBox(height: 16),
@@ -635,6 +643,7 @@ class _LandingPageState extends State<LandingPage>
             shape: const CircleBorder(),
             onPressed: () => _showLanguageSelector(context),
             backgroundColor: Theme.of(context).colorScheme.secondary,
+            tooltip: AppLocalizations.of(context)!.selectLanguage,
             child: Icon(
               Icons.language,
               color: Theme.of(context).colorScheme.onSecondary,
@@ -647,6 +656,10 @@ class _LandingPageState extends State<LandingPage>
             shape: const CircleBorder(),
             onPressed: _isDownloadingCV ? null : _downloadCV,
             backgroundColor: Theme.of(context).colorScheme.error,
+            tooltip:
+                _isDownloadingCV
+                    ? AppLocalizations.of(context)!.downloadingCV
+                    : AppLocalizations.of(context)!.downloadCV,
             child:
                 _isDownloadingCV
                     ? SizedBox(
@@ -669,6 +682,7 @@ class _LandingPageState extends State<LandingPage>
             shape: const CircleBorder(),
             onPressed: _toggleToc,
             backgroundColor: Theme.of(context).colorScheme.tertiary,
+            tooltip: AppLocalizations.of(context)!.tableOfContents,
             child: AnimatedRotation(
               turns: _isTocVisible ? 0.125 : 0.0,
               duration: const Duration(milliseconds: 300),
@@ -706,11 +720,21 @@ class _LandingPageState extends State<LandingPage>
                         _toggleFab();
                       },
                       backgroundColor: Theme.of(context).colorScheme.primary,
-                      child: ThemeToggleWidget(
-                        isDarkMode: widget.isDarkMode,
-                        onToggle:
-                            () {}, // Il toggle è gestito dall'onPressed del FAB
-                        size: 24.0,
+                      tooltip:
+                          widget.isDarkMode
+                              ? AppLocalizations.of(context)!.lightModeIconAlt
+                              : AppLocalizations.of(context)!.darkModeIconAlt,
+                      child: Semantics(
+                        button: true,
+                        label:
+                            widget.isDarkMode
+                                ? AppLocalizations.of(context)!.lightModeIconAlt
+                                : AppLocalizations.of(context)!.darkModeIconAlt,
+                        child: ThemeToggleWidget(
+                          isDarkMode: widget.isDarkMode,
+                          onToggle: () {},
+                          size: 24.0,
+                        ),
                       ),
                     )
                     : const SizedBox.shrink(),
@@ -735,6 +759,7 @@ class _LandingPageState extends State<LandingPage>
                         _toggleFab();
                       },
                       backgroundColor: Theme.of(context).colorScheme.secondary,
+                      tooltip: AppLocalizations.of(context)!.selectLanguage,
                       child: Icon(
                         Icons.language,
                         color: Theme.of(context).colorScheme.onSecondary,
@@ -766,6 +791,10 @@ class _LandingPageState extends State<LandingPage>
                                 _toggleFab();
                               },
                       backgroundColor: Theme.of(context).colorScheme.error,
+                      tooltip:
+                          _isDownloadingCV
+                              ? AppLocalizations.of(context)!.downloadingCV
+                              : AppLocalizations.of(context)!.downloadCV,
                       child:
                           _isDownloadingCV
                               ? SizedBox(
@@ -804,6 +833,7 @@ class _LandingPageState extends State<LandingPage>
                         _toggleFab();
                       },
                       backgroundColor: Theme.of(context).colorScheme.tertiary,
+                      tooltip: AppLocalizations.of(context)!.tableOfContents,
                       child: AnimatedRotation(
                         turns: _isTocVisible ? 0.125 : 0.0,
                         duration: const Duration(milliseconds: 300),
@@ -880,41 +910,53 @@ class _LandingPageState extends State<LandingPage>
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(height: 20),
-              ListTile(
-                leading: CountryFlag.fromCountryCode(
-                  'US',
-                  width: 20,
-                  height: 15,
+              Semantics(
+                button: true,
+                label: 'Change language to English',
+                child: ListTile(
+                  leading: CountryFlag.fromCountryCode(
+                    'US',
+                    width: 20,
+                    height: 15,
+                  ),
+                  title: const Text('English'),
+                  onTap: () {
+                    widget.onLanguageChanged(const Locale('en'));
+                    Navigator.pop(context);
+                  },
                 ),
-                title: const Text('English'),
-                onTap: () {
-                  widget.onLanguageChanged(const Locale('en'));
-                  Navigator.pop(context);
-                },
               ),
-              ListTile(
-                leading: CountryFlag.fromCountryCode(
-                  'IT',
-                  width: 20,
-                  height: 15,
+              Semantics(
+                button: true,
+                label: 'Cambia lingua in Italiano',
+                child: ListTile(
+                  leading: CountryFlag.fromCountryCode(
+                    'IT',
+                    width: 20,
+                    height: 15,
+                  ),
+                  title: const Text('Italiano'),
+                  onTap: () {
+                    widget.onLanguageChanged(const Locale('it'));
+                    Navigator.pop(context);
+                  },
                 ),
-                title: const Text('Italiano'),
-                onTap: () {
-                  widget.onLanguageChanged(const Locale('it'));
-                  Navigator.pop(context);
-                },
               ),
-              ListTile(
-                leading: CountryFlag.fromCountryCode(
-                  'ES',
-                  width: 20,
-                  height: 15,
+              Semantics(
+                button: true,
+                label: 'Cambiar idioma a Español',
+                child: ListTile(
+                  leading: CountryFlag.fromCountryCode(
+                    'ES',
+                    width: 20,
+                    height: 15,
+                  ),
+                  title: const Text('Español'),
+                  onTap: () {
+                    widget.onLanguageChanged(const Locale('es'));
+                    Navigator.pop(context);
+                  },
                 ),
-                title: const Text('Español'),
-                onTap: () {
-                  widget.onLanguageChanged(const Locale('es'));
-                  Navigator.pop(context);
-                },
               ),
             ],
           ),
@@ -1004,7 +1046,8 @@ class _LandingPageState extends State<LandingPage>
                         ],
                       ),
                       textAlign: isMobile ? TextAlign.center : TextAlign.start,
-                      semanticsLabel: 'Main heading: ${AppLocalizations.of(context)!.name}',
+                      semanticsLabel:
+                          'Main heading: ${AppLocalizations.of(context)!.name}',
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -1071,7 +1114,8 @@ class _LandingPageState extends State<LandingPage>
                 fontSize: isMobile ? 28 : null,
               ),
               textAlign: isMobile ? TextAlign.center : null,
-              semanticsLabel: 'Section heading: ${AppLocalizations.of(context)!.aboutMe}',
+              semanticsLabel:
+                  'Section heading: ${AppLocalizations.of(context)!.aboutMe}',
             ),
           ),
           const SizedBox(height: 32),
@@ -1228,7 +1272,8 @@ class _LandingPageState extends State<LandingPage>
                 color: Theme.of(context).colorScheme.primary,
                 fontSize: isMobile ? 28 : null,
               ),
-              semanticsLabel: 'Section heading: ${AppLocalizations.of(context)!.skills}',
+              semanticsLabel:
+                  'Section heading: ${AppLocalizations.of(context)!.skills}',
             ),
           ),
           const SizedBox(height: 32),
