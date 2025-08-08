@@ -1,3 +1,22 @@
+# [1.7.0](https://github.com/arcangelo7/portfolio/compare/v1.6.1...v1.7.0) (2025-08-08)
+
+
+### Bug Fixes
+
+* fix test [release] ([b01eb6b](https://github.com/arcangelo7/portfolio/commit/b01eb6b600f93be6a244294802b793a03ba564e0))
+* improve accessibility (semantic headers) and performance (smaller images) ([fbba24e](https://github.com/arcangelo7/portfolio/commit/fbba24ec3bdf37807dc24a5b6d44dd06419787db))
+* skip chrome-extensions for cache ([3655380](https://github.com/arcangelo7/portfolio/commit/365538011fc31190c1eef28a33ba7432b217550c))
+
+
+### Features
+
+* **a11y:** add detailed Semantics and localized tooltips across the app ([c3584a7](https://github.com/arcangelo7/portfolio/commit/c3584a7a98fffc319e7cd96db573d80b3b744de2))
+* add alt text for images ([e88f4a0](https://github.com/arcangelo7/portfolio/commit/e88f4a0d7edb2d61aa561cc3a3473fc414b0bb8b))
+* add faq ([779bcad](https://github.com/arcangelo7/portfolio/commit/779bcad797fa19d3756c7770f71bbc0a002159ca))
+* add hidden h headers for seo ([0e9364c](https://github.com/arcangelo7/portfolio/commit/0e9364cc324e461c338785180e92427cf688e18d))
+* add image lazy loading ([42ca811](https://github.com/arcangelo7/portfolio/commit/42ca811dea812a08ba070795342645e36adc3b82))
+* add service worker per caching ([9abcf29](https://github.com/arcangelo7/portfolio/commit/9abcf29df75e05de967d7775b2bc2b2e3c84df31))
+
 ## [1.6.1](https://github.com/arcangelo7/portfolio/compare/v1.6.0...v1.6.1) (2025-08-08)
 
 
