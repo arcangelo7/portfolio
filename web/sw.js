@@ -52,6 +52,11 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url);
   
+  // Skip non-HTTP/HTTPS requests (chrome-extension, moz-extension, etc.)
+  if (!requestUrl.protocol.startsWith('http')) {
+    return;
+  }
+  
   // Handle API requests with network-first strategy
   if (isApiRequest(requestUrl)) {
     event.respondWith(networkFirstStrategy(event.request));
