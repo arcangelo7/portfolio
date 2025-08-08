@@ -861,11 +861,15 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       ),
       child: Column(
         children: [
-          SelectableText(
-            l10n.publications,
-            style: Theme.of(context).textTheme.displaySmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
+          Semantics(
+            header: true,
+            child: SelectableText(
+              l10n.publications,
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              semanticsLabel: 'Section heading: ${l10n.publications}',
             ),
           ),
           const SizedBox(height: 16),

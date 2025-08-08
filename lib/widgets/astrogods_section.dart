@@ -75,21 +75,24 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
           child: Column(
             children: [
             // Titolo principale
-            _buildStrikethroughText(
-              l10n.astroGodsTitle,
-              Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: PortfolioTheme.astroGold,
-                fontSize: isMobile ? 28 : null,
-                shadows: [
-                  Shadow(
-                    offset: const Offset(2, 2),
-                    blurRadius: 4,
-                    color: Colors.black.withValues(alpha: 0.5),
-                  ),
-                ],
+            Semantics(
+              header: true,
+              child: _buildStrikethroughText(
+                l10n.astroGodsTitle,
+                Theme.of(context).textTheme.displaySmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: PortfolioTheme.astroGold,
+                  fontSize: isMobile ? 28 : null,
+                  shadows: [
+                    Shadow(
+                      offset: const Offset(2, 2),
+                      blurRadius: 4,
+                      color: Colors.black.withValues(alpha: 0.5),
+                    ),
+                  ],
+                ),
+                TextAlign.center,
               ),
-              TextAlign.center,
             ),
 
             const SizedBox(height: 24),

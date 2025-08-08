@@ -63,12 +63,16 @@ class _EducationSectionState extends State<EducationSection> {
       color: Theme.of(context).colorScheme.surfaceContainer,
       child: Column(
         children: [
-          SelectableText(
-            l10n.education,
-            style: Theme.of(context).textTheme.displaySmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: isMobile ? 28 : null,
+          Semantics(
+            header: true,
+            child: SelectableText(
+              l10n.education,
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: isMobile ? 28 : null,
+              ),
+              semanticsLabel: 'Section heading: ${l10n.education}',
             ),
           ),
           const SizedBox(height: 32),

@@ -378,6 +378,7 @@ class _LandingPageState extends State<LandingPage>
   }
 
 
+
   void _toggleFab() {
     setState(() {
       _isFabExpanded = !_isFabExpanded;
@@ -506,6 +507,7 @@ class _LandingPageState extends State<LandingPage>
               : FloatingActionButtonLocation.endTop,
     );
   }
+
 
   Widget _buildCustomTitleBar(BuildContext context) {
     return GestureDetector(
@@ -978,21 +980,25 @@ class _LandingPageState extends State<LandingPage>
                         ? CrossAxisAlignment.center
                         : CrossAxisAlignment.start,
                 children: [
-                  SelectableText(
-                    AppLocalizations.of(context)!.name,
-                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                      color: PortfolioTheme.iceWhite,
-                      fontWeight: FontWeight.bold,
-                      fontSize: isMobile ? 36 : 56,
-                      shadows: [
-                        Shadow(
-                          offset: const Offset(2, 2),
-                          blurRadius: 4,
-                          color: Colors.black.withValues(alpha: 0.3),
-                        ),
-                      ],
+                  Semantics(
+                    header: true,
+                    child: SelectableText(
+                      AppLocalizations.of(context)!.name,
+                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                        color: PortfolioTheme.iceWhite,
+                        fontWeight: FontWeight.bold,
+                        fontSize: isMobile ? 36 : 56,
+                        shadows: [
+                          Shadow(
+                            offset: const Offset(2, 2),
+                            blurRadius: 4,
+                            color: Colors.black.withValues(alpha: 0.3),
+                          ),
+                        ],
+                      ),
+                      textAlign: isMobile ? TextAlign.center : TextAlign.start,
+                      semanticsLabel: 'Main heading: ${AppLocalizations.of(context)!.name}',
                     ),
-                    textAlign: isMobile ? TextAlign.center : TextAlign.start,
                   ),
                   const SizedBox(height: 16),
                   SelectableText(
@@ -1012,7 +1018,9 @@ class _LandingPageState extends State<LandingPage>
                   ),
                   const SizedBox(height: 32),
                   ElevatedButton(
-                    onPressed: () => scrollToSectionById('publications'),
+                    onPressed: () {
+                      scrollToSectionById('publications');
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: PortfolioTheme.iceWhite,
                       foregroundColor: PortfolioTheme.cobaltBlue,
@@ -1046,14 +1054,18 @@ class _LandingPageState extends State<LandingPage>
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
-          SelectableText(
-            AppLocalizations.of(context)!.aboutMe,
-            style: Theme.of(context).textTheme.displaySmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: isMobile ? 28 : null,
+          Semantics(
+            header: true,
+            child: SelectableText(
+              AppLocalizations.of(context)!.aboutMe,
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: isMobile ? 28 : null,
+              ),
+              textAlign: isMobile ? TextAlign.center : null,
+              semanticsLabel: 'Section heading: ${AppLocalizations.of(context)!.aboutMe}',
             ),
-            textAlign: isMobile ? TextAlign.center : null,
           ),
           const SizedBox(height: 32),
           _buildTextWithMarkdownLinks(
@@ -1200,12 +1212,16 @@ class _LandingPageState extends State<LandingPage>
       color: Theme.of(context).colorScheme.surfaceContainer,
       child: Column(
         children: [
-          SelectableText(
-            AppLocalizations.of(context)!.skills,
-            style: Theme.of(context).textTheme.displaySmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: isMobile ? 28 : null,
+          Semantics(
+            header: true,
+            child: SelectableText(
+              AppLocalizations.of(context)!.skills,
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: isMobile ? 28 : null,
+              ),
+              semanticsLabel: 'Section heading: ${AppLocalizations.of(context)!.skills}',
             ),
           ),
           const SizedBox(height: 32),
@@ -1232,12 +1248,16 @@ class _LandingPageState extends State<LandingPage>
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
-          SelectableText(
-            l10n.getInTouch,
-            style: Theme.of(context).textTheme.displaySmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: isMobile ? 28 : null,
+          Semantics(
+            header: true,
+            child: SelectableText(
+              l10n.getInTouch,
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: isMobile ? 28 : null,
+              ),
+              semanticsLabel: 'Section heading: ${l10n.getInTouch}',
             ),
           ),
           const SizedBox(height: 32),

@@ -61,12 +61,16 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
-          SelectableText(
-            l10n.workExperience,
-            style: Theme.of(context).textTheme.displaySmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: isMobile ? 28 : null,
+          Semantics(
+            header: true,
+            child: SelectableText(
+              l10n.workExperience,
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: isMobile ? 28 : null,
+              ),
+              semanticsLabel: 'Section heading: ${l10n.workExperience}',
             ),
           ),
           const SizedBox(height: 32),

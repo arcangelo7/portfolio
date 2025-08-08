@@ -136,7 +136,8 @@ class SEOService {
                       '@type': 'Organization',
                       'name': pub['venue'] ?? pub['journal'],
                     },
-                  if (pub['abstract'] != null && pub['abstract'].toString().isNotEmpty)
+                  if (pub['abstract'] != null &&
+                      pub['abstract'].toString().isNotEmpty)
                     'description': pub['abstract'],
                   if (pub['volume'] != null) 'volumeNumber': pub['volume'],
                   if (pub['issue'] != null) 'issueNumber': pub['issue'],
@@ -204,7 +205,7 @@ class SEOService {
 
   static String _normalizeDate(String? date) {
     if (date == null || date.isEmpty) return '';
-    
+
     // Handle various date formats
     if (RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(date)) {
       return date; // Already ISO format
@@ -216,29 +217,40 @@ class SEOService {
     if (RegExp(r'^\d{4}$').hasMatch(date)) {
       return '$date-01-01'; // Year only
     }
-    
+
     // Try to extract year
     final yearMatch = RegExp(r'\d{4}').firstMatch(date);
     if (yearMatch != null) {
       return '${yearMatch.group(0)}-01-01';
     }
-    
+
     return date;
   }
 
   static List<Map<String, String>> _buildAuthors(dynamic authors) {
-    if (authors == null) return [{'@type': 'Person', 'name': 'Arcangelo Massari'}];
-    
-    if (authors is List) {
-      final authorList = authors
-          .where((author) => author != null && author.toString().isNotEmpty)
-          .map((author) => {'@type': 'Person', 'name': author.toString()})
-          .toList();
-      
-      return authorList.isNotEmpty ? authorList : [{'@type': 'Person', 'name': 'Arcangelo Massari'}];
+    if (authors == null) {
+      return [
+        {'@type': 'Person', 'name': 'Arcangelo Massari'},
+      ];
     }
-    
-    return [{'@type': 'Person', 'name': 'Arcangelo Massari'}];
+
+    if (authors is List) {
+      final authorList =
+          authors
+              .where((author) => author != null && author.toString().isNotEmpty)
+              .map((author) => {'@type': 'Person', 'name': author.toString()})
+              .toList();
+
+      return authorList.isNotEmpty
+          ? authorList
+          : [
+            {'@type': 'Person', 'name': 'Arcangelo Massari'},
+          ];
+    }
+
+    return [
+      {'@type': 'Person', 'name': 'Arcangelo Massari'},
+    ];
   }
 
   static String _jsonEncode(Map<String, dynamic> data) {
