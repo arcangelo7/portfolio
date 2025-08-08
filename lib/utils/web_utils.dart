@@ -12,5 +12,5 @@ class WebUtils {
       platform.WebUtils.updateUrl(url, replaceState: replaceState);
   
   static void updateUrlWithLanguageAndSection(String languageCode, String section) =>
-      platform.WebUtils.updateUrlWithLanguageAndSection(languageCode, section);
+      platform.WebUtils.updateUrlWithLanguageAndSection(languageCode, section); 
 }
