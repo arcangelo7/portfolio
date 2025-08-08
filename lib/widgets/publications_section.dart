@@ -592,12 +592,35 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             ),
           ] else ...[
             if (!isExpanded) ...[
-              SelectableText(
-                l10n.citationsFrom,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.8),
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: InkWell(
+                  onTap: () => _launchUrl('https://opencitations.net/'),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        l10n.citationsFrom,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.8),
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Semantics(
+                        label: 'OpenCitations',
+                        button: true,
+                        child: Image.asset(
+                          'assets/images/icon_oc_positive.png',
+                          height: 20,
+                          filterQuality: FilterQuality.medium,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 12),

@@ -82,7 +82,7 @@ jobs:
         git push
     
     - name: Build web
-      run: flutter build web --base-href /portfolio/
+      run: flutter build web --release --base-href /portfolio/
     
     - name: Prepare combined deployment
       run: |
