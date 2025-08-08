@@ -247,6 +247,7 @@ class _PortfolioAppState extends State<PortfolioApp> {
     });
   }
 
+
   void _updateWindowTitle() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted &&

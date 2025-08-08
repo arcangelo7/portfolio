@@ -13,8 +13,10 @@ class LazyImage extends StatefulWidget {
   final Widget Function(BuildContext, Object, StackTrace?)? errorBuilder;
   final FilterQuality filterQuality;
   final Alignment alignment;
+  final bool critical;
 
   /// Creates a [LazyImage] that displays an asset image lazily when near view.
+  /// Set [critical] to true for images that need immediate loading (e.g., theme icons).
   const LazyImage({
     super.key,
     required this.assetPath,
@@ -25,6 +27,7 @@ class LazyImage extends StatefulWidget {
     this.errorBuilder,
     this.filterQuality = FilterQuality.low,
     this.alignment = Alignment.center,
+    this.critical = false,
   });
 
   @override
@@ -114,6 +117,11 @@ class _LazyImageState extends State<LazyImage> {
   }
 
   Widget _buildImageContainer() {
+    // For critical images, skip lazy loading entirely
+    if (widget.critical) {
+      return _buildImage();
+    }
+    
     if (!_isVisible && !_hasBeenVisible) {
       // Show placeholder while not visible
       return Container(
@@ -133,7 +141,11 @@ class _LazyImageState extends State<LazyImage> {
       );
     }
 
-    // Load actual image when visible
+    return _buildImage();
+  }
+
+  Widget _buildImage() {
+    // Load actual image
     final imageWidget = Image.asset(
       widget.assetPath,
       width: widget.width,
@@ -143,8 +155,8 @@ class _LazyImageState extends State<LazyImage> {
       errorBuilder: widget.errorBuilder,
       filterQuality: widget.filterQuality,
       alignment: widget.alignment,
-      // Use frameBuilder to show loading indicator
-      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+      // Use frameBuilder to show loading indicator for non-critical images
+      frameBuilder: widget.critical ? null : (context, child, frame, wasSynchronouslyLoaded) {
         if (wasSynchronouslyLoaded || frame != null) {
           return child;
         }

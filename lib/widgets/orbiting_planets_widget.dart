@@ -87,20 +87,8 @@ class _StaticThemeElementsWidgetState extends State<StaticThemeElementsWidget>
               fit: BoxFit.cover,
               width: widget.elementSize,
               height: widget.elementSize,
+              critical: true,
               semanticLabel: AppLocalizations.of(context)?.orbitingPlanetAlt,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: fallbackColor,
-                  ),
-                  child: Icon(
-                    fallbackIcon,
-                    color: Colors.white,
-                    size: widget.elementSize * 0.6,
-                  ),
-                );
-              },
             ),
           ),
         ),

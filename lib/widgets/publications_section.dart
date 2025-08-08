@@ -395,7 +395,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             textDecoration: TextDecoration.underline,
           ),
         },
-        onLinkTap: (url, _, __) {
+        onLinkTap: (url, _, _) {
           if (url != null) {
             _launchUrl(url);
           }
