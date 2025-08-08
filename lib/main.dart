@@ -5,7 +5,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:web/web.dart' as web;
 import 'l10n/app_localizations.dart';
 import 'widgets/publications_section.dart';
 import 'widgets/work_experience_section.dart';
@@ -19,6 +18,7 @@ import 'widgets/flutter_modal.dart';
 import 'services/dynamic_cv_generator_service.dart';
 import 'services/zotero_service.dart';
 import 'services/seo_service.dart';
+import 'utils/web_utils.dart';
 import 'package:printing/printing.dart';
 
 void main() async {
@@ -141,12 +141,19 @@ class _PortfolioAppState extends State<PortfolioApp> {
   }
 
   void _initializeLanguageFromUrl() {
+    if (!kIsWeb) {
+      // Default to English on non-web platforms
+      setState(() {
+        _locale = const Locale('en');
+      });
+      return;
+    }
+    
     try {
-      final uri = Uri.parse(web.window.location.href);
-      final langParam = uri.queryParameters['lang'];
-      final fragment = uri.fragment;
+      final langParam = WebUtils.getLanguageFromUrl();
+      final fragment = WebUtils.getFragmentFromUrl();
 
-      if (langParam != null && ['en', 'it', 'es'].contains(langParam)) {
+      if (['en', 'it', 'es'].contains(langParam)) {
         setState(() {
           _locale = Locale(langParam);
         });
@@ -186,14 +193,10 @@ class _PortfolioAppState extends State<PortfolioApp> {
   }) {
     if (kIsWeb) {
       try {
-        final uri = Uri.parse(web.window.location.href);
+        final currentUrl = WebUtils.getCurrentUrl();
+        final uri = Uri.parse(currentUrl);
         final newUri = uri.replace(queryParameters: {'lang': languageCode});
-
-        if (replaceState) {
-          web.window.history.replaceState(null, '', newUri.toString());
-        } else {
-          web.window.history.pushState(null, '', newUri.toString());
-        }
+        WebUtils.updateUrl(newUri.toString(), replaceState: replaceState);
       } catch (e) {
         debugPrint('Error updating URL: $e');
       }
@@ -203,13 +206,8 @@ class _PortfolioAppState extends State<PortfolioApp> {
   void updateUrlWithSection(String section) {
     if (kIsWeb) {
       try {
-        final uri = Uri.parse(web.window.location.href);
         final currentLang = _locale?.languageCode ?? 'en';
-        final newUri = uri.replace(
-          queryParameters: {'lang': currentLang},
-          fragment: section,
-        );
-        web.window.history.pushState(null, '', newUri.toString());
+        WebUtils.updateUrlWithLanguageAndSection(currentLang, section);
       } catch (e) {
         debugPrint('Error updating URL with section: $e');
       }
