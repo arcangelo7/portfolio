@@ -1,3 +1,23 @@
+# [1.6.0](https://github.com/arcangelo7/portfolio/compare/v1.5.0...v1.6.0) (2025-08-08)
+
+
+### Bug Fixes
+
+* add GitHubReleaseService to dynamically get the latest download url per platform ([d4340a8](https://github.com/arcangelo7/portfolio/commit/d4340a8742be896268973e0517c75d8fc38b6a1a))
+* add issue, volume and pages to venue details for both my publications and citing publications ([9949d10](https://github.com/arcangelo7/portfolio/commit/9949d103ece2edcc91b4eb7f3bcddc8bd6c431eb))
+* add oc logo and link [release] ([b8858ed](https://github.com/arcangelo7/portfolio/commit/b8858edd2fa643db79889d2bbb82c9b16a32d23d))
+* add PublicationUtils, show vvi and pages in pdf, show pub types in correct order ([c23cb24](https://github.com/arcangelo7/portfolio/commit/c23cb2405f7a9e10e5fe9e97f472f6d874189b5a))
+* add selectable text ([1a6e383](https://github.com/arcangelo7/portfolio/commit/1a6e383693fa6a6656f1c987ec6828fbd1ca63c9))
+* fix and enrich publications json-ld ([c88c71c](https://github.com/arcangelo7/portfolio/commit/c88c71cf983c0b8419822a0ec73cd7cecc7f033b))
+* remove external websites from sitemap ([a9495cc](https://github.com/arcangelo7/portfolio/commit/a9495cc82cc2c5a435d1db6b3f24769416789f5b))
+* simplify PortfolioTheme for tests ([01884fa](https://github.com/arcangelo7/portfolio/commit/01884fa967a66b62f565fbe9f8f3127c1d3b1259))
+* view article must be a mouse area ([4f116f0](https://github.com/arcangelo7/portfolio/commit/4f116f04d507fb012f095b02afa7211bfca1f6f1))
+
+
+### Features
+
+* add seo ([caf52d4](https://github.com/arcangelo7/portfolio/commit/caf52d4b2cd23b2b343e53f31cee0b62aa235549))
+
 # [1.5.0](https://github.com/arcangelo7/portfolio/compare/v1.4.1...v1.5.0) (2025-08-07)
 
 
