@@ -85,6 +85,13 @@
   "abstract": "Abstract",
   "readMore": "Read more",
   "citations": "Citations",
+  "totalCitations": "Total citations: {count}",
+  "@totalCitations": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "calculatingTotalCitations": "Calculating total citations...",
   "citationCount": "Cited {count} times",
   "noCitations": "No citations available",
   "viewCitations": "View citations",

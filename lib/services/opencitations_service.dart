@@ -172,6 +172,15 @@ class OpenCitationsService {
         DateTime.now().difference(_lastFetch!) < cacheExpiry;
   }
 
+  Future<int> getTotalCitationCount(List<String> dois) async {
+    int totalCount = 0;
+    for (final doi in dois) {
+      final count = await getCitationCount(doi);
+      totalCount += count;
+    }
+    return totalCount;
+  }
+
   void clearCache() {
     _cachedCitationCounts?.clear();
     _cachedCitations?.clear();

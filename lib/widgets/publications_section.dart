@@ -58,6 +58,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   final Set<String> _expandedCitationAuthors = {};
   final Map<String, List<CitationMetadata>> _citationMetadataCache = {};
   final Map<String, bool> _loadingCitations = {};
+  int? _totalCitationCount;
+  bool _isLoadingTotalCitations = false;
   int _currentPage = 0;
   static const int _publicationsPerPage = 10;
   final GlobalKey _publicationsSectionKey = GlobalKey();
@@ -106,6 +108,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
         SEOService.addStructuredDataForPublications(publicationsData);
 
         _loadCitationCounts();
+        _loadTotalCitationCount();
       }
     } catch (e) {
       if (mounted) {
@@ -153,6 +156,39 @@ class _PublicationsSectionState extends State<PublicationsSection> {
         } catch (e) {
           // Citation count loading failed, continue without citation data
         }
+      }
+    }
+  }
+
+  Future<void> _loadTotalCitationCount() async {
+    if (_publications == null || _isLoadingTotalCitations) return;
+
+    final publicationsWithDoi =
+        _publications!.where((pub) => pub.hasDoi).map((pub) => pub.doi!).toList();
+
+    if (publicationsWithDoi.isEmpty) return;
+
+    setState(() {
+      _isLoadingTotalCitations = true;
+    });
+
+    try {
+      final totalCount = await _openCitationsService.getTotalCitationCount(
+        publicationsWithDoi,
+      );
+
+      if (mounted) {
+        setState(() {
+          _totalCitationCount = totalCount;
+          _isLoadingTotalCitations = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _totalCitationCount = 0;
+          _isLoadingTotalCitations = false;
+        });
       }
     }
   }
@@ -889,6 +925,10 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             ),
             textAlign: TextAlign.center,
           ),
+          if (_isLoadingTotalCitations || _totalCitationCount != null) ...[
+            const SizedBox(height: 24),
+            _buildTotalCitationCountWidget(l10n),
+          ],
           const SizedBox(height: 32),
           if (!_isLoading && _publications != null && _publications!.isNotEmpty)
             _buildCategoryFilter(l10n),
@@ -899,6 +939,64 @@ class _PublicationsSectionState extends State<PublicationsSection> {
               _filteredPublications!.isNotEmpty &&
               _totalPages > 1)
             _buildPaginationControls(l10n),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTotalCitationCountWidget(AppLocalizations l10n) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+            Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.format_quote_rounded,
+            size: 24,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          const SizedBox(width: 12),
+          if (_isLoadingTotalCitations) ...[
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            const SizedBox(width: 12),
+            SelectableText(
+              l10n.calculatingTotalCitations,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ] else if (_totalCitationCount != null) ...[
+            SelectableText(
+              l10n.totalCitations(_totalCitationCount!),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
         ],
       ),
     );

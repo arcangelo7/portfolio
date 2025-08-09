@@ -616,6 +616,18 @@ abstract class AppLocalizations {
   /// **'Citations'**
   String get citations;
 
+  /// No description provided for @totalCitations.
+  ///
+  /// In en, this message translates to:
+  /// **'Total citations: {count}'**
+  String totalCitations(Object count);
+
+  /// No description provided for @calculatingTotalCitations.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculating total citations...'**
+  String get calculatingTotalCitations;
+
   /// No description provided for @citationCount.
   ///
   /// In en, this message translates to:

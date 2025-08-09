@@ -274,6 +274,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get citations => 'Citations';
 
   @override
+  String totalCitations(Object count) {
+    return 'Total citations: $count';
+  }
+
+  @override
+  String get calculatingTotalCitations => 'Calculating total citations...';
+
+  @override
   String citationCount(Object count) {
     return 'Cited $count times';
   }
