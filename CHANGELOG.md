@@ -1,3 +1,17 @@
+# [1.8.0](https://github.com/arcangelo7/portfolio/compare/v1.7.1...v1.8.0) (2025-08-09)
+
+
+### Bug Fixes
+
+* fix orbiting planet animations and pwa  cache clear via manifest update [release] ([7002e9d](https://github.com/arcangelo7/portfolio/commit/7002e9db894cb36f8bc93b337ba95965b14721f5))
+* update dependencies and lazy loading in hero [release] ([64e8cd5](https://github.com/arcangelo7/portfolio/commit/64e8cd5e6155a8ce77178eaedb9cc7f33766c918))
+
+
+### Features
+
+* add total citation count [release] ([8b32ba7](https://github.com/arcangelo7/portfolio/commit/8b32ba766166391cbbd833947dd4e814b62a8c2b))
+* new hero image and starry background [release] ([fc10533](https://github.com/arcangelo7/portfolio/commit/fc1053379a7270f920fb91fde57aa01507654089))
+
 ## [1.7.1](https://github.com/arcangelo7/portfolio/compare/v1.7.0...v1.7.1) (2025-08-08)
 
 
