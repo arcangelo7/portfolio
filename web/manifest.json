@@ -1,6 +1,7 @@
 {
     "name": "Arcangelo Massari - Portfolio",
     "short_name": "Aarcangelo",
+    "version": "1.0.0",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#000075",

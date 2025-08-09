@@ -124,6 +124,14 @@ jobs:
         sed -i "s/^version: .*/version: ${{ steps.version.outputs.version }}+${{ github.run_number }}/" pubspec.yaml
         echo "Updated pubspec.yaml to version ${{ steps.version.outputs.version }}+${{ github.run_number }}"
     
+    - name: Update manifest.json version
+      run: |
+        # Update version in web/manifest.json to force PWA cache invalidation
+        sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"${{ steps.version.outputs.version }}\"/" web/manifest.json
+        # Also update name to include version for better cache busting
+        sed -i "s/\"name\": \"Arcangelo Massari - Portfolio\"/\"name\": \"Arcangelo Massari - Portfolio v${{ steps.version.outputs.version }}\"/" web/manifest.json
+        echo "Updated web/manifest.json to version ${{ steps.version.outputs.version }}"
+    
     - name: Install Linux dependencies
       run: |
         sudo apt-get update -y
@@ -267,6 +275,15 @@ jobs:
         sed -i "s/^version: .*/version: ${{ steps.version.outputs.version }}+${{ github.run_number }}/" pubspec.yaml
         echo "Updated pubspec.yaml to version ${{ steps.version.outputs.version }}+${{ github.run_number }}"
     
+    - name: Update manifest.json version
+      shell: bash
+      run: |
+        # Update version in web/manifest.json to force PWA cache invalidation
+        sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"${{ steps.version.outputs.version }}\"/" web/manifest.json
+        # Also update name to include version for better cache busting
+        sed -i "s/\"name\": \"Arcangelo Massari - Portfolio\"/\"name\": \"Arcangelo Massari - Portfolio v${{ steps.version.outputs.version }}\"/" web/manifest.json
+        echo "Updated web/manifest.json to version ${{ steps.version.outputs.version }}"
+    
     - name: Enable Windows desktop
       run: flutter config --enable-windows-desktop
     
@@ -322,6 +339,14 @@ jobs:
       run: |
         sed -i '' "s/^version: .*/version: ${{ steps.version.outputs.version }}+${{ github.run_number }}/" pubspec.yaml
         echo "Updated pubspec.yaml to version ${{ steps.version.outputs.version }}+${{ github.run_number }}"
+    
+    - name: Update manifest.json version
+      run: |
+        # Update version in web/manifest.json to force PWA cache invalidation
+        sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"${{ steps.version.outputs.version }}\"/" web/manifest.json
+        # Also update name to include version for better cache busting
+        sed -i '' "s/\"name\": \"Arcangelo Massari - Portfolio\"/\"name\": \"Arcangelo Massari - Portfolio v${{ steps.version.outputs.version }}\"/" web/manifest.json
+        echo "Updated web/manifest.json to version ${{ steps.version.outputs.version }}"
     
     - name: Enable macOS desktop
       run: flutter config --enable-macos-desktop
