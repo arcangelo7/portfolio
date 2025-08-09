@@ -18,6 +18,7 @@ import 'widgets/table_of_contents_widget.dart';
 import 'widgets/flutter_modal.dart';
 import 'widgets/faq_section.dart';
 import 'widgets/lazy_image.dart';
+import 'widgets/starry_background.dart';
 import 'services/dynamic_cv_generator_service.dart';
 import 'services/zotero_service.dart';
 import 'services/seo_service.dart';
@@ -246,7 +247,6 @@ class _PortfolioAppState extends State<PortfolioApp> {
           _themeMode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
     });
   }
-
 
   void _updateWindowTitle() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -981,7 +981,7 @@ class _LandingPageState extends State<LandingPage>
   Widget _buildFullScreenProfileImage(bool isDark) {
     return Positioned.fill(
       child: LazyImage(
-        assetPath: 'assets/images/profile_cutout.png',
+        assetPath: 'assets/images/profile_cutout.webp',
         fit: BoxFit.cover,
         semanticLabel: AppLocalizations.of(context)?.profileImageAlt,
         errorBuilder: (context, error, stackTrace) {
@@ -1002,6 +1002,99 @@ class _LandingPageState extends State<LandingPage>
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 768;
 
+    final heroContent = Stack(
+      children: [
+        // Static sun/moon element in top-left
+        StaticThemeElementsWidget(
+          isDarkMode: isDark,
+          elementSize: isMobile ? 120.0 : 180.0,
+          enableAnimation: !_isInTestEnvironment(),
+        ),
+
+        // Full screen transparent PNG image
+        _buildFullScreenProfileImage(isDark),
+
+        // Text content - responsive positioning
+        Positioned(
+          left: isMobile ? 16 : 60,
+          right: isMobile ? 16 : null,
+          top: 0,
+          bottom: 0,
+          child: SizedBox(
+            width: isMobile ? null : screenWidth * 0.4,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment:
+                  isMobile
+                      ? CrossAxisAlignment.center
+                      : CrossAxisAlignment.start,
+              children: [
+                Semantics(
+                  header: true,
+                  child: SelectableText(
+                    AppLocalizations.of(context)!.name,
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                      color: PortfolioTheme.iceWhite,
+                      fontWeight: FontWeight.bold,
+                      fontSize: isMobile ? 36 : 56,
+                      shadows: [
+                        Shadow(
+                          offset: const Offset(2, 2),
+                          blurRadius: 4,
+                          color: Colors.black.withValues(alpha: 0.3),
+                        ),
+                      ],
+                    ),
+                    textAlign: isMobile ? TextAlign.center : TextAlign.start,
+                    semanticsLabel:
+                        'Main heading: ${AppLocalizations.of(context)!.name}',
+                  ),
+                ),
+                const SizedBox(height: 16),
+                SelectableText(
+                  AppLocalizations.of(context)!.jobTitle,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    color: PortfolioTheme.iceWhite,
+                    fontSize: isMobile ? 20 : 28,
+                    shadows: [
+                      Shadow(
+                        offset: const Offset(1, 1),
+                        blurRadius: 3,
+                        color: Colors.black.withValues(alpha: 0.3),
+                      ),
+                    ],
+                  ),
+                  textAlign: isMobile ? TextAlign.center : TextAlign.start,
+                ),
+                const SizedBox(height: 32),
+                ElevatedButton(
+                  onPressed: () {
+                    scrollToSectionById('publications');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: PortfolioTheme.iceWhite,
+                    foregroundColor: PortfolioTheme.cobaltBlue,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isMobile ? 30 : 40,
+                      vertical: isMobile ? 16 : 20,
+                    ),
+                    elevation: 8,
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.viewMyWork,
+                    style: TextStyle(
+                      fontSize: isMobile ? 16 : 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+
     return Container(
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
@@ -1010,102 +1103,14 @@ class _LandingPageState extends State<LandingPage>
           end: Alignment.topLeft,
           colors:
               isDark
-                  ? [PortfolioTheme.cobaltBlue, PortfolioTheme.violet]
-                  : [PortfolioTheme.cobaltBlue, PortfolioTheme.emeraldGreen],
+                  ? [PortfolioTheme.cobaltBlue, PortfolioTheme.astroMysticBlue]
+                  : [PortfolioTheme.emeraldGreen, PortfolioTheme.astroGold],
         ),
       ),
-      child: Stack(
-        children: [
-          // Static sun/moon element in top-left
-          StaticThemeElementsWidget(
-            isDarkMode: isDark,
-            elementSize: isMobile ? 120.0 : 180.0,
-            enableAnimation: !_isInTestEnvironment(),
-          ),
-
-          // Full screen transparent PNG image
-          _buildFullScreenProfileImage(isDark),
-
-          // Text content - responsive positioning
-          Positioned(
-            left: isMobile ? 16 : 60,
-            right: isMobile ? 16 : null,
-            top: 0,
-            bottom: 0,
-            child: SizedBox(
-              width: isMobile ? null : screenWidth * 0.4,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment:
-                    isMobile
-                        ? CrossAxisAlignment.center
-                        : CrossAxisAlignment.start,
-                children: [
-                  Semantics(
-                    header: true,
-                    child: SelectableText(
-                      AppLocalizations.of(context)!.name,
-                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                        color: PortfolioTheme.iceWhite,
-                        fontWeight: FontWeight.bold,
-                        fontSize: isMobile ? 36 : 56,
-                        shadows: [
-                          Shadow(
-                            offset: const Offset(2, 2),
-                            blurRadius: 4,
-                            color: Colors.black.withValues(alpha: 0.3),
-                          ),
-                        ],
-                      ),
-                      textAlign: isMobile ? TextAlign.center : TextAlign.start,
-                      semanticsLabel:
-                          'Main heading: ${AppLocalizations.of(context)!.name}',
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  SelectableText(
-                    AppLocalizations.of(context)!.jobTitle,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: PortfolioTheme.iceWhite,
-                      fontSize: isMobile ? 20 : 28,
-                      shadows: [
-                        Shadow(
-                          offset: const Offset(1, 1),
-                          blurRadius: 3,
-                          color: Colors.black.withValues(alpha: 0.3),
-                        ),
-                      ],
-                    ),
-                    textAlign: isMobile ? TextAlign.center : TextAlign.start,
-                  ),
-                  const SizedBox(height: 32),
-                  ElevatedButton(
-                    onPressed: () {
-                      scrollToSectionById('publications');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: PortfolioTheme.iceWhite,
-                      foregroundColor: PortfolioTheme.cobaltBlue,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: isMobile ? 30 : 40,
-                        vertical: isMobile ? 16 : 20,
-                      ),
-                      elevation: 8,
-                    ),
-                    child: Text(
-                      AppLocalizations.of(context)!.viewMyWork,
-                      style: TextStyle(
-                        fontSize: isMobile ? 16 : 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+      child:
+          isDark
+              ? StarryBackground(showHorizon: false, child: heroContent)
+              : heroContent,
     );
   }
 

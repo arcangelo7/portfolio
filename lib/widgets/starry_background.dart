@@ -4,11 +4,33 @@ import 'dart:math' as math;
 class StarryBackground extends StatefulWidget {
   final Widget child;
   final bool showHorizon;
+  final int starCount1;
+  final int starCount2;
+  final int starCount3;
+  final double starSize1;
+  final double starSize2;
+  final double starSize3;
+  final Color starColor;
+  final int animationSpeed1;
+  final int animationSpeed2;
+  final int animationSpeed3;
+  final bool forceNightBackground;
 
   const StarryBackground({
     super.key,
     required this.child,
     this.showHorizon = true,
+    this.starCount1 = 700,
+    this.starCount2 = 200,
+    this.starCount3 = 100,
+    this.starSize1 = 1.0,
+    this.starSize2 = 2.0,
+    this.starSize3 = 3.0,
+    this.starColor = Colors.white,
+    this.animationSpeed1 = 50,
+    this.animationSpeed2 = 100,
+    this.animationSpeed3 = 150,
+    this.forceNightBackground = false,
   });
 
   @override
@@ -27,17 +49,17 @@ class _StarryBackgroundState extends State<StarryBackground>
 
     // Different speeds for different star layers
     _animationController1 = AnimationController(
-      duration: const Duration(seconds: 50),
+      duration: Duration(seconds: widget.animationSpeed1),
       vsync: this,
     )..repeat();
 
     _animationController2 = AnimationController(
-      duration: const Duration(seconds: 100),
+      duration: Duration(seconds: widget.animationSpeed2),
       vsync: this,
     )..repeat();
 
     _animationController3 = AnimationController(
-      duration: const Duration(seconds: 150),
+      duration: Duration(seconds: widget.animationSpeed3),
       vsync: this,
     )..repeat();
   }
@@ -53,17 +75,21 @@ class _StarryBackgroundState extends State<StarryBackground>
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        gradient: RadialGradient(
-          center: Alignment.bottomCenter,
-          radius: 1.0,
-          colors: [
-            Color(0xFF0c1116), // Dark blue at bottom
-            Color(0xFF090a0f), // Almost black at top
-          ],
-          stops: [0.0, 1.0],
-        ),
-      ),
+      decoration: widget.forceNightBackground
+          ? const BoxDecoration(
+              gradient: RadialGradient(
+                center: Alignment.bottomCenter,
+                radius: 1.0,
+                colors: [
+                  Color(0xFF0c1116), // Dark blue at bottom
+                  Color(0xFF090a0f), // Almost black at top
+                ],
+                stops: [0.0, 1.0],
+              ),
+            )
+          : const BoxDecoration(
+              color: Colors.transparent,
+            ),
       child: Stack(
         children: [
           // Stars layer 1 (small, fast)
@@ -74,9 +100,10 @@ class _StarryBackgroundState extends State<StarryBackground>
                 return CustomPaint(
                   painter: StarPainter(
                     animationValue: _animationController1.value,
-                    starSize: 1.0,
-                    starCount: 700,
+                    starSize: widget.starSize1,
+                    starCount: widget.starCount1,
                     seed: 1,
+                    starColor: widget.starColor,
                   ),
                 );
               },
@@ -91,9 +118,10 @@ class _StarryBackgroundState extends State<StarryBackground>
                 return CustomPaint(
                   painter: StarPainter(
                     animationValue: _animationController2.value,
-                    starSize: 2.0,
-                    starCount: 200,
+                    starSize: widget.starSize2,
+                    starCount: widget.starCount2,
                     seed: 2,
+                    starColor: widget.starColor,
                   ),
                 );
               },
@@ -108,9 +136,10 @@ class _StarryBackgroundState extends State<StarryBackground>
                 return CustomPaint(
                   painter: StarPainter(
                     animationValue: _animationController3.value,
-                    starSize: 3.0,
-                    starCount: 100,
+                    starSize: widget.starSize3,
+                    starCount: widget.starCount3,
                     seed: 3,
+                    starColor: widget.starColor,
                   ),
                 );
               },
@@ -181,12 +210,14 @@ class StarPainter extends CustomPainter {
   final double starSize;
   final int starCount;
   final int seed;
+  final Color starColor;
 
   StarPainter({
     required this.animationValue,
     required this.starSize,
     required this.starCount,
     required this.seed,
+    this.starColor = Colors.white,
   });
 
   @override
@@ -216,7 +247,7 @@ class StarPainter extends CustomPainter {
         // Add some twinkle effect
         final twinkle =
             (math.sin(animationValue * math.pi * 2 + i * 0.1) + 1) * 0.5;
-        paint.color = Colors.white.withValues(alpha: 0.3 + twinkle * 0.7);
+        paint.color = starColor.withValues(alpha: 0.3 + twinkle * 0.7);
 
         canvas.drawCircle(
           Offset(x, y),

@@ -16,7 +16,7 @@ void main() {
                   // Add enough height to push LazyImage out of viewport
                   Container(height: 2000),
                   const LazyImage(
-                    assetPath: 'assets/images/profile_cutout.png',
+                    assetPath: 'assets/images/profile_cutout.webp',
                     width: 100,
                     height: 100,
                   ),
@@ -40,7 +40,7 @@ void main() {
           home: Scaffold(
             body: SingleChildScrollView(
               child: LazyImage(
-                assetPath: 'assets/images/profile_cutout.png',
+                assetPath: 'assets/images/profile_cutout.webp',
                 width: 100,
                 height: 100,
               ),
@@ -63,7 +63,7 @@ void main() {
     testWidgets('creates LazyImage widget with correct properties', (
       WidgetTester tester,
     ) async {
-      const testPath = 'assets/images/profile_cutout.png';
+      const testPath = 'assets/images/profile_cutout.webp';
       const testWidth = 150.0;
       const testHeight = 100.0;
       const testFit = BoxFit.contain;
@@ -104,7 +104,7 @@ void main() {
           home: Scaffold(
             body: SingleChildScrollView(
               child: LazyImage(
-                assetPath: 'assets/images/profile_cutout.png',
+                assetPath: 'assets/images/profile_cutout.webp',
                 width: 100,
                 height: 100,
                 errorBuilder: (context, error, stackTrace) {
@@ -128,9 +128,12 @@ void main() {
           find.byType(CircularProgressIndicator).evaluate().isNotEmpty;
       final hasImage = find.byType(Image).evaluate().isNotEmpty;
       final hasContainer = find.byType(Container).evaluate().isNotEmpty;
-      
+
       // Should have at least one of these elements
-      expect(hasPlaceholder || hasLoadingIndicator || hasImage || hasContainer, isTrue);
+      expect(
+        hasPlaceholder || hasLoadingIndicator || hasImage || hasContainer,
+        isTrue,
+      );
     });
   });
 }

@@ -56,11 +56,24 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final isMobile = MediaQuery.of(context).size.width < 768;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16),
       child: StarryBackground(
         showHorizon: true,
+        forceNightBackground: true, // Sempre sfondo notturno per AstroGods
+        // Configurazione personalizzata per AstroGods
+        starCount1: isDark ? 500 : 400,
+        starCount2: isDark ? 150 : 120,
+        starCount3: isDark ? 80 : 60,
+        starSize1: isDark ? 1.2 : 1.0,
+        starSize2: isDark ? 2.5 : 2.0,
+        starSize3: isDark ? 4.0 : 3.0,
+        starColor: isDark ? PortfolioTheme.astroGold : Colors.white,
+        animationSpeed1: isDark ? 60 : 45,
+        animationSpeed2: isDark ? 120 : 90,
+        animationSpeed3: isDark ? 180 : 135,
         child: Container(
           padding: EdgeInsets.all(isMobile ? 20 : 64),
           decoration: BoxDecoration(
