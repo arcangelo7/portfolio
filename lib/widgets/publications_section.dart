@@ -5,11 +5,12 @@ import 'package:flutter_html/flutter_html.dart';
 import '../l10n/app_localizations.dart';
 import '../models/publication.dart';
 import '../services/zotero_service.dart';
-import '../services/opencitations_service.dart';
+import '../services/opencitations_index_service.dart';
 import '../services/seo_service.dart';
 import 'expandable_authors_widget.dart';
 import '../utils/publication_utils.dart';
 import 'lazy_image.dart';
+import '../services/opencitations_meta_service.dart';
 
 /// Interface for URL launching to enable dependency injection and testing
 abstract class UrlLauncher {
@@ -29,13 +30,15 @@ class DefaultUrlLauncher implements UrlLauncher {
 
 class PublicationsSection extends StatefulWidget {
   final ZoteroService? zoteroService;
-  final OpenCitationsService? openCitationsService;
+  final OpenCitationsIndexService? openCitationsService;
+  final OpenCitationsMetaService? openCitationsMetaService;
   final UrlLauncher? urlLauncher;
 
   const PublicationsSection({
     super.key,
     this.zoteroService,
     this.openCitationsService,
+    this.openCitationsMetaService,
     this.urlLauncher,
   });
 
@@ -45,7 +48,8 @@ class PublicationsSection extends StatefulWidget {
 
 class _PublicationsSectionState extends State<PublicationsSection> {
   late final ZoteroService _zoteroService;
-  late final OpenCitationsService _openCitationsService;
+  late final OpenCitationsIndexService _openCitationsService;
+  late final OpenCitationsMetaService _openCitationsMetaService;
   late final UrlLauncher _urlLauncher;
   List<Publication>? _publications;
   List<Publication>? _filteredPublications;
@@ -64,12 +68,16 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   static const int _publicationsPerPage = 10;
   final GlobalKey _publicationsSectionKey = GlobalKey();
 
+  
+
   @override
   void initState() {
     super.initState();
     _zoteroService = widget.zoteroService ?? ZoteroService();
     _openCitationsService =
-        widget.openCitationsService ?? OpenCitationsService();
+        widget.openCitationsService ?? OpenCitationsIndexService();
+    _openCitationsMetaService =
+        widget.openCitationsMetaService ?? OpenCitationsMetaService();
     _urlLauncher = widget.urlLauncher ?? DefaultUrlLauncher();
     _loadPublications();
   }
@@ -164,7 +172,10 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     if (_publications == null || _isLoadingTotalCitations) return;
 
     final publicationsWithDoi =
-        _publications!.where((pub) => pub.hasDoi).map((pub) => pub.doi!).toList();
+        _publications!
+            .where((pub) => pub.hasDoi)
+            .map((pub) => pub.doi!)
+            .toList();
 
     if (publicationsWithDoi.isEmpty) return;
 
@@ -204,9 +215,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     });
 
     try {
-      final citationMetadata = await _openCitationsService.getCitationMetadata(
-        doi,
-      );
+      final citationMetadata = await _openCitationsMetaService
+          .getCitationMetadataForDoi(doi, indexService: _openCitationsService);
       if (mounted) {
         setState(() {
           _citationMetadataCache[publicationKey] = citationMetadata;
@@ -939,6 +949,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
               _filteredPublications!.isNotEmpty &&
               _totalPages > 1)
             _buildPaginationControls(l10n),
+          const SizedBox(height: 40),
         ],
       ),
     );
@@ -1190,6 +1201,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       ),
     );
   }
+
 
   Widget _buildPaginationControls(AppLocalizations l10n) {
     return Container(
