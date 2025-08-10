@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/arcangelo7/portfolio/compare/v1.8.0...v1.8.1) (2025-08-10)
+
+
+### Bug Fixes
+
+* add "type": "Object" per placeholders in totalCitations in arb file [release] ([c88a78f](https://github.com/arcangelo7/portfolio/commit/c88a78fe90adf3227b0bac476ca9db45b07b7df2))
+
 # [1.8.0](https://github.com/arcangelo7/portfolio/compare/v1.7.1...v1.8.0) (2025-08-09)
 
 
