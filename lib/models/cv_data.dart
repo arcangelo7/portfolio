@@ -1,4 +1,3 @@
-
 class EducationEntry {
   final String id;
   final String? startDate;
@@ -155,23 +154,14 @@ class Skill {
   final String id;
   final String nameKey;
 
-  Skill({
-    required this.id,
-    required this.nameKey,
-  });
+  Skill({required this.id, required this.nameKey});
 
   factory Skill.fromJson(Map<String, dynamic> json) {
-    return Skill(
-      id: json['id'],
-      nameKey: json['nameKey'],
-    );
+    return Skill(id: json['id'], nameKey: json['nameKey']);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'nameKey': nameKey,
-    };
+    return {'id': id, 'nameKey': nameKey};
   }
 }
 
@@ -192,9 +182,10 @@ class SkillCategory {
     return SkillCategory(
       id: json['id'],
       nameKey: json['nameKey'],
-      skills: (json['skills'] as List)
-          .map((skill) => Skill.fromJson(skill))
-          .toList(),
+      skills:
+          (json['skills'] as List)
+              .map((skill) => Skill.fromJson(skill))
+              .toList(),
       order: json['order'] ?? 0,
     );
   }
@@ -216,9 +207,10 @@ class SkillsData {
 
   factory SkillsData.fromJson(Map<String, dynamic> json) {
     return SkillsData(
-      categories: (json['categories'] as List)
-          .map((category) => SkillCategory.fromJson(category))
-          .toList(),
+      categories:
+          (json['categories'] as List)
+              .map((category) => SkillCategory.fromJson(category))
+              .toList(),
     );
   }
 
