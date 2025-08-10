@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/arcangelo7/portfolio/compare/v1.8.1...v1.8.2) (2025-08-10)
+
+
+### Bug Fixes
+
+* add flutter-version 3.32.8 in release actions [release] ([d68d0bc](https://github.com/arcangelo7/portfolio/commit/d68d0bcd9528a243f47c5dab60f73c416fc43f14))
+
 ## [1.8.1](https://github.com/arcangelo7/portfolio/compare/v1.8.0...v1.8.1) (2025-08-10)
 
 
