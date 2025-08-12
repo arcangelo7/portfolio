@@ -1,3 +1,10 @@
+## [1.8.3](https://github.com/arcangelo7/portfolio/compare/v1.8.2...v1.8.3) (2025-08-12)
+
+
+### Bug Fixes
+
+* remove custom browser cache [release] ([5d29390](https://github.com/arcangelo7/portfolio/commit/5d293903aa2be4c924df9e470bf4e65783c60658))
+
 ## [1.8.2](https://github.com/arcangelo7/portfolio/compare/v1.8.1...v1.8.2) (2025-08-10)
 
 
