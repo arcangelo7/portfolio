@@ -288,41 +288,6 @@
 
 </head>
 <body>
-  <script>
-    // Register custom service worker only in production, and ensure it's unregistered in local dev
-    (function() {
-      if (!('serviceWorker' in navigator)) return;
-      const hostname = window.location.hostname;
-      const protocol = window.location.protocol;
-      const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '' || hostname === '::1';
-      const isDev = isLocalhost || protocol !== 'https:';
-
-      window.addEventListener('load', () => {
-        if (isDev) {
-          // In development/hot-reload: unregister SWs and clear caches to avoid stale assets/engine
-          navigator.serviceWorker.getRegistrations()
-            .then(registrations => Promise.all(registrations.map(reg => reg.unregister())))
-            .then(() => {
-              if ('caches' in window) {
-                return caches.keys().then(keys => Promise.all(keys.map(key => caches.delete(key))));
-              }
-            })
-            .catch(() => {})
-            .finally(() => {});
-          return;
-        }
-
-        // In production: register the custom service worker
-        navigator.serviceWorker.register('/sw.js', { scope: '/' })
-          .then(registration => {
-            console.log('Custom SW registered: ', registration);
-          })
-          .catch(registrationError => {
-            console.log('Custom SW registration failed: ', registrationError);
-          });
-      });
-    })();
-  </script>
   <script src="flutter_bootstrap.js" defer></script>
 </body>
 </html>
