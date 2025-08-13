@@ -1,3 +1,10 @@
+## [1.8.4](https://github.com/arcangelo7/portfolio/compare/v1.8.3...v1.8.4) (2025-08-13)
+
+
+### Bug Fixes
+
+* purge serviceWorker from index.html [release] ([f7b4c29](https://github.com/arcangelo7/portfolio/commit/f7b4c29c3bcdd70fc8e42bc8e65d096b7cea57d9))
+
 ## [1.8.3](https://github.com/arcangelo7/portfolio/compare/v1.8.2...v1.8.3) (2025-08-12)
 
 
