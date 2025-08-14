@@ -989,7 +989,7 @@ class _LandingPageState extends State<LandingPage>
       child: LazyImage(
         assetPath: 'assets/images/profile_cutout.webp',
         fit: isUltraWide ? BoxFit.contain : BoxFit.cover,
-        alignment: isUltraWide ? Alignment.bottomCenter : Alignment.center,
+        alignment: isUltraWide ? Alignment.bottomRight : Alignment.center,
         semanticLabel: AppLocalizations.of(context)?.profileImageAlt,
         errorBuilder: (context, error, stackTrace) {
           return Center(
