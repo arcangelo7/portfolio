@@ -979,10 +979,17 @@ class _LandingPageState extends State<LandingPage>
   }
 
   Widget _buildFullScreenProfileImage(bool isDark) {
+    final screenSize = MediaQuery.of(context).size;
+    final aspectRatio = screenSize.width / screenSize.height;
+    
+    // Use cover for normal screens, contain for ultra-wide (21:9 = 2.33)
+    final isUltraWide = aspectRatio > 2.1;
+    
     return Positioned.fill(
       child: LazyImage(
         assetPath: 'assets/images/profile_cutout.webp',
-        fit: BoxFit.cover,
+        fit: isUltraWide ? BoxFit.contain : BoxFit.cover,
+        alignment: isUltraWide ? Alignment.bottomCenter : Alignment.center,
         semanticLabel: AppLocalizations.of(context)?.profileImageAlt,
         errorBuilder: (context, error, stackTrace) {
           return Center(
