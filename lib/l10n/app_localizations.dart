@@ -1048,6 +1048,30 @@ abstract class AppLocalizations {
   /// **'Participated in the 20th plenary meeting of the Research Data Alliance with a contribution titled \'Adopting the Scientific Knowledge Graphs Interoperability Framework in OpenCitations\'. [Conference](https://faircore4eosc.eu/events/rda-20th-plenary-meeting-gothenburg-hybrid) | [Presentation](https://doi.org/10.5281/zenodo.7702070)'**
   String get rdaPlenary2023Description;
 
+  /// No description provided for @csvconfV9Conference2025Title.
+  ///
+  /// In en, this message translates to:
+  /// **'csv,conf,v9 - Bologna'**
+  String get csvconfV9Conference2025Title;
+
+  /// No description provided for @csvconfV9Conference2025Period.
+  ///
+  /// In en, this message translates to:
+  /// **'Sep 8-11, 2025'**
+  String get csvconfV9Conference2025Period;
+
+  /// No description provided for @csvconfV9Conference2025Location.
+  ///
+  /// In en, this message translates to:
+  /// **'Bologna, Italy'**
+  String get csvconfV9Conference2025Location;
+
+  /// No description provided for @csvconfV9Conference2025Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Participated in csv,conf,v9, a community conference for data makers everywhere with the theme \'Data for Communities\'. Presented \'Mapping the unmapped citation landscape: how crowdsourcing will fill the citation gap\', discussing how to democratize the citation landscape by connecting 41,500 Global South journals and introducing millions of new citations through a collaborative solution between OpenCitations, Public Knowledge Project (PKP), and Leibniz Information Centre. [Conference](https://csvconf.com/) | [Presentation](https://doi.org/10.5281/zenodo.17098599)'**
+  String get csvconfV9Conference2025Description;
+
   /// No description provided for @unaEuropaWorkshop2025Title.
   ///
   /// In en, this message translates to:

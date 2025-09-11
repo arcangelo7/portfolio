@@ -512,6 +512,19 @@ class AppLocalizationsEn extends AppLocalizations {
       'Participated in the 20th plenary meeting of the Research Data Alliance with a contribution titled \'Adopting the Scientific Knowledge Graphs Interoperability Framework in OpenCitations\'. [Conference](https://faircore4eosc.eu/events/rda-20th-plenary-meeting-gothenburg-hybrid) | [Presentation](https://doi.org/10.5281/zenodo.7702070)';
 
   @override
+  String get csvconfV9Conference2025Title => 'csv,conf,v9 - Bologna';
+
+  @override
+  String get csvconfV9Conference2025Period => 'Sep 8-11, 2025';
+
+  @override
+  String get csvconfV9Conference2025Location => 'Bologna, Italy';
+
+  @override
+  String get csvconfV9Conference2025Description =>
+      'Participated in csv,conf,v9, a community conference for data makers everywhere with the theme \'Data for Communities\'. Presented \'Mapping the unmapped citation landscape: how crowdsourcing will fill the citation gap\', discussing how to democratize the citation landscape by connecting 41,500 Global South journals and introducing millions of new citations through a collaborative solution between OpenCitations, Public Knowledge Project (PKP), and Leibniz Information Centre. [Conference](https://csvconf.com/) | [Presentation](https://doi.org/10.5281/zenodo.17098599)';
+
+  @override
   String get unaEuropaWorkshop2025Title =>
       'Una Europa PhD workshop - \'Museums and the new challenges\'';
 

@@ -107,6 +107,14 @@ class LocalizationHelper {
         return l10n.unaEuropaWorkshop2025Location;
       case 'unaEuropaWorkshop2025Description':
         return l10n.unaEuropaWorkshop2025Description;
+      case 'csvconfV9Conference2025Title':
+        return l10n.csvconfV9Conference2025Title;
+      case 'csvconfV9Conference2025Period':
+        return l10n.csvconfV9Conference2025Period;
+      case 'csvconfV9Conference2025Location':
+        return l10n.csvconfV9Conference2025Location;
+      case 'csvconfV9Conference2025Description':
+        return l10n.csvconfV9Conference2025Description;
 
       // Skill categories
       case 'skillCategoryProgrammingLanguages':
