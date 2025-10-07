@@ -220,6 +220,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'My publications and academic contributions';
 
   @override
+  String get searchPublications =>
+      'Search by title, author, venue, year, or abstract...';
+
+  @override
   String get categoryAll => 'All';
 
   @override

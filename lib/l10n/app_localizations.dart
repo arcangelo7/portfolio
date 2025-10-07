@@ -514,6 +514,12 @@ abstract class AppLocalizations {
   /// **'My publications and academic contributions'**
   String get publicationsDescription;
 
+  /// No description provided for @searchPublications.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by title, author, venue, year, or abstract...'**
+  String get searchPublications;
+
   /// No description provided for @categoryAll.
   ///
   /// In en, this message translates to:

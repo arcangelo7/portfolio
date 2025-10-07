@@ -56,6 +56,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   bool _isLoading = true;
   String? _error;
   String _selectedCategoryKey = 'all';
+  String _searchQuery = '';
+  final TextEditingController _searchController = TextEditingController();
   final Set<String> _expandedAuthors = {};
   final Set<String> _expandedAbstracts = {};
   final Set<String> _expandedCitations = {};
@@ -80,6 +82,12 @@ class _PublicationsSectionState extends State<PublicationsSection> {
         widget.openCitationsMetaService ?? OpenCitationsMetaService();
     _urlLauncher = widget.urlLauncher ?? DefaultUrlLauncher();
     _loadPublications();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadPublications() async {
@@ -239,13 +247,42 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     setState(() {
       _selectedCategoryKey = categoryKey;
       _currentPage = 0;
-      if (categoryKey == 'all') {
-        _filteredPublications = _publications;
-      } else {
-        _filteredPublications =
-            _publications!.where((pub) => pub.itemType == categoryKey).toList();
-      }
+      _applyFilters();
     });
+  }
+
+  void _onSearchChanged(String query) {
+    setState(() {
+      _searchQuery = query.toLowerCase();
+      _currentPage = 0;
+      _applyFilters();
+    });
+  }
+
+  void _applyFilters() {
+    if (_publications == null) return;
+
+    var filtered = _publications!;
+
+    // Apply category filter
+    if (_selectedCategoryKey != 'all') {
+      filtered = filtered.where((pub) => pub.itemType == _selectedCategoryKey).toList();
+    }
+
+    // Apply search filter
+    if (_searchQuery.isNotEmpty) {
+      filtered = filtered.where((pub) {
+        final titleMatch = pub.title.toLowerCase().contains(_searchQuery);
+        final authorsMatch = pub.authorsString.toLowerCase().contains(_searchQuery);
+        final venueMatch = pub.displayVenue.toLowerCase().contains(_searchQuery);
+        final yearMatch = pub.displayYear.toLowerCase().contains(_searchQuery);
+        final abstractMatch = pub.abstractText?.toLowerCase().contains(_searchQuery) ?? false;
+
+        return titleMatch || authorsMatch || venueMatch || yearMatch || abstractMatch;
+      }).toList();
+    }
+
+    _filteredPublications = filtered;
   }
 
   void _scrollToPublications() {
@@ -940,8 +977,11 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             _buildTotalCitationCountWidget(l10n),
           ],
           const SizedBox(height: 32),
-          if (!_isLoading && _publications != null && _publications!.isNotEmpty)
+          if (!_isLoading && _publications != null && _publications!.isNotEmpty) ...[
+            _buildSearchBar(l10n),
+            const SizedBox(height: 24),
             _buildCategoryFilter(l10n),
+          ],
           const SizedBox(height: 24),
           _buildPublicationsList(l10n),
           if (!_isLoading &&
@@ -1009,6 +1049,58 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             ),
           ],
         ],
+      ),
+    );
+  }
+
+  Widget _buildSearchBar(AppLocalizations l10n) {
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 600),
+      child: TextField(
+        controller: _searchController,
+        onChanged: _onSearchChanged,
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
+        decoration: InputDecoration(
+          hintText: l10n.searchPublications,
+          hintStyle: TextStyle(
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+          ),
+          prefixIcon: Icon(
+            Icons.search,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          suffixIcon: _searchQuery.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    _searchController.clear();
+                    _onSearchChanged('');
+                  },
+                )
+              : null,
+          filled: true,
+          fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
+              width: 1,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.primary,
+              width: 2,
+            ),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 14,
+          ),
+        ),
       ),
     );
   }

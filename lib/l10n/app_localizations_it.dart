@@ -221,6 +221,10 @@ class AppLocalizationsIt extends AppLocalizations {
       'Le mie pubblicazioni e contributi accademici';
 
   @override
+  String get searchPublications =>
+      'Cerca per titolo, autore, venue, anno o abstract...';
+
+  @override
   String get categoryAll => 'Tutte';
 
   @override
