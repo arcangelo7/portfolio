@@ -34,12 +34,13 @@ class PublicationUtils {
 
   /// Check if a publication should show a launch button (DOI or URL)
   static bool shouldShowLaunchButton(Publication publication) {
-    return publication.doi != null || publication.url != null;
+    return (publication.doi != null && publication.doi!.isNotEmpty) ||
+           (publication.url != null && publication.url!.isNotEmpty);
   }
 
   /// Get the URL to launch for a publication (DOI takes precedence over URL)
   static String getLaunchUrl(Publication publication) {
-    if (publication.doi != null) {
+    if (publication.doi != null && publication.doi!.isNotEmpty) {
       return 'https://doi.org/${publication.doi}';
     } else {
       return publication.url!;
