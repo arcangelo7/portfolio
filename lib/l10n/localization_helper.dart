@@ -209,6 +209,8 @@ class LocalizationHelper {
         return l10n.skillDebian;
       case 'skillFedora':
         return l10n.skillFedora;
+      case 'skillArch':
+        return l10n.skillArch;
 
       // Default case: return the key itself if no localization is found
       default:

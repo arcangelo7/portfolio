@@ -105,6 +105,7 @@
       "id": "operating_systems",
       "nameKey": "skillCategoryOperatingSystems",
       "skills": [
+        {"id": "arch", "nameKey": "skillArch"},
         {"id": "debian", "nameKey": "skillDebian"},
         {"id": "fedora", "nameKey": "skillFedora"}
       ],

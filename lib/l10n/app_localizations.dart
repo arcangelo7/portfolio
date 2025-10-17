@@ -223,7 +223,7 @@ abstract class AppLocalizations {
   /// No description provided for @skillCategoryOperatingSystems.
   ///
   /// In en, this message translates to:
-  /// **'Operating systems'**
+  /// **'Linux distributions'**
   String get skillCategoryOperatingSystems;
 
   /// No description provided for @skillPython.
@@ -429,6 +429,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Fedora'**
   String get skillFedora;
+
+  /// No description provided for @skillArch.
+  ///
+  /// In en, this message translates to:
+  /// **'Arch Linux'**
+  String get skillArch;
 
   /// No description provided for @skillGitHubActions.
   ///

@@ -72,7 +72,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get skillCategoryInfrastructureDevOps => 'Infrastructure & DevOps';
 
   @override
-  String get skillCategoryOperatingSystems => 'Operating systems';
+  String get skillCategoryOperatingSystems => 'Linux distributions';
 
   @override
   String get skillPython => 'Python';
@@ -175,6 +175,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get skillFedora => 'Fedora';
+
+  @override
+  String get skillArch => 'Arch Linux';
 
   @override
   String get skillGitHubActions => 'GitHub Actions';

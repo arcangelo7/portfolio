@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:window_manager/window_manager.dart';
 import 'l10n/app_localizations.dart';
+import 'l10n/localization_helper.dart';
 import 'widgets/publications_section.dart';
 import 'widgets/work_experience_section.dart';
 import 'widgets/education_section.dart';
@@ -22,6 +23,8 @@ import 'widgets/starry_background.dart';
 import 'services/dynamic_cv_generator_service.dart';
 import 'services/zotero_service.dart';
 import 'services/seo_service.dart';
+import 'services/cv_data_service.dart';
+import 'models/cv_data.dart';
 import 'utils/web_utils.dart';
 import 'package:printing/printing.dart';
 
@@ -1226,66 +1229,6 @@ class _LandingPageState extends State<LandingPage>
     final l10n = AppLocalizations.of(context)!;
     final isMobile = MediaQuery.of(context).size.width < 768;
 
-    final skillsCategories = {
-      l10n.skillCategoryProgrammingLanguages: [
-        l10n.skillPython,
-        l10n.skillJavaScript,
-        l10n.skillTypeScript,
-        l10n.skillDart,
-      ],
-      l10n.skillCategoryMarkupAndTemplating: [
-        l10n.skillHTML,
-        l10n.skillXML,
-        l10n.skillTEI,
-      ],
-      l10n.skillCategoryStylingAndDesign: [
-        l10n.skillCSS,
-        l10n.skillSASS,
-        l10n.skillBootstrap,
-      ],
-      l10n.skillCategoryQueryAndTransform: [
-        l10n.skillSPARQL,
-        l10n.skillSQL,
-        l10n.skillXPath,
-        l10n.skillXQuery,
-        l10n.skillXSLT,
-      ],
-      l10n.skillCategorySemanticWebAndRDF: [
-        l10n.skillRDF,
-        l10n.skillSPARQL,
-        l10n.skillSHACL,
-        l10n.skillApacheJenaFuseki,
-        l10n.skillGraphDB,
-        l10n.skillBlazeGraph,
-        l10n.skillOpenLinkVirtuoso,
-      ],
-      l10n.skillCategoryFrontendLibraries: [
-        l10n.skillReact,
-        l10n.skillD3JS,
-        l10n.skillFlutter,
-      ],
-      l10n.skillCategoryBackendFrameworks: [
-        l10n.skillNodeJS,
-        l10n.skillFlask,
-        l10n.skillPrisma,
-      ],
-      l10n.skillCategoryDatabases: [
-        l10n.skillMongoDB,
-        l10n.skillPostgreSQL,
-        l10n.skillRedis,
-        l10n.skillApacheJenaFuseki,
-        l10n.skillBlazeGraph,
-        l10n.skillOpenLinkVirtuoso,
-        l10n.skillGraphDB,
-      ],
-      l10n.skillCategoryInfrastructureDevOps: [
-        l10n.skillDocker,
-        l10n.skillProxmox,
-        l10n.skillGitHubActions,
-      ],
-      l10n.skillCategoryOperatingSystems: [l10n.skillDebian, l10n.skillFedora],
-    };
-
     return Container(
       key: key,
       margin: const EdgeInsets.symmetric(vertical: 16),
@@ -1307,9 +1250,43 @@ class _LandingPageState extends State<LandingPage>
             ),
           ),
           const SizedBox(height: 32),
-          _SkillsBubbleChart(
-            skillsCategories: skillsCategories,
-            isMobile: isMobile,
+          FutureBuilder<SkillsData>(
+            future: CVDataService.getSkills(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              }
+
+              if (snapshot.hasError) {
+                return Text('Error loading skills: ${snapshot.error}');
+              }
+
+              if (!snapshot.hasData) {
+                return const Text('No skills data available');
+              }
+
+              final skillsData = snapshot.data!;
+              final skillsCategories = <String, List<String>>{};
+
+              for (final category in skillsData.categories) {
+                final categoryName = LocalizationHelper.getLocalizedText(
+                  l10n,
+                  category.nameKey,
+                );
+                final skillNames = category.skills
+                    .map((skill) => LocalizationHelper.getLocalizedText(
+                          l10n,
+                          skill.nameKey,
+                        ))
+                    .toList();
+                skillsCategories[categoryName] = skillNames;
+              }
+
+              return _SkillsBubbleChart(
+                skillsCategories: skillsCategories,
+                isMobile: isMobile,
+              );
+            },
           ),
         ],
       ),
