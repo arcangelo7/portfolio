@@ -381,30 +381,34 @@ class DynamicCVGeneratorService {
     String institution,
     String description,
   ) {
-    return pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
+    return pw.Wrap(
       children: [
-        pw.Text(
-          period,
-          style: pw.TextStyle(
-            fontSize: 12,
-            fontWeight: pw.FontWeight.bold,
-            color: _convertFlutterToPdfColor(
-              PortfolioTheme.wine.withValues(alpha: 0.7),
+        pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Text(
+              period,
+              style: pw.TextStyle(
+                fontSize: 12,
+                fontWeight: pw.FontWeight.bold,
+                color: _convertFlutterToPdfColor(
+                  PortfolioTheme.wine.withValues(alpha: 0.7),
+                ),
+              ),
             ),
-          ),
+            pw.SizedBox(height: 2),
+            pw.Text(
+              title,
+              style: pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold),
+            ),
+            pw.SizedBox(height: 2),
+            pw.Text(institution, style: const pw.TextStyle(fontSize: 12)),
+            if (description.isNotEmpty) ...[
+              pw.SizedBox(height: 4),
+              _buildRichText(description, fontSize: 12),
+            ],
+          ],
         ),
-        pw.SizedBox(height: 2),
-        pw.Text(
-          title,
-          style: pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold),
-        ),
-        pw.SizedBox(height: 2),
-        pw.Text(institution, style: const pw.TextStyle(fontSize: 12)),
-        if (description.isNotEmpty) ...[
-          pw.SizedBox(height: 4),
-          _buildRichText(description, fontSize: 12),
-        ],
       ],
     );
   }
@@ -435,28 +439,32 @@ class DynamicCVGeneratorService {
     String company,
     String description,
   ) {
-    return pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
+    return pw.Wrap(
       children: [
-        pw.Text(
-          period,
-          style: pw.TextStyle(
-            fontSize: 12,
-            fontWeight: pw.FontWeight.bold,
-            color: _convertFlutterToPdfColor(
-              PortfolioTheme.wine.withValues(alpha: 0.7),
+        pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Text(
+              period,
+              style: pw.TextStyle(
+                fontSize: 12,
+                fontWeight: pw.FontWeight.bold,
+                color: _convertFlutterToPdfColor(
+                  PortfolioTheme.wine.withValues(alpha: 0.7),
+                ),
+              ),
             ),
-          ),
+            pw.SizedBox(height: 2),
+            pw.Text(
+              title,
+              style: pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold),
+            ),
+            pw.SizedBox(height: 2),
+            pw.Text(company, style: const pw.TextStyle(fontSize: 12)),
+            pw.SizedBox(height: 4),
+            _buildRichText(description, fontSize: 12),
+          ],
         ),
-        pw.SizedBox(height: 2),
-        pw.Text(
-          title,
-          style: pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold),
-        ),
-        pw.SizedBox(height: 2),
-        pw.Text(company, style: const pw.TextStyle(fontSize: 12)),
-        pw.SizedBox(height: 4),
-        _buildRichText(description, fontSize: 12),
       ],
     );
   }
@@ -487,31 +495,35 @@ class DynamicCVGeneratorService {
     String location,
     String description,
   ) {
-    return pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
+    return pw.Wrap(
       children: [
-        pw.Text(
-          period,
-          style: pw.TextStyle(
-            fontSize: 12,
-            fontWeight: pw.FontWeight.bold,
-            color: _convertFlutterToPdfColor(
-              PortfolioTheme.wine.withValues(alpha: 0.7),
+        pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Text(
+              period,
+              style: pw.TextStyle(
+                fontSize: 12,
+                fontWeight: pw.FontWeight.bold,
+                color: _convertFlutterToPdfColor(
+                  PortfolioTheme.wine.withValues(alpha: 0.7),
+                ),
+              ),
             ),
-          ),
+            pw.SizedBox(height: 2),
+            pw.Text(
+              title,
+              style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+            ),
+            pw.SizedBox(height: 1),
+            pw.Text(
+              location,
+              style: pw.TextStyle(fontSize: 12, fontStyle: pw.FontStyle.italic),
+            ),
+            pw.SizedBox(height: 3),
+            _buildRichText(description, fontSize: 12),
+          ],
         ),
-        pw.SizedBox(height: 2),
-        pw.Text(
-          title,
-          style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
-        ),
-        pw.SizedBox(height: 1),
-        pw.Text(
-          location,
-          style: pw.TextStyle(fontSize: 12, fontStyle: pw.FontStyle.italic),
-        ),
-        pw.SizedBox(height: 3),
-        _buildRichText(description, fontSize: 12),
       ],
     );
   }
@@ -537,55 +549,59 @@ class DynamicCVGeneratorService {
               .toList();
 
       skillWidgets.add(
-        pw.Container(
-          margin: const pw.EdgeInsets.only(bottom: 8),
-          child: pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
-            children: [
-              pw.Text(
-                categoryName,
-                style: pw.TextStyle(
-                  fontSize: 12,
-                  fontWeight: pw.FontWeight.bold,
-                  color: _convertFlutterToPdfColor(
-                    PortfolioTheme.wine.withValues(alpha: 0.7),
+        pw.Wrap(
+          children: [
+            pw.Container(
+              margin: const pw.EdgeInsets.only(bottom: 8),
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Text(
+                    categoryName,
+                    style: pw.TextStyle(
+                      fontSize: 12,
+                      fontWeight: pw.FontWeight.bold,
+                      color: _convertFlutterToPdfColor(
+                        PortfolioTheme.wine.withValues(alpha: 0.7),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              pw.SizedBox(height: 3),
-              pw.Wrap(
-                spacing: 8,
-                runSpacing: 4,
-                children:
-                    skillNames
-                        .map(
-                          (skill) => pw.Container(
-                            padding: const pw.EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 4,
-                            ),
-                            decoration: pw.BoxDecoration(
-                              color: _convertFlutterToPdfColor(
-                                PortfolioTheme.iceWhite,
-                              ),
-                              borderRadius: pw.BorderRadius.circular(10),
-                            ),
-                            child: pw.Text(
-                              skill,
-                              style: pw.TextStyle(
-                                fontSize: 11,
-                                color: _convertFlutterToPdfColor(
-                                  PortfolioTheme.cobaltBlue,
+                  pw.SizedBox(height: 3),
+                  pw.Wrap(
+                    spacing: 8,
+                    runSpacing: 4,
+                    children:
+                        skillNames
+                            .map(
+                              (skill) => pw.Container(
+                                padding: const pw.EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 4,
                                 ),
-                                fontWeight: pw.FontWeight.normal,
+                                decoration: pw.BoxDecoration(
+                                  color: _convertFlutterToPdfColor(
+                                    PortfolioTheme.iceWhite,
+                                  ),
+                                  borderRadius: pw.BorderRadius.circular(10),
+                                ),
+                                child: pw.Text(
+                                  skill,
+                                  style: pw.TextStyle(
+                                    fontSize: 11,
+                                    color: _convertFlutterToPdfColor(
+                                      PortfolioTheme.cobaltBlue,
+                                    ),
+                                    fontWeight: pw.FontWeight.normal,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        )
-                        .toList(),
+                            )
+                            .toList(),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     }
@@ -702,37 +718,41 @@ class DynamicCVGeneratorService {
         final categoryPubs = groupedPublications[categoryKey]!;
         for (final pub in categoryPubs) {
           widgets.add(
-            pw.Container(
-              margin: const pw.EdgeInsets.only(bottom: 8, left: 8),
-              child: pw.Column(
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: [
-                  _buildPublicationTitle(pub),
-                  pw.SizedBox(height: 2),
-                  if (pub.itemType != 'computerProgram' &&
-                      pub.displayVenue != 'Unknown Venue') ...[
-                    pw.Text(
-                      PublicationUtils.buildVenueWithDetails(
-                        pub.displayVenue,
-                        pub.volume,
-                        pub.issue,
-                        pub.pages,
-                      ),
-                      style: pw.TextStyle(
-                        fontSize: 12,
-                        fontStyle: pw.FontStyle.italic,
-                      ),
-                    ),
-                    pw.SizedBox(height: 2),
-                  ],
-                  if (pub.doi != null || pub.url != null) ...[
-                    if (pub.itemType == 'computerProgram' ||
-                        pub.displayVenue == 'Unknown Venue')
+            pw.Wrap(
+              children: [
+                pw.Container(
+                  margin: const pw.EdgeInsets.only(bottom: 8, left: 8),
+                  child: pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      _buildPublicationTitle(pub),
                       pw.SizedBox(height: 2),
-                    _buildPublicationLinks(pub, l10n),
-                  ],
-                ],
-              ),
+                      if (pub.itemType != 'computerProgram' &&
+                          pub.displayVenue != 'Unknown Venue') ...[
+                        pw.Text(
+                          PublicationUtils.buildVenueWithDetails(
+                            pub.displayVenue,
+                            pub.volume,
+                            pub.issue,
+                            pub.pages,
+                          ),
+                          style: pw.TextStyle(
+                            fontSize: 12,
+                            fontStyle: pw.FontStyle.italic,
+                          ),
+                        ),
+                        pw.SizedBox(height: 2),
+                      ],
+                      if (pub.doi != null || pub.url != null) ...[
+                        if (pub.itemType == 'computerProgram' ||
+                            pub.displayVenue == 'Unknown Venue')
+                          pw.SizedBox(height: 2),
+                        _buildPublicationLinks(pub, l10n),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
             ),
           );
         }
