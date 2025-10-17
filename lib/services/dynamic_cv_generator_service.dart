@@ -281,7 +281,6 @@ class DynamicCVGeneratorService {
       {'label': 'Email:', 'value': personalInfo.email},
       {'label': 'GitHub:', 'value': personalInfo.github},
       {'label': 'ORCID:', 'value': personalInfo.orcid},
-      {'label': l10n.cvAddress, 'value': personalInfo.addressKey},
     ];
 
     return pw.Column(

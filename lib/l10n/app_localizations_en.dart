@@ -396,7 +396,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get researchFellowDescription =>
-      'Involved in the [OpenAIRE-Nexus](https://www.openaire.eu/openaire-nexus-project) project and developed software to integrate open citations from [OpenCitations](https://opencitations.net/) into the European Open Science Cloud.';
+      'Involved in the OpenAIRE-Nexus project and developed software to integrate open citations from [OpenCitations](https://opencitations.net/) into the European Open Science Cloud.';
 
   @override
   String get phdCulturalHeritageTitle =>

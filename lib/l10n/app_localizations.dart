@@ -847,7 +847,7 @@ abstract class AppLocalizations {
   /// No description provided for @researchFellowDescription.
   ///
   /// In en, this message translates to:
-  /// **'Involved in the [OpenAIRE-Nexus](https://www.openaire.eu/openaire-nexus-project) project and developed software to integrate open citations from [OpenCitations](https://opencitations.net/) into the European Open Science Cloud.'**
+  /// **'Involved in the OpenAIRE-Nexus project and developed software to integrate open citations from [OpenCitations](https://opencitations.net/) into the European Open Science Cloud.'**
   String get researchFellowDescription;
 
   /// No description provided for @phdCulturalHeritageTitle.
