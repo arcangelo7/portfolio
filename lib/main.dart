@@ -21,6 +21,7 @@ import 'widgets/faq_section.dart';
 import 'widgets/lazy_image.dart';
 import 'widgets/starry_background.dart';
 import 'services/dynamic_cv_generator_service.dart';
+import 'services/europass_cv_generator_service.dart';
 import 'services/zotero_service.dart';
 import 'services/seo_service.dart';
 import 'services/cv_data_service.dart';
@@ -348,6 +349,7 @@ class _LandingPageState extends State<LandingPage>
   bool _isFabExpanded = false;
   bool _isTocVisible = false;
   bool _isDownloadingCV = false;
+  bool _isDownloadingEuropassCV = false;
 
   late AnimationController _fabAnimationController;
   late AnimationController _tocAnimationController;
@@ -473,6 +475,50 @@ class _LandingPageState extends State<LandingPage>
       if (mounted) {
         setState(() {
           _isDownloadingCV = false;
+        });
+      }
+    }
+  }
+
+  Future<void> _downloadEuropassCV() async {
+    if (_isDownloadingEuropassCV) return;
+
+    setState(() {
+      _isDownloadingEuropassCV = true;
+    });
+
+    try {
+      final l10n = AppLocalizations.of(context)!;
+
+      final pdfBytes = await EuropassCVGeneratorService.generateEuropassCV(l10n);
+
+      await Printing.sharePdf(
+        bytes: pdfBytes,
+        filename:
+            'CV_Europass_Arcangelo_Massari_${widget.currentLocale.languageCode}.pdf',
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.cvGeneratedSuccessfully),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error generating Europass CV: $e'),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isDownloadingEuropassCV = false;
         });
       }
     }
@@ -668,6 +714,32 @@ class _LandingPageState extends State<LandingPage>
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
+            heroTag: "download_europass_cv",
+            shape: const CircleBorder(),
+            onPressed: _isDownloadingEuropassCV ? null : _downloadEuropassCV,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            tooltip:
+                _isDownloadingEuropassCV
+                    ? AppLocalizations.of(context)!.downloadingCV
+                    : AppLocalizations.of(context)!.exportCVEuropass,
+            child:
+                _isDownloadingEuropassCV
+                    ? SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    )
+                    : Icon(
+                      Icons.description_rounded,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      size: 32.0,
+                    ),
+          ),
+          const SizedBox(height: 16),
+          FloatingActionButton(
             heroTag: "download_cv",
             shape: const CircleBorder(),
             onPressed: _isDownloadingCV ? null : _downloadCV,
@@ -781,6 +853,51 @@ class _LandingPageState extends State<LandingPage>
                         color: Theme.of(context).colorScheme.onSecondary,
                         size: 24.0,
                       ),
+                    )
+                    : const SizedBox.shrink(),
+          ),
+        ),
+        if (_isFabExpanded) const SizedBox(height: 16),
+        // Download Europass CV FAB
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          height: _isFabExpanded ? 56 : 0,
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 300),
+            opacity: _isFabExpanded ? 1.0 : 0.0,
+            child:
+                _isFabExpanded
+                    ? FloatingActionButton(
+                      heroTag: "download_europass_cv_mobile",
+                      shape: const CircleBorder(),
+                      onPressed:
+                          _isDownloadingEuropassCV
+                              ? null
+                              : () {
+                                _downloadEuropassCV();
+                                _toggleFab();
+                              },
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      tooltip:
+                          _isDownloadingEuropassCV
+                              ? AppLocalizations.of(context)!.downloadingCV
+                              : AppLocalizations.of(context)!.exportCVEuropass,
+                      child:
+                          _isDownloadingEuropassCV
+                              ? SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Theme.of(context).colorScheme.onPrimary,
+                                ),
+                              )
+                              : Icon(
+                                Icons.description_rounded,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                size: 24.0,
+                              ),
                     )
                     : const SizedBox.shrink(),
           ),

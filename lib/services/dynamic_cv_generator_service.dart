@@ -768,7 +768,7 @@ class DynamicCVGeneratorService {
       children: [
         pw.Divider(color: PdfColors.grey400),
         pw.SizedBox(height: 10),
-        pw.Text(l10n.cvGdprConsent, style: const pw.TextStyle(fontSize: 11)),
+        pw.Text(l10n.europassGdprConsent, style: const pw.TextStyle(fontSize: 11)),
         pw.SizedBox(height: 15),
         pw.Row(
           mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,

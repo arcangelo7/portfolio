@@ -212,6 +212,64 @@ class LocalizationHelper {
       case 'skillArch':
         return l10n.skillArch;
 
+      // Europass CV keys
+      case 'europassHeader':
+        return l10n.europassHeader;
+      case 'europassPersonalInfo':
+        return l10n.europassPersonalInfo;
+      case 'europassName':
+        return l10n.europassName;
+      case 'europassWorkExperience':
+        return l10n.europassWorkExperience;
+      case 'europassDates':
+        return l10n.europassDates;
+      case 'europassPosition':
+        return l10n.europassPosition;
+      case 'europassEmployer':
+        return l10n.europassEmployer;
+      case 'europassActivities':
+        return l10n.europassActivities;
+      case 'europassEducation':
+        return l10n.europassEducation;
+      case 'europassQualification':
+        return l10n.europassQualification;
+      case 'europassInstitution':
+        return l10n.europassInstitution;
+      case 'europassSubjects':
+        return l10n.europassSubjects;
+      case 'europassPersonalSkills':
+        return l10n.europassPersonalSkills;
+      case 'europassMotherTongue':
+        return l10n.europassMotherTongue;
+      case 'europassOtherLanguages':
+        return l10n.europassOtherLanguages;
+      case 'europassListening':
+        return l10n.europassListening;
+      case 'europassReading':
+        return l10n.europassReading;
+      case 'europassSpokenInteraction':
+        return l10n.europassSpokenInteraction;
+      case 'europassSpokenProduction':
+        return l10n.europassSpokenProduction;
+      case 'europassWriting':
+        return l10n.europassWriting;
+      case 'europassCefrReference':
+        return l10n.europassCefrReference;
+      case 'europassTechnicalSkills':
+        return l10n.europassTechnicalSkills;
+      case 'europassDrivingLicense':
+        return l10n.europassDrivingLicense;
+      case 'europassLicenseB':
+        return l10n.europassLicenseB;
+      case 'europassGdprConsent':
+        return l10n.europassGdprConsent;
+
+      // Language keys
+      case 'languagesItalian':
+        return l10n.languagesItalian;
+      case 'languagesEnglish':
+        return l10n.languagesEnglish;
+
       // Default case: return the key itself if no localization is found
       default:
         return key;

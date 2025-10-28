@@ -660,10 +660,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get cvBirthDate => '23 agosto 1997';
 
   @override
-  String get cvGdprConsent =>
-      'Autorizzo il trattamento dei miei dati personali presenti nel CV ai sensi dell\'art. 13 d. lgs. 30 giugno 2003 n. 196 - \"Codice in materia di protezione dei dati personali\" e dell\'art. 13 GDPR 679/16 - \"Regolamento europeo sulla protezione dei dati personali\".';
-
-  @override
   String get selectLanguage => 'Seleziona lingua';
 
   @override
@@ -739,4 +735,93 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get faqContactAnswer =>
       'L\'email è solitamente il modo migliore per raggiungermi: [arcangelo.massari@unibo.it](mailto:arcangelo.massari@unibo.it). Puoi trovarmi anche su [LinkedIn](https://www.linkedin.com/in/arcangelo-massari-4a736822b/), [GitHub](https://github.com/arcangelo7), o visitare la mia [pagina istituzionale](https://www.unibo.it/sitoweb/arcangelo.massari) all\'Università di Bologna.';
+
+  @override
+  String get europassHeader => 'Curriculum Vitae\nEuropass';
+
+  @override
+  String get europassPersonalInfo => 'Informazioni personali';
+
+  @override
+  String get europassName => 'Nome e cognome';
+
+  @override
+  String get europassWorkExperience => 'Esperienza professionale';
+
+  @override
+  String get europassDates => 'Date';
+
+  @override
+  String get europassPosition => 'Lavoro o posizione ricoperti';
+
+  @override
+  String get europassEmployer => 'Datore di lavoro';
+
+  @override
+  String get europassActivities => 'Principali attività e responsabilità';
+
+  @override
+  String get europassEducation => 'Istruzione e formazione';
+
+  @override
+  String get europassQualification => 'Titolo della qualifica rilasciata';
+
+  @override
+  String get europassInstitution =>
+      'Nome e tipo d\'organizzazione erogatrice dell\'istruzione e formazione';
+
+  @override
+  String get europassSubjects =>
+      'Principali tematiche/competenze professionali possedute';
+
+  @override
+  String get europassPersonalSkills => 'Competenze personali';
+
+  @override
+  String get europassMotherTongue => 'Madrelingua';
+
+  @override
+  String get europassOtherLanguages => 'Altra(e) lingua(e)';
+
+  @override
+  String get europassListening => 'Ascolto';
+
+  @override
+  String get europassReading => 'Lettura';
+
+  @override
+  String get europassSpokenInteraction => 'Interazione orale';
+
+  @override
+  String get europassSpokenProduction => 'Produzione orale';
+
+  @override
+  String get europassWriting => 'Scritto';
+
+  @override
+  String get europassCefrReference =>
+      'Quadro comune europeo di riferimento per le lingue';
+
+  @override
+  String get europassTechnicalSkills =>
+      'Capacità e competenze tecniche e informatiche';
+
+  @override
+  String get europassDrivingLicense => 'Patente';
+
+  @override
+  String get europassLicenseB => 'B';
+
+  @override
+  String get europassGdprConsent =>
+      'Autorizzo il trattamento dei dati personali contenuti nel mio curriculum vitae in base all\'art. 13 del D.Lgs. 196/2003 e all\'art. 13 del Regolamento UE 2016/679 relativo alla protezione delle persone fisiche con riguardo al trattamento dei dati personali.';
+
+  @override
+  String get languagesItalian => 'Italiano';
+
+  @override
+  String get languagesEnglish => 'Inglese';
+
+  @override
+  String get exportCVEuropass => 'Esporta CV Europass';
 }

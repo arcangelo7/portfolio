@@ -1,0 +1,17 @@
+{
+  "motherTongue": {
+    "name": "languagesItalian",
+    "order": 0
+  },
+  "otherLanguages": [
+    {
+      "name": "languagesEnglish",
+      "listening": "C1",
+      "reading": "C1",
+      "spokenInteraction": "C1",
+      "spokenProduction": "C1",
+      "writing": "C1",
+      "order": 0
+    }
+  ]
+}

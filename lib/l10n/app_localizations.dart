@@ -1312,12 +1312,6 @@ abstract class AppLocalizations {
   /// **'August 23, 1997'**
   String get cvBirthDate;
 
-  /// No description provided for @cvGdprConsent.
-  ///
-  /// In en, this message translates to:
-  /// **'I authorize the processing of my personal data contained in this CV pursuant to art. 13 of Legislative Decree 196/2003 - \"Personal Data Protection Code\" and art. 13 of GDPR 679/16 - \"European Regulation on the protection of personal data\".'**
-  String get cvGdprConsent;
-
   /// No description provided for @selectLanguage.
   ///
   /// In en, this message translates to:
@@ -1461,6 +1455,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email is usually the best way to reach me at [arcangelo.massari@unibo.it](mailto:arcangelo.massari@unibo.it). You can also find me on [LinkedIn](https://www.linkedin.com/in/arcangelo-massari-4a736822b/), [GitHub](https://github.com/arcangelo7), or visit my [institutional page](https://www.unibo.it/sitoweb/arcangelo.massari/en) at the University of Bologna. I\'m responsive and always happy to discuss research or answer questions about my work.'**
   String get faqContactAnswer;
+
+  /// No description provided for @europassHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Curriculum Vitae\nEuropass'**
+  String get europassHeader;
+
+  /// No description provided for @europassPersonalInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal information'**
+  String get europassPersonalInfo;
+
+  /// No description provided for @europassName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name and surname'**
+  String get europassName;
+
+  /// No description provided for @europassWorkExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Work experience'**
+  String get europassWorkExperience;
+
+  /// No description provided for @europassDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates'**
+  String get europassDates;
+
+  /// No description provided for @europassPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Job or position held'**
+  String get europassPosition;
+
+  /// No description provided for @europassEmployer.
+  ///
+  /// In en, this message translates to:
+  /// **'Employer'**
+  String get europassEmployer;
+
+  /// No description provided for @europassActivities.
+  ///
+  /// In en, this message translates to:
+  /// **'Main activities and responsibilities'**
+  String get europassActivities;
+
+  /// No description provided for @europassEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Education and training'**
+  String get europassEducation;
+
+  /// No description provided for @europassQualification.
+  ///
+  /// In en, this message translates to:
+  /// **'Title of qualification awarded'**
+  String get europassQualification;
+
+  /// No description provided for @europassInstitution.
+  ///
+  /// In en, this message translates to:
+  /// **'Name and type of organization providing education and training'**
+  String get europassInstitution;
+
+  /// No description provided for @europassSubjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Main subjects/occupational skills covered'**
+  String get europassSubjects;
+
+  /// No description provided for @europassPersonalSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal skills'**
+  String get europassPersonalSkills;
+
+  /// No description provided for @europassMotherTongue.
+  ///
+  /// In en, this message translates to:
+  /// **'Mother tongue'**
+  String get europassMotherTongue;
+
+  /// No description provided for @europassOtherLanguages.
+  ///
+  /// In en, this message translates to:
+  /// **'Other language(s)'**
+  String get europassOtherLanguages;
+
+  /// No description provided for @europassListening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening'**
+  String get europassListening;
+
+  /// No description provided for @europassReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading'**
+  String get europassReading;
+
+  /// No description provided for @europassSpokenInteraction.
+  ///
+  /// In en, this message translates to:
+  /// **'Spoken interaction'**
+  String get europassSpokenInteraction;
+
+  /// No description provided for @europassSpokenProduction.
+  ///
+  /// In en, this message translates to:
+  /// **'Spoken production'**
+  String get europassSpokenProduction;
+
+  /// No description provided for @europassWriting.
+  ///
+  /// In en, this message translates to:
+  /// **'Writing'**
+  String get europassWriting;
+
+  /// No description provided for @europassCefrReference.
+  ///
+  /// In en, this message translates to:
+  /// **'Common European Framework of Reference for Languages'**
+  String get europassCefrReference;
+
+  /// No description provided for @europassTechnicalSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Technical and IT skills'**
+  String get europassTechnicalSkills;
+
+  /// No description provided for @europassDrivingLicense.
+  ///
+  /// In en, this message translates to:
+  /// **'Driving license'**
+  String get europassDrivingLicense;
+
+  /// No description provided for @europassLicenseB.
+  ///
+  /// In en, this message translates to:
+  /// **'B'**
+  String get europassLicenseB;
+
+  /// No description provided for @europassGdprConsent.
+  ///
+  /// In en, this message translates to:
+  /// **'I authorize the processing of the personal data contained in my curriculum vitae pursuant to art. 13 of Legislative Decree 196/2003 and art. 13 of EU Regulation 2016/679 relating to the protection of natural persons with regard to the processing of personal data.'**
+  String get europassGdprConsent;
+
+  /// No description provided for @languagesItalian.
+  ///
+  /// In en, this message translates to:
+  /// **'Italian'**
+  String get languagesItalian;
+
+  /// No description provided for @languagesEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languagesEnglish;
+
+  /// No description provided for @exportCVEuropass.
+  ///
+  /// In en, this message translates to:
+  /// **'Export CV Europass'**
+  String get exportCVEuropass;
 }
 
 class _AppLocalizationsDelegate
