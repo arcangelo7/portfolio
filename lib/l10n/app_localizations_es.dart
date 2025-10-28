@@ -805,4 +805,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get exportCVEuropass => 'Exportar CV Europass';
+
+  @override
+  String get cvDownloadDialogTitle => 'Descargar mi currículum';
+
+  @override
+  String get cvDownloadMyWay => 'Como me gusta';
+
+  @override
+  String get cvDownloadOfficeWay => 'Como les gusta a las oficinas';
 }

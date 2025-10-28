@@ -800,4 +800,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exportCVEuropass => 'Export CV Europass';
+
+  @override
+  String get cvDownloadDialogTitle => 'Download my CV';
+
+  @override
+  String get cvDownloadMyWay => 'My way';
+
+  @override
+  String get cvDownloadOfficeWay => 'Office-friendly';
 }

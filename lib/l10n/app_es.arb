@@ -252,5 +252,8 @@
   "europassGdprConsent": "Autorizo el tratamiento de los datos personales contenidos en mi currículum vitae de conformidad con el art. 13 del Decreto Legislativo 196/2003 y el art. 13 del Reglamento UE 2016/679 relativo a la protección de las personas físicas en lo que respecta al tratamiento de datos personales.",
   "languagesItalian": "Italiano",
   "languagesEnglish": "Inglés",
-  "exportCVEuropass": "Exportar CV Europass"
+  "exportCVEuropass": "Exportar CV Europass",
+  "cvDownloadDialogTitle": "Descargar mi currículum",
+  "cvDownloadMyWay": "Como me gusta",
+  "cvDownloadOfficeWay": "Como les gusta a las oficinas"
 }

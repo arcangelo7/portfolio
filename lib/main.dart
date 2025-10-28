@@ -524,6 +524,45 @@ class _LandingPageState extends State<LandingPage>
     }
   }
 
+  Future<void> _showCVDownloadDialog() async {
+    final l10n = AppLocalizations.of(context)!;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(l10n.cvDownloadDialogTitle),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text(
+                  l10n.cvDownloadMyWay,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _downloadCV();
+                },
+              ),
+              const SizedBox(height: 16),
+              ListTile(
+                title: Text(
+                  l10n.cvDownloadOfficeWay,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _downloadEuropassCV();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 768;
@@ -714,42 +753,16 @@ class _LandingPageState extends State<LandingPage>
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
-            heroTag: "download_europass_cv",
-            shape: const CircleBorder(),
-            onPressed: _isDownloadingEuropassCV ? null : _downloadEuropassCV,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            tooltip:
-                _isDownloadingEuropassCV
-                    ? AppLocalizations.of(context)!.downloadingCV
-                    : AppLocalizations.of(context)!.exportCVEuropass,
-            child:
-                _isDownloadingEuropassCV
-                    ? SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Theme.of(context).colorScheme.onPrimary,
-                      ),
-                    )
-                    : Icon(
-                      Icons.description_rounded,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      size: 32.0,
-                    ),
-          ),
-          const SizedBox(height: 16),
-          FloatingActionButton(
             heroTag: "download_cv",
             shape: const CircleBorder(),
-            onPressed: _isDownloadingCV ? null : _downloadCV,
+            onPressed: (_isDownloadingCV || _isDownloadingEuropassCV) ? null : _showCVDownloadDialog,
             backgroundColor: Theme.of(context).colorScheme.error,
             tooltip:
-                _isDownloadingCV
+                (_isDownloadingCV || _isDownloadingEuropassCV)
                     ? AppLocalizations.of(context)!.downloadingCV
                     : AppLocalizations.of(context)!.downloadCV,
             child:
-                _isDownloadingCV
+                (_isDownloadingCV || _isDownloadingEuropassCV)
                     ? SizedBox(
                       width: 24,
                       height: 24,
@@ -858,51 +871,6 @@ class _LandingPageState extends State<LandingPage>
           ),
         ),
         if (_isFabExpanded) const SizedBox(height: 16),
-        // Download Europass CV FAB
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-          height: _isFabExpanded ? 56 : 0,
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 300),
-            opacity: _isFabExpanded ? 1.0 : 0.0,
-            child:
-                _isFabExpanded
-                    ? FloatingActionButton(
-                      heroTag: "download_europass_cv_mobile",
-                      shape: const CircleBorder(),
-                      onPressed:
-                          _isDownloadingEuropassCV
-                              ? null
-                              : () {
-                                _downloadEuropassCV();
-                                _toggleFab();
-                              },
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      tooltip:
-                          _isDownloadingEuropassCV
-                              ? AppLocalizations.of(context)!.downloadingCV
-                              : AppLocalizations.of(context)!.exportCVEuropass,
-                      child:
-                          _isDownloadingEuropassCV
-                              ? SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Theme.of(context).colorScheme.onPrimary,
-                                ),
-                              )
-                              : Icon(
-                                Icons.description_rounded,
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                size: 24.0,
-                              ),
-                    )
-                    : const SizedBox.shrink(),
-          ),
-        ),
-        if (_isFabExpanded) const SizedBox(height: 16),
         // Download CV FAB
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),
@@ -917,19 +885,19 @@ class _LandingPageState extends State<LandingPage>
                       heroTag: "download_cv_mobile",
                       shape: const CircleBorder(),
                       onPressed:
-                          _isDownloadingCV
+                          (_isDownloadingCV || _isDownloadingEuropassCV)
                               ? null
                               : () {
-                                _downloadCV();
+                                _showCVDownloadDialog();
                                 _toggleFab();
                               },
                       backgroundColor: Theme.of(context).colorScheme.error,
                       tooltip:
-                          _isDownloadingCV
+                          (_isDownloadingCV || _isDownloadingEuropassCV)
                               ? AppLocalizations.of(context)!.downloadingCV
                               : AppLocalizations.of(context)!.downloadCV,
                       child:
-                          _isDownloadingCV
+                          (_isDownloadingCV || _isDownloadingEuropassCV)
                               ? SizedBox(
                                 width: 20,
                                 height: 20,

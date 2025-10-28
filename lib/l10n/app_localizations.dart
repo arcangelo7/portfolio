@@ -1581,6 +1581,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Export CV Europass'**
   String get exportCVEuropass;
+
+  /// No description provided for @cvDownloadDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download my CV'**
+  String get cvDownloadDialogTitle;
+
+  /// No description provided for @cvDownloadMyWay.
+  ///
+  /// In en, this message translates to:
+  /// **'My way'**
+  String get cvDownloadMyWay;
+
+  /// No description provided for @cvDownloadOfficeWay.
+  ///
+  /// In en, this message translates to:
+  /// **'Office-friendly'**
+  String get cvDownloadOfficeWay;
 }
 
 class _AppLocalizationsDelegate
