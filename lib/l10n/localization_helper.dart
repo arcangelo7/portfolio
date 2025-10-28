@@ -119,14 +119,12 @@ class LocalizationHelper {
       // Skill categories
       case 'skillCategoryProgrammingLanguages':
         return l10n.skillCategoryProgrammingLanguages;
-      case 'skillCategoryMarkupAndTemplating':
-        return l10n.skillCategoryMarkupAndTemplating;
-      case 'skillCategoryStylingAndDesign':
-        return l10n.skillCategoryStylingAndDesign;
-      case 'skillCategoryQueryAndTransform':
-        return l10n.skillCategoryQueryAndTransform;
-      case 'skillCategorySemanticWebAndRDF':
-        return l10n.skillCategorySemanticWebAndRDF;
+      case 'skillCategoryWebTechnologies':
+        return l10n.skillCategoryWebTechnologies;
+      case 'skillCategoryQueryLanguages':
+        return l10n.skillCategoryQueryLanguages;
+      case 'skillCategorySemanticWebTechnologies':
+        return l10n.skillCategorySemanticWebTechnologies;
       case 'skillCategoryFrontendLibraries':
         return l10n.skillCategoryFrontendLibraries;
       case 'skillCategoryBackendFrameworks':
@@ -147,30 +145,18 @@ class LocalizationHelper {
         return l10n.skillTypeScript;
       case 'skillDart':
         return l10n.skillDart;
-      case 'skillHTML':
-        return l10n.skillHTML;
-      case 'skillXML':
-        return l10n.skillXML;
-      case 'skillTEI':
-        return l10n.skillTEI;
+      case 'skillHTML5':
+        return l10n.skillHTML5;
       case 'skillCSS':
         return l10n.skillCSS;
-      case 'skillSASS':
-        return l10n.skillSASS;
       case 'skillBootstrap':
         return l10n.skillBootstrap;
       case 'skillSPARQL':
         return l10n.skillSPARQL;
       case 'skillSQL':
         return l10n.skillSQL;
-      case 'skillXPath':
-        return l10n.skillXPath;
-      case 'skillXQuery':
-        return l10n.skillXQuery;
-      case 'skillXSLT':
-        return l10n.skillXSLT;
-      case 'skillRDF':
-        return l10n.skillRDF;
+      case 'skillRDFSerializations':
+        return l10n.skillRDFSerializations;
       case 'skillSHACL':
         return l10n.skillSHACL;
       case 'skillApacheJenaFuseki':

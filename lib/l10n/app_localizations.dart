@@ -172,29 +172,23 @@ abstract class AppLocalizations {
   /// **'Programming languages'**
   String get skillCategoryProgrammingLanguages;
 
-  /// No description provided for @skillCategoryMarkupAndTemplating.
+  /// No description provided for @skillCategoryWebTechnologies.
   ///
   /// In en, this message translates to:
-  /// **'Markup & templating'**
-  String get skillCategoryMarkupAndTemplating;
+  /// **'Web technologies'**
+  String get skillCategoryWebTechnologies;
 
-  /// No description provided for @skillCategoryStylingAndDesign.
+  /// No description provided for @skillCategoryQueryLanguages.
   ///
   /// In en, this message translates to:
-  /// **'Styling & design'**
-  String get skillCategoryStylingAndDesign;
+  /// **'Query languages'**
+  String get skillCategoryQueryLanguages;
 
-  /// No description provided for @skillCategoryQueryAndTransform.
+  /// No description provided for @skillCategorySemanticWebTechnologies.
   ///
   /// In en, this message translates to:
-  /// **'Query & transform'**
-  String get skillCategoryQueryAndTransform;
-
-  /// No description provided for @skillCategorySemanticWebAndRDF.
-  ///
-  /// In en, this message translates to:
-  /// **'Semantic web & RDF'**
-  String get skillCategorySemanticWebAndRDF;
+  /// **'Semantic Web technologies'**
+  String get skillCategorySemanticWebTechnologies;
 
   /// No description provided for @skillCategoryFrontendLibraries.
   ///
@@ -250,35 +244,17 @@ abstract class AppLocalizations {
   /// **'Dart'**
   String get skillDart;
 
-  /// No description provided for @skillHTML.
+  /// No description provided for @skillHTML5.
   ///
   /// In en, this message translates to:
-  /// **'HTML'**
-  String get skillHTML;
-
-  /// No description provided for @skillXML.
-  ///
-  /// In en, this message translates to:
-  /// **'XML'**
-  String get skillXML;
+  /// **'HTML5'**
+  String get skillHTML5;
 
   /// No description provided for @skillCSS.
   ///
   /// In en, this message translates to:
   /// **'CSS'**
   String get skillCSS;
-
-  /// No description provided for @skillSASS.
-  ///
-  /// In en, this message translates to:
-  /// **'SASS'**
-  String get skillSASS;
-
-  /// No description provided for @skillRDF.
-  ///
-  /// In en, this message translates to:
-  /// **'RDF'**
-  String get skillRDF;
 
   /// No description provided for @skillSPARQL.
   ///
@@ -292,6 +268,18 @@ abstract class AppLocalizations {
   /// **'SQL'**
   String get skillSQL;
 
+  /// No description provided for @skillRDFSerializations.
+  ///
+  /// In en, this message translates to:
+  /// **'RDF and serializations (RDF/XML, JSON-LD, Turtle, N-Triples, N-Quads, TriG)'**
+  String get skillRDFSerializations;
+
+  /// No description provided for @skillSHACL.
+  ///
+  /// In en, this message translates to:
+  /// **'SHACL'**
+  String get skillSHACL;
+
   /// No description provided for @skillFlutter.
   ///
   /// In en, this message translates to:
@@ -303,6 +291,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'React'**
   String get skillReact;
+
+  /// No description provided for @skillBootstrap.
+  ///
+  /// In en, this message translates to:
+  /// **'Bootstrap'**
+  String get skillBootstrap;
 
   /// No description provided for @skillNodeJS.
   ///
@@ -316,6 +310,12 @@ abstract class AppLocalizations {
   /// **'Flask'**
   String get skillFlask;
 
+  /// No description provided for @skillPrisma.
+  ///
+  /// In en, this message translates to:
+  /// **'Prisma ORM'**
+  String get skillPrisma;
+
   /// No description provided for @skillBlazeGraph.
   ///
   /// In en, this message translates to:
@@ -327,48 +327,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'OpenLink Virtuoso'**
   String get skillOpenLinkVirtuoso;
-
-  /// No description provided for @skillPrisma.
-  ///
-  /// In en, this message translates to:
-  /// **'Prisma ORM'**
-  String get skillPrisma;
-
-  /// No description provided for @skillSHACL.
-  ///
-  /// In en, this message translates to:
-  /// **'SHACL'**
-  String get skillSHACL;
-
-  /// No description provided for @skillTEI.
-  ///
-  /// In en, this message translates to:
-  /// **'TEI'**
-  String get skillTEI;
-
-  /// No description provided for @skillBootstrap.
-  ///
-  /// In en, this message translates to:
-  /// **'Bootstrap'**
-  String get skillBootstrap;
-
-  /// No description provided for @skillXPath.
-  ///
-  /// In en, this message translates to:
-  /// **'XPath'**
-  String get skillXPath;
-
-  /// No description provided for @skillXQuery.
-  ///
-  /// In en, this message translates to:
-  /// **'XQuery'**
-  String get skillXQuery;
-
-  /// No description provided for @skillXSLT.
-  ///
-  /// In en, this message translates to:
-  /// **'XSLT'**
-  String get skillXSLT;
 
   /// No description provided for @skillApacheJenaFuseki.
   ///

@@ -49,16 +49,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get skillCategoryProgrammingLanguages => 'Lenguajes de programación';
 
   @override
-  String get skillCategoryMarkupAndTemplating => 'Marcado y templating';
+  String get skillCategoryWebTechnologies => 'Tecnologías web';
 
   @override
-  String get skillCategoryStylingAndDesign => 'Estilo y diseño';
+  String get skillCategoryQueryLanguages => 'Lenguajes de consulta';
 
   @override
-  String get skillCategoryQueryAndTransform => 'Consulta y transformación';
-
-  @override
-  String get skillCategorySemanticWebAndRDF => 'Web semántica y RDF';
+  String get skillCategorySemanticWebTechnologies =>
+      'Tecnologías de la Web Semántica';
 
   @override
   String get skillCategoryFrontendLibraries => 'Librerías frontend';
@@ -88,19 +86,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get skillDart => 'Dart';
 
   @override
-  String get skillHTML => 'HTML';
-
-  @override
-  String get skillXML => 'XML';
+  String get skillHTML5 => 'HTML5';
 
   @override
   String get skillCSS => 'CSS';
-
-  @override
-  String get skillSASS => 'SASS';
-
-  @override
-  String get skillRDF => 'RDF';
 
   @override
   String get skillSPARQL => 'SPARQL';
@@ -109,10 +98,20 @@ class AppLocalizationsEs extends AppLocalizations {
   String get skillSQL => 'SQL';
 
   @override
+  String get skillRDFSerializations =>
+      'RDF y serializaciones (RDF/XML, JSON-LD, Turtle, N-Triples, N-Quads, TriG)';
+
+  @override
+  String get skillSHACL => 'SHACL';
+
+  @override
   String get skillFlutter => 'Flutter';
 
   @override
   String get skillReact => 'React';
+
+  @override
+  String get skillBootstrap => 'Bootstrap';
 
   @override
   String get skillNodeJS => 'Node.js';
@@ -121,31 +120,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get skillFlask => 'Flask';
 
   @override
+  String get skillPrisma => 'Prisma ORM';
+
+  @override
   String get skillBlazeGraph => 'BlazeGraph';
 
   @override
   String get skillOpenLinkVirtuoso => 'OpenLink Virtuoso';
-
-  @override
-  String get skillPrisma => 'Prisma ORM';
-
-  @override
-  String get skillSHACL => 'SHACL';
-
-  @override
-  String get skillTEI => 'TEI';
-
-  @override
-  String get skillBootstrap => 'Bootstrap';
-
-  @override
-  String get skillXPath => 'XPath';
-
-  @override
-  String get skillXQuery => 'XQuery';
-
-  @override
-  String get skillXSLT => 'XSLT';
 
   @override
   String get skillApacheJenaFuseki => 'Apache Jena Fuseki';

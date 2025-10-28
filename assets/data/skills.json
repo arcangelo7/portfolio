@@ -5,57 +5,39 @@
       "nameKey": "skillCategoryProgrammingLanguages",
       "skills": [
         {"id": "python", "nameKey": "skillPython"},
-        {"id": "javascript", "nameKey": "skillJavaScript"},
-        {"id": "typescript", "nameKey": "skillTypeScript"},
         {"id": "dart", "nameKey": "skillDart"}
       ],
       "order": 1
     },
     {
-      "id": "markup_templating",
-      "nameKey": "skillCategoryMarkupAndTemplating",
+      "id": "web_technologies",
+      "nameKey": "skillCategoryWebTechnologies",
       "skills": [
-        {"id": "html", "nameKey": "skillHTML"},
-        {"id": "xml", "nameKey": "skillXML"},
-        {"id": "tei", "nameKey": "skillTEI"}
+        {"id": "html5", "nameKey": "skillHTML5"},
+        {"id": "css", "nameKey": "skillCSS"},
+        {"id": "javascript", "nameKey": "skillJavaScript"},
+        {"id": "typescript", "nameKey": "skillTypeScript"}
       ],
       "order": 2
     },
     {
-      "id": "styling_design",
-      "nameKey": "skillCategoryStylingAndDesign",
+      "id": "query_languages",
+      "nameKey": "skillCategoryQueryLanguages",
       "skills": [
-        {"id": "css", "nameKey": "skillCSS"},
-        {"id": "sass", "nameKey": "skillSASS"},
-        {"id": "bootstrap", "nameKey": "skillBootstrap"}
+        {"id": "sparql", "nameKey": "skillSPARQL"},
+        {"id": "sql", "nameKey": "skillSQL"}
       ],
       "order": 3
     },
     {
-      "id": "query_transform",
-      "nameKey": "skillCategoryQueryAndTransform",
+      "id": "semantic_web_technologies",
+      "nameKey": "skillCategorySemanticWebTechnologies",
       "skills": [
+        {"id": "rdf_serializations", "nameKey": "skillRDFSerializations"},
         {"id": "sparql", "nameKey": "skillSPARQL"},
-        {"id": "sql", "nameKey": "skillSQL"},
-        {"id": "xpath", "nameKey": "skillXPath"},
-        {"id": "xquery", "nameKey": "skillXQuery"},
-        {"id": "xslt", "nameKey": "skillXSLT"}
+        {"id": "shacl", "nameKey": "skillSHACL"}
       ],
       "order": 4
-    },
-    {
-      "id": "semantic_web_rdf",
-      "nameKey": "skillCategorySemanticWebAndRDF",
-      "skills": [
-        {"id": "rdf", "nameKey": "skillRDF"},
-        {"id": "sparql", "nameKey": "skillSPARQL"},
-        {"id": "shacl", "nameKey": "skillSHACL"},
-        {"id": "apache_jena_fuseki", "nameKey": "skillApacheJenaFuseki"},
-        {"id": "graphdb", "nameKey": "skillGraphDB"},
-        {"id": "blazegraph", "nameKey": "skillBlazeGraph"},
-        {"id": "openlink_virtuoso", "nameKey": "skillOpenLinkVirtuoso"}
-      ],
-      "order": 5
     },
     {
       "id": "frontend_libraries",
@@ -63,9 +45,10 @@
       "skills": [
         {"id": "react", "nameKey": "skillReact"},
         {"id": "d3js", "nameKey": "skillD3JS"},
-        {"id": "flutter", "nameKey": "skillFlutter"}
+        {"id": "flutter", "nameKey": "skillFlutter"},
+        {"id": "bootstrap", "nameKey": "skillBootstrap"}
       ],
-      "order": 6
+      "order": 5
     },
     {
       "id": "backend_frameworks",
@@ -75,7 +58,7 @@
         {"id": "flask", "nameKey": "skillFlask"},
         {"id": "prisma", "nameKey": "skillPrisma"}
       ],
-      "order": 7
+      "order": 6
     },
     {
       "id": "databases",
@@ -89,7 +72,7 @@
         {"id": "openlink_virtuoso", "nameKey": "skillOpenLinkVirtuoso"},
         {"id": "graphdb", "nameKey": "skillGraphDB"}
       ],
-      "order": 8
+      "order": 7
     },
     {
       "id": "infrastructure_devops",
@@ -99,7 +82,7 @@
         {"id": "proxmox", "nameKey": "skillProxmox"},
         {"id": "github_actions", "nameKey": "skillGitHubActions"}
       ],
-      "order": 9
+      "order": 8
     },
     {
       "id": "operating_systems",
@@ -109,7 +92,7 @@
         {"id": "debian", "nameKey": "skillDebian"},
         {"id": "fedora", "nameKey": "skillFedora"}
       ],
-      "order": 10
+      "order": 9
     }
   ]
 }
