@@ -1017,8 +1017,7 @@ class _LandingPageState extends State<LandingPage>
                 child: ListTile(
                   leading: CountryFlag.fromCountryCode(
                     'US',
-                    width: 20,
-                    height: 15,
+                    theme: const ImageTheme(width: 20, height: 15),
                   ),
                   title: const Text('English'),
                   onTap: () {
@@ -1033,8 +1032,7 @@ class _LandingPageState extends State<LandingPage>
                 child: ListTile(
                   leading: CountryFlag.fromCountryCode(
                     'IT',
-                    width: 20,
-                    height: 15,
+                    theme: const ImageTheme(width: 20, height: 15),
                   ),
                   title: const Text('Italiano'),
                   onTap: () {
@@ -1049,8 +1047,7 @@ class _LandingPageState extends State<LandingPage>
                 child: ListTile(
                   leading: CountryFlag.fromCountryCode(
                     'ES',
-                    width: 20,
-                    height: 15,
+                    theme: const ImageTheme(width: 20, height: 15),
                   ),
                   title: const Text('Español'),
                   onTap: () {

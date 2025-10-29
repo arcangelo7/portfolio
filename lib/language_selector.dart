@@ -21,7 +21,10 @@ class LanguageSelector extends StatelessWidget {
           value: const Locale('en'),
           child: Row(
             children: [
-              CountryFlag.fromCountryCode('US', width: 16, height: 12),
+              CountryFlag.fromCountryCode(
+                'US',
+                theme: const ImageTheme(width: 16, height: 12),
+              ),
               const SizedBox(width: 8),
               const Text('English'),
             ],
@@ -31,7 +34,10 @@ class LanguageSelector extends StatelessWidget {
           value: const Locale('it'),
           child: Row(
             children: [
-              CountryFlag.fromCountryCode('IT', width: 16, height: 12),
+              CountryFlag.fromCountryCode(
+                'IT',
+                theme: const ImageTheme(width: 16, height: 12),
+              ),
               const SizedBox(width: 8),
               const Text('Italiano'),
             ],
@@ -41,7 +47,10 @@ class LanguageSelector extends StatelessWidget {
           value: const Locale('es'),
           child: Row(
             children: [
-              CountryFlag.fromCountryCode('ES', width: 16, height: 12),
+              CountryFlag.fromCountryCode(
+                'ES',
+                theme: const ImageTheme(width: 16, height: 12),
+              ),
               const SizedBox(width: 8),
               const Text('Español'),
             ],
