@@ -29,9 +29,16 @@ jobs:
       run: |
         # Ottieni il messaggio del commit più recente
         COMMIT_MSG=$(git log --format=%B -n 1 ${{ github.event.workflow_run.head_sha }})
-        echo "commit-message=$COMMIT_MSG" >> $GITHUB_OUTPUT
+
+        # Use heredoc syntax for multiline output to avoid parsing issues
+        {
+          echo "commit-message<<EOF"
+          echo "$COMMIT_MSG"
+          echo "EOF"
+        } >> $GITHUB_OUTPUT
+
         echo "Commit message: $COMMIT_MSG"
-        
+
         # Controlla se contiene [release] tra parentesi quadre
         if [[ "$COMMIT_MSG" =~ \[release\] ]]; then
           echo "Release trigger found in commit message"
