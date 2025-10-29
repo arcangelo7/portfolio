@@ -1,3 +1,23 @@
+# [1.9.0](https://github.com/arcangelo7/portfolio/compare/v1.8.4...v1.9.0) (2025-10-29)
+
+
+### Bug Fixes
+
+* Create responsive BoxFit logic - cover for normal screens, contain for ultra-wide ([b549176](https://github.com/arcangelo7/portfolio/commit/b549176961c2f54200706d43b6812be9fa8e0c45))
+* handle empty DOI strings by falling back to URL field ([c512d82](https://github.com/arcangelo7/portfolio/commit/c512d8239073641688e900935af2ca7f3610aeb3))
+* prevent orphaned titles in PDF by wrapping CV entries ([a55d683](https://github.com/arcangelo7/portfolio/commit/a55d683fa009fd9831cbea8f660fb29aa1f4eaae))
+* **release:** Use heredoc syntax for multiline output to avoid parsing issues ([bf5205f](https://github.com/arcangelo7/portfolio/commit/bf5205f435032d5c4adf5eb2e93bed6d48b1c893))
+* remove inactive OpenAIRE-Nexus project link and address field ([f86bed9](https://github.com/arcangelo7/portfolio/commit/f86bed99d410dbca8b3a35cec559d3aca12dcaee))
+* Revert to contain approach and align image to the right on large screens ([91a7a41](https://github.com/arcangelo7/portfolio/commit/91a7a41239b0425a9719fae4c09c9b030319e504))
+
+
+### Features
+
+* add Arch Linux skill and refactor to dynamic loading ([15605e1](https://github.com/arcangelo7/portfolio/commit/15605e19b47c41b33115f3a718a27fc0a2149e86))
+* add csv,conf,v9 conference entry with multilingual support ([41e893c](https://github.com/arcangelo7/portfolio/commit/41e893c8dfc4d20473dd4a06d5df2f393ca0d897))
+* add Europass CV generator ([77e23c6](https://github.com/arcangelo7/portfolio/commit/77e23c6e9fda7e2179f4a1b9ff530eed35789837))
+* add search bar for publications with real-time filtering [release] ([b965a07](https://github.com/arcangelo7/portfolio/commit/b965a073afc23d51a242115b9bae8eb357bdd278))
+
 ## [1.8.4](https://github.com/arcangelo7/portfolio/compare/v1.8.3...v1.8.4) (2025-08-13)
 
 
