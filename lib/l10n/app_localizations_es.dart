@@ -708,7 +708,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get faqTechnicalAnswer =>
-      'Trabajo principalmente con tecnologías de web semántica como RDF, SPARQL y varios triple stores. Para desarrollo uso Python, JavaScript/TypeScript y Flutter. Tengo experiencia con knowledge graphs y la creación de interfaces que conectan estructuras de datos complejas con aplicaciones user-friendly.';
+      'Trabajo principalmente con tecnologías del Semantic Web como RDF, SPARQL y varios triple stores. Para desarrollo uso Python, JavaScript/TypeScript y Flutter.';
 
   @override
   String get faqContactQuestion => '¿Cuál es la mejor forma de contactarte?';

@@ -1399,7 +1399,7 @@ abstract class AppLocalizations {
   /// No description provided for @faqTechnicalAnswer.
   ///
   /// In en, this message translates to:
-  /// **'I primarily work with semantic web technologies like RDF, SPARQL, and various triple stores. For development, I use Python, JavaScript/TypeScript, and Flutter. I\'m experienced with knowledge graphs and creating interfaces that bridge the gap between complex data structures and user-friendly applications.'**
+  /// **'I primarily work with Semantic Web technologies like RDF, SPARQL, and various triple stores. For development, I use Python, JavaScript/TypeScript, and Flutter.'**
   String get faqTechnicalAnswer;
 
   /// No description provided for @faqContactQuestion.

@@ -46,6 +46,3 @@ app.*.map.json
 
 # Test
 coverage/
-
-CLAUDE.md
-.claude
