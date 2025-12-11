@@ -116,6 +116,7 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
       l10n,
       entry.descriptionKey,
     );
+    final isOngoing = entry.current;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(isMobile ? 20 : 24),
@@ -123,12 +124,18 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
         color: Theme.of(context).colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(isMobile ? 12 : 16),
         border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
-          width: 1,
+          color:
+              isOngoing
+                  ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.3)
+                  : Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
+          width: isOngoing ? 2 : 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+            color: (isOngoing
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.secondary)
+                .withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -141,15 +148,32 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SelectableText(
-                      title,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: 18,
-                      ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (isOngoing)
+                          Container(
+                            margin: const EdgeInsets.only(right: 8, top: 4),
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primary,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        Expanded(
+                          child: SelectableText(
+                            title,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 4),
                     SelectableText(
@@ -169,20 +193,25 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.tertiary.withValues(alpha: 0.1),
+                          color: (isOngoing
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context).colorScheme.tertiary)
+                              .withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.tertiary.withValues(alpha: 0.3),
+                            color: (isOngoing
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Theme.of(context).colorScheme.tertiary)
+                                .withValues(alpha: 0.3),
                           ),
                         ),
                         child: SelectableText(
                           period,
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
+                            color:
+                                isOngoing
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Theme.of(context).colorScheme.onSurface,
                             fontWeight: FontWeight.w600,
                             fontSize: 12,
                           ),
@@ -194,6 +223,16 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
               : Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    if (isOngoing)
+                      Container(
+                        margin: const EdgeInsets.only(right: 8, top: 4),
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primary,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,20 +263,25 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.tertiary.withValues(alpha: 0.1),
+                        color: (isOngoing
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context).colorScheme.tertiary)
+                            .withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.tertiary.withValues(alpha: 0.3),
+                          color: (isOngoing
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context).colorScheme.tertiary)
+                              .withValues(alpha: 0.3),
                         ),
                       ),
                       child: SelectableText(
                         period,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
+                          color:
+                              isOngoing
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context).colorScheme.onSurface,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
