@@ -257,6 +257,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get abstract => 'Abstract';
 
   @override
+  String get description => 'Descripción';
+
+  @override
+  String get loadingDescription => 'Cargando descripción...';
+
+  @override
   String get readMore => 'Leer más';
 
   @override

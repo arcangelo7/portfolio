@@ -11,6 +11,7 @@ import 'expandable_authors_widget.dart';
 import '../utils/publication_utils.dart';
 import 'lazy_image.dart';
 import '../services/opencitations_meta_service.dart';
+import '../services/github_service.dart';
 
 /// Interface for URL launching to enable dependency injection and testing
 abstract class UrlLauncher {
@@ -64,6 +65,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   final Set<String> _expandedCitationAuthors = {};
   final Map<String, List<CitationMetadata>> _citationMetadataCache = {};
   final Map<String, bool> _loadingCitations = {};
+  final Map<String, String?> _gitHubDescriptionCache = {};
+  final Map<String, bool> _loadingGitHubDescriptions = {};
   int? _totalCitationCount;
   bool _isLoadingTotalCitations = false;
   int _currentPage = 0;
@@ -511,7 +514,34 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     );
   }
 
+  Future<void> _loadGitHubDescription(Publication publication) async {
+    final key = publication.key;
+    if (_gitHubDescriptionCache.containsKey(key) ||
+        _loadingGitHubDescriptions[key] == true) {
+      return;
+    }
+
+    setState(() {
+      _loadingGitHubDescriptions[key] = true;
+    });
+
+    final description = await GitHubService.getDescriptionFromUrl(
+      publication.url,
+    );
+
+    if (mounted) {
+      setState(() {
+        _gitHubDescriptionCache[key] = description;
+        _loadingGitHubDescriptions[key] = false;
+      });
+    }
+  }
+
   Widget _buildAbstractSection(Publication publication, AppLocalizations l10n) {
+    if (publication.itemType == 'computerProgram') {
+      return _buildSoftwareDescriptionSection(publication, l10n);
+    }
+
     if (publication.abstractText == null || publication.abstractText!.isEmpty) {
       return const SizedBox.shrink();
     }
@@ -595,6 +625,100 @@ class _PublicationsSectionState extends State<PublicationsSection> {
               ),
             ),
           ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSoftwareDescriptionSection(
+    Publication publication,
+    AppLocalizations l10n,
+  ) {
+    final key = publication.key;
+
+    if (!_gitHubDescriptionCache.containsKey(key) &&
+        _loadingGitHubDescriptions[key] != true) {
+      _loadGitHubDescription(publication);
+    }
+
+    final isLoading = _loadingGitHubDescriptions[key] == true;
+    final description = _gitHubDescriptionCache[key];
+
+    if (isLoading) {
+      return Container(
+        margin: const EdgeInsets.only(top: 16),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerLow,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+          ),
+        ),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              l10n.loadingDescription,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (description == null || description.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Container(
+      margin: const EdgeInsets.only(top: 16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainerLow,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.description_outlined,
+                size: 18,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              const SizedBox(width: 8),
+              SelectableText(
+                l10n.description,
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          SelectableText(
+            description,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurface,
+              height: 1.6,
+            ),
+          ),
         ],
       ),
     );

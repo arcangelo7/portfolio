@@ -78,6 +78,8 @@
   "showLess": "Mostra meno",
   "andMoreAuthors": "e altri {count}...",
   "abstract": "Abstract",
+  "description": "Descrizione",
+  "loadingDescription": "Caricamento descrizione...",
   "readMore": "Leggi di più",
   "citations": "Citazioni",
   "totalCitations": "Citazioni totali: {count}",

@@ -256,6 +256,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get abstract => 'Abstract';
 
   @override
+  String get description => 'Description';
+
+  @override
+  String get loadingDescription => 'Loading description...';
+
+  @override
   String get readMore => 'Read more';
 
   @override

@@ -264,6 +264,12 @@ class LocalizationHelper {
       case 'languagesEnglish':
         return l10n.languagesEnglish;
 
+      // Software description keys
+      case 'description':
+        return l10n.description;
+      case 'loadingDescription':
+        return l10n.loadingDescription;
+
       // Default case: return the key itself if no localization is found
       default:
         return key;

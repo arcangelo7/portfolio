@@ -574,6 +574,18 @@ abstract class AppLocalizations {
   /// **'Abstract'**
   String get abstract;
 
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @loadingDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading description...'**
+  String get loadingDescription;
+
   /// No description provided for @readMore.
   ///
   /// In en, this message translates to:
