@@ -51,6 +51,14 @@ class LocalizationHelper {
         return l10n.kuLeuven;
 
       // Work experience entries
+      case 'researchGrantHolderTitle':
+        return l10n.researchGrantHolderTitle;
+      case 'researchGrantHolderPeriod':
+        return l10n.researchGrantHolderPeriod;
+      case 'researchGrantHolderDescription':
+        return l10n.researchGrantHolderDescription;
+      case 'ficlit':
+        return l10n.ficlit;
       case 'tutorTitle':
         return l10n.tutorTitle;
       case 'tutorPeriod':

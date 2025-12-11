@@ -363,11 +363,25 @@ class AppLocalizationsIt extends AppLocalizations {
   String get universityBologna => 'Alma Mater Studiorum Università di Bologna';
 
   @override
-  String get tutorPeriod => 'Ott 2022 - Attuale';
+  String get tutorPeriod => 'Ott 2022 - Ott 2023, Ott 2025 - Presente';
 
   @override
   String get tutorDescription =>
-      'Sessioni di laboratorio per l\'insegnamento di [Computational Management of Data](https://www.unibo.it/it/studiare/insegnamenti-competenze-trasversali-moocs/insegnamenti/insegnamento/2025/542133) del corso di Laurea Magistrale in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) dell\'Università di Bologna.';
+      'Sessioni di laboratorio per l\'insegnamento di [Computational Management of Data](https://www.unibo.it/it/studiare/insegnamenti-competenze-trasversali-moocs/insegnamenti/insegnamento/2025/542133) del corso di Laurea Magistrale in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) dell\'Università di Bologna. Bandi: [2022-23](https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-di-attivita-di-tutorato-a-a-2022-23-presso-il-dipartimento-di-filologia-classica-e-italianistica/view) | [2025-26](https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-a-titolo-oneroso-di-contratti-di-tutorato-didattico-per-i-corsi-di-studio-del-dipartimento-di-filologia-classica-e-italianistica-per-l-a-a-2025-2026/view)';
+
+  @override
+  String get researchGrantHolderTitle => 'Borsista di ricerca';
+
+  @override
+  String get ficlit =>
+      'Dipartimento di Filologia Classica e Italianistica (Università di Bologna)';
+
+  @override
+  String get researchGrantHolderPeriod => 'Nov 2025 - Presente';
+
+  @override
+  String get researchGrantHolderDescription =>
+      'Estensione dell\'infrastruttura tecnologica di OpenCitations per permettere modifiche off-line e real-time dei dati delle collezioni bibliografiche e citazionali con tracciamento relativo alla provenienza e al cambiamento del dato nel tempo. Finanziato da [OpenCitations-SCOSS](https://scoss.org/). [Bando](https://bandi.unibo.it/ricerca/borse-ricerca?id_bando=4891)';
 
   @override
   String get researchFellowTitle => 'Assegnista di ricerca';
@@ -381,14 +395,14 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get researchFellowDescription =>
-      'Coinvolto nel progetto OpenAIRE-Nexus e ho sviluppato software per integrare le citazioni aperte di [OpenCitations](https://opencitations.net/) nell\'European Open Science Cloud.';
+      'Coinvolto nel progetto OpenAIRE-Nexus e ho sviluppato software per integrare le citazioni aperte di [OpenCitations](https://opencitations.net/) nell\'European Open Science Cloud. [Bando](https://bandi.unibo.it/ricerca/assegni-ricerca?id_bando=58709)';
 
   @override
   String get phdCulturalHeritageTitle =>
       'Dottorato in patrimonio culturale nell\'ecosistema digitale';
 
   @override
-  String get phdCulturalHeritagePeriod => 'Nov 2022 - Attuale';
+  String get phdCulturalHeritagePeriod => 'Nov 2022 - Presente';
 
   @override
   String get phdCulturalHeritageDescription =>
@@ -401,7 +415,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get kuLeuven => 'Katholieke Universiteit Leuven (Belgio)';
 
   @override
-  String get phdEngineeringPeriod => 'Mar 2023 - Attuale';
+  String get phdEngineeringPeriod => 'Mar 2023 - Presente';
 
   @override
   String get phdEngineeringDescription =>
@@ -415,7 +429,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get unaEuropa => 'Una Europa';
 
   @override
-  String get unaEuropaPhdPeriod => 'Nov 2023 - Attuale';
+  String get unaEuropaPhdPeriod => 'Nov 2023 - Presente';
 
   @override
   String get unaEuropaPhdDescription =>

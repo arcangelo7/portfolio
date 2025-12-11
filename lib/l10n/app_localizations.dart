@@ -781,14 +781,38 @@ abstract class AppLocalizations {
   /// No description provided for @tutorPeriod.
   ///
   /// In en, this message translates to:
-  /// **'Oct 2022 - Present'**
+  /// **'Oct 2022 - Oct 2023, Oct 2025 - Present'**
   String get tutorPeriod;
 
   /// No description provided for @tutorDescription.
   ///
   /// In en, this message translates to:
-  /// **'Laboratory sessions for [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) in the Master\'s degree in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) at the University of Bologna.'**
+  /// **'Laboratory sessions for [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) in the Master\'s degree in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) at the University of Bologna. Announcements: [2022-23](https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-di-attivita-di-tutorato-a-a-2022-23-presso-il-dipartimento-di-filologia-classica-e-italianistica/view) | [2025-26](https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-a-titolo-oneroso-di-contratti-di-tutorato-didattico-per-i-corsi-di-studio-del-dipartimento-di-filologia-classica-e-italianistica-per-l-a-a-2025-2026/view)'**
   String get tutorDescription;
+
+  /// No description provided for @researchGrantHolderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Research grant holder'**
+  String get researchGrantHolderTitle;
+
+  /// No description provided for @ficlit.
+  ///
+  /// In en, this message translates to:
+  /// **'Department of Classical Philology and Italian Studies (University of Bologna)'**
+  String get ficlit;
+
+  /// No description provided for @researchGrantHolderPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Nov 2025 - Present'**
+  String get researchGrantHolderPeriod;
+
+  /// No description provided for @researchGrantHolderDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Extension of OpenCitations technological infrastructure to enable off-line and real-time modifications of bibliographic and citation data collections with provenance and change tracking over time. Funded by [OpenCitations-SCOSS](https://scoss.org/). [Announcement](https://bandi.unibo.it/ricerca/borse-ricerca?id_bando=4891)'**
+  String get researchGrantHolderDescription;
 
   /// No description provided for @researchFellowTitle.
   ///
@@ -811,7 +835,7 @@ abstract class AppLocalizations {
   /// No description provided for @researchFellowDescription.
   ///
   /// In en, this message translates to:
-  /// **'Involved in the OpenAIRE-Nexus project and developed software to integrate open citations from [OpenCitations](https://opencitations.net/) into the European Open Science Cloud.'**
+  /// **'Involved in the OpenAIRE-Nexus project and developed software to integrate open citations from [OpenCitations](https://opencitations.net/) into the European Open Science Cloud. [Announcement](https://bandi.unibo.it/ricerca/assegni-ricerca?id_bando=58709)'**
   String get researchFellowDescription;
 
   /// No description provided for @phdCulturalHeritageTitle.

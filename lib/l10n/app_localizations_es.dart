@@ -363,11 +363,25 @@ class AppLocalizationsEs extends AppLocalizations {
   String get universityBologna => 'Alma Mater Studiorum Universidad de Bolonia';
 
   @override
-  String get tutorPeriod => 'Oct 2022 - Presente';
+  String get tutorPeriod => 'Oct 2022 - Oct 2023, Oct 2025 - Presente';
 
   @override
   String get tutorDescription =>
-      'Sesiones de laboratorio para la enseñanza de [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) en la Maestría en [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) de la Universidad de Bolonia.';
+      'Sesiones de laboratorio para la enseñanza de [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) en la Maestría en [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) de la Universidad de Bolonia. Convocatorias: [2022-23](https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-di-attivita-di-tutorato-a-a-2022-23-presso-il-dipartimento-di-filologia-classica-e-italianistica/view) | [2025-26](https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-a-titolo-oneroso-di-contratti-di-tutorato-didattico-per-i-corsi-di-studio-del-dipartimento-di-filologia-classica-e-italianistica-per-l-a-a-2025-2026/view)';
+
+  @override
+  String get researchGrantHolderTitle => 'Becario de investigación';
+
+  @override
+  String get ficlit =>
+      'Departamento de Filología Clásica y Estudios Italianos (Universidad de Bolonia)';
+
+  @override
+  String get researchGrantHolderPeriod => 'Nov 2025 - Presente';
+
+  @override
+  String get researchGrantHolderDescription =>
+      'Extensión de la infraestructura tecnológica de OpenCitations para permitir modificaciones off-line y en tiempo real de los datos de las colecciones bibliográficas y de citas con seguimiento de la procedencia y los cambios a lo largo del tiempo. Financiado por [OpenCitations-SCOSS](https://scoss.org/). [Convocatoria](https://bandi.unibo.it/ricerca/borse-ricerca?id_bando=4891)';
 
   @override
   String get researchFellowTitle => 'Investigador asociado';
@@ -381,7 +395,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get researchFellowDescription =>
-      'Involucrado en el proyecto OpenAIRE-Nexus y desarrollé software para integrar citas abiertas de [OpenCitations](https://opencitations.net/) en el European Open Science Cloud.';
+      'Involucrado en el proyecto OpenAIRE-Nexus y desarrollé software para integrar citas abiertas de [OpenCitations](https://opencitations.net/) en el European Open Science Cloud. [Convocatoria](https://bandi.unibo.it/ricerca/assegni-ricerca?id_bando=58709)';
 
   @override
   String get phdCulturalHeritageTitle =>
