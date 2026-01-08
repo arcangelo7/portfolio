@@ -1195,8 +1195,20 @@ abstract class AppLocalizations {
   /// No description provided for @astroGodsVisitWebsite.
   ///
   /// In en, this message translates to:
-  /// **'Visit AstroGods'**
+  /// **'Web'**
   String get astroGodsVisitWebsite;
+
+  /// No description provided for @astroGodsGetOnFlathub.
+  ///
+  /// In en, this message translates to:
+  /// **'Flathub'**
+  String get astroGodsGetOnFlathub;
+
+  /// No description provided for @astroGodsGetOnSnap.
+  ///
+  /// In en, this message translates to:
+  /// **'Snap Store'**
+  String get astroGodsGetOnSnap;
 
   /// No description provided for @astroGodsCollaborate.
   ///

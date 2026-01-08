@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
@@ -286,21 +287,58 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
     AppLocalizations l10n,
     bool isMobile,
   ) {
+    final buttonStyle = ElevatedButton.styleFrom(
+      backgroundColor: PortfolioTheme.astroGold,
+      foregroundColor: PortfolioTheme.astroMysticBlue,
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 16 : 20,
+        vertical: isMobile ? 12 : 16,
+      ),
+      elevation: 8,
+      shadowColor: PortfolioTheme.astroGold.withValues(alpha: 0.5),
+    );
+
+    const iconSize = 20.0;
+    final iconColor = ColorFilter.mode(
+      PortfolioTheme.astroMysticBlue,
+      BlendMode.srcIn,
+    );
+
     return Center(
-      child: ElevatedButton.icon(
-        onPressed: () => _launchUrl('https://astrogods.it/'),
-        icon: const Icon(Icons.language),
-        label: Text(l10n.astroGodsVisitWebsite),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: PortfolioTheme.astroGold,
-          foregroundColor: PortfolioTheme.astroMysticBlue,
-          padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 20 : 24,
-            vertical: isMobile ? 12 : 16,
+      child: Wrap(
+        spacing: 12,
+        runSpacing: 12,
+        alignment: WrapAlignment.center,
+        children: [
+          ElevatedButton.icon(
+            onPressed: () => _launchUrl('https://astrogods.it/'),
+            icon: const Icon(Icons.language),
+            label: Text(l10n.astroGodsVisitWebsite),
+            style: buttonStyle,
           ),
-          elevation: 8,
-          shadowColor: PortfolioTheme.astroGold.withValues(alpha: 0.5),
-        ),
+          ElevatedButton.icon(
+            onPressed: () => _launchUrl('https://flathub.org/apps/it.astrogods.AstroGods'),
+            icon: SvgPicture.asset(
+              'assets/icons/flathub.svg',
+              width: iconSize,
+              height: iconSize,
+              colorFilter: iconColor,
+            ),
+            label: Text(l10n.astroGodsGetOnFlathub),
+            style: buttonStyle,
+          ),
+          ElevatedButton.icon(
+            onPressed: () => _launchUrl('https://snapcraft.io/astrogods'),
+            icon: SvgPicture.asset(
+              'assets/icons/snapcraft.svg',
+              width: iconSize,
+              height: iconSize,
+              colorFilter: iconColor,
+            ),
+            label: Text(l10n.astroGodsGetOnSnap),
+            style: buttonStyle,
+          ),
+        ],
       ),
     );
   }

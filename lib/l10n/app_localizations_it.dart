@@ -602,7 +602,13 @@ class AppLocalizationsIt extends AppLocalizations {
       'Analisi preliminari accessibili a profani ed esperti come punti di partenza per riflessioni personali.';
 
   @override
-  String get astroGodsVisitWebsite => 'Visita AstroGods';
+  String get astroGodsVisitWebsite => 'Web';
+
+  @override
+  String get astroGodsGetOnFlathub => 'Flathub';
+
+  @override
+  String get astroGodsGetOnSnap => 'Snap Store';
 
   @override
   String get astroGodsCollaborate => 'Collabora con me';
