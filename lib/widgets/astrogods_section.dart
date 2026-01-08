@@ -13,7 +13,6 @@ class AstroGodsSection extends StatefulWidget {
 }
 
 class _AstroGodsSectionState extends State<AstroGodsSection> {
-
   Future<void> _launchUrl(String url) async {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
@@ -21,7 +20,11 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
     }
   }
 
-  Widget _buildStrikethroughText(String text, TextStyle? style, TextAlign textAlign) {
+  Widget _buildStrikethroughText(
+    String text,
+    TextStyle? style,
+    TextAlign textAlign,
+  ) {
     final strikethroughRegex = RegExp(r'~~([^~]+)~~');
     final match = strikethroughRegex.firstMatch(text);
 
@@ -88,65 +91,70 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
           ),
           child: Column(
             children: [
-            // Titolo principale
-            Semantics(
-              header: true,
-              child: _buildStrikethroughText(
-                l10n.astroGodsTitle,
-                Theme.of(context).textTheme.displaySmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: PortfolioTheme.astroGold,
-                  fontSize: isMobile ? 28 : null,
-                  shadows: [
-                    Shadow(
-                      offset: const Offset(2, 2),
-                      blurRadius: 4,
-                      color: Colors.black.withValues(alpha: 0.5),
-                    ),
-                  ],
+              SvgPicture.asset(
+                'assets/images/astrogods_logo.svg',
+                height: isMobile ? 100 : 150,
+              ),
+              const SizedBox(height: 24),
+              // Titolo principale
+              Semantics(
+                header: true,
+                child: _buildStrikethroughText(
+                  l10n.astroGodsTitle,
+                  Theme.of(context).textTheme.displaySmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: PortfolioTheme.astroGold,
+                    fontSize: isMobile ? 28 : null,
+                    shadows: [
+                      Shadow(
+                        offset: const Offset(2, 2),
+                        blurRadius: 4,
+                        color: Colors.black.withValues(alpha: 0.5),
+                      ),
+                    ],
+                  ),
+                  TextAlign.center,
                 ),
-                TextAlign.center,
               ),
-            ),
 
-            const SizedBox(height: 24),
+              const SizedBox(height: 24),
 
-            // Sottotitolo ironico
-            SelectableText(
-              l10n.astroGodsSubtitle,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: PortfolioTheme.astroLightGray,
-                fontStyle: FontStyle.italic,
-                fontSize: isMobile ? 18 : null,
-              ),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 32),
-
-            // Introduzione
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              child: SelectableText(
-                l10n.astroGodsIntroduction,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              // Sottotitolo ironico
+              SelectableText(
+                l10n.astroGodsSubtitle,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: PortfolioTheme.astroLightGray,
-                  fontSize: isMobile ? 16 : 18,
-                  height: 1.6,
+                  fontStyle: FontStyle.italic,
+                  fontSize: isMobile ? 18 : null,
                 ),
-                textAlign: TextAlign.justify,
+                textAlign: TextAlign.center,
               ),
-            ),
 
-            const SizedBox(height: 32),
+              const SizedBox(height: 32),
 
-            // Carte di spiegazione
-            _buildExplanationCards(context, l10n, isMobile),
+              // Introduzione
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                child: SelectableText(
+                  l10n.astroGodsIntroduction,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: PortfolioTheme.astroLightGray,
+                    fontSize: isMobile ? 16 : 18,
+                    height: 1.6,
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
+              ),
 
-            const SizedBox(height: 32),
+              const SizedBox(height: 32),
 
-            // Pulsante di azione
-            _buildActionButtons(context, l10n, isMobile),
+              // Carte di spiegazione
+              _buildExplanationCards(context, l10n, isMobile),
+
+              const SizedBox(height: 32),
+
+              // Pulsante di azione
+              _buildActionButtons(context, l10n, isMobile),
             ],
           ),
         ),
@@ -317,7 +325,10 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
             style: buttonStyle,
           ),
           ElevatedButton.icon(
-            onPressed: () => _launchUrl('https://flathub.org/apps/it.astrogods.AstroGods'),
+            onPressed:
+                () => _launchUrl(
+                  'https://flathub.org/apps/it.astrogods.AstroGods',
+                ),
             icon: SvgPicture.asset(
               'assets/icons/flathub.svg',
               width: iconSize,

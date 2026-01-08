@@ -552,12 +552,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get astroGodsTitle => '~~Contra~~ Más allá de la Ciencia';
 
   @override
-  String get astroGodsSubtitle =>
-      'Astrología egipcia e inteligencia artificial';
+  String get astroGodsSubtitle => 'Astrología egipcia';
 
   @override
   String get astroGodsIntroduction =>
-      'En mi tiempo libre trabajo en AstroGods, un proyecto que aplica inteligencia artificial a las interpretaciones astrológicas.';
+      'AstroGods nació de una amistad. Jacopo tiene una capacidad inexplicable de leer a las personas basándose solo en su fecha de nacimiento, con una precisión que siempre me ha impresionado. Quise llevar siempre conmigo esa perspectiva, y así intenté extraer el algoritmo detrás de su método. Los cálculos astronómicos usan las Swiss Ephemeris, las interpretaciones están todas escritas a mano por nosotros y la IA las ensambla en un texto coherente y cohesivo.';
 
   @override
   String get astroGodsCard1Title => 'Un problema complejo';
@@ -588,11 +587,11 @@ class AppLocalizationsEs extends AppLocalizations {
       'AstroGods utiliza la tradición astrológica egipcia y el sistema de casas de área igual (sistema Vehlow) como fundamento metodológico.';
 
   @override
-  String get astroGodsCard5Title => 'Inteligencia artificial';
+  String get astroGodsCard5Title => 'Una pequeña ayuda';
 
   @override
   String get astroGodsCard5Description =>
-      'La IA une todas las piezas del puzzle astrológico para encontrar conexiones ocultas y generar interpretaciones completas.';
+      'La IA ensambla los fragmentos escritos a mano en un texto coherente y cohesivo.';
 
   @override
   String get astroGodsCard6Title => 'Nosce te ipsum';

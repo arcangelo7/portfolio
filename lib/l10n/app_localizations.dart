@@ -1111,13 +1111,13 @@ abstract class AppLocalizations {
   /// No description provided for @astroGodsSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Egyptian Astrology and artificial intelligence'**
+  /// **'Egyptian Astrology'**
   String get astroGodsSubtitle;
 
   /// No description provided for @astroGodsIntroduction.
   ///
   /// In en, this message translates to:
-  /// **'In my free time I work on AstroGods, a project that applies artificial intelligence to astrological interpretations.'**
+  /// **'AstroGods was born from a friendship. Jacopo has an inexplicable ability to read people based only on their birth date, with a precision that has always struck me. I wanted to always carry that perspective with me, and so I tried to extract the algorithm behind his method. The astronomical calculations use the Swiss Ephemeris, the interpretations are all handwritten by us, and AI assembles them into coherent text.'**
   String get astroGodsIntroduction;
 
   /// No description provided for @astroGodsCard1Title.
@@ -1171,13 +1171,13 @@ abstract class AppLocalizations {
   /// No description provided for @astroGodsCard5Title.
   ///
   /// In en, this message translates to:
-  /// **'Artificial intelligence'**
+  /// **'A little help'**
   String get astroGodsCard5Title;
 
   /// No description provided for @astroGodsCard5Description.
   ///
   /// In en, this message translates to:
-  /// **'AI connects all pieces of the astrological puzzle to find hidden connections and generate complete interpretations.'**
+  /// **'AI assembles handwritten fragments into coherent text.'**
   String get astroGodsCard5Description;
 
   /// No description provided for @astroGodsCard6Title.
