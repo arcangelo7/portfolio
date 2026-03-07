@@ -1603,7 +1603,7 @@ abstract class AppLocalizations {
   /// No description provided for @acesDescription.
   ///
   /// In en, this message translates to:
-  /// **'50-hour course on Academic English at the Centro Linguistico di Ateneo, covering academic writing, speaking, listening and reading.'**
+  /// **'50-hour course on Academic English at the University Language Centre, covering academic writing, speaking, listening and reading.'**
   String get acesDescription;
 
   /// No description provided for @viewCertificate.

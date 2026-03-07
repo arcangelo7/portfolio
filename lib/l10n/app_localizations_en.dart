@@ -810,7 +810,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get acesDescription =>
-      '50-hour course on Academic English at the Centro Linguistico di Ateneo, covering academic writing, speaking, listening and reading.';
+      '50-hour course on Academic English at the University Language Centre, covering academic writing, speaking, listening and reading.';
 
   @override
   String get viewCertificate => 'View certificate';

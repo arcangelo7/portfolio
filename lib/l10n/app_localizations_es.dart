@@ -806,7 +806,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get claUnibo =>
-      'Centro Linguistico di Ateneo (Universidad de Bolonia)';
+      'Centro Lingüístico de Ateneo (Universidad de Bolonia)';
 
   @override
   String get acesTitle => 'Academic English Skills (AcES)';
@@ -816,7 +816,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get acesDescription =>
-      'Curso de 50 horas de inglés académico en el Centro Linguistico di Ateneo, con escritura, expresión oral, comprensión auditiva y lectura académica.';
+      'Curso de 50 horas de inglés académico en el Centro Lingüístico de Ateneo, con escritura, expresión oral, comprensión auditiva y lectura académica.';
 
   @override
   String get viewCertificate => 'Ver certificado';
