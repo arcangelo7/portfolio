@@ -307,7 +307,36 @@ class _EducationSectionState extends State<EducationSection> {
               fontSize: isMobile ? 13 : null,
             ),
           ),
+          if (entry.certificateAsset != null) ...[
+            const SizedBox(height: 12),
+            _buildCertificateButton(context, l10n, entry.certificateAsset!),
+          ],
         ],
+      ),
+    );
+  }
+
+  Widget _buildCertificateButton(
+    BuildContext context,
+    AppLocalizations l10n,
+    String assetPath,
+  ) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: TextButton.icon(
+        onPressed: () => _launchUrl(Uri.base.resolve(assetPath).toString()),
+        icon: Icon(
+          Icons.description_outlined,
+          size: 18,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        label: Text(
+          l10n.viewCertificate,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }

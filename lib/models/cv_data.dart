@@ -7,6 +7,7 @@ class EducationEntry {
   final String titleKey;
   final String periodKey;
   final String descriptionKey;
+  final String? certificateAsset;
   final int order;
 
   EducationEntry({
@@ -18,6 +19,7 @@ class EducationEntry {
     required this.titleKey,
     required this.periodKey,
     required this.descriptionKey,
+    this.certificateAsset,
     required this.order,
   });
 
@@ -31,6 +33,7 @@ class EducationEntry {
       titleKey: json['titleKey'],
       periodKey: json['periodKey'],
       descriptionKey: json['descriptionKey'],
+      certificateAsset: json['certificateAsset'],
       order: json['order'] ?? 0,
     );
   }
@@ -45,6 +48,7 @@ class EducationEntry {
       'titleKey': titleKey,
       'periodKey': periodKey,
       'descriptionKey': descriptionKey,
+      'certificateAsset': certificateAsset,
       'order': order,
     };
   }

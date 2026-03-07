@@ -1612,6 +1612,36 @@ abstract class AppLocalizations {
   /// **'I authorize the processing of the personal data contained in my curriculum vitae pursuant to art. 13 of Legislative Decree 196/2003 and art. 13 of EU Regulation 2016/679 relating to the protection of natural persons with regard to the processing of personal data.'**
   String get europassGdprConsent;
 
+  /// No description provided for @claUnibo.
+  ///
+  /// In en, this message translates to:
+  /// **'University Language Centre (University of Bologna)'**
+  String get claUnibo;
+
+  /// No description provided for @acesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Academic English Skills (AcES)'**
+  String get acesTitle;
+
+  /// No description provided for @acesPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Oct 2025 - Jan 2026'**
+  String get acesPeriod;
+
+  /// No description provided for @acesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'50-hour course on Academic English at the Centro Linguistico di Ateneo, covering academic writing, speaking, listening and reading.'**
+  String get acesDescription;
+
+  /// No description provided for @viewCertificate.
+  ///
+  /// In en, this message translates to:
+  /// **'View certificate'**
+  String get viewCertificate;
+
   /// No description provided for @languagesItalian.
   ///
   /// In en, this message translates to:

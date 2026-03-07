@@ -818,6 +818,22 @@ class AppLocalizationsEn extends AppLocalizations {
       'I authorize the processing of the personal data contained in my curriculum vitae pursuant to art. 13 of Legislative Decree 196/2003 and art. 13 of EU Regulation 2016/679 relating to the protection of natural persons with regard to the processing of personal data.';
 
   @override
+  String get claUnibo => 'University Language Centre (University of Bologna)';
+
+  @override
+  String get acesTitle => 'Academic English Skills (AcES)';
+
+  @override
+  String get acesPeriod => 'Oct 2025 - Jan 2026';
+
+  @override
+  String get acesDescription =>
+      '50-hour course on Academic English at the Centro Linguistico di Ateneo, covering academic writing, speaking, listening and reading.';
+
+  @override
+  String get viewCertificate => 'View certificate';
+
+  @override
   String get languagesItalian => 'Italian';
 
   @override

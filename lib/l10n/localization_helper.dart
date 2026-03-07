@@ -44,11 +44,20 @@ class LocalizationHelper {
       case 'bachelorsDescription':
         return l10n.bachelorsDescription;
 
+      case 'acesTitle':
+        return l10n.acesTitle;
+      case 'acesPeriod':
+        return l10n.acesPeriod;
+      case 'acesDescription':
+        return l10n.acesDescription;
+
       // Institutions
       case 'universityBologna':
         return l10n.universityBologna;
       case 'kuLeuven':
         return l10n.kuLeuven;
+      case 'claUnibo':
+        return l10n.claUnibo;
 
       // Work experience entries
       case 'researchGrantHolderTitle':

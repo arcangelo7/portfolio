@@ -1,5 +1,17 @@
 [
   {
+    "id": "aces_academic_english",
+    "startDate": "2025-10",
+    "endDate": "2026-01",
+    "current": false,
+    "institutionKey": "claUnibo",
+    "titleKey": "acesTitle",
+    "periodKey": "acesPeriod",
+    "descriptionKey": "acesDescription",
+    "certificateAsset": "assets/certificates/aces_academic_english_2025_2026.pdf",
+    "order": 1
+  },
+  {
     "id": "phd_cultural_heritage",
     "startDate": "2022-11",
     "endDate": null,
@@ -8,7 +20,7 @@
     "titleKey": "phdCulturalHeritageTitle",
     "periodKey": "phdCulturalHeritagePeriod",
     "descriptionKey": "phdCulturalHeritageDescription",
-    "order": 1
+    "order": 2
   },
   {
     "id": "phd_engineering",
@@ -19,7 +31,7 @@
     "titleKey": "phdEngineeringTitle",
     "periodKey": "phdEngineeringPeriod",
     "descriptionKey": "phdEngineeringDescription",
-    "order": 2
+    "order": 3
   },
   {
     "id": "masters_degree",
@@ -30,7 +42,7 @@
     "titleKey": "mastersDegreeTitle",
     "periodKey": "mastersPeriod",
     "descriptionKey": "mastersDescription",
-    "order": 3
+    "order": 4
   },
   {
     "id": "bachelors_degree",
@@ -41,6 +53,6 @@
     "titleKey": "bachelorsDegreeTitle",
     "periodKey": "bachelorsPeriod",
     "descriptionKey": "bachelorsDescription",
-    "order": 4
+    "order": 5
   }
 ]

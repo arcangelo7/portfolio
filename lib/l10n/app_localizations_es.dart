@@ -823,6 +823,23 @@ class AppLocalizationsEs extends AppLocalizations {
       'Autorizo el tratamiento de los datos personales contenidos en mi currículum vitae de conformidad con el art. 13 del Decreto Legislativo 196/2003 y el art. 13 del Reglamento UE 2016/679 relativo a la protección de las personas físicas en lo que respecta al tratamiento de datos personales.';
 
   @override
+  String get claUnibo =>
+      'Centro Linguistico di Ateneo (Universidad de Bolonia)';
+
+  @override
+  String get acesTitle => 'Academic English Skills (AcES)';
+
+  @override
+  String get acesPeriod => 'Oct 2025 - Ene 2026';
+
+  @override
+  String get acesDescription =>
+      'Curso de 50 horas de inglés académico en el Centro Linguistico di Ateneo, con escritura, expresión oral, comprensión auditiva y lectura académica.';
+
+  @override
+  String get viewCertificate => 'Ver certificado';
+
+  @override
   String get languagesItalian => 'Italiano';
 
   @override
