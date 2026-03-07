@@ -88,7 +88,8 @@ jobs:
       run: |
         mkdir -p build/web/test/coverage
         cp -r coverage/html/* build/web/test/coverage/
-        echo "Combined app and coverage for deployment"
+        # Mirror certificates to assets/certificates/ (Flutter builds them into assets/assets/certificates/)
+        cp -r build/web/assets/assets/certificates build/web/assets/certificates
     
     - name: Setup Pages
       uses: actions/configure-pages@v5

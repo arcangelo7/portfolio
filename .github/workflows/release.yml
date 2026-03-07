@@ -189,6 +189,8 @@ jobs:
     - name: Build web release
       run: |
         flutter build web --release --base-href /portfolio/
+        # Mirror certificates to assets/certificates/ (Flutter builds them into assets/assets/certificates/)
+        cp -r build/web/assets/assets/certificates build/web/assets/certificates
         cd build/web
         zip -r ../../portfolio-web-${{ steps.version.outputs.version }}.zip .
         cd ../..
