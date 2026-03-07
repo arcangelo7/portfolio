@@ -154,18 +154,6 @@ abstract class AppLocalizations {
   /// **'Find me online'**
   String get getInTouch;
 
-  /// No description provided for @copyright.
-  ///
-  /// In en, this message translates to:
-  /// **'© 2025 Arcangelo Massari. All rights are illusion.'**
-  String get copyright;
-
-  /// No description provided for @laoTzuQuote.
-  ///
-  /// In en, this message translates to:
-  /// **'\'Those who have virtue (Dharma) attend to their duty,\nthose who have no virtue attend to their presumed rights.\'\n— Lao Tzu, Tao Te Ching'**
-  String get laoTzuQuote;
-
   /// No description provided for @skillCategoryProgrammingLanguages.
   ///
   /// In en, this message translates to:

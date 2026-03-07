@@ -38,14 +38,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get getInTouch => 'Dove trovarmi';
 
   @override
-  String get copyright =>
-      '© 2025 Arcangelo Massari. Tutti i diritti sono illusione.';
-
-  @override
-  String get laoTzuQuote =>
-      '\'Quelli che hanno virtù (Dharma) si occupano del loro dovere,\nquelli che ne sono privi si occupano dei loro presunti diritti.\'\n— Lao Tzu, Tao Te Ching';
-
-  @override
   String get skillCategoryProgrammingLanguages => 'Linguaggi di programmazione';
 
   @override
