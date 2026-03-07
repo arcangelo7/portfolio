@@ -1210,6 +1210,18 @@ abstract class AppLocalizations {
   /// **'Snap Store'**
   String get astroGodsGetOnSnap;
 
+  /// No description provided for @astroGodsGetOnGooglePlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Play'**
+  String get astroGodsGetOnGooglePlay;
+
+  /// No description provided for @astroGodsGetOnMicrosoftStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Microsoft Store'**
+  String get astroGodsGetOnMicrosoftStore;
+
   /// No description provided for @astroGodsCollaborate.
   ///
   /// In en, this message translates to:

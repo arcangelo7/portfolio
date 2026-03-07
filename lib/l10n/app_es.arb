@@ -191,6 +191,8 @@
   "astroGodsVisitWebsite": "Web",
   "astroGodsGetOnFlathub": "Flathub",
   "astroGodsGetOnSnap": "Snap Store",
+  "astroGodsGetOnGooglePlay": "Google Play",
+  "astroGodsGetOnMicrosoftStore": "Microsoft Store",
   "astroGodsCollaborate": "Colaborar conmigo",
   "astroGodsIframeHidden": "Iframe oculto durante el cambio de idioma",
   "astroGodsVisitForFullExperience": "Visita el sitio para la experiencia completa",

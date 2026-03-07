@@ -349,6 +349,34 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
             label: Text(l10n.astroGodsGetOnSnap),
             style: buttonStyle,
           ),
+          ElevatedButton.icon(
+            onPressed:
+                () => _launchUrl(
+                  'https://apps.microsoft.com/detail/9mttm2qdm94v',
+                ),
+            icon: SvgPicture.asset(
+              'assets/icons/microsoft_store.svg',
+              width: iconSize,
+              height: iconSize,
+              colorFilter: iconColor,
+            ),
+            label: Text(l10n.astroGodsGetOnMicrosoftStore),
+            style: buttonStyle,
+          ),
+          ElevatedButton.icon(
+            onPressed:
+                () => _launchUrl(
+                  'https://play.google.com/store/apps/details?id=com.astrogods.app',
+                ),
+            icon: SvgPicture.asset(
+              'assets/icons/google_play.svg',
+              width: iconSize,
+              height: iconSize,
+              colorFilter: iconColor,
+            ),
+            label: Text(l10n.astroGodsGetOnGooglePlay),
+            style: buttonStyle,
+          ),
         ],
       ),
     );

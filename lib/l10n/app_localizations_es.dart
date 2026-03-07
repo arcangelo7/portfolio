@@ -610,6 +610,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get astroGodsGetOnSnap => 'Snap Store';
 
   @override
+  String get astroGodsGetOnGooglePlay => 'Google Play';
+
+  @override
+  String get astroGodsGetOnMicrosoftStore => 'Microsoft Store';
+
+  @override
   String get astroGodsCollaborate => 'Colaborar conmigo';
 
   @override
