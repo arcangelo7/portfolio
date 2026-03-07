@@ -153,7 +153,6 @@ class SEOService {
     addHeading('h2', 'h2-skills', l10n.skills);
     addHeading('h2', 'h2-publications', l10n.publications);
     addHeading('h2', 'h2-astrogods', l10n.astroGodsTitle);
-    addHeading('h2', 'h2-faq', l10n.frequentlyAskedQuestions);
     addHeading('h2', 'h2-contact', l10n.getInTouch);
   }
 
@@ -334,49 +333,6 @@ class SEOService {
     return [
       {'@type': 'Person', 'name': 'Arcangelo Massari'},
     ];
-  }
-
-  static void addFAQStructuredData(
-    List<Map<String, String>> faqs,
-    AppLocalizations l10n,
-  ) {
-    if (!kIsWeb) return;
-    if (!kReleaseMode) return;
-
-    // Remove existing FAQ structured data
-    final existingScripts = document.querySelectorAll(
-      'script[type="application/ld+json"][data-type="faq"]',
-    );
-    for (var i = 0; i < existingScripts.length; i++) {
-      final element = existingScripts.item(i);
-      if (element != null) {
-        element.parentNode?.removeChild(element);
-      }
-    }
-
-    if (faqs.isEmpty) return;
-
-    // Create structured data for FAQ
-    final faqData = {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      'mainEntity':
-          faqs
-              .map(
-                (faq) => {
-                  '@type': 'Question',
-                  'name': faq['question'],
-                  'acceptedAnswer': {'@type': 'Answer', 'text': faq['answer']},
-                },
-              )
-              .toList(),
-    };
-
-    final script = HTMLScriptElement();
-    script.type = 'application/ld+json';
-    script.setAttribute('data-type', 'faq');
-    script.text = _jsonEncode(faqData);
-    document.head?.appendChild(script);
   }
 
   static String _jsonEncode(Map<String, dynamic> data) {

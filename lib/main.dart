@@ -15,7 +15,6 @@ import 'widgets/astrogods_section.dart';
 import 'widgets/theme_toggle_widget.dart';
 import 'widgets/orbiting_planets_widget.dart';
 import 'widgets/table_of_contents_widget.dart';
-import 'widgets/faq_section.dart';
 import 'widgets/skills_section.dart';
 import 'widgets/lazy_image.dart';
 import 'widgets/starry_background.dart';
@@ -340,7 +339,6 @@ class _LandingPageState extends State<LandingPage>
   final GlobalKey _skillsKey = GlobalKey();
   final GlobalKey _publicationsKey = GlobalKey();
   final GlobalKey _astrogodsKey = GlobalKey();
-  final GlobalKey _faqKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
 
   bool _isFabExpanded = false;
@@ -425,7 +423,6 @@ class _LandingPageState extends State<LandingPage>
     'skills': _skillsKey,
     'publications': _publicationsKey,
     'astrogods': _astrogodsKey,
-    'faq': _faqKey,
     'contact': _contactKey,
   };
 
@@ -587,7 +584,6 @@ class _LandingPageState extends State<LandingPage>
                       SkillsSection(key: _skillsKey),
                       PublicationsSection(key: _publicationsKey),
                       AstroGodsSection(key: _astrogodsKey),
-                      FAQSection(sectionKey: _faqKey),
                       _buildContactSection(context, key: _contactKey),
                     ],
                   ),

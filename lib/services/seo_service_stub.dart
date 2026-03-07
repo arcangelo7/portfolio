@@ -10,11 +10,4 @@ class SEOService {
   ) {
     // No-op implementation for non-web platforms
   }
-
-  static void addFAQStructuredData(
-    List<Map<String, String>> faqs,
-    AppLocalizations l10n,
-  ) {
-    // No-op implementation for non-web platforms
-  }
 }

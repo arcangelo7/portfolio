@@ -128,11 +128,6 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
         'title': l10n.astroGodsTitle,
         'icon': Icons.travel_explore,
       },
-      {
-        'key': 'faq',
-        'title': l10n.frequentlyAskedQuestions,
-        'icon': Icons.help_outline,
-      },
       {'key': 'contact', 'title': l10n.getInTouch, 'icon': Icons.email},
     ];
   }
