@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2025 Arcangelo Massari <info@arcangelomassari.com>
+
+SPDX-License-Identifier: ISC
+-->
+
 # Play Store Assets
 
 This directory contains assets specifically for Google Play Store publishing.

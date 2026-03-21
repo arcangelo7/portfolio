@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2025 Arcangelo Massari <info@arcangelomassari.com>
+ *
+ * SPDX-License-Identifier: ISC
+ */
+
 #ifndef RUNNER_FLUTTER_WINDOW_H_
 #define RUNNER_FLUTTER_WINDOW_H_
 

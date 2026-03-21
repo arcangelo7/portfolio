@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025 Arcangelo Massari <info@arcangelomassari.com>
+#
+# SPDX-License-Identifier: ISC
+
 cmake_minimum_required(VERSION 3.14)
 project(runner LANGUAGES CXX)
 

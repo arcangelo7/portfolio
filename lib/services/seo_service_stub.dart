@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025-2026 Arcangelo Massari <info@arcangelomassari.com>
+//
+// SPDX-License-Identifier: ISC
+
 import '../l10n/app_localizations.dart';
 
 class SEOService {

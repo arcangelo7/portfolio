@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Arcangelo Massari <info@arcangelomassari.com>
+//
+// SPDX-License-Identifier: ISC
+
 class OpenCitationsConfig {
   static const String indexBaseUrl = 'https://api.opencitations.net/index/v2';
 

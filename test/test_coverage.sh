@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# SPDX-FileCopyrightText: 2025 Arcangelo Massari <info@arcangelomassari.com>
+#
+# SPDX-License-Identifier: ISC
+
 set -e
 
 echo "Running Flutter tests with coverage..."

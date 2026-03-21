@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+SPDX-FileCopyrightText: 2025 Arcangelo Massari <info@arcangelomassari.com>
+
+SPDX-License-Identifier: ISC
+-->
+
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <!-- Canonical homepage with language alternatives -->

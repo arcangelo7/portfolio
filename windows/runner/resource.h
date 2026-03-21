@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2025 Arcangelo Massari <info@arcangelomassari.com>
+ *
+ * SPDX-License-Identifier: ISC
+ */
+
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by Runner.rc

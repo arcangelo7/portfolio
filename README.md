@@ -1,7 +1,14 @@
+<!--
+SPDX-FileCopyrightText: 2024-2025 Arcangelo Massari <info@arcangelomassari.com>
+
+SPDX-License-Identifier: ISC
+-->
+
 # Portfolio
 
 [![Test](https://github.com/arcangelo7/portfolio/actions/workflows/test.yml/badge.svg)](https://github.com/arcangelo7/portfolio/actions/workflows/test.yml)
 [![Coverage](test/coverage-badge.svg)](https://arcangelo7.github.io/portfolio/test/coverage/)
+[![REUSE](https://github.com/arcangelo7/portfolio/actions/workflows/reuse.yml/badge.svg)](https://github.com/arcangelo7/portfolio/actions/workflows/reuse.yml)
 [![Built with Flutter](https://img.shields.io/badge/Built%20with-Flutter-02569B?style=flat&logo=flutter)](https://flutter.dev)
 
 [![Web](https://img.shields.io/badge/Platform-Web-4285F4?style=flat&logo=google-chrome&logoColor=white)](https://arcangelo7.github.io/portfolio/)

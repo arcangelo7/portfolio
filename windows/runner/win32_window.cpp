@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Arcangelo Massari <info@arcangelomassari.com>
+//
+// SPDX-License-Identifier: ISC
+
 #include "win32_window.h"
 
 #include <dwmapi.h>

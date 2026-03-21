@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2025 Arcangelo Massari <info@arcangelomassari.com>
+ *
+ * SPDX-License-Identifier: ISC
+ */
+
 // Application-level settings for the Runner target.
 //
 // This may be replaced with something auto-generated from metadata (e.g., pubspec.yaml) in the

@@ -1,0 +1,73 @@
+version = 1
+
+[[annotations]]
+path = [
+    ".releaserc.json",
+    ".vscode/settings.json",
+    "ModelloCvBorseRicerca.pdf",
+    "android/app/src/main/res/mipmap-*/**",
+    "android/playstore/play_store_512.png",
+    "assets/data/conferences.json",
+    "assets/data/languages.json",
+    "assets/data/personal_info.json",
+    "assets/data/skills.json",
+    "assets/data/work_experience.json",
+    "assets/fonts/**",
+    "assets/images/dark_mode.png",
+    "assets/images/dark_mode_button.png",
+    "assets/images/foto_cv.png",
+    "assets/images/icon-512.png",
+    "assets/images/icon_oc_positive.png",
+    "assets/images/light_mode.png",
+    "assets/images/preview.png",
+    "assets/images/profile_cutout.webp",
+    "ios/Flutter/AppFrameworkInfo.plist",
+    "ios/Runner.xcodeproj/**",
+    "ios/Runner.xcworkspace/**",
+    "ios/Runner/Assets.xcassets/**",
+    "ios/Runner/Base.lproj/**",
+    "ios/Runner/Info.plist",
+    "macos/Runner.xcodeproj/**",
+    "macos/Runner.xcworkspace/**",
+    "macos/Runner/Assets.xcassets/**",
+    "macos/Runner/Base.lproj/MainMenu.xib",
+    "macos/Runner/DebugProfile.entitlements",
+    "macos/Runner/Info.plist",
+    "macos/Runner/Release.entitlements",
+    "web/favicon.ico",
+    "web/icons/**",
+    "web/manifest.json",
+    "web/robots.txt",
+    "windows/runner/resources/app_icon.ico",
+    "windows/runner/runner.exe.manifest",
+]
+SPDX-FileCopyrightText = "2025 Arcangelo Massari <info@arcangelomassari.com>"
+SPDX-License-Identifier = "ISC"
+
+[[annotations]]
+path = [
+    "lib/l10n/app_localizations.dart",
+    "lib/l10n/app_localizations_en.dart",
+    "lib/l10n/app_localizations_es.dart",
+    "lib/l10n/app_localizations_it.dart",
+]
+SPDX-FileCopyrightText = "2025-2026 Arcangelo Massari <info@arcangelomassari.com>"
+SPDX-License-Identifier = "ISC"
+
+[[annotations]]
+path = [
+    "assets/data/education.json",
+    "pubspec.lock",
+    "test/coverage-badge.svg",
+]
+SPDX-FileCopyrightText = "2025-2026 Arcangelo Massari <info@arcangelomassari.com>"
+SPDX-License-Identifier = "ISC"
+
+[[annotations]]
+path = [
+    "assets/certificates/**",
+    "assets/icons/**",
+    "assets/images/astrogods_logo.svg",
+]
+SPDX-FileCopyrightText = "2026 Arcangelo Massari <info@arcangelomassari.com>"
+SPDX-License-Identifier = "ISC"

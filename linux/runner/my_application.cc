@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Arcangelo Massari <info@arcangelomassari.com>
+//
+// SPDX-License-Identifier: ISC
+
 #include "my_application.h"
 
 #include <flutter_linux/flutter_linux.h>

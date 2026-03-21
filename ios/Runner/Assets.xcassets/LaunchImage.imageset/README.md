@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2025 Arcangelo Massari <info@arcangelomassari.com>
+
+SPDX-License-Identifier: ISC
+-->
+
 # Launch Screen Assets
 
 You can customize the launch screen with your own desired assets by replacing the image files in this directory.

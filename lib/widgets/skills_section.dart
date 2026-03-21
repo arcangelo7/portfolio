@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Arcangelo Massari <info@arcangelomassari.com>
+//
+// SPDX-License-Identifier: ISC
+
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../l10n/localization_helper.dart';

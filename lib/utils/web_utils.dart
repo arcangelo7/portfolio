@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2025 Arcangelo Massari <info@arcangelomassari.com>
+//
+// SPDX-License-Identifier: ISC
+
 import 'web_utils_stub.dart'
     if (dart.library.js_interop) 'web_utils_web.dart' as platform;
 
