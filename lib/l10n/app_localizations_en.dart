@@ -365,7 +365,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tutorDescription =>
-      'Laboratory sessions for [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) in the Master\'s degree in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) at the University of Bologna. Announcements: [2022-23](https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-di-attivita-di-tutorato-a-a-2022-23-presso-il-dipartimento-di-filologia-classica-e-italianistica/view) | [2025-26](https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-a-titolo-oneroso-di-contratti-di-tutorato-didattico-per-i-corsi-di-studio-del-dipartimento-di-filologia-classica-e-italianistica-per-l-a-a-2025-2026/view)';
+      'Laboratory sessions for [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) in the Master\'s degree in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) at the University of Bologna.';
 
   @override
   String get researchGrantHolderTitle => 'Research grant holder';
@@ -379,7 +379,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get researchGrantHolderDescription =>
-      'Extension of OpenCitations technological infrastructure to enable off-line and real-time modifications of bibliographic and citation data collections with provenance and change tracking over time. Funded by [OpenCitations-SCOSS](https://scoss.org/). [Announcement](https://bandi.unibo.it/ricerca/borse-ricerca?id_bando=4891)';
+      'Extension of OpenCitations technological infrastructure to enable off-line and real-time modifications of bibliographic and citation data collections with provenance and change tracking over time. Funded by [OpenCitations-SCOSS](https://scoss.org/).';
 
   @override
   String get researchFellowTitle => 'Research fellow';
@@ -393,7 +393,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get researchFellowDescription =>
-      'Involved in the OpenAIRE-Nexus project and developed software to integrate open citations from [OpenCitations](https://opencitations.net/) into the European Open Science Cloud. [Announcement](https://bandi.unibo.it/ricerca/assegni-ricerca?id_bando=58709)';
+      'Involved in the OpenAIRE-Nexus project and developed software to integrate open citations from [OpenCitations](https://opencitations.net/) into the European Open Science Cloud.';
 
   @override
   String get phdCulturalHeritageTitle =>
@@ -806,7 +806,47 @@ class AppLocalizationsEn extends AppLocalizations {
       '50-hour course on Academic English at the University Language Centre, covering academic writing, speaking, listening and reading.';
 
   @override
-  String get viewCertificate => 'View certificate';
+  String get diplomaSupplement => 'Diploma Supplement';
+
+  @override
+  String get completedExams => 'Completed exams';
+
+  @override
+  String get announcement => 'Announcement';
+
+  @override
+  String get languages => 'Languages';
+
+  @override
+  String get languagesMotherTongue => 'Mother tongue';
+
+  @override
+  String get languagesOtherLanguages => 'Other languages';
+
+  @override
+  String get languagesListening => 'Listening';
+
+  @override
+  String get languagesReading => 'Reading';
+
+  @override
+  String get languagesSpokenInteraction => 'Spoken interaction';
+
+  @override
+  String get languagesSpokenProduction => 'Spoken production';
+
+  @override
+  String get languagesWriting => 'Writing';
+
+  @override
+  String get languagesCefrReference =>
+      'Levels: Common European Framework of Reference for Languages';
+
+  @override
+  String get verifyCredential => 'Verify credential';
+
+  @override
+  String get cvLanguagesTitle => 'LANGUAGES';
 
   @override
   String get languagesItalian => 'Italian';

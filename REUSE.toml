@@ -35,7 +35,7 @@ SPDX-License-Identifier = "ISC"
 
 [[annotations]]
 path = [
-    "assets/certificates/**",
+    "assets/documents/**",
     "assets/icons/**",
     "assets/images/astrogods_logo.svg",
 ]

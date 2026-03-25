@@ -272,6 +272,34 @@ class LocalizationHelper {
         return l10n.europassGdprConsent;
 
       // Language keys
+      case 'languages':
+        return l10n.languages;
+      case 'languagesMotherTongue':
+        return l10n.languagesMotherTongue;
+      case 'languagesOtherLanguages':
+        return l10n.languagesOtherLanguages;
+      case 'languagesListening':
+        return l10n.languagesListening;
+      case 'languagesReading':
+        return l10n.languagesReading;
+      case 'languagesSpokenInteraction':
+        return l10n.languagesSpokenInteraction;
+      case 'languagesSpokenProduction':
+        return l10n.languagesSpokenProduction;
+      case 'languagesWriting':
+        return l10n.languagesWriting;
+      case 'languagesCefrReference':
+        return l10n.languagesCefrReference;
+      case 'verifyCredential':
+        return l10n.verifyCredential;
+      case 'diplomaSupplement':
+        return l10n.diplomaSupplement;
+      case 'completedExams':
+        return l10n.completedExams;
+      case 'announcement':
+        return l10n.announcement;
+      case 'cvLanguagesTitle':
+        return l10n.cvLanguagesTitle;
       case 'languagesItalian':
         return l10n.languagesItalian;
       case 'languagesEnglish':

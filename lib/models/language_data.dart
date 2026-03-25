@@ -45,6 +45,7 @@ class OtherLanguage {
   final String spokenInteraction;
   final String spokenProduction;
   final String writing;
+  final String? badgeUrl;
   final int order;
 
   OtherLanguage({
@@ -54,6 +55,7 @@ class OtherLanguage {
     required this.spokenInteraction,
     required this.spokenProduction,
     required this.writing,
+    this.badgeUrl,
     required this.order,
   });
 
@@ -65,6 +67,7 @@ class OtherLanguage {
       spokenInteraction: json['spokenInteraction'],
       spokenProduction: json['spokenProduction'],
       writing: json['writing'],
+      badgeUrl: json['badgeUrl'],
       order: json['order'],
     );
   }

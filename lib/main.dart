@@ -20,6 +20,7 @@ import 'widgets/theme_toggle_widget.dart';
 import 'widgets/orbiting_planets_widget.dart';
 import 'widgets/table_of_contents_widget.dart';
 import 'widgets/skills_section.dart';
+import 'widgets/languages_section.dart';
 import 'widgets/lazy_image.dart';
 import 'widgets/starry_background.dart';
 import 'services/dynamic_cv_generator_service.dart';
@@ -341,6 +342,7 @@ class _LandingPageState extends State<LandingPage>
   final GlobalKey _educationKey = GlobalKey();
   final GlobalKey _conferencesKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
+  final GlobalKey _languagesKey = GlobalKey();
   final GlobalKey _publicationsKey = GlobalKey();
   final GlobalKey _astrogodsKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
@@ -425,6 +427,7 @@ class _LandingPageState extends State<LandingPage>
     'education': _educationKey,
     'conferences': _conferencesKey,
     'skills': _skillsKey,
+    'languages': _languagesKey,
     'publications': _publicationsKey,
     'astrogods': _astrogodsKey,
     'contact': _contactKey,
@@ -586,6 +589,7 @@ class _LandingPageState extends State<LandingPage>
                       EducationSection(key: _educationKey),
                       ConferencesSeminarsSection(key: _conferencesKey),
                       SkillsSection(key: _skillsKey),
+                      LanguagesSection(key: _languagesKey),
                       PublicationsSection(key: _publicationsKey),
                       AstroGodsSection(key: _astrogodsKey),
                       _buildContactSection(context, key: _contactKey),

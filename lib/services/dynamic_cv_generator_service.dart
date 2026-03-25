@@ -9,6 +9,7 @@ import '../l10n/app_localizations.dart';
 import '../l10n/localization_helper.dart';
 import '../models/publication.dart';
 import '../models/cv_data.dart';
+import '../models/language_data.dart';
 import '../services/zotero_service.dart';
 import '../services/cv_data_service.dart';
 import '../main.dart';
@@ -118,6 +119,7 @@ class DynamicCVGeneratorService {
     }
 
     final cvData = await CVDataService.loadCVData();
+    final languageData = await CVDataService.getLanguages();
 
     final headerColor = _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue);
     final sectionColor = _convertFlutterToPdfColor(
@@ -176,6 +178,10 @@ class DynamicCVGeneratorService {
             _buildSectionHeader(l10n.cvSkillsTitle, sectionColor, lightBlue),
             pw.SizedBox(height: 10),
             ..._buildSkillsAsList(l10n, cvData.skills),
+            pw.SizedBox(height: 20),
+            _buildSectionHeader(l10n.cvLanguagesTitle, sectionColor, lightBlue),
+            pw.SizedBox(height: 10),
+            ..._buildLanguagesAsList(l10n, languageData),
             // Add footer here if no publications
             if (publications.isEmpty) ...[
               pw.SizedBox(height: 20),
@@ -373,6 +379,7 @@ class DynamicCVGeneratorService {
               LocalizationHelper.getLocalizedText(l10n, entry.titleKey),
               LocalizationHelper.getLocalizedText(l10n, entry.institutionKey),
               LocalizationHelper.getLocalizedText(l10n, entry.descriptionKey),
+              _buildAttachmentLinks(l10n, entry.attachments),
             ),
           ),
         )
@@ -384,6 +391,7 @@ class DynamicCVGeneratorService {
     String title,
     String institution,
     String description,
+    List<pw.Widget> attachmentLinks,
   ) {
     return pw.Wrap(
       children: [
@@ -411,6 +419,7 @@ class DynamicCVGeneratorService {
               pw.SizedBox(height: 4),
               _buildRichText(description, fontSize: 12),
             ],
+            ...attachmentLinks,
           ],
         ),
       ],
@@ -431,6 +440,7 @@ class DynamicCVGeneratorService {
               LocalizationHelper.getLocalizedText(l10n, entry.titleKey),
               LocalizationHelper.getLocalizedText(l10n, entry.companyKey),
               LocalizationHelper.getLocalizedText(l10n, entry.descriptionKey),
+              _buildAttachmentLinks(l10n, entry.attachments),
             ),
           ),
         )
@@ -442,6 +452,7 @@ class DynamicCVGeneratorService {
     String title,
     String company,
     String description,
+    List<pw.Widget> attachmentLinks,
   ) {
     return pw.Wrap(
       children: [
@@ -467,6 +478,7 @@ class DynamicCVGeneratorService {
             pw.Text(company, style: const pw.TextStyle(fontSize: 12)),
             pw.SizedBox(height: 4),
             _buildRichText(description, fontSize: 12),
+            ...attachmentLinks,
           ],
         ),
       ],
@@ -611,6 +623,154 @@ class DynamicCVGeneratorService {
     }
 
     return skillWidgets;
+  }
+
+  static List<pw.Widget> _buildAttachmentLinks(
+    AppLocalizations l10n,
+    List<EntryAttachment> attachments,
+  ) {
+    final urlAttachments = attachments.where((a) => a.url != null).toList();
+    if (urlAttachments.isEmpty) return [];
+
+    return [
+      pw.SizedBox(height: 3),
+      pw.Wrap(
+        spacing: 12,
+        runSpacing: 4,
+        children: urlAttachments.map((a) {
+          final text = _getAttachmentLabel(l10n, a);
+          return pw.RichText(
+            text: pw.TextSpan(
+              text: text,
+              style: pw.TextStyle(
+                fontSize: 11,
+                color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
+                decoration: pw.TextDecoration.underline,
+              ),
+              annotation: pw.AnnotationUrl(a.url!),
+            ),
+          );
+        }).toList(),
+      ),
+    ];
+  }
+
+  static String _getAttachmentLabel(AppLocalizations l10n, EntryAttachment a) {
+    final base = switch (a.type) {
+      'credential' => LocalizationHelper.getLocalizedText(l10n, 'verifyCredential'),
+      'diplomaSupplement' => LocalizationHelper.getLocalizedText(l10n, 'diplomaSupplement'),
+      'completedExams' => LocalizationHelper.getLocalizedText(l10n, 'completedExams'),
+      'announcement' => LocalizationHelper.getLocalizedText(l10n, 'announcement'),
+      _ => a.type,
+    };
+    return a.label != null ? '$base ${a.label}' : base;
+  }
+
+  static List<pw.Widget> _buildLanguagesAsList(
+    AppLocalizations l10n,
+    LanguageData languageData,
+  ) {
+    final List<pw.Widget> widgets = [];
+
+    // Mother tongue
+    widgets.add(
+      pw.Container(
+        margin: const pw.EdgeInsets.only(bottom: 8),
+        child: pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Text(
+              LocalizationHelper.getLocalizedText(l10n, 'languagesMotherTongue'),
+              style: pw.TextStyle(
+                fontSize: 12,
+                fontWeight: pw.FontWeight.bold,
+                color: _convertFlutterToPdfColor(
+                  PortfolioTheme.wine.withValues(alpha: 0.7),
+                ),
+              ),
+            ),
+            pw.SizedBox(height: 3),
+            pw.Text(
+              LocalizationHelper.getLocalizedText(
+                l10n,
+                languageData.motherTongue.name,
+              ),
+              style: const pw.TextStyle(fontSize: 12),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    // Other languages
+    for (final lang in languageData.otherLanguages) {
+      final langName = LocalizationHelper.getLocalizedText(l10n, lang.name);
+      final skills = [
+        '${LocalizationHelper.getLocalizedText(l10n, 'languagesListening')}: ${lang.listening}',
+        '${LocalizationHelper.getLocalizedText(l10n, 'languagesReading')}: ${lang.reading}',
+        '${LocalizationHelper.getLocalizedText(l10n, 'languagesSpokenInteraction')}: ${lang.spokenInteraction}',
+        '${LocalizationHelper.getLocalizedText(l10n, 'languagesSpokenProduction')}: ${lang.spokenProduction}',
+        '${LocalizationHelper.getLocalizedText(l10n, 'languagesWriting')}: ${lang.writing}',
+      ];
+
+      final children = <pw.Widget>[
+        pw.Text(
+          langName,
+          style: pw.TextStyle(
+            fontSize: 12,
+            fontWeight: pw.FontWeight.bold,
+            color: _convertFlutterToPdfColor(
+              PortfolioTheme.wine.withValues(alpha: 0.7),
+            ),
+          ),
+        ),
+        pw.SizedBox(height: 3),
+        pw.Text(
+          skills.join(' | '),
+          style: const pw.TextStyle(fontSize: 11),
+        ),
+      ];
+
+      if (lang.badgeUrl != null) {
+        children.add(pw.SizedBox(height: 3));
+        children.add(
+          pw.RichText(
+            text: pw.TextSpan(
+              text: LocalizationHelper.getLocalizedText(
+                l10n,
+                'verifyCredential',
+              ),
+              style: pw.TextStyle(
+                fontSize: 11,
+                color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
+                decoration: pw.TextDecoration.underline,
+              ),
+              annotation: pw.AnnotationUrl(lang.badgeUrl!),
+            ),
+          ),
+        );
+      }
+
+      widgets.add(
+        pw.Container(
+          margin: const pw.EdgeInsets.only(bottom: 8),
+          child: pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: children,
+          ),
+        ),
+      );
+    }
+
+    // CEFR reference
+    widgets.add(
+      pw.Text(
+        LocalizationHelper.getLocalizedText(l10n, 'languagesCefrReference'),
+        style: pw.TextStyle(fontSize: 9, fontStyle: pw.FontStyle.italic),
+      ),
+    );
+
+    return widgets;
   }
 
   static pw.Widget _buildPublicationTitle(Publication pub) {

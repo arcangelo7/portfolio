@@ -2,6 +2,38 @@
 //
 // SPDX-License-Identifier: ISC
 
+class EntryAttachment {
+  final String type;
+  final String? url;
+  final String? asset;
+  final String? label;
+
+  EntryAttachment({
+    required this.type,
+    this.url,
+    this.asset,
+    this.label,
+  });
+
+  factory EntryAttachment.fromJson(Map<String, dynamic> json) {
+    return EntryAttachment(
+      type: json['type'],
+      url: json['url'],
+      asset: json['asset'],
+      label: json['label'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'type': type,
+      if (url != null) 'url': url,
+      if (asset != null) 'asset': asset,
+      if (label != null) 'label': label,
+    };
+  }
+}
+
 class EducationEntry {
   final String id;
   final String? startDate;
@@ -11,7 +43,7 @@ class EducationEntry {
   final String titleKey;
   final String periodKey;
   final String descriptionKey;
-  final String? certificateAsset;
+  final List<EntryAttachment> attachments;
   final int order;
 
   EducationEntry({
@@ -23,7 +55,7 @@ class EducationEntry {
     required this.titleKey,
     required this.periodKey,
     required this.descriptionKey,
-    this.certificateAsset,
+    this.attachments = const [],
     required this.order,
   });
 
@@ -37,7 +69,10 @@ class EducationEntry {
       titleKey: json['titleKey'],
       periodKey: json['periodKey'],
       descriptionKey: json['descriptionKey'],
-      certificateAsset: json['certificateAsset'],
+      attachments: (json['attachments'] as List?)
+              ?.map((a) => EntryAttachment.fromJson(a))
+              .toList() ??
+          [],
       order: json['order'] ?? 0,
     );
   }
@@ -52,7 +87,8 @@ class EducationEntry {
       'titleKey': titleKey,
       'periodKey': periodKey,
       'descriptionKey': descriptionKey,
-      'certificateAsset': certificateAsset,
+      if (attachments.isNotEmpty)
+        'attachments': attachments.map((a) => a.toJson()).toList(),
       'order': order,
     };
   }
@@ -67,6 +103,7 @@ class WorkExperienceEntry {
   final String titleKey;
   final String periodKey;
   final String descriptionKey;
+  final List<EntryAttachment> attachments;
   final int order;
 
   WorkExperienceEntry({
@@ -78,6 +115,7 @@ class WorkExperienceEntry {
     required this.titleKey,
     required this.periodKey,
     required this.descriptionKey,
+    this.attachments = const [],
     required this.order,
   });
 
@@ -91,6 +129,10 @@ class WorkExperienceEntry {
       titleKey: json['titleKey'],
       periodKey: json['periodKey'],
       descriptionKey: json['descriptionKey'],
+      attachments: (json['attachments'] as List?)
+              ?.map((a) => EntryAttachment.fromJson(a))
+              .toList() ??
+          [],
       order: json['order'] ?? 0,
     );
   }
@@ -105,6 +147,8 @@ class WorkExperienceEntry {
       'titleKey': titleKey,
       'periodKey': periodKey,
       'descriptionKey': descriptionKey,
+      if (attachments.isNotEmpty)
+        'attachments': attachments.map((a) => a.toJson()).toList(),
       'order': order,
     };
   }

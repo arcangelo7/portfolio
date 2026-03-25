@@ -122,6 +122,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
         'icon': Icons.mic,
       },
       {'key': 'skills', 'title': l10n.skills, 'icon': Icons.build},
+      {'key': 'languages', 'title': l10n.languages, 'icon': Icons.language},
       {
         'key': 'publications',
         'title': l10n.publications,

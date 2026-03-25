@@ -319,6 +319,7 @@ class EuropassCVGeneratorService {
                 ),
               ],
             ),
+            ..._buildEuropassAttachmentLinks(l10n, entry.attachments),
             pw.SizedBox(height: 12),
           ],
         )),
@@ -425,11 +426,58 @@ class EuropassCVGeneratorService {
                 ),
               ],
             ),
+            ..._buildEuropassAttachmentLinks(l10n, entry.attachments),
             pw.SizedBox(height: 12),
           ],
         )),
       ],
     );
+  }
+
+  static List<pw.Widget> _buildEuropassAttachmentLinks(
+    AppLocalizations l10n,
+    List<EntryAttachment> attachments,
+  ) {
+    final urlAttachments = attachments.where((a) => a.url != null).toList();
+    if (urlAttachments.isEmpty) return [];
+
+    return [
+      pw.SizedBox(height: 4),
+      pw.Row(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: [
+          pw.Expanded(flex: 1, child: pw.SizedBox()),
+          pw.Expanded(
+            flex: 2,
+            child: pw.Wrap(
+              spacing: 12,
+              runSpacing: 4,
+              children: urlAttachments.map((a) {
+                final base = switch (a.type) {
+                  'credential' => LocalizationHelper.getLocalizedText(l10n, 'verifyCredential'),
+                  'diplomaSupplement' => LocalizationHelper.getLocalizedText(l10n, 'diplomaSupplement'),
+                  'completedExams' => LocalizationHelper.getLocalizedText(l10n, 'completedExams'),
+                  'announcement' => LocalizationHelper.getLocalizedText(l10n, 'announcement'),
+                  _ => a.type,
+                };
+                final text = a.label != null ? '$base ${a.label}' : base;
+                return pw.RichText(
+                  text: pw.TextSpan(
+                    text: text,
+                    style: pw.TextStyle(
+                      fontSize: 11,
+                      color: PdfColors.blue700,
+                      decoration: pw.TextDecoration.underline,
+                    ),
+                    annotation: pw.AnnotationUrl(a.url!),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        ],
+      ),
+    ];
   }
 
   /// Builds Personal Skills section including languages, social, organizational,
@@ -608,6 +656,30 @@ class EuropassCVGeneratorService {
                     LocalizationHelper.getLocalizedText(l10n, 'europassCefrReference'),
                     style: pw.TextStyle(fontSize: 8, fontStyle: pw.FontStyle.italic),
                   ),
+                  ...otherLanguages
+                      .where((lang) => lang.badgeUrl != null)
+                      .map((lang) => pw.Padding(
+                        padding: const pw.EdgeInsets.only(top: 4),
+                        child: pw.RichText(
+                          text: pw.TextSpan(
+                            children: [
+                              pw.TextSpan(
+                                text: '${LocalizationHelper.getLocalizedText(l10n, lang.name)}: ',
+                                style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold),
+                              ),
+                              pw.TextSpan(
+                                text: LocalizationHelper.getLocalizedText(l10n, 'verifyCredential'),
+                                style: pw.TextStyle(
+                                  fontSize: 8,
+                                  color: PdfColors.blue700,
+                                  decoration: pw.TextDecoration.underline,
+                                ),
+                                annotation: pw.AnnotationUrl(lang.badgeUrl!),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )),
                 ],
               ),
             ),

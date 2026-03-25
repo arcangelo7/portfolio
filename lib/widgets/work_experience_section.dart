@@ -9,6 +9,7 @@ import '../l10n/app_localizations.dart';
 import '../l10n/localization_helper.dart';
 import '../services/cv_data_service.dart';
 import '../models/cv_data.dart';
+import 'attachment_button.dart';
 
 class WorkExperienceSection extends StatefulWidget {
   const WorkExperienceSection({super.key});
@@ -302,6 +303,16 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
               fontSize: isMobile ? 14 : null,
             ),
           ),
+          if (entry.attachments.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: entry.attachments
+                  .map((a) => AttachmentButton(attachment: a))
+                  .toList(),
+            ),
+          ],
         ],
       ),
     );

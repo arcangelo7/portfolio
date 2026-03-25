@@ -8,7 +8,9 @@
     "titleKey": "acesTitle",
     "periodKey": "acesPeriod",
     "descriptionKey": "acesDescription",
-    "certificateAsset": "assets/certificates/aces_academic_english_2025_2026.pdf",
+    "attachments": [
+      {"type": "credential", "url": "https://bestr.it/award/show/MqjlyCBsQ4Wh0eps1DSqag"}
+    ],
     "order": 1
   },
   {
@@ -42,6 +44,9 @@
     "titleKey": "mastersDegreeTitle",
     "periodKey": "mastersPeriod",
     "descriptionKey": "mastersDescription",
+    "attachments": [
+      {"type": "diplomaSupplement", "url": "https://arcangelo7.github.io/portfolio/assets/documents/diploma_supplement_master.pdf"}
+    ],
     "order": 4
   },
   {
@@ -53,6 +58,9 @@
     "titleKey": "bachelorsDegreeTitle",
     "periodKey": "bachelorsPeriod",
     "descriptionKey": "bachelorsDescription",
+    "attachments": [
+      {"type": "completedExams", "url": "https://arcangelo7.github.io/portfolio/assets/documents/completed_exams_bachelor.pdf"}
+    ],
     "order": 5
   }
 ]

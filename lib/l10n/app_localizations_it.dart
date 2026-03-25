@@ -365,7 +365,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get tutorDescription =>
-      'Sessioni di laboratorio per l\'insegnamento di [Computational Management of Data](https://www.unibo.it/it/studiare/insegnamenti-competenze-trasversali-moocs/insegnamenti/insegnamento/2025/542133) del corso di Laurea Magistrale in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) dell\'Università di Bologna. Bandi: [2022-23](https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-di-attivita-di-tutorato-a-a-2022-23-presso-il-dipartimento-di-filologia-classica-e-italianistica/view) | [2025-26](https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-a-titolo-oneroso-di-contratti-di-tutorato-didattico-per-i-corsi-di-studio-del-dipartimento-di-filologia-classica-e-italianistica-per-l-a-a-2025-2026/view)';
+      'Sessioni di laboratorio per l\'insegnamento di [Computational Management of Data](https://www.unibo.it/it/studiare/insegnamenti-competenze-trasversali-moocs/insegnamenti/insegnamento/2025/542133) del corso di Laurea Magistrale in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) dell\'Università di Bologna.';
 
   @override
   String get researchGrantHolderTitle => 'Borsista di ricerca';
@@ -379,7 +379,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get researchGrantHolderDescription =>
-      'Estensione dell\'infrastruttura tecnologica di OpenCitations per permettere modifiche off-line e real-time dei dati delle collezioni bibliografiche e citazionali con tracciamento relativo alla provenienza e al cambiamento del dato nel tempo. Finanziato da [OpenCitations-SCOSS](https://scoss.org/). [Bando](https://bandi.unibo.it/ricerca/borse-ricerca?id_bando=4891)';
+      'Estensione dell\'infrastruttura tecnologica di OpenCitations per permettere modifiche off-line e real-time dei dati delle collezioni bibliografiche e citazionali con tracciamento relativo alla provenienza e al cambiamento del dato nel tempo. Finanziato da [OpenCitations-SCOSS](https://scoss.org/).';
 
   @override
   String get researchFellowTitle => 'Assegnista di ricerca';
@@ -393,7 +393,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get researchFellowDescription =>
-      'Coinvolto nel progetto OpenAIRE-Nexus e ho sviluppato software per integrare le citazioni aperte di [OpenCitations](https://opencitations.net/) nell\'European Open Science Cloud. [Bando](https://bandi.unibo.it/ricerca/assegni-ricerca?id_bando=58709)';
+      'Coinvolto nel progetto OpenAIRE-Nexus e ho sviluppato software per integrare le citazioni aperte di [OpenCitations](https://opencitations.net/) nell\'European Open Science Cloud.';
 
   @override
   String get phdCulturalHeritageTitle =>
@@ -810,7 +810,47 @@ class AppLocalizationsIt extends AppLocalizations {
       'Corso di 50 ore di inglese accademico presso il Centro Linguistico di Ateneo, con scrittura, produzione orale, ascolto e lettura in ambito accademico.';
 
   @override
-  String get viewCertificate => 'Visualizza certificato';
+  String get diplomaSupplement => 'Diploma Supplement';
+
+  @override
+  String get completedExams => 'Esami superati';
+
+  @override
+  String get announcement => 'Bando';
+
+  @override
+  String get languages => 'Lingue';
+
+  @override
+  String get languagesMotherTongue => 'Madrelingua';
+
+  @override
+  String get languagesOtherLanguages => 'Altre lingue';
+
+  @override
+  String get languagesListening => 'Ascolto';
+
+  @override
+  String get languagesReading => 'Lettura';
+
+  @override
+  String get languagesSpokenInteraction => 'Interazione orale';
+
+  @override
+  String get languagesSpokenProduction => 'Produzione orale';
+
+  @override
+  String get languagesWriting => 'Scritto';
+
+  @override
+  String get languagesCefrReference =>
+      'Livelli: Quadro comune europeo di riferimento per le lingue';
+
+  @override
+  String get verifyCredential => 'Verifica credenziale';
+
+  @override
+  String get cvLanguagesTitle => 'LINGUE';
 
   @override
   String get languagesItalian => 'Italiano';

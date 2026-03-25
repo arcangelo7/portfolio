@@ -787,7 +787,7 @@ abstract class AppLocalizations {
   /// No description provided for @tutorDescription.
   ///
   /// In en, this message translates to:
-  /// **'Laboratory sessions for [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) in the Master\'s degree in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) at the University of Bologna. Announcements: [2022-23](https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-di-attivita-di-tutorato-a-a-2022-23-presso-il-dipartimento-di-filologia-classica-e-italianistica/view) | [2025-26](https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-a-titolo-oneroso-di-contratti-di-tutorato-didattico-per-i-corsi-di-studio-del-dipartimento-di-filologia-classica-e-italianistica-per-l-a-a-2025-2026/view)'**
+  /// **'Laboratory sessions for [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) in the Master\'s degree in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) at the University of Bologna.'**
   String get tutorDescription;
 
   /// No description provided for @researchGrantHolderTitle.
@@ -811,7 +811,7 @@ abstract class AppLocalizations {
   /// No description provided for @researchGrantHolderDescription.
   ///
   /// In en, this message translates to:
-  /// **'Extension of OpenCitations technological infrastructure to enable off-line and real-time modifications of bibliographic and citation data collections with provenance and change tracking over time. Funded by [OpenCitations-SCOSS](https://scoss.org/). [Announcement](https://bandi.unibo.it/ricerca/borse-ricerca?id_bando=4891)'**
+  /// **'Extension of OpenCitations technological infrastructure to enable off-line and real-time modifications of bibliographic and citation data collections with provenance and change tracking over time. Funded by [OpenCitations-SCOSS](https://scoss.org/).'**
   String get researchGrantHolderDescription;
 
   /// No description provided for @researchFellowTitle.
@@ -835,7 +835,7 @@ abstract class AppLocalizations {
   /// No description provided for @researchFellowDescription.
   ///
   /// In en, this message translates to:
-  /// **'Involved in the OpenAIRE-Nexus project and developed software to integrate open citations from [OpenCitations](https://opencitations.net/) into the European Open Science Cloud. [Announcement](https://bandi.unibo.it/ricerca/assegni-ricerca?id_bando=58709)'**
+  /// **'Involved in the OpenAIRE-Nexus project and developed software to integrate open citations from [OpenCitations](https://opencitations.net/) into the European Open Science Cloud.'**
   String get researchFellowDescription;
 
   /// No description provided for @phdCulturalHeritageTitle.
@@ -1594,11 +1594,89 @@ abstract class AppLocalizations {
   /// **'50-hour course on Academic English at the University Language Centre, covering academic writing, speaking, listening and reading.'**
   String get acesDescription;
 
-  /// No description provided for @viewCertificate.
+  /// No description provided for @diplomaSupplement.
   ///
   /// In en, this message translates to:
-  /// **'View certificate'**
-  String get viewCertificate;
+  /// **'Diploma Supplement'**
+  String get diplomaSupplement;
+
+  /// No description provided for @completedExams.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed exams'**
+  String get completedExams;
+
+  /// No description provided for @announcement.
+  ///
+  /// In en, this message translates to:
+  /// **'Announcement'**
+  String get announcement;
+
+  /// No description provided for @languages.
+  ///
+  /// In en, this message translates to:
+  /// **'Languages'**
+  String get languages;
+
+  /// No description provided for @languagesMotherTongue.
+  ///
+  /// In en, this message translates to:
+  /// **'Mother tongue'**
+  String get languagesMotherTongue;
+
+  /// No description provided for @languagesOtherLanguages.
+  ///
+  /// In en, this message translates to:
+  /// **'Other languages'**
+  String get languagesOtherLanguages;
+
+  /// No description provided for @languagesListening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening'**
+  String get languagesListening;
+
+  /// No description provided for @languagesReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading'**
+  String get languagesReading;
+
+  /// No description provided for @languagesSpokenInteraction.
+  ///
+  /// In en, this message translates to:
+  /// **'Spoken interaction'**
+  String get languagesSpokenInteraction;
+
+  /// No description provided for @languagesSpokenProduction.
+  ///
+  /// In en, this message translates to:
+  /// **'Spoken production'**
+  String get languagesSpokenProduction;
+
+  /// No description provided for @languagesWriting.
+  ///
+  /// In en, this message translates to:
+  /// **'Writing'**
+  String get languagesWriting;
+
+  /// No description provided for @languagesCefrReference.
+  ///
+  /// In en, this message translates to:
+  /// **'Levels: Common European Framework of Reference for Languages'**
+  String get languagesCefrReference;
+
+  /// No description provided for @verifyCredential.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify credential'**
+  String get verifyCredential;
+
+  /// No description provided for @cvLanguagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'LANGUAGES'**
+  String get cvLanguagesTitle;
 
   /// No description provided for @languagesItalian.
   ///

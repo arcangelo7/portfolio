@@ -8,6 +8,9 @@
     "titleKey": "researchGrantHolderTitle",
     "periodKey": "researchGrantHolderPeriod",
     "descriptionKey": "researchGrantHolderDescription",
+    "attachments": [
+      {"type": "announcement", "url": "https://bandi.unibo.it/ricerca/borse-ricerca?id_bando=4891"}
+    ],
     "order": 0
   },
   {
@@ -19,6 +22,10 @@
     "titleKey": "tutorTitle",
     "periodKey": "tutorPeriod",
     "descriptionKey": "tutorDescription",
+    "attachments": [
+      {"type": "announcement", "url": "https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-di-attivita-di-tutorato-a-a-2022-23-presso-il-dipartimento-di-filologia-classica-e-italianistica/view", "label": "2022-23"},
+      {"type": "announcement", "url": "https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-a-titolo-oneroso-di-contratti-di-tutorato-didattico-per-i-corsi-di-studio-del-dipartimento-di-filologia-classica-e-italianistica-per-l-a-a-2025-2026/view", "label": "2025-26"}
+    ],
     "order": 1
   },
   {
@@ -30,6 +37,9 @@
     "titleKey": "researchFellowTitle",
     "periodKey": "researchFellowPeriod",
     "descriptionKey": "researchFellowDescription",
+    "attachments": [
+      {"type": "announcement", "url": "https://bandi.unibo.it/ricerca/assegni-ricerca?id_bando=58709"}
+    ],
     "order": 2
   }
 ]

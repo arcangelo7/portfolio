@@ -9,6 +9,7 @@ import '../l10n/app_localizations.dart';
 import '../l10n/localization_helper.dart';
 import '../services/cv_data_service.dart';
 import '../models/cv_data.dart';
+import 'attachment_button.dart';
 
 class EducationSection extends StatefulWidget {
   const EducationSection({super.key});
@@ -311,36 +312,17 @@ class _EducationSectionState extends State<EducationSection> {
               fontSize: isMobile ? 13 : null,
             ),
           ),
-          if (entry.certificateAsset != null) ...[
+          if (entry.attachments.isNotEmpty) ...[
             const SizedBox(height: 12),
-            _buildCertificateButton(context, l10n, entry.certificateAsset!),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: entry.attachments
+                  .map((a) => AttachmentButton(attachment: a))
+                  .toList(),
+            ),
           ],
         ],
-      ),
-    );
-  }
-
-  Widget _buildCertificateButton(
-    BuildContext context,
-    AppLocalizations l10n,
-    String assetPath,
-  ) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: TextButton.icon(
-        onPressed: () => _launchUrl(Uri.base.resolve(assetPath).toString()),
-        icon: Icon(
-          Icons.description_outlined,
-          size: 18,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        label: Text(
-          l10n.viewCertificate,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
       ),
     );
   }

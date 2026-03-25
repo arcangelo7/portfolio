@@ -5,6 +5,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import '../models/cv_data.dart';
+import '../models/language_data.dart';
 
 class CVDataService {
   static CVData? _cachedData;
@@ -104,5 +105,12 @@ class CVDataService {
   static Future<PersonalInfo> getPersonalInfo() async {
     final data = await loadCVData();
     return data.personalInfo;
+  }
+
+  static Future<LanguageData> getLanguages() async {
+    final languagesJson = await rootBundle.loadString(
+      'assets/data/languages.json',
+    );
+    return LanguageData.fromJson(json.decode(languagesJson));
   }
 }
