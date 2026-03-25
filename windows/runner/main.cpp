@@ -1,6 +1,6 @@
-// SPDX-FileCopyrightText: 2014 The Flutter Authors
+// SPDX-FileCopyrightText: 2025 Arcangelo Massari <info@arcangelomassari.com>
 //
-// SPDX-License-Identifier: BSD-3-Clause
+// SPDX-License-Identifier: ISC
 
 #include <flutter/dart_project.h>
 #include <flutter/flutter_view_controller.h>

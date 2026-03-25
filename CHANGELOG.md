@@ -1,7 +1,7 @@
 <!--
-SPDX-FileCopyrightText: 2025-2026 Arcangelo Massari <info@arcangelomassari.com>
+SPDX-FileCopyrightText: NONE
 
-SPDX-License-Identifier: ISC
+SPDX-License-Identifier: CC0-1.0
 -->
 
 # [1.9.0](https://github.com/arcangelo7/portfolio/compare/v1.8.4...v1.9.0) (2025-10-29)

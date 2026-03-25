@@ -1,16 +1,59 @@
 version = 1
 
-# Developer-written files (non-commentable)
+# CC0-1.0 — no creative expression (metadata, config, auto-generated, factual data)
+
 [[annotations]]
 path = [
+    ".metadata",
     ".releaserc.json",
     ".vscode/settings.json",
-    "ModelloCvBorseRicerca.pdf",
     "assets/data/conferences.json",
+    "assets/data/education.json",
     "assets/data/languages.json",
     "assets/data/personal_info.json",
     "assets/data/skills.json",
     "assets/data/work_experience.json",
+    "ios/Flutter/AppFrameworkInfo.plist",
+    "ios/Runner.xcodeproj/**",
+    "ios/Runner.xcworkspace/**",
+    "ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json",
+    "ios/Runner/Assets.xcassets/LaunchImage.imageset/Contents.json",
+    "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage.png",
+    "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@2x.png",
+    "ios/Runner/Assets.xcassets/LaunchImage.imageset/LaunchImage@3x.png",
+    "ios/Runner/Base.lproj/LaunchScreen.storyboard",
+    "ios/Runner/Base.lproj/Main.storyboard",
+    "ios/Runner/Info.plist",
+    "linux/flutter/generated_plugin_registrant.cc",
+    "linux/flutter/generated_plugin_registrant.h",
+    "linux/flutter/generated_plugins.cmake",
+    "macos/Flutter/GeneratedPluginRegistrant.swift",
+    "macos/Runner.xcodeproj/**",
+    "macos/Runner.xcworkspace/**",
+    "macos/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json",
+    "macos/Runner/Base.lproj/MainMenu.xib",
+    "macos/Runner/DebugProfile.entitlements",
+    "macos/Runner/Info.plist",
+    "macos/Runner/Release.entitlements",
+    "pubspec.lock",
+    "test/coverage-badge.svg",
+    "web/manifest.json",
+    "web/robots.txt",
+    "windows/flutter/generated_plugin_registrant.cc",
+    "windows/flutter/generated_plugin_registrant.h",
+    "windows/flutter/generated_plugins.cmake",
+    "windows/runner/runner.exe.manifest",
+]
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
+
+# ISC — developer-written files (2025)
+
+[[annotations]]
+path = [
+    "ModelloCvBorseRicerca.pdf",
+    "android/app/src/main/res/mipmap-*/*.png",
+    "android/playstore/play_store_512.png",
     "assets/images/dark_mode.png",
     "assets/images/dark_mode_button.png",
     "assets/images/foto_cv.png",
@@ -19,41 +62,16 @@ path = [
     "assets/images/light_mode.png",
     "assets/images/preview.png",
     "assets/images/profile_cutout.webp",
-    "web/manifest.json",
-    "web/robots.txt",
+    "ios/Runner/Assets.xcassets/AppIcon.appiconset/*.png",
+    "web/favicon.ico",
+    "web/icons/**",
+    "windows/runner/resources/app_icon.ico",
 ]
 SPDX-FileCopyrightText = "2025 Arcangelo Massari <info@arcangelomassari.com>"
 SPDX-License-Identifier = "ISC"
 
-[[annotations]]
-path = [
-    "assets/data/education.json",
-    "test/coverage-badge.svg",
-]
-SPDX-FileCopyrightText = "2025-2026 Arcangelo Massari <info@arcangelomassari.com>"
-SPDX-License-Identifier = "ISC"
+# ISC — developer-written files (2025-2026)
 
-[[annotations]]
-path = [
-    "assets/documents/**",
-    "assets/icons/**",
-    "assets/images/astrogods_logo.svg",
-]
-SPDX-FileCopyrightText = "2026 Arcangelo Massari <info@arcangelomassari.com>"
-SPDX-License-Identifier = "ISC"
-
-# Developer-written custom Android icons
-[[annotations]]
-path = "android/app/src/main/res/mipmap-*/**"
-SPDX-FileCopyrightText = "2025 Arcangelo Massari <info@arcangelomassari.com>"
-SPDX-License-Identifier = "ISC"
-
-[[annotations]]
-path = "android/playstore/play_store_512.png"
-SPDX-FileCopyrightText = "2025 Arcangelo Massari <info@arcangelomassari.com>"
-SPDX-License-Identifier = "ISC"
-
-# Developer-written generated localization files
 [[annotations]]
 path = [
     "lib/l10n/app_localizations.dart",
@@ -64,7 +82,20 @@ path = [
 SPDX-FileCopyrightText = "2025-2026 Arcangelo Massari <info@arcangelomassari.com>"
 SPDX-License-Identifier = "ISC"
 
-# DejaVu Sans fonts
+# ISC — developer-written files (2026)
+
+[[annotations]]
+path = [
+    "assets/documents/**",
+    "assets/icons/**",
+    "assets/images/astrogods_logo.svg",
+    "macos/Runner/Assets.xcassets/AppIcon.appiconset/*.png",
+]
+SPDX-FileCopyrightText = "2026 Arcangelo Massari <info@arcangelomassari.com>"
+SPDX-License-Identifier = "ISC"
+
+# Bitstream-Vera — DejaVu Sans fonts
+
 [[annotations]]
 path = "assets/fonts/**"
 SPDX-FileCopyrightText = [
@@ -72,48 +103,3 @@ SPDX-FileCopyrightText = [
     "2006 Tavmjong Bah",
 ]
 SPDX-License-Identifier = "Bitstream-Vera"
-
-# Machine-generated lock file (no creative expression)
-[[annotations]]
-path = "pubspec.lock"
-SPDX-FileCopyrightText = "NONE"
-SPDX-License-Identifier = "CC0-1.0"
-
-# Flutter SDK template files (non-commentable)
-[[annotations]]
-path = [
-    ".metadata",
-    "ios/Flutter/AppFrameworkInfo.plist",
-    "ios/Runner.xcodeproj/**",
-    "ios/Runner.xcworkspace/**",
-    "ios/Runner/Assets.xcassets/**",
-    "ios/Runner/Base.lproj/**",
-    "ios/Runner/Info.plist",
-    "macos/Runner.xcodeproj/**",
-    "macos/Runner.xcworkspace/**",
-    "macos/Runner/Assets.xcassets/**",
-    "macos/Runner/Base.lproj/MainMenu.xib",
-    "macos/Runner/DebugProfile.entitlements",
-    "macos/Runner/Info.plist",
-    "macos/Runner/Release.entitlements",
-    "web/favicon.ico",
-    "web/icons/**",
-    "windows/runner/resources/app_icon.ico",
-    "windows/runner/runner.exe.manifest",
-]
-SPDX-FileCopyrightText = "2014 The Flutter Authors"
-SPDX-License-Identifier = "BSD-3-Clause"
-
-# Flutter auto-generated plugin files
-[[annotations]]
-path = [
-    "linux/flutter/generated_plugin_registrant.cc",
-    "linux/flutter/generated_plugin_registrant.h",
-    "linux/flutter/generated_plugins.cmake",
-    "macos/Flutter/GeneratedPluginRegistrant.swift",
-    "windows/flutter/generated_plugin_registrant.cc",
-    "windows/flutter/generated_plugin_registrant.h",
-    "windows/flutter/generated_plugins.cmake",
-]
-SPDX-FileCopyrightText = "2014 The Flutter Authors"
-SPDX-License-Identifier = "BSD-3-Clause"
