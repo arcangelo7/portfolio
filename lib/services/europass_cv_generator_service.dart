@@ -131,11 +131,11 @@ class EuropassCVGeneratorService {
           pw.SizedBox(height: 20),
 
           // Work Experience Section
-          _buildWorkExperienceSection(l10n, workExperience),
+          ..._buildWorkExperienceSection(l10n, workExperience),
           pw.SizedBox(height: 20),
 
           // Education Section
-          _buildEducationSection(l10n, education),
+          ..._buildEducationSection(l10n, education),
         ],
       ),
     );
@@ -220,24 +220,14 @@ class EuropassCVGeneratorService {
     );
   }
 
-  /// Builds Work Experience section.
-  static pw.Widget _buildWorkExperienceSection(
+  /// Builds a single work experience entry widget.
+  static pw.Widget _buildWorkExperienceEntry(
     AppLocalizations l10n,
-    List<WorkExperienceEntry> workExperience,
+    WorkExperienceEntry entry,
   ) {
-    return pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
+    return pw.Wrap(
       children: [
-        pw.Text(
-          LocalizationHelper.getLocalizedText(l10n, 'europassWorkExperience'),
-          style: pw.TextStyle(
-            fontSize: 14,
-            fontWeight: pw.FontWeight.bold,
-            color: PdfColors.blue700,
-          ),
-        ),
-        pw.SizedBox(height: 8),
-        ...workExperience.map((entry) => pw.Column(
+        pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
             pw.Row(
@@ -322,29 +312,57 @@ class EuropassCVGeneratorService {
             ..._buildEuropassAttachmentLinks(l10n, entry.attachments),
             pw.SizedBox(height: 12),
           ],
-        )),
+        ),
       ],
     );
   }
 
-  /// Builds Education section.
-  static pw.Widget _buildEducationSection(
+  /// Builds Work Experience section as a list of widgets.
+  /// The title is wrapped with the first entry to prevent widows.
+  static List<pw.Widget> _buildWorkExperienceSection(
     AppLocalizations l10n,
-    List<EducationEntry> education,
+    List<WorkExperienceEntry> workExperience,
   ) {
-    return pw.Column(
-      crossAxisAlignment: pw.CrossAxisAlignment.start,
-      children: [
-        pw.Text(
-          LocalizationHelper.getLocalizedText(l10n, 'europassEducation'),
-          style: pw.TextStyle(
-            fontSize: 14,
-            fontWeight: pw.FontWeight.bold,
-            color: PdfColors.blue700,
+    final sectionTitle = pw.Text(
+      LocalizationHelper.getLocalizedText(l10n, 'europassWorkExperience'),
+      style: pw.TextStyle(
+        fontSize: 14,
+        fontWeight: pw.FontWeight.bold,
+        color: PdfColors.blue700,
+      ),
+    );
+
+    if (workExperience.isEmpty) {
+      return [sectionTitle];
+    }
+
+    return [
+      pw.Wrap(
+        children: [
+          pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              sectionTitle,
+              pw.SizedBox(height: 8),
+              _buildWorkExperienceEntry(l10n, workExperience.first),
+            ],
           ),
-        ),
-        pw.SizedBox(height: 8),
-        ...education.map((entry) => pw.Column(
+        ],
+      ),
+      ...workExperience.skip(1).map(
+        (entry) => _buildWorkExperienceEntry(l10n, entry),
+      ),
+    ];
+  }
+
+  /// Builds a single education entry widget.
+  static pw.Widget _buildEducationEntry(
+    AppLocalizations l10n,
+    EducationEntry entry,
+  ) {
+    return pw.Wrap(
+      children: [
+        pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
             pw.Row(
@@ -429,9 +447,47 @@ class EuropassCVGeneratorService {
             ..._buildEuropassAttachmentLinks(l10n, entry.attachments),
             pw.SizedBox(height: 12),
           ],
-        )),
+        ),
       ],
     );
+  }
+
+  /// Builds Education section as a list of widgets.
+  /// The title is wrapped with the first entry to prevent widows.
+  static List<pw.Widget> _buildEducationSection(
+    AppLocalizations l10n,
+    List<EducationEntry> education,
+  ) {
+    final sectionTitle = pw.Text(
+      LocalizationHelper.getLocalizedText(l10n, 'europassEducation'),
+      style: pw.TextStyle(
+        fontSize: 14,
+        fontWeight: pw.FontWeight.bold,
+        color: PdfColors.blue700,
+      ),
+    );
+
+    if (education.isEmpty) {
+      return [sectionTitle];
+    }
+
+    return [
+      pw.Wrap(
+        children: [
+          pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              sectionTitle,
+              pw.SizedBox(height: 8),
+              _buildEducationEntry(l10n, education.first),
+            ],
+          ),
+        ],
+      ),
+      ...education.skip(1).map(
+        (entry) => _buildEducationEntry(l10n, entry),
+      ),
+    ];
   }
 
   static List<pw.Widget> _buildEuropassAttachmentLinks(
