@@ -127,7 +127,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutMe.
   ///
   /// In en, this message translates to:
-  /// **'About Me'**
+  /// **'About me'**
   String get aboutMe;
 
   /// No description provided for @aboutMeDescription.

@@ -3,7 +3,7 @@
   "seoDescription": "Postdoctoral researcher in Digital Humanities at University of Bologna. Research on Semantic Web, provenance, change tracking, and cultural heritage.",
   "name": "Arcangelo Massari",
   "viewMyWork": "Check out my projects",
-  "aboutMe": "About Me",
+  "aboutMe": "About me",
   "aboutMeDescription": "I have a joint PhD in Cultural Heritage in the Digital Ecosystem (University of Bologna) and Engineering Technology (KU Leuven). My thing is enabling cultural heritage experts to curate and publish FAIR data (Findable, Accessible, Interoperable, Reusable) through Semantic Web technologies, without having to become tech experts themselves. That's how [HERITRACE](https://opencitations.github.io/heritrace/) came about: a system for curating knowledge graphs that keeps track of who changed what and why.\n\nRight now I'm a postdoc at the University of Bologna, working on the [GRAPHIA](https://cordis.europa.eu/project/id/101188018) project (Horizon Europe) to bring scattered humanities and social sciences data together into a single knowledge graph. I also work with [OpenCitations](https://opencitations.net/) to make scholarly citation data open and reusable.",
   "skills": "My toolbox",
   "getInTouch": "Find me online",

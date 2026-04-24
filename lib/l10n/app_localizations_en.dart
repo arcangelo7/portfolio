@@ -22,7 +22,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewMyWork => 'Check out my projects';
 
   @override
-  String get aboutMe => 'About Me';
+  String get aboutMe => 'About me';
 
   @override
   String get aboutMeDescription =>
