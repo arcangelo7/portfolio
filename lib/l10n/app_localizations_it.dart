@@ -13,13 +13,10 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get seoDescription =>
-      'Dottorando in DH (Unibo, KU Leuven). Progetto interfacce intuitive per dati semantici nel patrimonio culturale, con focus su provenance e change tracking.';
+      'Ricercatore post-doc in DH (Unibo). Progetto interfacce intuitive per dati semantici nel patrimonio culturale, con focus su provenance e change tracking.';
 
   @override
   String get name => 'Arcangelo Massari';
-
-  @override
-  String get jobTitle => 'Dottorando in Informatica Umanistica';
 
   @override
   String get viewMyWork => 'Dai un\'occhiata ai miei progetti';
@@ -29,7 +26,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get aboutMeDescription =>
-      'Sto svolgendo un dottorato in patrimonio culturale nell\'ecosistema digitale tra l\'Università di Bologna e KU Leuven. La mia ricerca si concentra sulla creazione di interfacce user-friendly per dati semantici, specificamente tecnologie del Web Semantico con focus su change tracking e provenance. Ho vinto il [Premio Gigliozzi](https://www.aiucd.it/premio-gigliozzi-2024/) per la miglior presentazione alla conferenza AIUCD 2024 con [HERITRACE](https://opencitations.github.io/heritrace/), che è il focus principale del mio lavoro di dottorato.';
+      'Ho un doppio dottorato in Patrimonio Culturale nell\'Ecosistema Digitale (Bologna) e in Engineering Technology (KU Leuven). In pratica, cerco di mettere gli esperti di patrimonio culturale nelle condizioni di curare e pubblicare dati FAIR (Findable, Accessible, Interoperable, Reusable) con tecnologie del Web Semantico, senza che debbano diventare esperti di tecnologia. Da qui è nato [HERITRACE](https://opencitations.github.io/heritrace/), un sistema per curare grafi di conoscenza tenendo traccia di chi ha cambiato cosa e perché.\n\nOggi sono contrattista di ricerca a Bologna sul progetto [GRAPHIA](https://cordis.europa.eu/project/id/101188018) (Horizon Europe): l\'idea è mettere insieme i dati frammentati delle scienze umane e sociali in un unico grafo di conoscenza. Collaboro anche con [OpenCitations](https://opencitations.net/) per rendere i dati sulle citazioni scientifiche aperti e riutilizzabili.';
 
   @override
   String get skills => 'La mia cassetta degli attrezzi';

@@ -251,14 +251,6 @@ class DynamicCVGeneratorService {
                     color: PdfColors.white,
                   ),
                 ),
-                pw.SizedBox(height: 5),
-                pw.Text(
-                  LocalizationHelper.getLocalizedText(
-                    l10n,
-                    personalInfo.jobTitleKey,
-                  ),
-                  style: pw.TextStyle(fontSize: 14, color: PdfColors.white),
-                ),
               ],
             ),
           ),

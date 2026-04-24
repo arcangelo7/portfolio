@@ -15,8 +15,6 @@ class LocalizationHelper {
   static String getLocalizedText(AppLocalizations l10n, String key) {
     switch (key) {
       // Personal info
-      case 'jobTitle':
-        return l10n.jobTitle;
       case 'cvBirthDate':
         return l10n.cvBirthDate;
       case 'cvNationalityValue':

@@ -275,7 +275,6 @@ class SkillsData {
 
 class PersonalInfo {
   final String name;
-  final String jobTitleKey;
   final String birthDate;
   final String birthDateKey;
   final String nationalityKey;
@@ -287,7 +286,6 @@ class PersonalInfo {
 
   PersonalInfo({
     required this.name,
-    required this.jobTitleKey,
     required this.birthDate,
     required this.birthDateKey,
     required this.nationalityKey,
@@ -301,7 +299,6 @@ class PersonalInfo {
   factory PersonalInfo.fromJson(Map<String, dynamic> json) {
     return PersonalInfo(
       name: json['name'],
-      jobTitleKey: json['jobTitleKey'],
       birthDate: json['birthDate'],
       birthDateKey: json['birthDateKey'],
       nationalityKey: json['nationalityKey'],
@@ -316,7 +313,6 @@ class PersonalInfo {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'jobTitleKey': jobTitleKey,
       'birthDate': birthDate,
       'birthDateKey': birthDateKey,
       'nationalityKey': nationalityKey,

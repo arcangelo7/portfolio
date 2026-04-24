@@ -184,7 +184,6 @@ class SEOService {
       '@context': 'https://schema.org',
       '@type': 'Person',
       'name': 'Arcangelo Massari',
-      'jobTitle': 'PhD Candidate in Cultural Heritage in the Digital Ecosystem',
       'affiliation': {
         '@type': 'Organization',
         'name': 'University of Bologna',

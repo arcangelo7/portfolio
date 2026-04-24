@@ -13,13 +13,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get seoDescription =>
-      'Candidato a PhD en Humanidades Digitales en Bolonia y KU Leuven. Investigación sobre Web Semántica, provenance, change tracking y patrimonio cultural.';
+      'Investigador postdoctoral en Humanidades Digitales en la Universidad de Bolonia. Investigación sobre Web Semántica, provenance, change tracking y patrimonio cultural.';
 
   @override
   String get name => 'Arcangelo Massari';
-
-  @override
-  String get jobTitle => 'Candidato a PhD en Humanidades Digitales';
 
   @override
   String get viewMyWork => 'Echa un vistazo a mis proyectos';
@@ -29,7 +26,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get aboutMeDescription =>
-      'Estoy realizando un doctorado en patrimonio cultural en ecosistema digital entre la Universidad de Bolonia y KU Leuven. Mi investigación se centra en crear interfaces user-friendly para datos semánticos, específicamente tecnologías de Web Semántica con énfasis en change tracking y provenance. Gané el [Premio Gigliozzi](https://www.aiucd.it/premio-gigliozzi-2024/) por la mejor presentación en la conferencia AIUCD 2024 con [HERITRACE](https://opencitations.github.io/heritrace/), que es el enfoque principal de mi trabajo doctoral.';
+      'Tengo un doble doctorado en Patrimonio Cultural en el Ecosistema Digital (Universidad de Bolonia) y en Engineering Technology (KU Leuven). Lo que hago es poner a los expertos en patrimonio cultural en condiciones de curar y publicar datos FAIR (Findable, Accessible, Interoperable, Reusable) con tecnologías de la Web Semántica, sin que tengan que convertirse en expertos en tecnología. De ahí nació [HERITRACE](https://opencitations.github.io/heritrace/), un sistema para curar grafos de conocimiento que registra quién cambió qué y por qué.\n\nAhora mismo soy investigador postdoctoral en la Universidad de Bolonia, trabajando en el proyecto [GRAPHIA](https://cordis.europa.eu/project/id/101188018) (Horizon Europe): la idea es reunir los datos fragmentados de las ciencias sociales y humanidades en un único grafo de conocimiento. También colaboro con [OpenCitations](https://opencitations.net/) para hacer que los datos de citaciones científicas sean abiertos y reutilizables.';
 
   @override
   String get skills => 'Mi caja de herramientas';

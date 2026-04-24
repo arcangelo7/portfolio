@@ -13,13 +13,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get seoDescription =>
-      'PhD candidate in Digital Humanities at University of Bologna and KU Leuven. Research on Semantic Web, provenance, change tracking, and cultural heritage.';
+      'Postdoctoral researcher in Digital Humanities at University of Bologna. Research on Semantic Web, provenance, change tracking, and cultural heritage.';
 
   @override
   String get name => 'Arcangelo Massari';
-
-  @override
-  String get jobTitle => 'PhD candidate in Digital Humanities';
 
   @override
   String get viewMyWork => 'Check out my projects';
@@ -29,7 +26,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutMeDescription =>
-      'I\'m pursuing a PhD in cultural heritage in digital ecosystem between the University of Bologna and KU Leuven. My research focuses on creating user-friendly interfaces for semantic data, specifically Semantic Web technologies with emphasis on change tracking and provenance. I won the [Gigliozzi Prize](https://www.aiucd.it/premio-gigliozzi-2024/) for the best presentation at AIUCD 2024 conference with [HERITRACE](https://opencitations.github.io/heritrace/), which is the main focus of my doctoral work.';
+      'I have a joint PhD in Cultural Heritage in the Digital Ecosystem (University of Bologna) and Engineering Technology (KU Leuven). My thing is enabling cultural heritage experts to curate and publish FAIR data (Findable, Accessible, Interoperable, Reusable) through Semantic Web technologies, without having to become tech experts themselves. That\'s how [HERITRACE](https://opencitations.github.io/heritrace/) came about: a system for curating knowledge graphs that keeps track of who changed what and why.\n\nRight now I\'m a postdoc at the University of Bologna, working on the [GRAPHIA](https://cordis.europa.eu/project/id/101188018) project (Horizon Europe) to bring scattered humanities and social sciences data together into a single knowledge graph. I also work with [OpenCitations](https://opencitations.net/) to make scholarly citation data open and reusable.';
 
   @override
   String get skills => 'My toolbox';

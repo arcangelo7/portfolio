@@ -1166,22 +1166,6 @@ class _LandingPageState extends State<LandingPage>
                           'Main heading: ${AppLocalizations.of(context)!.name}',
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  SelectableText(
-                    AppLocalizations.of(context)!.jobTitle,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: PortfolioTheme.iceWhite,
-                      fontSize: isMobile ? 20 : 28,
-                      shadows: [
-                        Shadow(
-                          offset: const Offset(1, 1),
-                          blurRadius: 3,
-                          color: Colors.black.withValues(alpha: 0.3),
-                        ),
-                      ],
-                    ),
-                    textAlign: isMobile ? TextAlign.center : TextAlign.start,
-                  ),
                   const SizedBox(height: 32),
                   ElevatedButton(
                     onPressed: () {
