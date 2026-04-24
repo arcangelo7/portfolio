@@ -368,6 +368,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Laboratory sessions for [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) in the Master\'s degree in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) at the University of Bologna.';
 
   @override
+  String get researchContractorTitle => 'Postdoctoral researcher';
+
+  @override
+  String get researchContractorPeriod => 'Apr 2026 - Present';
+
+  @override
+  String get researchContractorDescription =>
+      'Development of software systems and interfaces for creating, curating and maintaining FAIR-by-design bibliographic and citation data. Funded by [GRAPHIA](https://cordis.europa.eu/project/id/101188018) (Horizon Europe).';
+
+  @override
   String get researchGrantHolderTitle => 'Research grant holder';
 
   @override
@@ -375,7 +385,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Department of Classical Philology and Italian Studies (University of Bologna)';
 
   @override
-  String get researchGrantHolderPeriod => 'Nov 2025 - Present';
+  String get researchGrantHolderPeriod => 'Nov 2025 - Mar 2026';
 
   @override
   String get researchGrantHolderDescription =>
@@ -400,7 +410,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'PhD in cultural heritage in digital ecosystem';
 
   @override
-  String get phdCulturalHeritagePeriod => 'Nov 2022 - Present';
+  String get phdCulturalHeritagePeriod => 'Nov 2022 - Mar 2026';
 
   @override
   String get phdCulturalHeritageDescription =>
@@ -413,7 +423,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get kuLeuven => 'KU Leuven (Belgium)';
 
   @override
-  String get phdEngineeringPeriod => 'Mar 2023 - Present';
+  String get phdEngineeringPeriod => 'Mar 2023 - Mar 2026';
 
   @override
   String get phdEngineeringDescription =>

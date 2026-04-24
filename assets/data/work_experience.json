@@ -1,9 +1,23 @@
 [
   {
-    "id": "research_grant_holder",
-    "startDate": "2025-11",
+    "id": "research_contractor",
+    "startDate": "2026-04",
     "endDate": null,
     "current": true,
+    "companyKey": "ficlit",
+    "titleKey": "researchContractorTitle",
+    "periodKey": "researchContractorPeriod",
+    "descriptionKey": "researchContractorDescription",
+    "attachments": [
+      {"type": "announcement", "url": "https://bandi.unibo.it/s/apos7/procedura-di-valutazione-comparativa-per-titoli-e-colloquio-per-il-conferimento-di-n-1-contratto-di-ricerca-presso-il-dipartimento-di-di-filologia-classica-e-italianistica-ssd-info-01-a-gsd-01-info-01-cod-pica-contratti2025-38"}
+    ],
+    "order": 0
+  },
+  {
+    "id": "research_grant_holder",
+    "startDate": "2025-11",
+    "endDate": "2026-03",
+    "current": false,
     "companyKey": "ficlit",
     "titleKey": "researchGrantHolderTitle",
     "periodKey": "researchGrantHolderPeriod",
@@ -11,7 +25,7 @@
     "attachments": [
       {"type": "announcement", "url": "https://bandi.unibo.it/ricerca/borse-ricerca?id_bando=4891"}
     ],
-    "order": 0
+    "order": 1
   },
   {
     "id": "tutor",
@@ -26,7 +40,7 @@
       {"type": "announcement", "url": "https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-di-attivita-di-tutorato-a-a-2022-23-presso-il-dipartimento-di-filologia-classica-e-italianistica/view", "label": "2022-23"},
       {"type": "announcement", "url": "https://bandi.unibo.it/s/aform7/aform-settore-servizi-didattici-lettere-lingue-bando-di-selezione-per-soli-titoli-per-l-attribuzione-a-titolo-oneroso-di-contratti-di-tutorato-didattico-per-i-corsi-di-studio-del-dipartimento-di-filologia-classica-e-italianistica-per-l-a-a-2025-2026/view", "label": "2025-26"}
     ],
-    "order": 1
+    "order": 2
   },
   {
     "id": "research_fellow",
@@ -40,6 +54,6 @@
     "attachments": [
       {"type": "announcement", "url": "https://bandi.unibo.it/ricerca/assegni-ricerca?id_bando=58709"}
     ],
-    "order": 2
+    "order": 3
   }
 ]

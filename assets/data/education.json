@@ -16,8 +16,8 @@
   {
     "id": "phd_cultural_heritage",
     "startDate": "2022-11",
-    "endDate": null,
-    "current": true,
+    "endDate": "2026-03",
+    "current": false,
     "institutionKey": "universityBologna",
     "titleKey": "phdCulturalHeritageTitle",
     "periodKey": "phdCulturalHeritagePeriod",
@@ -27,8 +27,8 @@
   {
     "id": "phd_engineering",
     "startDate": "2023-03",
-    "endDate": null,
-    "current": true,
+    "endDate": "2026-03",
+    "current": false,
     "institutionKey": "kuLeuven",
     "titleKey": "phdEngineeringTitle",
     "periodKey": "phdEngineeringPeriod",

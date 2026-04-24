@@ -368,6 +368,16 @@ class AppLocalizationsEs extends AppLocalizations {
       'Sesiones de laboratorio para la enseñanza de [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) en la Maestría en [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) de la Universidad de Bolonia.';
 
   @override
+  String get researchContractorTitle => 'Investigador postdoctoral';
+
+  @override
+  String get researchContractorPeriod => 'Abr 2026 - Presente';
+
+  @override
+  String get researchContractorDescription =>
+      'Desarrollo de sistemas e interfaces de software para la creación, curación y mantenimiento de datos bibliográficos y de citas FAIR-by-design. Financiado por [GRAPHIA](https://cordis.europa.eu/project/id/101188018) (Horizon Europe).';
+
+  @override
   String get researchGrantHolderTitle => 'Becario de investigación';
 
   @override
@@ -375,7 +385,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Departamento de Filología Clásica y Estudios Italianos (Universidad de Bolonia)';
 
   @override
-  String get researchGrantHolderPeriod => 'Nov 2025 - Presente';
+  String get researchGrantHolderPeriod => 'Nov 2025 - Mar 2026';
 
   @override
   String get researchGrantHolderDescription =>
@@ -400,7 +410,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Doctorado en patrimonio cultural en ecosistema digital';
 
   @override
-  String get phdCulturalHeritagePeriod => 'Nov 2022 - Presente';
+  String get phdCulturalHeritagePeriod => 'Nov 2022 - Mar 2026';
 
   @override
   String get phdCulturalHeritageDescription =>
@@ -413,7 +423,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get kuLeuven => 'Katholieke Universiteit Leuven (Bélgica)';
 
   @override
-  String get phdEngineeringPeriod => 'Mar 2023 - Presente';
+  String get phdEngineeringPeriod => 'Mar 2023 - Mar 2026';
 
   @override
   String get phdEngineeringDescription =>

@@ -64,6 +64,12 @@ class LocalizationHelper {
         return l10n.claUnibo;
 
       // Work experience entries
+      case 'researchContractorTitle':
+        return l10n.researchContractorTitle;
+      case 'researchContractorPeriod':
+        return l10n.researchContractorPeriod;
+      case 'researchContractorDescription':
+        return l10n.researchContractorDescription;
       case 'researchGrantHolderTitle':
         return l10n.researchGrantHolderTitle;
       case 'researchGrantHolderPeriod':

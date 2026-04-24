@@ -790,6 +790,24 @@ abstract class AppLocalizations {
   /// **'Laboratory sessions for [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) in the Master\'s degree in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) at the University of Bologna.'**
   String get tutorDescription;
 
+  /// No description provided for @researchContractorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Postdoctoral researcher'**
+  String get researchContractorTitle;
+
+  /// No description provided for @researchContractorPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Apr 2026 - Present'**
+  String get researchContractorPeriod;
+
+  /// No description provided for @researchContractorDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Development of software systems and interfaces for creating, curating and maintaining FAIR-by-design bibliographic and citation data. Funded by [GRAPHIA](https://cordis.europa.eu/project/id/101188018) (Horizon Europe).'**
+  String get researchContractorDescription;
+
   /// No description provided for @researchGrantHolderTitle.
   ///
   /// In en, this message translates to:
@@ -805,7 +823,7 @@ abstract class AppLocalizations {
   /// No description provided for @researchGrantHolderPeriod.
   ///
   /// In en, this message translates to:
-  /// **'Nov 2025 - Present'**
+  /// **'Nov 2025 - Mar 2026'**
   String get researchGrantHolderPeriod;
 
   /// No description provided for @researchGrantHolderDescription.
@@ -847,7 +865,7 @@ abstract class AppLocalizations {
   /// No description provided for @phdCulturalHeritagePeriod.
   ///
   /// In en, this message translates to:
-  /// **'Nov 2022 - Present'**
+  /// **'Nov 2022 - Mar 2026'**
   String get phdCulturalHeritagePeriod;
 
   /// No description provided for @phdCulturalHeritageDescription.
@@ -871,7 +889,7 @@ abstract class AppLocalizations {
   /// No description provided for @phdEngineeringPeriod.
   ///
   /// In en, this message translates to:
-  /// **'Mar 2023 - Present'**
+  /// **'Mar 2023 - Mar 2026'**
   String get phdEngineeringPeriod;
 
   /// No description provided for @phdEngineeringDescription.
