@@ -889,7 +889,7 @@ abstract class AppLocalizations {
   /// No description provided for @phdEngineeringDescription.
   ///
   /// In en, this message translates to:
-  /// **'Joint doctoral program focusing on Knowledge Graph Inversion, extending [RDF Mapping Language (RML)](https://rml.io/) to enable recovery of original data after RDF transformation. More info: [KU Leuven profile](https://www.kuleuven.be/wieiswie/en/person/00170256).'**
+  /// **'Joint doctoral program focusing on Knowledge Graph Inversion, extending [RDF Mapping Language (RML)](https://rml.io/) to enable recovery of original data after RDF transformation.'**
   String get phdEngineeringDescription;
 
   /// No description provided for @unaEuropaPhdTitle.

@@ -424,7 +424,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get phdEngineeringDescription =>
-      'Programma di dottorato congiunto focalizzato su Knowledge Graph Inversion, estendendo [RDF Mapping Language (RML)](https://rml.io/) per permettere il recupero dei dati originali dopo la trasformazione RDF. Maggiori info: [Profilo KU Leuven](https://www.kuleuven.be/wieiswie/en/person/00170256).';
+      'Programma di dottorato congiunto focalizzato su Knowledge Graph Inversion, estendendo [RDF Mapping Language (RML)](https://rml.io/) per permettere il recupero dei dati originali dopo la trasformazione RDF.';
 
   @override
   String get unaEuropaPhdTitle =>
