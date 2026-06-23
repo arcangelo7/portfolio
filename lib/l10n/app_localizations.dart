@@ -730,18 +730,6 @@ abstract class AppLocalizations {
   /// **'LinkedIn'**
   String get linkedin;
 
-  /// No description provided for @instagram.
-  ///
-  /// In en, this message translates to:
-  /// **'Instagram'**
-  String get instagram;
-
-  /// No description provided for @facebook.
-  ///
-  /// In en, this message translates to:
-  /// **'Facebook'**
-  String get facebook;
-
   /// No description provided for @twitter.
   ///
   /// In en, this message translates to:

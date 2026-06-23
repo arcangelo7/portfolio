@@ -1366,22 +1366,6 @@ class _LandingPageState extends State<LandingPage>
               ),
               _buildContactButton(
                 context,
-                Icons.camera_alt,
-                l10n.instagram,
-                'https://www.instagram.com/arcangelomassari/',
-                const Color(0xFFE4405F),
-                isMobile,
-              ),
-              _buildContactButton(
-                context,
-                Icons.facebook,
-                l10n.facebook,
-                'https://www.facebook.com/arcangelo.massari',
-                const Color(0xFF1877F2),
-                isMobile,
-              ),
-              _buildContactButton(
-                context,
                 Icons.alternate_email,
                 l10n.twitter,
                 'https://x.com/arcangelo_wd',

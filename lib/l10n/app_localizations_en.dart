@@ -337,12 +337,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get linkedin => 'LinkedIn';
 
   @override
-  String get instagram => 'Instagram';
-
-  @override
-  String get facebook => 'Facebook';
-
-  @override
   String get twitter => 'X (Twitter)';
 
   @override
