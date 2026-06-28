@@ -459,6 +459,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get conferencesAndSeminars => 'Conferences and seminars';
 
   @override
+  String get kgcwWorkshop2026Title => 'KGCW 2026 - Dubrovnik';
+
+  @override
+  String get kgcwWorkshop2026Period => 'May 10-11, 2026';
+
+  @override
+  String get kgcwWorkshop2026Location => 'Dubrovnik, Croatia';
+
+  @override
+  String get kgcwWorkshop2026Description =>
+      'Participated in the 7th International Workshop on Knowledge Graph Construction (KGCW 2026), co-located with ESWC 2026, with a paper titled \'Let\'s invert it! From RDF to relational data with R2RML\'. [Workshop](https://openreview.net/group?id=eswc-conferences.org/ESWC/2026/Workshop/KGCW#tab-accept) | [Paper](https://openreview.net/pdf?id=XUc9rtTsHp)';
+
+  @override
   String get aiucdConference2024Title => 'AIUCD conference 2024 - Catania';
 
   @override

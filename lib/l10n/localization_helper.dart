@@ -92,6 +92,14 @@ class LocalizationHelper {
         return l10n.researchCentreOpenScholarly;
 
       // Conference entries
+      case 'kgcwWorkshop2026Title':
+        return l10n.kgcwWorkshop2026Title;
+      case 'kgcwWorkshop2026Period':
+        return l10n.kgcwWorkshop2026Period;
+      case 'kgcwWorkshop2026Location':
+        return l10n.kgcwWorkshop2026Location;
+      case 'kgcwWorkshop2026Description':
+        return l10n.kgcwWorkshop2026Description;
       case 'aiucdConference2024Title':
         return l10n.aiucdConference2024Title;
       case 'aiucdConference2024Period':

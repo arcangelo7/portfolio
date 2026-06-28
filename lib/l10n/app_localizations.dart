@@ -946,6 +946,30 @@ abstract class AppLocalizations {
   /// **'Conferences and seminars'**
   String get conferencesAndSeminars;
 
+  /// No description provided for @kgcwWorkshop2026Title.
+  ///
+  /// In en, this message translates to:
+  /// **'KGCW 2026 - Dubrovnik'**
+  String get kgcwWorkshop2026Title;
+
+  /// No description provided for @kgcwWorkshop2026Period.
+  ///
+  /// In en, this message translates to:
+  /// **'May 10-11, 2026'**
+  String get kgcwWorkshop2026Period;
+
+  /// No description provided for @kgcwWorkshop2026Location.
+  ///
+  /// In en, this message translates to:
+  /// **'Dubrovnik, Croatia'**
+  String get kgcwWorkshop2026Location;
+
+  /// No description provided for @kgcwWorkshop2026Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Participated in the 7th International Workshop on Knowledge Graph Construction (KGCW 2026), co-located with ESWC 2026, with a paper titled \'Let\'s invert it! From RDF to relational data with R2RML\'. [Workshop](https://openreview.net/group?id=eswc-conferences.org/ESWC/2026/Workshop/KGCW#tab-accept) | [Paper](https://openreview.net/pdf?id=XUc9rtTsHp)'**
+  String get kgcwWorkshop2026Description;
+
   /// No description provided for @aiucdConference2024Title.
   ///
   /// In en, this message translates to:
