@@ -48,8 +48,8 @@ class DynamicCVGeneratorService {
   }
 
   static pw.Widget _buildRichText(String text, {double fontSize = 12}) {
-    final linkRegex = RegExp(r'\[([^\]]+)\]\(([^)]+)\)');
-    final matches = linkRegex.allMatches(text).toList();
+    final markdownRegex = RegExp(r'\[([^\]]+)\]\(([^)]+)\)|\*([^*\n]+)\*');
+    final matches = markdownRegex.allMatches(text).toList();
 
     if (matches.isEmpty) {
       return pw.Text(text, style: pw.TextStyle(fontSize: fontSize));
@@ -59,7 +59,6 @@ class DynamicCVGeneratorService {
     int lastMatchEnd = 0;
 
     for (final match in matches) {
-      // Add text before the link
       if (match.start > lastMatchEnd) {
         spans.add(
           pw.TextSpan(
@@ -69,26 +68,45 @@ class DynamicCVGeneratorService {
         );
       }
 
-      // Add the clickable link
-      final linkText = match.group(1) ?? '';
-      var linkUrl = PublicationUtils.normalizeUrl(match.group(2) ?? '');
+      final linkText = match.group(1);
+      if (linkText != null) {
+        final isItalicLink =
+            linkText.length > 2 &&
+            linkText.startsWith('*') &&
+            linkText.endsWith('*');
+        final displayText =
+            isItalicLink
+                ? linkText.substring(1, linkText.length - 1)
+                : linkText;
+        final linkUrl = PublicationUtils.normalizeUrl(match.group(2)!);
 
-      spans.add(
-        pw.TextSpan(
-          text: linkText,
-          style: pw.TextStyle(
-            fontSize: fontSize,
-            color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
-            decoration: pw.TextDecoration.underline,
+        spans.add(
+          pw.TextSpan(
+            text: displayText,
+            style: pw.TextStyle(
+              fontSize: fontSize,
+              color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
+              decoration: pw.TextDecoration.underline,
+              fontStyle: isItalicLink ? pw.FontStyle.italic : null,
+            ),
+            annotation: pw.AnnotationUrl(linkUrl),
           ),
-          annotation: pw.AnnotationUrl(linkUrl),
-        ),
-      );
+        );
+      } else {
+        spans.add(
+          pw.TextSpan(
+            text: match.group(3)!,
+            style: pw.TextStyle(
+              fontSize: fontSize,
+              fontStyle: pw.FontStyle.italic,
+            ),
+          ),
+        );
+      }
 
       lastMatchEnd = match.end;
     }
 
-    // Add remaining text after the last link
     if (lastMatchEnd < text.length) {
       spans.add(
         pw.TextSpan(
@@ -629,30 +647,43 @@ class DynamicCVGeneratorService {
       pw.Wrap(
         spacing: 12,
         runSpacing: 4,
-        children: urlAttachments.map((a) {
-          final text = _getAttachmentLabel(l10n, a);
-          return pw.RichText(
-            text: pw.TextSpan(
-              text: text,
-              style: pw.TextStyle(
-                fontSize: 11,
-                color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
-                decoration: pw.TextDecoration.underline,
-              ),
-              annotation: pw.AnnotationUrl(a.url!),
-            ),
-          );
-        }).toList(),
+        children:
+            urlAttachments.map((a) {
+              final text = _getAttachmentLabel(l10n, a);
+              return pw.RichText(
+                text: pw.TextSpan(
+                  text: text,
+                  style: pw.TextStyle(
+                    fontSize: 11,
+                    color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
+                    decoration: pw.TextDecoration.underline,
+                  ),
+                  annotation: pw.AnnotationUrl(a.url!),
+                ),
+              );
+            }).toList(),
       ),
     ];
   }
 
   static String _getAttachmentLabel(AppLocalizations l10n, EntryAttachment a) {
     final base = switch (a.type) {
-      'credential' => LocalizationHelper.getLocalizedText(l10n, 'verifyCredential'),
-      'diplomaSupplement' => LocalizationHelper.getLocalizedText(l10n, 'diplomaSupplement'),
-      'completedExams' => LocalizationHelper.getLocalizedText(l10n, 'completedExams'),
-      'announcement' => LocalizationHelper.getLocalizedText(l10n, 'announcement'),
+      'credential' => LocalizationHelper.getLocalizedText(
+        l10n,
+        'verifyCredential',
+      ),
+      'diplomaSupplement' => LocalizationHelper.getLocalizedText(
+        l10n,
+        'diplomaSupplement',
+      ),
+      'completedExams' => LocalizationHelper.getLocalizedText(
+        l10n,
+        'completedExams',
+      ),
+      'announcement' => LocalizationHelper.getLocalizedText(
+        l10n,
+        'announcement',
+      ),
       _ => a.type,
     };
     return a.label != null ? '$base ${a.label}' : base;
@@ -672,7 +703,10 @@ class DynamicCVGeneratorService {
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
             pw.Text(
-              LocalizationHelper.getLocalizedText(l10n, 'languagesMotherTongue'),
+              LocalizationHelper.getLocalizedText(
+                l10n,
+                'languagesMotherTongue',
+              ),
               style: pw.TextStyle(
                 fontSize: 12,
                 fontWeight: pw.FontWeight.bold,
@@ -717,10 +751,7 @@ class DynamicCVGeneratorService {
           ),
         ),
         pw.SizedBox(height: 3),
-        pw.Text(
-          skills.join(' | '),
-          style: const pw.TextStyle(fontSize: 11),
-        ),
+        pw.Text(skills.join(' | '), style: const pw.TextStyle(fontSize: 11)),
       ];
 
       if (lang.badgeUrl != null) {
@@ -924,7 +955,10 @@ class DynamicCVGeneratorService {
       children: [
         pw.Divider(color: PdfColors.grey400),
         pw.SizedBox(height: 10),
-        pw.Text(l10n.europassGdprConsent, style: const pw.TextStyle(fontSize: 11)),
+        pw.Text(
+          l10n.europassGdprConsent,
+          style: const pw.TextStyle(fontSize: 11),
+        ),
         pw.SizedBox(height: 15),
         pw.Row(
           mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,

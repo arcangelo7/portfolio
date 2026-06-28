@@ -491,7 +491,9 @@ class _LandingPageState extends State<LandingPage>
     try {
       final l10n = AppLocalizations.of(context)!;
 
-      final pdfBytes = await EuropassCVGeneratorService.generateEuropassCV(l10n);
+      final pdfBytes = await EuropassCVGeneratorService.generateEuropassCV(
+        l10n,
+      );
 
       await Printing.sharePdf(
         bytes: pdfBytes,
@@ -756,7 +758,10 @@ class _LandingPageState extends State<LandingPage>
           FloatingActionButton(
             heroTag: "download_cv",
             shape: const CircleBorder(),
-            onPressed: (_isDownloadingCV || _isDownloadingEuropassCV) ? null : _showCVDownloadDialog,
+            onPressed:
+                (_isDownloadingCV || _isDownloadingEuropassCV)
+                    ? null
+                    : _showCVDownloadDialog,
             backgroundColor: Theme.of(context).colorScheme.error,
             tooltip:
                 (_isDownloadingCV || _isDownloadingEuropassCV)
@@ -1067,10 +1072,10 @@ class _LandingPageState extends State<LandingPage>
   Widget _buildFullScreenProfileImage(bool isDark) {
     final screenSize = MediaQuery.of(context).size;
     final aspectRatio = screenSize.width / screenSize.height;
-    
+
     // Use cover for normal screens, contain for ultra-wide (21:9 = 2.33)
     final isUltraWide = aspectRatio > 2.1;
-    
+
     return Positioned.fill(
       child: LazyImage(
         assetPath: 'assets/images/profile_cutout.webp',
@@ -1239,7 +1244,7 @@ class _LandingPageState extends State<LandingPage>
     TextStyle? style,
     TextAlign textAlign,
   ) {
-    final markdownRegex = RegExp(r'\[([^\]]+)\]\(([^)]+)\)');
+    final markdownRegex = RegExp(r'\[([^\]]+)\]\(([^)]+)\)|\*([^*\n]+)\*');
     final matches = markdownRegex.allMatches(text);
 
     if (matches.isEmpty) {
@@ -1250,7 +1255,6 @@ class _LandingPageState extends State<LandingPage>
     int currentIndex = 0;
 
     for (final match in matches) {
-      // Add text before the link
       if (match.start > currentIndex) {
         spans.add(
           TextSpan(
@@ -1260,24 +1264,50 @@ class _LandingPageState extends State<LandingPage>
         );
       }
 
-      // Add the clickable link
-      final linkText = match.group(1)!;
-      final linkUrl = match.group(2)!;
-      spans.add(
-        TextSpan(
-          text: linkText,
-          style: style?.copyWith(
-            color: Theme.of(context).colorScheme.primary,
-            decoration: TextDecoration.underline,
+      final linkText = match.group(1);
+      if (linkText != null) {
+        final isItalicLink =
+            linkText.length > 2 &&
+            linkText.startsWith('*') &&
+            linkText.endsWith('*');
+        final displayText =
+            isItalicLink
+                ? linkText.substring(1, linkText.length - 1)
+                : linkText;
+        final linkStyle =
+            style == null
+                ? TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  decoration: TextDecoration.underline,
+                  fontStyle: isItalicLink ? FontStyle.italic : null,
+                )
+                : style.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  decoration: TextDecoration.underline,
+                  fontStyle: isItalicLink ? FontStyle.italic : null,
+                );
+
+        spans.add(
+          TextSpan(
+            text: displayText,
+            style: linkStyle,
+            recognizer:
+                TapGestureRecognizer()
+                  ..onTap = () => _launchUrl(match.group(2)!),
           ),
-          recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(linkUrl),
-        ),
-      );
+        );
+      } else {
+        final italicStyle =
+            style == null
+                ? const TextStyle(fontStyle: FontStyle.italic)
+                : style.copyWith(fontStyle: FontStyle.italic);
+
+        spans.add(TextSpan(text: match.group(3)!, style: italicStyle));
+      }
 
       currentIndex = match.end;
     }
 
-    // Add remaining text
     if (currentIndex < text.length) {
       spans.add(TextSpan(text: text.substring(currentIndex), style: style));
     }
@@ -1422,4 +1452,3 @@ class _LandingPageState extends State<LandingPage>
     );
   }
 }
-

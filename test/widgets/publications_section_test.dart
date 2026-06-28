@@ -53,7 +53,6 @@ void main() {
     UrlLauncherPlatform.instance = UrlLauncherPlatform.instance;
   });
 
-
   Widget createMockedTestWidget({
     List<Publication>? publications,
     Exception? error,
@@ -361,10 +360,16 @@ void main() {
   group('PublicationsSection Mocked Locale Tests', () {
     testWidgets('shows loading state initially', (WidgetTester tester) async {
       final publications = createMockPublications();
-      when(() => mockZoteroService.getPublications())
-          .thenAnswer((_) async => Future.delayed(const Duration(milliseconds: 100), () => publications));
-      
-      await tester.pumpWidget(createMockedTestWidget(publications: publications));
+      when(() => mockZoteroService.getPublications()).thenAnswer(
+        (_) async => Future.delayed(
+          const Duration(milliseconds: 100),
+          () => publications,
+        ),
+      );
+
+      await tester.pumpWidget(
+        createMockedTestWidget(publications: publications),
+      );
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
       expect(find.text('For Science'), findsOneWidget);
@@ -372,10 +377,13 @@ void main() {
 
     testWidgets('works with basic functionality', (WidgetTester tester) async {
       final publications = createMockPublications();
-      when(() => mockZoteroService.getPublications())
-          .thenAnswer((_) async => publications);
-      
-      await tester.pumpWidget(createMockedTestWidget(publications: publications));
+      when(
+        () => mockZoteroService.getPublications(),
+      ).thenAnswer((_) async => publications);
+
+      await tester.pumpWidget(
+        createMockedTestWidget(publications: publications),
+      );
       await tester.pumpAndSettle();
 
       expect(find.byType(PublicationsSection), findsOneWidget);
@@ -596,6 +604,7 @@ void main() {
         if (viewButton.evaluate().isNotEmpty) {
           // This will exercise the real DefaultUrlLauncher.openUrl method
           // including the canLaunchUrl check and launchUrl call
+          await tester.ensureVisible(viewButton);
           await tester.tap(viewButton);
           await tester.pumpAndSettle();
 
@@ -640,6 +649,7 @@ void main() {
       // Find and tap the view button
       final viewButton = find.byType(ElevatedButton);
       if (viewButton.evaluate().isNotEmpty) {
+        await tester.ensureVisible(viewButton);
         await tester.tap(viewButton);
         await tester.pumpAndSettle();
 

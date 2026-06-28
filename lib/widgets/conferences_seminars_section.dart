@@ -14,10 +14,12 @@ class ConferencesSeminarsSection extends StatefulWidget {
   const ConferencesSeminarsSection({super.key});
 
   @override
-  State<ConferencesSeminarsSection> createState() => _ConferencesSeminarsSectionState();
+  State<ConferencesSeminarsSection> createState() =>
+      _ConferencesSeminarsSectionState();
 }
 
-class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection> {
+class _ConferencesSeminarsSectionState
+    extends State<ConferencesSeminarsSection> {
   List<ConferenceEntry>? _conferenceEntries;
   bool _isLoading = true;
   String? _error;
@@ -96,14 +98,15 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
     final conferenceEntries = _conferenceEntries ?? [];
 
     return Column(
-      children: conferenceEntries.map((entry) {
-        return Column(
-          children: [
-            _buildConferenceItem(context, l10n, entry, isMobile),
-            if (entry != conferenceEntries.last) const SizedBox(height: 32),
-          ],
-        );
-      }).toList(),
+      children:
+          conferenceEntries.map((entry) {
+            return Column(
+              children: [
+                _buildConferenceItem(context, l10n, entry, isMobile),
+                if (entry != conferenceEntries.last) const SizedBox(height: 32),
+              ],
+            );
+          }).toList(),
     );
   }
 
@@ -146,86 +149,29 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
         children: [
           isMobile
               ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SelectableText(
-                      title,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: 18,
-                      ),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SelectableText(
+                    title,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 18,
                     ),
-                    const SizedBox(height: 4),
-                    SelectableText(
-                      location,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
+                  ),
+                  const SizedBox(height: 4),
+                  SelectableText(
+                    location,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
                     ),
-                    const SizedBox(height: 12),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.tertiary.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.tertiary.withValues(alpha: 0.3),
-                          ),
-                        ),
-                        child: SelectableText(
-                          period,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              : Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SelectableText(
-                            title,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          SelectableText(
-                            location,
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.secondary,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
+                  ),
+                  const SizedBox(height: 12),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 6,
@@ -246,11 +192,68 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface,
                           fontWeight: FontWeight.w600,
+                          fontSize: 12,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              )
+              : Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SelectableText(
+                          title,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        SelectableText(
+                          location,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.tertiary.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.tertiary.withValues(alpha: 0.3),
+                      ),
+                    ),
+                    child: SelectableText(
+                      period,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
           const SizedBox(height: 16),
           _buildTextWithMarkdownLinks(
             context,
@@ -271,7 +274,7 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
     String text,
     TextStyle? style,
   ) {
-    final markdownRegex = RegExp(r'\[([^\]]+)\]\(([^)]+)\)');
+    final markdownRegex = RegExp(r'\[([^\]]+)\]\(([^)]+)\)|\*([^*\n]+)\*');
     final matches = markdownRegex.allMatches(text);
 
     if (matches.isEmpty) {
@@ -291,18 +294,46 @@ class _ConferencesSeminarsSectionState extends State<ConferencesSeminarsSection>
         );
       }
 
-      final linkText = match.group(1)!;
-      final linkUrl = match.group(2)!;
-      spans.add(
-        TextSpan(
-          text: linkText,
-          style: style?.copyWith(
-            color: Theme.of(context).colorScheme.primary,
-            decoration: TextDecoration.underline,
+      final linkText = match.group(1);
+      if (linkText != null) {
+        final isItalicLink =
+            linkText.length > 2 &&
+            linkText.startsWith('*') &&
+            linkText.endsWith('*');
+        final displayText =
+            isItalicLink
+                ? linkText.substring(1, linkText.length - 1)
+                : linkText;
+        final linkStyle =
+            style == null
+                ? TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  decoration: TextDecoration.underline,
+                  fontStyle: isItalicLink ? FontStyle.italic : null,
+                )
+                : style.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  decoration: TextDecoration.underline,
+                  fontStyle: isItalicLink ? FontStyle.italic : null,
+                );
+
+        spans.add(
+          TextSpan(
+            text: displayText,
+            style: linkStyle,
+            recognizer:
+                TapGestureRecognizer()
+                  ..onTap = () => _launchUrl(match.group(2)!),
           ),
-          recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(linkUrl),
-        ),
-      );
+        );
+      } else {
+        final italicStyle =
+            style == null
+                ? const TextStyle(fontStyle: FontStyle.italic)
+                : style.copyWith(fontStyle: FontStyle.italic);
+
+        spans.add(TextSpan(text: match.group(3)!, style: italicStyle));
+      }
 
       currentIndex = match.end;
     }

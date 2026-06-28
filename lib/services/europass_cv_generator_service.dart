@@ -42,10 +42,9 @@ class EuropassCVGeneratorService {
     return LanguageData.fromJson(json.decode(languagesJson));
   }
 
-  /// Builds a markdown-style link as clickable PDF text.
   static pw.Widget _buildRichText(String text, {double fontSize = 12}) {
-    final linkRegex = RegExp(r'\[([^\]]+)\]\(([^)]+)\)');
-    final matches = linkRegex.allMatches(text).toList();
+    final markdownRegex = RegExp(r'\[([^\]]+)\]\(([^)]+)\)|\*([^*\n]+)\*');
+    final matches = markdownRegex.allMatches(text).toList();
 
     if (matches.isEmpty) {
       return pw.Text(text, style: pw.TextStyle(fontSize: fontSize));
@@ -64,28 +63,45 @@ class EuropassCVGeneratorService {
         );
       }
 
-      final linkText = match.group(1) ?? '';
-      String linkUrl = match.group(2) ?? '';
+      final linkText = match.group(1);
+      if (linkText != null) {
+        final isItalicLink =
+            linkText.length > 2 &&
+            linkText.startsWith('*') &&
+            linkText.endsWith('*');
+        final displayText =
+            isItalicLink
+                ? linkText.substring(1, linkText.length - 1)
+                : linkText;
+        var linkUrl = match.group(2)!;
 
-      if (!linkUrl.startsWith('http://') && !linkUrl.startsWith('https://')) {
-        if (linkUrl.startsWith('www.')) {
-          linkUrl = 'https://$linkUrl';
-        } else {
+        if (!linkUrl.startsWith('http://') && !linkUrl.startsWith('https://')) {
           linkUrl = 'https://$linkUrl';
         }
-      }
 
-      spans.add(
-        pw.TextSpan(
-          text: linkText,
-          style: pw.TextStyle(
-            fontSize: fontSize,
-            color: PdfColors.blue700,
-            decoration: pw.TextDecoration.underline,
+        spans.add(
+          pw.TextSpan(
+            text: displayText,
+            style: pw.TextStyle(
+              fontSize: fontSize,
+              color: PdfColors.blue700,
+              decoration: pw.TextDecoration.underline,
+              fontStyle: isItalicLink ? pw.FontStyle.italic : null,
+            ),
+            annotation: pw.AnnotationUrl(linkUrl),
           ),
-          annotation: pw.AnnotationUrl(linkUrl),
-        ),
-      );
+        );
+      } else {
+        spans.add(
+          pw.TextSpan(
+            text: match.group(3)!,
+            style: pw.TextStyle(
+              fontSize: fontSize,
+              fontStyle: pw.FontStyle.italic,
+            ),
+          ),
+        );
+      }
 
       lastMatchEnd = match.end;
     }
@@ -102,9 +118,7 @@ class EuropassCVGeneratorService {
     return pw.RichText(text: pw.TextSpan(children: spans));
   }
 
-  static Future<Uint8List> generateEuropassCV(
-    AppLocalizations l10n,
-  ) async {
+  static Future<Uint8List> generateEuropassCV(AppLocalizations l10n) async {
     final pdf = pw.Document();
     final theme = await _createUnicodeTheme();
     final cvData = await CVDataService.loadCVData();
@@ -121,22 +135,23 @@ class EuropassCVGeneratorService {
         pageFormat: PdfPageFormat.a4,
         theme: theme,
         margin: const pw.EdgeInsets.all(40),
-        build: (context) => [
-          // Header
-          _buildHeader(l10n),
-          pw.SizedBox(height: 20),
+        build:
+            (context) => [
+              // Header
+              _buildHeader(l10n),
+              pw.SizedBox(height: 20),
 
-          // Personal Information Section
-          _buildPersonalInformationSection(l10n, personalInfo),
-          pw.SizedBox(height: 20),
+              // Personal Information Section
+              _buildPersonalInformationSection(l10n, personalInfo),
+              pw.SizedBox(height: 20),
 
-          // Work Experience Section
-          ..._buildWorkExperienceSection(l10n, workExperience),
-          pw.SizedBox(height: 20),
+              // Work Experience Section
+              ..._buildWorkExperienceSection(l10n, workExperience),
+              pw.SizedBox(height: 20),
 
-          // Education Section
-          ..._buildEducationSection(l10n, education),
-        ],
+              // Education Section
+              ..._buildEducationSection(l10n, education),
+            ],
       ),
     );
 
@@ -146,18 +161,19 @@ class EuropassCVGeneratorService {
         pageFormat: PdfPageFormat.a4,
         theme: theme,
         margin: const pw.EdgeInsets.all(40),
-        build: (context) => [
-          // Personal Skills Section
-          _buildPersonalSkillsSection(l10n, skills, languageData),
-          pw.SizedBox(height: 20),
+        build:
+            (context) => [
+              // Personal Skills Section
+              _buildPersonalSkillsSection(l10n, skills, languageData),
+              pw.SizedBox(height: 20),
 
-          // Driver's License
-          _buildDriversLicenseSection(l10n),
-          pw.SizedBox(height: 40),
+              // Driver's License
+              _buildDriversLicenseSection(l10n),
+              pw.SizedBox(height: 40),
 
-          // Footer with GDPR consent
-          _buildFooter(l10n, personalInfo.name),
-        ],
+              // Footer with GDPR consent
+              _buildFooter(l10n, personalInfo.name),
+            ],
       ),
     );
 
@@ -171,10 +187,7 @@ class EuropassCVGeneratorService {
       children: [
         pw.Text(
           LocalizationHelper.getLocalizedText(l10n, 'europassHeader'),
-          style: pw.TextStyle(
-            fontSize: 24,
-            fontWeight: pw.FontWeight.bold,
-          ),
+          style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold),
         ),
       ],
     );
@@ -211,7 +224,10 @@ class EuropassCVGeneratorService {
               flex: 2,
               child: pw.Text(
                 personalInfo.name,
-                style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+                style: pw.TextStyle(
+                  fontSize: 12,
+                  fontWeight: pw.FontWeight.bold,
+                ),
               ),
             ),
           ],
@@ -256,7 +272,10 @@ class EuropassCVGeneratorService {
                 pw.Expanded(
                   flex: 1,
                   child: pw.Text(
-                    LocalizationHelper.getLocalizedText(l10n, 'europassPosition'),
+                    LocalizationHelper.getLocalizedText(
+                      l10n,
+                      'europassPosition',
+                    ),
                     style: const pw.TextStyle(fontSize: 12),
                   ),
                 ),
@@ -264,7 +283,10 @@ class EuropassCVGeneratorService {
                   flex: 2,
                   child: pw.Text(
                     LocalizationHelper.getLocalizedText(l10n, entry.titleKey),
-                    style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+                    style: pw.TextStyle(
+                      fontSize: 12,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -276,7 +298,10 @@ class EuropassCVGeneratorService {
                 pw.Expanded(
                   flex: 1,
                   child: pw.Text(
-                    LocalizationHelper.getLocalizedText(l10n, 'europassEmployer'),
+                    LocalizationHelper.getLocalizedText(
+                      l10n,
+                      'europassEmployer',
+                    ),
                     style: const pw.TextStyle(fontSize: 12),
                   ),
                 ),
@@ -296,14 +321,20 @@ class EuropassCVGeneratorService {
                 pw.Expanded(
                   flex: 1,
                   child: pw.Text(
-                    LocalizationHelper.getLocalizedText(l10n, 'europassActivities'),
+                    LocalizationHelper.getLocalizedText(
+                      l10n,
+                      'europassActivities',
+                    ),
                     style: const pw.TextStyle(fontSize: 12),
                   ),
                 ),
                 pw.Expanded(
                   flex: 2,
                   child: _buildRichText(
-                    LocalizationHelper.getLocalizedText(l10n, entry.descriptionKey),
+                    LocalizationHelper.getLocalizedText(
+                      l10n,
+                      entry.descriptionKey,
+                    ),
                     fontSize: 12,
                   ),
                 ),
@@ -349,9 +380,9 @@ class EuropassCVGeneratorService {
           ),
         ],
       ),
-      ...workExperience.skip(1).map(
-        (entry) => _buildWorkExperienceEntry(l10n, entry),
-      ),
+      ...workExperience
+          .skip(1)
+          .map((entry) => _buildWorkExperienceEntry(l10n, entry)),
     ];
   }
 
@@ -391,7 +422,10 @@ class EuropassCVGeneratorService {
                 pw.Expanded(
                   flex: 1,
                   child: pw.Text(
-                    LocalizationHelper.getLocalizedText(l10n, 'europassQualification'),
+                    LocalizationHelper.getLocalizedText(
+                      l10n,
+                      'europassQualification',
+                    ),
                     style: const pw.TextStyle(fontSize: 12),
                   ),
                 ),
@@ -399,7 +433,10 @@ class EuropassCVGeneratorService {
                   flex: 2,
                   child: pw.Text(
                     LocalizationHelper.getLocalizedText(l10n, entry.titleKey),
-                    style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+                    style: pw.TextStyle(
+                      fontSize: 12,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -411,14 +448,20 @@ class EuropassCVGeneratorService {
                 pw.Expanded(
                   flex: 1,
                   child: pw.Text(
-                    LocalizationHelper.getLocalizedText(l10n, 'europassInstitution'),
+                    LocalizationHelper.getLocalizedText(
+                      l10n,
+                      'europassInstitution',
+                    ),
                     style: const pw.TextStyle(fontSize: 12),
                   ),
                 ),
                 pw.Expanded(
                   flex: 2,
                   child: pw.Text(
-                    LocalizationHelper.getLocalizedText(l10n, entry.institutionKey),
+                    LocalizationHelper.getLocalizedText(
+                      l10n,
+                      entry.institutionKey,
+                    ),
                     style: const pw.TextStyle(fontSize: 12),
                   ),
                 ),
@@ -431,14 +474,20 @@ class EuropassCVGeneratorService {
                 pw.Expanded(
                   flex: 1,
                   child: pw.Text(
-                    LocalizationHelper.getLocalizedText(l10n, 'europassSubjects'),
+                    LocalizationHelper.getLocalizedText(
+                      l10n,
+                      'europassSubjects',
+                    ),
                     style: const pw.TextStyle(fontSize: 12),
                   ),
                 ),
                 pw.Expanded(
                   flex: 2,
                   child: _buildRichText(
-                    LocalizationHelper.getLocalizedText(l10n, entry.descriptionKey),
+                    LocalizationHelper.getLocalizedText(
+                      l10n,
+                      entry.descriptionKey,
+                    ),
                     fontSize: 12,
                   ),
                 ),
@@ -484,9 +533,7 @@ class EuropassCVGeneratorService {
           ),
         ],
       ),
-      ...education.skip(1).map(
-        (entry) => _buildEducationEntry(l10n, entry),
-      ),
+      ...education.skip(1).map((entry) => _buildEducationEntry(l10n, entry)),
     ];
   }
 
@@ -508,27 +555,41 @@ class EuropassCVGeneratorService {
             child: pw.Wrap(
               spacing: 12,
               runSpacing: 4,
-              children: urlAttachments.map((a) {
-                final base = switch (a.type) {
-                  'credential' => LocalizationHelper.getLocalizedText(l10n, 'verifyCredential'),
-                  'diplomaSupplement' => LocalizationHelper.getLocalizedText(l10n, 'diplomaSupplement'),
-                  'completedExams' => LocalizationHelper.getLocalizedText(l10n, 'completedExams'),
-                  'announcement' => LocalizationHelper.getLocalizedText(l10n, 'announcement'),
-                  _ => a.type,
-                };
-                final text = a.label != null ? '$base ${a.label}' : base;
-                return pw.RichText(
-                  text: pw.TextSpan(
-                    text: text,
-                    style: pw.TextStyle(
-                      fontSize: 11,
-                      color: PdfColors.blue700,
-                      decoration: pw.TextDecoration.underline,
-                    ),
-                    annotation: pw.AnnotationUrl(a.url!),
-                  ),
-                );
-              }).toList(),
+              children:
+                  urlAttachments.map((a) {
+                    final base = switch (a.type) {
+                      'credential' => LocalizationHelper.getLocalizedText(
+                        l10n,
+                        'verifyCredential',
+                      ),
+                      'diplomaSupplement' =>
+                        LocalizationHelper.getLocalizedText(
+                          l10n,
+                          'diplomaSupplement',
+                        ),
+                      'completedExams' => LocalizationHelper.getLocalizedText(
+                        l10n,
+                        'completedExams',
+                      ),
+                      'announcement' => LocalizationHelper.getLocalizedText(
+                        l10n,
+                        'announcement',
+                      ),
+                      _ => a.type,
+                    };
+                    final text = a.label != null ? '$base ${a.label}' : base;
+                    return pw.RichText(
+                      text: pw.TextSpan(
+                        text: text,
+                        style: pw.TextStyle(
+                          fontSize: 11,
+                          color: PdfColors.blue700,
+                          decoration: pw.TextDecoration.underline,
+                        ),
+                        annotation: pw.AnnotationUrl(a.url!),
+                      ),
+                    );
+                  }).toList(),
             ),
           ),
         ],
@@ -563,14 +624,20 @@ class EuropassCVGeneratorService {
             pw.Expanded(
               flex: 1,
               child: pw.Text(
-                LocalizationHelper.getLocalizedText(l10n, 'europassMotherTongue'),
+                LocalizationHelper.getLocalizedText(
+                  l10n,
+                  'europassMotherTongue',
+                ),
                 style: const pw.TextStyle(fontSize: 12),
               ),
             ),
             pw.Expanded(
               flex: 2,
               child: pw.Text(
-                LocalizationHelper.getLocalizedText(l10n, languageData.motherTongue.name),
+                LocalizationHelper.getLocalizedText(
+                  l10n,
+                  languageData.motherTongue.name,
+                ),
                 style: const pw.TextStyle(fontSize: 12),
               ),
             ),
@@ -602,7 +669,10 @@ class EuropassCVGeneratorService {
             pw.Expanded(
               flex: 1,
               child: pw.Text(
-                LocalizationHelper.getLocalizedText(l10n, 'europassOtherLanguages'),
+                LocalizationHelper.getLocalizedText(
+                  l10n,
+                  'europassOtherLanguages',
+                ),
                 style: const pw.TextStyle(fontSize: 12),
               ),
             ),
@@ -625,48 +695,83 @@ class EuropassCVGeneratorService {
                     children: [
                       // Header row
                       pw.TableRow(
-                        decoration: const pw.BoxDecoration(color: PdfColors.grey200),
+                        decoration: const pw.BoxDecoration(
+                          color: PdfColors.grey200,
+                        ),
                         children: [
                           pw.Padding(
                             padding: const pw.EdgeInsets.all(4),
                             child: pw.Text(
                               '',
-                              style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold),
+                              style: pw.TextStyle(
+                                fontSize: 9,
+                                fontWeight: pw.FontWeight.bold,
+                              ),
                             ),
                           ),
                           pw.Padding(
                             padding: const pw.EdgeInsets.all(4),
                             child: pw.Text(
-                              LocalizationHelper.getLocalizedText(l10n, 'europassListening'),
-                              style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold),
+                              LocalizationHelper.getLocalizedText(
+                                l10n,
+                                'europassListening',
+                              ),
+                              style: pw.TextStyle(
+                                fontSize: 9,
+                                fontWeight: pw.FontWeight.bold,
+                              ),
                             ),
                           ),
                           pw.Padding(
                             padding: const pw.EdgeInsets.all(4),
                             child: pw.Text(
-                              LocalizationHelper.getLocalizedText(l10n, 'europassReading'),
-                              style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold),
+                              LocalizationHelper.getLocalizedText(
+                                l10n,
+                                'europassReading',
+                              ),
+                              style: pw.TextStyle(
+                                fontSize: 9,
+                                fontWeight: pw.FontWeight.bold,
+                              ),
                             ),
                           ),
                           pw.Padding(
                             padding: const pw.EdgeInsets.all(4),
                             child: pw.Text(
-                              LocalizationHelper.getLocalizedText(l10n, 'europassSpokenInteraction'),
-                              style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold),
+                              LocalizationHelper.getLocalizedText(
+                                l10n,
+                                'europassSpokenInteraction',
+                              ),
+                              style: pw.TextStyle(
+                                fontSize: 9,
+                                fontWeight: pw.FontWeight.bold,
+                              ),
                             ),
                           ),
                           pw.Padding(
                             padding: const pw.EdgeInsets.all(4),
                             child: pw.Text(
-                              LocalizationHelper.getLocalizedText(l10n, 'europassSpokenProduction'),
-                              style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold),
+                              LocalizationHelper.getLocalizedText(
+                                l10n,
+                                'europassSpokenProduction',
+                              ),
+                              style: pw.TextStyle(
+                                fontSize: 9,
+                                fontWeight: pw.FontWeight.bold,
+                              ),
                             ),
                           ),
                           pw.Padding(
                             padding: const pw.EdgeInsets.all(4),
                             child: pw.Text(
-                              LocalizationHelper.getLocalizedText(l10n, 'europassWriting'),
-                              style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold),
+                              LocalizationHelper.getLocalizedText(
+                                l10n,
+                                'europassWriting',
+                              ),
+                              style: pw.TextStyle(
+                                fontSize: 9,
+                                fontWeight: pw.FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -678,29 +783,50 @@ class EuropassCVGeneratorService {
                             pw.Padding(
                               padding: const pw.EdgeInsets.all(4),
                               child: pw.Text(
-                                LocalizationHelper.getLocalizedText(l10n, lang.name),
-                                style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold),
+                                LocalizationHelper.getLocalizedText(
+                                  l10n,
+                                  lang.name,
+                                ),
+                                style: pw.TextStyle(
+                                  fontSize: 9,
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
                               ),
                             ),
                             pw.Padding(
                               padding: const pw.EdgeInsets.all(4),
-                              child: pw.Text(lang.listening, style: const pw.TextStyle(fontSize: 9)),
+                              child: pw.Text(
+                                lang.listening,
+                                style: const pw.TextStyle(fontSize: 9),
+                              ),
                             ),
                             pw.Padding(
                               padding: const pw.EdgeInsets.all(4),
-                              child: pw.Text(lang.reading, style: const pw.TextStyle(fontSize: 9)),
+                              child: pw.Text(
+                                lang.reading,
+                                style: const pw.TextStyle(fontSize: 9),
+                              ),
                             ),
                             pw.Padding(
                               padding: const pw.EdgeInsets.all(4),
-                              child: pw.Text(lang.spokenInteraction, style: const pw.TextStyle(fontSize: 9)),
+                              child: pw.Text(
+                                lang.spokenInteraction,
+                                style: const pw.TextStyle(fontSize: 9),
+                              ),
                             ),
                             pw.Padding(
                               padding: const pw.EdgeInsets.all(4),
-                              child: pw.Text(lang.spokenProduction, style: const pw.TextStyle(fontSize: 9)),
+                              child: pw.Text(
+                                lang.spokenProduction,
+                                style: const pw.TextStyle(fontSize: 9),
+                              ),
                             ),
                             pw.Padding(
                               padding: const pw.EdgeInsets.all(4),
-                              child: pw.Text(lang.writing, style: const pw.TextStyle(fontSize: 9)),
+                              child: pw.Text(
+                                lang.writing,
+                                style: const pw.TextStyle(fontSize: 9),
+                              ),
                             ),
                           ],
                         ),
@@ -709,33 +835,48 @@ class EuropassCVGeneratorService {
                   ),
                   pw.SizedBox(height: 4),
                   pw.Text(
-                    LocalizationHelper.getLocalizedText(l10n, 'europassCefrReference'),
-                    style: pw.TextStyle(fontSize: 8, fontStyle: pw.FontStyle.italic),
+                    LocalizationHelper.getLocalizedText(
+                      l10n,
+                      'europassCefrReference',
+                    ),
+                    style: pw.TextStyle(
+                      fontSize: 8,
+                      fontStyle: pw.FontStyle.italic,
+                    ),
                   ),
                   ...otherLanguages
                       .where((lang) => lang.badgeUrl != null)
-                      .map((lang) => pw.Padding(
-                        padding: const pw.EdgeInsets.only(top: 4),
-                        child: pw.RichText(
-                          text: pw.TextSpan(
-                            children: [
-                              pw.TextSpan(
-                                text: '${LocalizationHelper.getLocalizedText(l10n, lang.name)}: ',
-                                style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold),
-                              ),
-                              pw.TextSpan(
-                                text: LocalizationHelper.getLocalizedText(l10n, 'verifyCredential'),
-                                style: pw.TextStyle(
-                                  fontSize: 8,
-                                  color: PdfColors.blue700,
-                                  decoration: pw.TextDecoration.underline,
+                      .map(
+                        (lang) => pw.Padding(
+                          padding: const pw.EdgeInsets.only(top: 4),
+                          child: pw.RichText(
+                            text: pw.TextSpan(
+                              children: [
+                                pw.TextSpan(
+                                  text:
+                                      '${LocalizationHelper.getLocalizedText(l10n, lang.name)}: ',
+                                  style: pw.TextStyle(
+                                    fontSize: 8,
+                                    fontWeight: pw.FontWeight.bold,
+                                  ),
                                 ),
-                                annotation: pw.AnnotationUrl(lang.badgeUrl!),
-                              ),
-                            ],
+                                pw.TextSpan(
+                                  text: LocalizationHelper.getLocalizedText(
+                                    l10n,
+                                    'verifyCredential',
+                                  ),
+                                  style: pw.TextStyle(
+                                    fontSize: 8,
+                                    color: PdfColors.blue700,
+                                    decoration: pw.TextDecoration.underline,
+                                  ),
+                                  annotation: pw.AnnotationUrl(lang.badgeUrl!),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      )),
+                      ),
                 ],
               ),
             ),
@@ -759,7 +900,10 @@ class EuropassCVGeneratorService {
             pw.Expanded(
               flex: 1,
               child: pw.Text(
-                LocalizationHelper.getLocalizedText(l10n, 'europassTechnicalSkills'),
+                LocalizationHelper.getLocalizedText(
+                  l10n,
+                  'europassTechnicalSkills',
+                ),
                 style: const pw.TextStyle(fontSize: 12),
               ),
             ),
@@ -767,28 +911,38 @@ class EuropassCVGeneratorService {
               flex: 2,
               child: pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: skills.categories.map((category) {
-                  final skillNames = category.skills
-                      .map((skill) => LocalizationHelper.getLocalizedText(l10n, skill.nameKey))
-                      .join(', ');
-                  return pw.Padding(
-                    padding: const pw.EdgeInsets.only(bottom: 4),
-                    child: pw.RichText(
-                      text: pw.TextSpan(
-                        children: [
-                          pw.TextSpan(
-                            text: '${LocalizationHelper.getLocalizedText(l10n, category.nameKey)}: ',
-                            style: pw.TextStyle(fontSize: 11, fontWeight: pw.FontWeight.bold),
+                children:
+                    skills.categories.map((category) {
+                      final skillNames = category.skills
+                          .map(
+                            (skill) => LocalizationHelper.getLocalizedText(
+                              l10n,
+                              skill.nameKey,
+                            ),
+                          )
+                          .join(', ');
+                      return pw.Padding(
+                        padding: const pw.EdgeInsets.only(bottom: 4),
+                        child: pw.RichText(
+                          text: pw.TextSpan(
+                            children: [
+                              pw.TextSpan(
+                                text:
+                                    '${LocalizationHelper.getLocalizedText(l10n, category.nameKey)}: ',
+                                style: pw.TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: pw.FontWeight.bold,
+                                ),
+                              ),
+                              pw.TextSpan(
+                                text: skillNames,
+                                style: const pw.TextStyle(fontSize: 11),
+                              ),
+                            ],
                           ),
-                          pw.TextSpan(
-                            text: skillNames,
-                            style: const pw.TextStyle(fontSize: 11),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }).toList(),
+                        ),
+                      );
+                    }).toList(),
               ),
             ),
           ],
@@ -808,7 +962,10 @@ class EuropassCVGeneratorService {
             pw.Expanded(
               flex: 1,
               child: pw.Text(
-                LocalizationHelper.getLocalizedText(l10n, 'europassDrivingLicense'),
+                LocalizationHelper.getLocalizedText(
+                  l10n,
+                  'europassDrivingLicense',
+                ),
                 style: const pw.TextStyle(fontSize: 12),
               ),
             ),
@@ -828,7 +985,8 @@ class EuropassCVGeneratorService {
   /// Builds footer with GDPR consent.
   static pw.Widget _buildFooter(AppLocalizations l10n, String name) {
     final currentDate = DateTime.now();
-    final formattedDate = '${currentDate.day.toString().padLeft(2, '0')}/${currentDate.month.toString().padLeft(2, '0')}/${currentDate.year}';
+    final formattedDate =
+        '${currentDate.day.toString().padLeft(2, '0')}/${currentDate.month.toString().padLeft(2, '0')}/${currentDate.year}';
 
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
