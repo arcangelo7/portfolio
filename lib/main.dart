@@ -742,8 +742,7 @@ class _LandingPageState extends State<LandingPage>
                       : AppLocalizations.of(context)!.darkModeIconAlt,
               child: ThemeToggleWidget(
                 isDarkMode: widget.isDarkMode,
-                onToggle: () {},
-                size: 40.0,
+                size: 56.0,
               ),
             ),
           ),
@@ -815,7 +814,6 @@ class _LandingPageState extends State<LandingPage>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Theme toggle FAB
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
@@ -845,8 +843,7 @@ class _LandingPageState extends State<LandingPage>
                                 : AppLocalizations.of(context)!.darkModeIconAlt,
                         child: ThemeToggleWidget(
                           isDarkMode: widget.isDarkMode,
-                          onToggle: () {},
-                          size: 24.0,
+                          size: 56.0,
                         ),
                       ),
                     )
@@ -854,7 +851,6 @@ class _LandingPageState extends State<LandingPage>
           ),
         ),
         if (_isFabExpanded) const SizedBox(height: 16),
-        // Language selector FAB
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,

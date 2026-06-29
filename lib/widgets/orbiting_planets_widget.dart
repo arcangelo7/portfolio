@@ -2,8 +2,10 @@
 //
 // SPDX-License-Identifier: ISC
 
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+
 import '../l10n/app_localizations.dart';
 import '../utils/responsive.dart';
 import 'lazy_image.dart';
@@ -35,11 +37,15 @@ class _StaticThemeElementsWidgetState extends State<StaticThemeElementsWidget>
     super.initState();
 
     _transitionController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 650),
       vsync: this,
-    );
+    )..addStatusListener((status) {
+      if (status == AnimationStatus.completed && mounted) {
+        _transitionController.reset();
+      }
+    });
 
-    _orbitAnimation = Tween<double>(begin: 0.0, end: 2 * math.pi).animate(
+    _orbitAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _transitionController,
         curve: Curves.easeInOutCubic,
@@ -50,10 +56,12 @@ class _StaticThemeElementsWidgetState extends State<StaticThemeElementsWidget>
   @override
   void didUpdateWidget(StaticThemeElementsWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.isDarkMode != widget.isDarkMode && widget.enableAnimation) {
-      _transitionController.forward().then((_) {
-        _transitionController.reset();
-      });
+    final disableAnimations =
+        MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+    if (oldWidget.isDarkMode != widget.isDarkMode &&
+        widget.enableAnimation &&
+        !disableAnimations) {
+      _transitionController.forward(from: 0);
     }
   }
 
@@ -63,12 +71,9 @@ class _StaticThemeElementsWidgetState extends State<StaticThemeElementsWidget>
     super.dispose();
   }
 
-  Widget _buildPlanetElement(
-    String assetPath,
-    IconData fallbackIcon,
-    Color fallbackColor,
-  ) {
+  Widget _buildPlanetElement(bool isDarkMode) {
     return Container(
+      key: ValueKey(isDarkMode ? 'theme-element-moon' : 'theme-element-sun'),
       width: widget.elementSize,
       height: widget.elementSize,
       decoration: BoxDecoration(
@@ -88,7 +93,10 @@ class _StaticThemeElementsWidgetState extends State<StaticThemeElementsWidget>
           child: ExcludeSemantics(
             excluding: true,
             child: LazyImage(
-              assetPath: assetPath,
+              assetPath:
+                  isDarkMode
+                      ? 'assets/images/dark_mode.png'
+                      : 'assets/images/light_mode.png',
               fit: BoxFit.cover,
               width: widget.elementSize,
               height: widget.elementSize,
@@ -101,100 +109,65 @@ class _StaticThemeElementsWidgetState extends State<StaticThemeElementsWidget>
     );
   }
 
+  Widget _positionedPlanet({required bool isDarkMode, required Offset offset}) {
+    return Positioned(
+      left: offset.dx,
+      top: offset.dy,
+      child: _buildPlanetElement(isDarkMode),
+    );
+  }
+
+  double _lerp(double start, double end, double progress) {
+    return start + (end - start) * progress;
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = Responsive.sizeOf(context);
     final isMobile = Responsive.isMobile(context);
 
-    // Static position in top-left corner with equal distance from left and top
     final leftPosition = isMobile ? 20.0 : 40.0;
     final topPosition = isMobile ? 20.0 : 40.0;
+    final disableAnimations =
+        MediaQuery.maybeDisableAnimationsOf(context) ?? false;
 
     return AnimatedBuilder(
       animation: _transitionController,
       builder: (context, child) {
-        if (!_transitionController.isAnimating) {
-          // Static position when not animating
+        if (!_transitionController.isAnimating || disableAnimations) {
           return Positioned(
             left: leftPosition,
             top: topPosition,
-            child:
-                widget.isDarkMode
-                    ? _buildPlanetElement(
-                      'assets/images/dark_mode.png',
-                      Icons.nightlight_round,
-                      Colors.indigo,
-                    )
-                    : _buildPlanetElement(
-                      'assets/images/light_mode.png',
-                      Icons.wb_sunny,
-                      Colors.orange,
-                    ),
+            child: _buildPlanetElement(widget.isDarkMode),
           );
         }
 
-        // During transition: animate along elliptical path
-        final progress = _orbitAnimation.value / (2 * math.pi);
+        final progress = _orbitAnimation.value;
+        final outgoingOffset = Offset(
+          _lerp(leftPosition, screenSize.width + widget.elementSize, progress),
+          _lerp(topPosition, screenSize.height * 0.7, progress) -
+              screenSize.height * 0.12 * math.sin(progress * math.pi),
+        );
+        final incomingOffset = Offset(
+          _lerp(-widget.elementSize, leftPosition, progress),
+          _lerp(screenSize.height * 0.24, topPosition, progress) -
+              screenSize.height * 0.06 * math.sin(progress * math.pi),
+        );
 
-        // Use simple linear interpolation to ensure exact start position
-        final startX = leftPosition;
-        final startY = topPosition;
-        final endX = screenSize.width + widget.elementSize;
-        final endY = screenSize.height * 0.7;
-
-        // Simple interpolation for X (linear left to right)
-        final x = startX + (endX - startX) * progress;
-
-        // Elliptical curve for Y to create natural arc
-        final midY =
-            topPosition - (screenSize.height * 0.1); // Arc upward first
-        final y =
-            startY +
-            (midY - startY) *
-                2 *
-                progress *
-                (1 - progress) + // Quadratic curve up then down
-            (endY - startY) * progress;
-
-        return Stack(
-          children: [
-            // Exiting element (moves from left to right and exits completely)
-            if (progress < 1.0)
-              Positioned(
-                left: x,
-                top: y,
-                child:
-                    widget.isDarkMode
-                        ? _buildPlanetElement(
-                          'assets/images/light_mode.png',
-                          Icons.wb_sunny,
-                          Colors.orange,
-                        )
-                        : _buildPlanetElement(
-                          'assets/images/dark_mode.png',
-                          Icons.nightlight_round,
-                          Colors.indigo,
-                        ),
+        return Positioned.fill(
+          child: Stack(
+            clipBehavior: Clip.hardEdge,
+            children: [
+              _positionedPlanet(
+                isDarkMode: !widget.isDarkMode,
+                offset: outgoingOffset,
               ),
-            // Entering element (appears from left side after the other exits)
-            if (progress >= 1.0)
-              Positioned(
-                left: leftPosition,
-                top: topPosition,
-                child:
-                    widget.isDarkMode
-                        ? _buildPlanetElement(
-                          'assets/images/dark_mode.png',
-                          Icons.nightlight_round,
-                          Colors.indigo,
-                        )
-                        : _buildPlanetElement(
-                          'assets/images/light_mode.png',
-                          Icons.wb_sunny,
-                          Colors.orange,
-                        ),
+              _positionedPlanet(
+                isDarkMode: widget.isDarkMode,
+                offset: incomingOffset,
               ),
-          ],
+            ],
+          ),
         );
       },
     );
