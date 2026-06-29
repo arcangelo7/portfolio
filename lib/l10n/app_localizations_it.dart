@@ -460,7 +460,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get conferencesAndSeminars => 'Conferenze e seminari';
 
   @override
-  String get kgcwWorkshop2026Title => 'KGCW 2026 - Dubrovnik';
+  String get kgcwWorkshop2026Title => 'KGCW 2026';
 
   @override
   String get kgcwWorkshop2026Period => '10-11 Mag 2026';
@@ -473,7 +473,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Partecipazione a KGCW 2026, 7th International Workshop on Knowledge Graph Construction tenutosi in concomitanza con ESWC 2026, con un contributo dal titolo *Let\'s invert it! From RDF to relational data with R2RML*. [Workshop](https://openreview.net/group?id=eswc-conferences.org/ESWC/2026/Workshop/KGCW#tab-accept) | [Paper](https://openreview.net/pdf?id=XUc9rtTsHp)';
 
   @override
-  String get aiucdConference2024Title => 'Conferenza AIUCD 2024 - Catania';
+  String get aiucdConference2024Title => 'AIUCD 2024';
 
   @override
   String get aiucdConference2024Period => '28-30 Mag 2024';
@@ -487,7 +487,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get cziHackathon2023Title =>
-      'Hackaton \'Mapping the Impact of Research Software in Science\'';
+      'Hackathon \'Mapping the Impact of Research Software in Science\'';
 
   @override
   String get cziHackathon2023Period => '24-27 Ott 2023';
@@ -500,8 +500,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Partecipazione all\'hackathon ospitato dalla Chan Zuckerberg Initiative, dove mi sono concentrato sull\'integrazione dei modelli di dati di tre collezioni di menzioni di software: SoMeSci, Softcite e RRID. Ho realizzato una tabella di mappatura che è servita come punto di partenza per la creazione di un \'gold dataset\' volto a migliorare l\'estrazione delle menzioni al software nella letteratura scientifica. [Repository](https://github.com/chanzuckerberg/software-impact-hackathon-2023)';
 
   @override
-  String get adhoDhConf2023Title =>
-      'ADHO Digital Humanities conferences 2023 a Graz';
+  String get adhoDhConf2023Title => 'ADHO Digital Humanities 2023';
 
   @override
   String get adhoDhConf2023Period => '10-15 Lug 2023';
@@ -514,8 +513,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Partecipazione alla ADHO Digital Humanities conferences 2023 con un contributo dal titolo *Representing provenance and track changes of cultural heritage metadata in RDF: a survey of existing approaches*. [Conferenza](https://dh2023.adho.org/) | [Paper](https://doi.org/10.1093/llc/fqaf076) | [Presentazione](https://doi.org/10.5281/zenodo.8153979)';
 
   @override
-  String get rdaPlenary2023Title =>
-      'Ventesimo incontro plenario della Research Data Alliance a Göteborg';
+  String get rdaPlenary2023Title => '20th RDA Plenary Meeting';
 
   @override
   String get rdaPlenary2023Period => '21-23 Mar 2023';
@@ -528,7 +526,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Partecipazione al ventesimo incontro plenario della Research Data Alliance con un contributo dal titolo *Adopting the Scientific Knowledge Graphs Interoperability Framework in OpenCitations*. [Conferenza](https://faircore4eosc.eu/events/rda-20th-plenary-meeting-gothenburg-hybrid) | [Presentazione](https://doi.org/10.5281/zenodo.7702070)';
 
   @override
-  String get csvconfV9Conference2025Title => 'csv,conf,v9 - Bologna';
+  String get csvconfV9Conference2025Title => 'csv,conf,v9';
 
   @override
   String get csvconfV9Conference2025Period => '8-11 Set 2025';
@@ -541,8 +539,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Partecipazione a csv,conf,v9, una conferenza comunitaria per data maker di tutto il mondo con il tema \'Data for Communities\'. Presentazione dal titolo *Mapping the unmapped citation landscape: how crowdsourcing will fill the citation gap*, discussione su come democratizzare il panorama delle citazioni collegando 41.500 riviste del Sud del mondo e introducendo milioni di nuove citazioni attraverso una soluzione collaborativa tra OpenCitations, Public Knowledge Project (PKP) e Leibniz Information Centre. [Conferenza](https://csvconf.com/) | [Presentazione](https://doi.org/10.5281/zenodo.17098599)';
 
   @override
-  String get unaEuropaWorkshop2025Title =>
-      'Workshop PhD Una Europa - \'Museums and the new challenges\'';
+  String get unaEuropaWorkshop2025Title => 'Una Europa PhD workshop';
 
   @override
   String get unaEuropaWorkshop2025Period => '5-10 Mag 2025';

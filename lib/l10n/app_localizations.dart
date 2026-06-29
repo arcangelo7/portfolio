@@ -949,7 +949,7 @@ abstract class AppLocalizations {
   /// No description provided for @kgcwWorkshop2026Title.
   ///
   /// In en, this message translates to:
-  /// **'KGCW 2026 - Dubrovnik'**
+  /// **'KGCW 2026'**
   String get kgcwWorkshop2026Title;
 
   /// No description provided for @kgcwWorkshop2026Period.
@@ -973,7 +973,7 @@ abstract class AppLocalizations {
   /// No description provided for @aiucdConference2024Title.
   ///
   /// In en, this message translates to:
-  /// **'AIUCD conference 2024 - Catania'**
+  /// **'AIUCD 2024'**
   String get aiucdConference2024Title;
 
   /// No description provided for @aiucdConference2024Period.
@@ -1021,7 +1021,7 @@ abstract class AppLocalizations {
   /// No description provided for @adhoDhConf2023Title.
   ///
   /// In en, this message translates to:
-  /// **'ADHO Digital Humanities conferences 2023 in Graz'**
+  /// **'ADHO Digital Humanities 2023'**
   String get adhoDhConf2023Title;
 
   /// No description provided for @adhoDhConf2023Period.
@@ -1045,7 +1045,7 @@ abstract class AppLocalizations {
   /// No description provided for @rdaPlenary2023Title.
   ///
   /// In en, this message translates to:
-  /// **'20th Research Data Alliance plenary meeting in Göteborg'**
+  /// **'20th RDA Plenary Meeting'**
   String get rdaPlenary2023Title;
 
   /// No description provided for @rdaPlenary2023Period.
@@ -1069,7 +1069,7 @@ abstract class AppLocalizations {
   /// No description provided for @csvconfV9Conference2025Title.
   ///
   /// In en, this message translates to:
-  /// **'csv,conf,v9 - Bologna'**
+  /// **'csv,conf,v9'**
   String get csvconfV9Conference2025Title;
 
   /// No description provided for @csvconfV9Conference2025Period.
@@ -1093,7 +1093,7 @@ abstract class AppLocalizations {
   /// No description provided for @unaEuropaWorkshop2025Title.
   ///
   /// In en, this message translates to:
-  /// **'Una Europa PhD workshop - \'Museums and the new challenges\''**
+  /// **'Una Europa PhD workshop'**
   String get unaEuropaWorkshop2025Title;
 
   /// No description provided for @unaEuropaWorkshop2025Period.

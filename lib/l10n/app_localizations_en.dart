@@ -459,7 +459,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get conferencesAndSeminars => 'Conferences and seminars';
 
   @override
-  String get kgcwWorkshop2026Title => 'KGCW 2026 - Dubrovnik';
+  String get kgcwWorkshop2026Title => 'KGCW 2026';
 
   @override
   String get kgcwWorkshop2026Period => 'May 10-11, 2026';
@@ -472,7 +472,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Participated in the 7th International Workshop on Knowledge Graph Construction (KGCW 2026), co-located with ESWC 2026, with a paper titled *Let\'s invert it! From RDF to relational data with R2RML*. [Workshop](https://openreview.net/group?id=eswc-conferences.org/ESWC/2026/Workshop/KGCW#tab-accept) | [Paper](https://openreview.net/pdf?id=XUc9rtTsHp)';
 
   @override
-  String get aiucdConference2024Title => 'AIUCD conference 2024 - Catania';
+  String get aiucdConference2024Title => 'AIUCD 2024';
 
   @override
   String get aiucdConference2024Period => 'May 28-30, 2024';
@@ -499,8 +499,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Participated in the hackathon hosted by Chan Zuckerberg Initiative, focusing on integrating data models from three software mention collections: SoMeSci, Softcite and RRID. Created a mapping table that served as a starting point for creating a \'gold dataset\' aimed at improving software mention extraction in scientific literature. [Repository](https://github.com/chanzuckerberg/software-impact-hackathon-2023)';
 
   @override
-  String get adhoDhConf2023Title =>
-      'ADHO Digital Humanities conferences 2023 in Graz';
+  String get adhoDhConf2023Title => 'ADHO Digital Humanities 2023';
 
   @override
   String get adhoDhConf2023Period => 'Jul 10-15, 2023';
@@ -513,8 +512,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Participated in the ADHO Digital Humanities conferences 2023 with a contribution titled *Representing provenance and track changes of cultural heritage metadata in RDF: a survey of existing approaches*. [Conference](https://dh2023.adho.org/) | [Paper](https://doi.org/10.1093/llc/fqaf076) | [Presentation](https://doi.org/10.5281/zenodo.8153979)';
 
   @override
-  String get rdaPlenary2023Title =>
-      '20th Research Data Alliance plenary meeting in Göteborg';
+  String get rdaPlenary2023Title => '20th RDA Plenary Meeting';
 
   @override
   String get rdaPlenary2023Period => 'Mar 21-23, 2023';
@@ -527,7 +525,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Participated in the 20th plenary meeting of the Research Data Alliance with a contribution titled *Adopting the Scientific Knowledge Graphs Interoperability Framework in OpenCitations*. [Conference](https://faircore4eosc.eu/events/rda-20th-plenary-meeting-gothenburg-hybrid) | [Presentation](https://doi.org/10.5281/zenodo.7702070)';
 
   @override
-  String get csvconfV9Conference2025Title => 'csv,conf,v9 - Bologna';
+  String get csvconfV9Conference2025Title => 'csv,conf,v9';
 
   @override
   String get csvconfV9Conference2025Period => 'Sep 8-11, 2025';
@@ -540,8 +538,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Participated in csv,conf,v9, a community conference for data makers everywhere with the theme \'Data for Communities\'. Presented *Mapping the unmapped citation landscape: how crowdsourcing will fill the citation gap*, discussing how to democratize the citation landscape by connecting 41,500 Global South journals and introducing millions of new citations through a collaborative solution between OpenCitations, Public Knowledge Project (PKP), and Leibniz Information Centre. [Conference](https://csvconf.com/) | [Presentation](https://doi.org/10.5281/zenodo.17098599)';
 
   @override
-  String get unaEuropaWorkshop2025Title =>
-      'Una Europa PhD workshop - \'Museums and the new challenges\'';
+  String get unaEuropaWorkshop2025Title => 'Una Europa PhD workshop';
 
   @override
   String get unaEuropaWorkshop2025Period => 'May 5-10, 2025';
