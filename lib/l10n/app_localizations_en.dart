@@ -26,7 +26,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutMeDescription =>
-      'I have a joint PhD in Cultural Heritage in the Digital Ecosystem (University of Bologna) and Engineering Technology (KU Leuven). My thing is enabling cultural heritage experts to curate and publish FAIR data (Findable, Accessible, Interoperable, Reusable) through Semantic Web technologies, without having to become tech experts themselves. That\'s how [HERITRACE](https://opencitations.github.io/heritrace/) came about: a system for curating knowledge graphs that keeps track of who changed what and why.\n\nRight now I\'m a postdoc at the University of Bologna, working on the [GRAPHIA](https://cordis.europa.eu/project/id/101188018) project (Horizon Europe) to bring scattered humanities and social sciences data together into a single knowledge graph. I also work with [OpenCitations](https://opencitations.net/) to make scholarly citation data open and reusable.';
+      'I have a joint PhD in Cultural Heritage in the Digital Ecosystem (University of Bologna) and Engineering Technology (KU Leuven). My work focuses on supporting cultural heritage experts in curating and publishing FAIR data (Findable, Accessible, Interoperable, Reusable) through Semantic Web technologies, without requiring them to become technical experts themselves. That\'s how [HERITRACE](https://opencitations.github.io/heritrace/) came about: a system for curating knowledge graphs that keeps track of who changed what and why.\n\nRight now I\'m a postdoc at the University of Bologna, working on the [GRAPHIA](https://cordis.europa.eu/project/id/101188018) project (Horizon Europe) to bring scattered humanities and social sciences data together into a single knowledge graph. I also work with [OpenCitations](https://opencitations.net/) to make scholarly citation data open and reusable.';
 
   @override
   String get skills => 'My toolbox';
@@ -643,6 +643,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cvGeneratedSuccessfully => 'CV generated successfully';
 
   @override
+  String cvGenerationError(Object error) {
+    return 'Error generating CV: $error';
+  }
+
+  @override
+  String europassCvGenerationError(Object error) {
+    return 'Error generating Europass CV: $error';
+  }
+
+  @override
   String get cvEducationTitle => 'EDUCATION AND TRAINING';
 
   @override
@@ -679,6 +689,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectLanguage => 'Select Language';
 
   @override
+  String get changeLanguageToEnglish => 'Change language to English';
+
+  @override
+  String get changeLanguageToItalian => 'Change language to Italian';
+
+  @override
+  String get changeLanguageToSpanish => 'Change language to Spanish';
+
+  @override
   String get flutterAppTitle => 'Made with Flutter';
 
   @override
@@ -709,6 +728,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get installationInstructions =>
       'For installation instructions, check the README on GitHub';
+
+  @override
+  String get viewInstallationInstructions => 'View installation instructions';
 
   @override
   String get closeFlutterInfo => 'Got it!';
@@ -867,6 +889,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get languagesEnglish => 'English';
+
+  @override
+  String sectionLoadError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String errorLoadingSkills(Object error) {
+    return 'Error loading skills: $error';
+  }
+
+  @override
+  String get noSkillsDataAvailable => 'No skills data available';
+
+  @override
+  String errorLoadingLanguages(Object error) {
+    return 'Error loading languages: $error';
+  }
 
   @override
   String get exportCVEuropass => 'Export CV Europass';

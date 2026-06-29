@@ -36,7 +36,6 @@ path = [
     "macos/Runner/Info.plist",
     "macos/Runner/Release.entitlements",
     "pubspec.lock",
-    "test/coverage-badge.svg",
     "web/manifest.json",
     "web/robots.txt",
     "windows/flutter/generated_plugin_registrant.cc",

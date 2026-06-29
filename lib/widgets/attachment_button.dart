@@ -25,22 +25,22 @@ class AttachmentButton extends StatelessWidget {
 
     final (IconData icon, String text) = switch (attachment.type) {
       'credential' => (Icons.verified_outlined, l10n.verifyCredential),
-      'diplomaSupplement' => (Icons.description_outlined, l10n.diplomaSupplement),
+      'diplomaSupplement' => (
+        Icons.description_outlined,
+        l10n.diplomaSupplement,
+      ),
       'completedExams' => (Icons.list_alt, l10n.completedExams),
       'announcement' => (Icons.campaign_outlined, l10n.announcement),
       _ => (Icons.link, attachment.type),
     };
 
     final label = attachment.label != null ? '$text ${attachment.label}' : text;
-    final target = attachment.url ?? Uri.base.resolve(attachment.asset!).toString();
+    final target =
+        attachment.url ?? Uri.base.resolve(attachment.asset!).toString();
 
     return TextButton.icon(
       onPressed: () => _launchUrl(target),
-      icon: Icon(
-        icon,
-        size: 18,
-        color: Theme.of(context).colorScheme.primary,
-      ),
+      icon: Icon(icon, size: 18, color: Theme.of(context).colorScheme.primary),
       label: Text(
         label,
         style: TextStyle(

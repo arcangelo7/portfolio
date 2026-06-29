@@ -39,7 +39,9 @@ class EuropassCVGeneratorService {
     final languagesJson = await rootBundle.loadString(
       'assets/data/languages.json',
     );
-    return LanguageData.fromJson(json.decode(languagesJson));
+    return LanguageData.fromJson(
+      json.decode(languagesJson) as Map<String, dynamic>,
+    );
   }
 
   static pw.Widget _buildRichText(String text, {double fontSize = 12}) {

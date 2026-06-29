@@ -4,29 +4,28 @@
 
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:country_flags/country_flags.dart';
 import 'package:window_manager/window_manager.dart';
 import 'l10n/app_localizations.dart';
+import 'widgets/about_section.dart';
+import 'widgets/contact_section.dart';
+import 'widgets/hero_section.dart';
+import 'widgets/language_selector_sheet.dart';
 import 'widgets/publications_section.dart';
 import 'widgets/work_experience_section.dart';
 import 'widgets/education_section.dart';
 import 'widgets/conferences_seminars_section.dart';
 import 'widgets/astrogods_section.dart';
 import 'widgets/theme_toggle_widget.dart';
-import 'widgets/orbiting_planets_widget.dart';
 import 'widgets/table_of_contents_widget.dart';
 import 'widgets/skills_section.dart';
 import 'widgets/languages_section.dart';
-import 'widgets/lazy_image.dart';
-import 'widgets/starry_background.dart';
 import 'services/dynamic_cv_generator_service.dart';
 import 'services/europass_cv_generator_service.dart';
 import 'services/zotero_service.dart';
 import 'services/seo_service.dart';
+import 'utils/responsive.dart';
 import 'utils/web_utils.dart';
 import 'package:printing/printing.dart';
 
@@ -316,11 +315,11 @@ class _PortfolioAppState extends State<PortfolioApp> {
 }
 
 class LandingPage extends StatefulWidget {
-  final Function(Locale) onLanguageChanged;
+  final ValueChanged<Locale> onLanguageChanged;
   final Locale currentLocale;
   final VoidCallback onThemeToggle;
   final bool isDarkMode;
-  final Function(String) onSectionChanged;
+  final ValueChanged<String> onSectionChanged;
 
   const LandingPage({
     super.key,
@@ -440,8 +439,9 @@ class _LandingPageState extends State<LandingPage>
       _isDownloadingCV = true;
     });
 
+    final l10n = AppLocalizations.of(context)!;
+
     try {
-      final l10n = AppLocalizations.of(context)!;
       final zoteroService = ZoteroService();
 
       final pdfBytes = await DynamicCVGeneratorService.generateCV(
@@ -467,7 +467,7 @@ class _LandingPageState extends State<LandingPage>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error generating CV: $e'),
+            content: Text(l10n.cvGenerationError(e.toString())),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -488,9 +488,9 @@ class _LandingPageState extends State<LandingPage>
       _isDownloadingEuropassCV = true;
     });
 
-    try {
-      final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
 
+    try {
       final pdfBytes = await EuropassCVGeneratorService.generateEuropassCV(
         l10n,
       );
@@ -513,7 +513,7 @@ class _LandingPageState extends State<LandingPage>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error generating Europass CV: $e'),
+            content: Text(l10n.europassCvGenerationError(e.toString())),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -530,7 +530,7 @@ class _LandingPageState extends State<LandingPage>
   Future<void> _showCVDownloadDialog() async {
     final l10n = AppLocalizations.of(context)!;
 
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -568,7 +568,7 @@ class _LandingPageState extends State<LandingPage>
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 768;
+    final isMobile = Responsive.isMobile(context);
     final isDesktop =
         !kIsWeb &&
         (defaultTargetPlatform == TargetPlatform.windows ||
@@ -585,8 +585,11 @@ class _LandingPageState extends State<LandingPage>
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      _buildHeroSection(context),
-                      _buildAboutSection(context, key: _aboutKey),
+                      HeroSection(
+                        onViewWork: () => scrollToSectionById('publications'),
+                        enableThemeAnimation: !_isInTestEnvironment(),
+                      ),
+                      AboutSection(key: _aboutKey),
                       WorkExperienceSection(key: _workKey),
                       EducationSection(key: _educationKey),
                       ConferencesSeminarsSection(key: _conferencesKey),
@@ -594,7 +597,10 @@ class _LandingPageState extends State<LandingPage>
                       LanguagesSection(key: _languagesKey),
                       PublicationsSection(key: _publicationsKey),
                       AstroGodsSection(key: _astrogodsKey),
-                      _buildContactSection(context, key: _contactKey),
+                      ContactSection(
+                        key: _contactKey,
+                        currentLocale: widget.currentLocale,
+                      ),
                     ],
                   ),
                 ),
@@ -976,7 +982,7 @@ class _LandingPageState extends State<LandingPage>
   }
 
   Widget _buildTocOverlay(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 768;
+    final isMobile = Responsive.isMobile(context);
 
     return GestureDetector(
       onTap: _toggleToc,
@@ -1004,451 +1010,13 @@ class _LandingPageState extends State<LandingPage>
   }
 
   void _showLanguageSelector(BuildContext context) {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                AppLocalizations.of(context)!.selectLanguage,
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(height: 20),
-              Semantics(
-                button: true,
-                label: 'Change language to English',
-                child: ListTile(
-                  leading: CountryFlag.fromCountryCode(
-                    'US',
-                    theme: const ImageTheme(width: 20, height: 15),
-                  ),
-                  title: const Text('English'),
-                  onTap: () {
-                    widget.onLanguageChanged(const Locale('en'));
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              Semantics(
-                button: true,
-                label: 'Cambia lingua in Italiano',
-                child: ListTile(
-                  leading: CountryFlag.fromCountryCode(
-                    'IT',
-                    theme: const ImageTheme(width: 20, height: 15),
-                  ),
-                  title: const Text('Italiano'),
-                  onTap: () {
-                    widget.onLanguageChanged(const Locale('it'));
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              Semantics(
-                button: true,
-                label: 'Cambiar idioma a Español',
-                child: ListTile(
-                  leading: CountryFlag.fromCountryCode(
-                    'ES',
-                    theme: const ImageTheme(width: 20, height: 15),
-                  ),
-                  title: const Text('Español'),
-                  onTap: () {
-                    widget.onLanguageChanged(const Locale('es'));
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ],
-          ),
+        return LanguageSelectorSheet(
+          onLanguageChanged: widget.onLanguageChanged,
         );
       },
-    );
-  }
-
-  Widget _buildFullScreenProfileImage(bool isDark) {
-    final screenSize = MediaQuery.of(context).size;
-    final aspectRatio = screenSize.width / screenSize.height;
-
-    // Use cover for normal screens, contain for ultra-wide (21:9 = 2.33)
-    final isUltraWide = aspectRatio > 2.1;
-
-    return Positioned.fill(
-      child: LazyImage(
-        assetPath: 'assets/images/profile_cutout.webp',
-        fit: isUltraWide ? BoxFit.contain : BoxFit.cover,
-        alignment: isUltraWide ? Alignment.bottomRight : Alignment.center,
-        semanticLabel: AppLocalizations.of(context)?.profileImageAlt,
-        errorBuilder: (context, error, stackTrace) {
-          return Center(
-            child: Icon(
-              Icons.person,
-              size: 200,
-              color: PortfolioTheme.iceWhite,
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildHeroSection(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 768;
-
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 800),
-      curve: Curves.easeInOut,
-      height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.bottomRight,
-          end: Alignment.topLeft,
-          colors:
-              isDark
-                  ? [PortfolioTheme.cobaltBlue, PortfolioTheme.astroMysticBlue]
-                  : [PortfolioTheme.emeraldGreen, PortfolioTheme.astroGold],
-        ),
-      ),
-      child: Stack(
-        children: [
-          // Starry background only in dark mode (positioned behind everything)
-          if (isDark)
-            const Positioned.fill(
-              child: StarryBackground(
-                showHorizon: false,
-                child: SizedBox.expand(),
-              ),
-            ),
-
-          // Static sun/moon element in top-left (positioned above background)
-          StaticThemeElementsWidget(
-            isDarkMode: isDark,
-            elementSize: isMobile ? 120.0 : 180.0,
-            enableAnimation: !_isInTestEnvironment(),
-          ),
-
-          // Full screen transparent PNG image
-          _buildFullScreenProfileImage(isDark),
-
-          // Text content - responsive positioning
-          Positioned(
-            left: isMobile ? 16 : 60,
-            right: isMobile ? 16 : null,
-            top: 0,
-            bottom: 0,
-            child: SizedBox(
-              width: isMobile ? null : screenWidth * 0.4,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment:
-                    isMobile
-                        ? CrossAxisAlignment.center
-                        : CrossAxisAlignment.start,
-                children: [
-                  Semantics(
-                    header: true,
-                    child: SelectableText(
-                      AppLocalizations.of(context)!.name,
-                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                        color: PortfolioTheme.iceWhite,
-                        fontWeight: FontWeight.bold,
-                        fontSize: isMobile ? 36 : 56,
-                        shadows: [
-                          Shadow(
-                            offset: const Offset(2, 2),
-                            blurRadius: 4,
-                            color: Colors.black.withValues(alpha: 0.3),
-                          ),
-                        ],
-                      ),
-                      textAlign: isMobile ? TextAlign.center : TextAlign.start,
-                      semanticsLabel:
-                          'Main heading: ${AppLocalizations.of(context)!.name}',
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  ElevatedButton(
-                    onPressed: () {
-                      scrollToSectionById('publications');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: PortfolioTheme.iceWhite,
-                      foregroundColor: PortfolioTheme.cobaltBlue,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: isMobile ? 30 : 40,
-                        vertical: isMobile ? 16 : 20,
-                      ),
-                      elevation: 8,
-                    ),
-                    child: Text(
-                      AppLocalizations.of(context)!.viewMyWork,
-                      style: TextStyle(
-                        fontSize: isMobile ? 16 : 18,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAboutSection(BuildContext context, {required GlobalKey key}) {
-    final isMobile = MediaQuery.of(context).size.width < 768;
-    return Container(
-      key: key,
-      padding: EdgeInsets.all(isMobile ? 20 : 64),
-      child: Column(
-        children: [
-          Semantics(
-            header: true,
-            child: SelectableText(
-              AppLocalizations.of(context)!.aboutMe,
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: isMobile ? 28 : null,
-              ),
-              textAlign: isMobile ? TextAlign.center : null,
-              semanticsLabel:
-                  'Section heading: ${AppLocalizations.of(context)!.aboutMe}',
-            ),
-          ),
-          const SizedBox(height: 32),
-          _buildTextWithMarkdownLinks(
-            context,
-            AppLocalizations.of(context)!.aboutMeDescription,
-            Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
-              fontSize: isMobile ? 16 : null,
-            ),
-            TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTextWithMarkdownLinks(
-    BuildContext context,
-    String text,
-    TextStyle? style,
-    TextAlign textAlign,
-  ) {
-    final markdownRegex = RegExp(r'\[([^\]]+)\]\(([^)]+)\)|\*([^*\n]+)\*');
-    final matches = markdownRegex.allMatches(text);
-
-    if (matches.isEmpty) {
-      return SelectableText(text, style: style, textAlign: textAlign);
-    }
-
-    List<TextSpan> spans = [];
-    int currentIndex = 0;
-
-    for (final match in matches) {
-      if (match.start > currentIndex) {
-        spans.add(
-          TextSpan(
-            text: text.substring(currentIndex, match.start),
-            style: style,
-          ),
-        );
-      }
-
-      final linkText = match.group(1);
-      if (linkText != null) {
-        final isItalicLink =
-            linkText.length > 2 &&
-            linkText.startsWith('*') &&
-            linkText.endsWith('*');
-        final displayText =
-            isItalicLink
-                ? linkText.substring(1, linkText.length - 1)
-                : linkText;
-        final linkStyle =
-            style == null
-                ? TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  decoration: TextDecoration.underline,
-                  fontStyle: isItalicLink ? FontStyle.italic : null,
-                )
-                : style.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                  decoration: TextDecoration.underline,
-                  fontStyle: isItalicLink ? FontStyle.italic : null,
-                );
-
-        spans.add(
-          TextSpan(
-            text: displayText,
-            style: linkStyle,
-            recognizer:
-                TapGestureRecognizer()
-                  ..onTap = () => _launchUrl(match.group(2)!),
-          ),
-        );
-      } else {
-        final italicStyle =
-            style == null
-                ? const TextStyle(fontStyle: FontStyle.italic)
-                : style.copyWith(fontStyle: FontStyle.italic);
-
-        spans.add(TextSpan(text: match.group(3)!, style: italicStyle));
-      }
-
-      currentIndex = match.end;
-    }
-
-    if (currentIndex < text.length) {
-      spans.add(TextSpan(text: text.substring(currentIndex), style: style));
-    }
-
-    return SelectableText.rich(TextSpan(children: spans), textAlign: textAlign);
-  }
-
-  Future<void> _launchUrl(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
-
-  Widget _buildContactSection(BuildContext context, {required GlobalKey key}) {
-    final isMobile = MediaQuery.of(context).size.width < 768;
-    final l10n = AppLocalizations.of(context)!;
-
-    final professionalWebsiteUrl =
-        widget.currentLocale.languageCode == 'it'
-            ? 'https://www.unibo.it/sitoweb/arcangelo.massari'
-            : 'https://www.unibo.it/sitoweb/arcangelo.massari/en';
-
-    return Container(
-      key: key,
-      padding: EdgeInsets.all(isMobile ? 20 : 64),
-      child: Column(
-        children: [
-          Semantics(
-            header: true,
-            child: SelectableText(
-              l10n.getInTouch,
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: isMobile ? 28 : null,
-              ),
-              semanticsLabel: 'Section heading: ${l10n.getInTouch}',
-            ),
-          ),
-          const SizedBox(height: 32),
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: isMobile ? 16 : 24,
-            runSpacing: isMobile ? 16 : 24,
-            children: [
-              _buildContactButton(
-                context,
-                Icons.email,
-                l10n.email,
-                'mailto:arcangelo.massari@unibo.it',
-                Theme.of(context).colorScheme.tertiary,
-                isMobile,
-              ),
-              _buildContactButton(
-                context,
-                Icons.web,
-                l10n.professionalWebsite,
-                professionalWebsiteUrl,
-                Theme.of(context).colorScheme.secondary,
-                isMobile,
-              ),
-              _buildContactButton(
-                context,
-                Icons.code,
-                l10n.github,
-                'https://github.com/arcangelo7',
-                Theme.of(context).colorScheme.primary,
-                isMobile,
-              ),
-              _buildContactButton(
-                context,
-                Icons.science,
-                l10n.orcid,
-                'https://orcid.org/0000-0002-8420-0696',
-                const Color(0xFFA6CE39),
-                isMobile,
-              ),
-              _buildContactButton(
-                context,
-                Icons.work,
-                l10n.linkedin,
-                'https://www.linkedin.com/in/arcangelo-massari-4a736822b/',
-                const Color(0xFF0077B5),
-                isMobile,
-              ),
-              _buildContactButton(
-                context,
-                Icons.alternate_email,
-                l10n.twitter,
-                'https://x.com/arcangelo_wd',
-                const Color(0xFF000000),
-                isMobile,
-              ),
-            ],
-          ),
-          const SizedBox(height: 32),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildContactButton(
-    BuildContext context,
-    IconData icon,
-    String label,
-    String url,
-    Color color,
-    bool isMobile,
-  ) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () => _launchUrl(url),
-            borderRadius: BorderRadius.circular(50),
-            child: Container(
-              padding: EdgeInsets.all(isMobile ? 12 : 16),
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
-                border: Border.all(color: color.withValues(alpha: 0.3)),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: Icon(icon, size: isMobile ? 24 : 28, color: color),
-            ),
-          ),
-        ),
-        const SizedBox(height: 8),
-        SelectableText(
-          label,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.8),
-            fontSize: isMobile ? 11 : 12,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
     );
   }
 }

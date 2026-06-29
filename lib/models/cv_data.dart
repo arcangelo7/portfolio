@@ -2,25 +2,44 @@
 //
 // SPDX-License-Identifier: ISC
 
+String _requiredString(Map<String, dynamic> json, String key) {
+  return json[key] as String;
+}
+
+String? _optionalString(Map<String, dynamic> json, String key) {
+  return json[key] as String?;
+}
+
+bool _optionalBool(Map<String, dynamic> json, String key) {
+  return json[key] as bool? ?? false;
+}
+
+int _optionalInt(Map<String, dynamic> json, String key) {
+  return json[key] as int? ?? 0;
+}
+
+Iterable<Map<String, dynamic>> _objectList(
+  Map<String, dynamic> json,
+  String key,
+) {
+  final values = json[key] as List<dynamic>? ?? <dynamic>[];
+  return values.cast<Map<String, dynamic>>();
+}
+
 class EntryAttachment {
   final String type;
   final String? url;
   final String? asset;
   final String? label;
 
-  EntryAttachment({
-    required this.type,
-    this.url,
-    this.asset,
-    this.label,
-  });
+  EntryAttachment({required this.type, this.url, this.asset, this.label});
 
   factory EntryAttachment.fromJson(Map<String, dynamic> json) {
     return EntryAttachment(
-      type: json['type'],
-      url: json['url'],
-      asset: json['asset'],
-      label: json['label'],
+      type: _requiredString(json, 'type'),
+      url: _optionalString(json, 'url'),
+      asset: _optionalString(json, 'asset'),
+      label: _optionalString(json, 'label'),
     );
   }
 
@@ -61,19 +80,20 @@ class EducationEntry {
 
   factory EducationEntry.fromJson(Map<String, dynamic> json) {
     return EducationEntry(
-      id: json['id'],
-      startDate: json['startDate'],
-      endDate: json['endDate'],
-      current: json['current'] ?? false,
-      institutionKey: json['institutionKey'],
-      titleKey: json['titleKey'],
-      periodKey: json['periodKey'],
-      descriptionKey: json['descriptionKey'],
-      attachments: (json['attachments'] as List?)
-              ?.map((a) => EntryAttachment.fromJson(a))
-              .toList() ??
-          [],
-      order: json['order'] ?? 0,
+      id: _requiredString(json, 'id'),
+      startDate: _optionalString(json, 'startDate'),
+      endDate: _optionalString(json, 'endDate'),
+      current: _optionalBool(json, 'current'),
+      institutionKey: _requiredString(json, 'institutionKey'),
+      titleKey: _requiredString(json, 'titleKey'),
+      periodKey: _requiredString(json, 'periodKey'),
+      descriptionKey: _requiredString(json, 'descriptionKey'),
+      attachments:
+          _objectList(
+            json,
+            'attachments',
+          ).map(EntryAttachment.fromJson).toList(),
+      order: _optionalInt(json, 'order'),
     );
   }
 
@@ -121,19 +141,20 @@ class WorkExperienceEntry {
 
   factory WorkExperienceEntry.fromJson(Map<String, dynamic> json) {
     return WorkExperienceEntry(
-      id: json['id'],
-      startDate: json['startDate'],
-      endDate: json['endDate'],
-      current: json['current'] ?? false,
-      companyKey: json['companyKey'],
-      titleKey: json['titleKey'],
-      periodKey: json['periodKey'],
-      descriptionKey: json['descriptionKey'],
-      attachments: (json['attachments'] as List?)
-              ?.map((a) => EntryAttachment.fromJson(a))
-              .toList() ??
-          [],
-      order: json['order'] ?? 0,
+      id: _requiredString(json, 'id'),
+      startDate: _optionalString(json, 'startDate'),
+      endDate: _optionalString(json, 'endDate'),
+      current: _optionalBool(json, 'current'),
+      companyKey: _requiredString(json, 'companyKey'),
+      titleKey: _requiredString(json, 'titleKey'),
+      periodKey: _requiredString(json, 'periodKey'),
+      descriptionKey: _requiredString(json, 'descriptionKey'),
+      attachments:
+          _objectList(
+            json,
+            'attachments',
+          ).map(EntryAttachment.fromJson).toList(),
+      order: _optionalInt(json, 'order'),
     );
   }
 
@@ -177,14 +198,14 @@ class ConferenceEntry {
 
   factory ConferenceEntry.fromJson(Map<String, dynamic> json) {
     return ConferenceEntry(
-      id: json['id'],
-      date: json['date'],
-      endDate: json['endDate'],
-      titleKey: json['titleKey'],
-      periodKey: json['periodKey'],
-      locationKey: json['locationKey'],
-      descriptionKey: json['descriptionKey'],
-      order: json['order'] ?? 0,
+      id: _requiredString(json, 'id'),
+      date: _requiredString(json, 'date'),
+      endDate: _optionalString(json, 'endDate'),
+      titleKey: _requiredString(json, 'titleKey'),
+      periodKey: _requiredString(json, 'periodKey'),
+      locationKey: _requiredString(json, 'locationKey'),
+      descriptionKey: _requiredString(json, 'descriptionKey'),
+      order: _optionalInt(json, 'order'),
     );
   }
 
@@ -209,7 +230,10 @@ class Skill {
   Skill({required this.id, required this.nameKey});
 
   factory Skill.fromJson(Map<String, dynamic> json) {
-    return Skill(id: json['id'], nameKey: json['nameKey']);
+    return Skill(
+      id: _requiredString(json, 'id'),
+      nameKey: _requiredString(json, 'nameKey'),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -232,13 +256,10 @@ class SkillCategory {
 
   factory SkillCategory.fromJson(Map<String, dynamic> json) {
     return SkillCategory(
-      id: json['id'],
-      nameKey: json['nameKey'],
-      skills:
-          (json['skills'] as List)
-              .map((skill) => Skill.fromJson(skill))
-              .toList(),
-      order: json['order'] ?? 0,
+      id: _requiredString(json, 'id'),
+      nameKey: _requiredString(json, 'nameKey'),
+      skills: _objectList(json, 'skills').map(Skill.fromJson).toList(),
+      order: _optionalInt(json, 'order'),
     );
   }
 
@@ -260,9 +281,7 @@ class SkillsData {
   factory SkillsData.fromJson(Map<String, dynamic> json) {
     return SkillsData(
       categories:
-          (json['categories'] as List)
-              .map((category) => SkillCategory.fromJson(category))
-              .toList(),
+          _objectList(json, 'categories').map(SkillCategory.fromJson).toList(),
     );
   }
 
@@ -298,15 +317,15 @@ class PersonalInfo {
 
   factory PersonalInfo.fromJson(Map<String, dynamic> json) {
     return PersonalInfo(
-      name: json['name'],
-      birthDate: json['birthDate'],
-      birthDateKey: json['birthDateKey'],
-      nationalityKey: json['nationalityKey'],
-      email: json['email'],
-      github: json['github'],
-      orcid: json['orcid'],
-      addressKey: json['addressKey'],
-      photoPath: json['photoPath'],
+      name: _requiredString(json, 'name'),
+      birthDate: _requiredString(json, 'birthDate'),
+      birthDateKey: _requiredString(json, 'birthDateKey'),
+      nationalityKey: _requiredString(json, 'nationalityKey'),
+      email: _requiredString(json, 'email'),
+      github: _requiredString(json, 'github'),
+      orcid: _requiredString(json, 'orcid'),
+      addressKey: _requiredString(json, 'addressKey'),
+      photoPath: _requiredString(json, 'photoPath'),
     );
   }
 

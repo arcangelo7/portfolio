@@ -24,7 +24,7 @@ jobs:
       should-release: ${{ steps.check.outputs.should-release }}
       commit-message: ${{ steps.check.outputs.commit-message }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         fetch-depth: 0
     
@@ -61,13 +61,13 @@ jobs:
       released: ${{ steps.semantic.outputs.new-release-published }}
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         fetch-depth: 0
         token: ${{ secrets.GITHUB_TOKEN }}
     
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
       with:
         node-version: '20'
     
@@ -100,7 +100,7 @@ jobs:
     if: needs.check-release-trigger.outputs.should-release == 'true'
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         ref: main
         fetch-depth: 0
@@ -141,13 +141,13 @@ jobs:
     if: needs.check-release-trigger.outputs.should-release == 'true'
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         ref: main
         fetch-depth: 0
     
     - name: Setup Flutter
-      uses: subosito/flutter-action@v2
+      uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
       with:
         flutter-version: '3.32.8'
         channel: 'stable'
@@ -182,7 +182,7 @@ jobs:
         sudo apt-get install -y ninja-build libgtk-3-dev
     
     - name: Setup Java for Android
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@1bcf9fb12cf4aa7d266a90ae39939e61372fe520 # v5.4.0
       with:
         distribution: 'zulu'
         java-version: '17'
@@ -235,41 +235,43 @@ jobs:
       run: |
         if [ -f "CHANGELOG.md" ] && [ -n "${{ needs.release.outputs.version }}" ]; then
           echo "Using CHANGELOG.md from semantic-release"
-          echo "body_path=CHANGELOG.md" >> $GITHUB_ENV
+          echo "BODY_PATH=CHANGELOG.md" >> $GITHUB_ENV
         else
           echo "Creating fallback release notes"
           echo "Portfolio release ${{ steps.version.outputs.version }}" > release_notes.md
           echo "" >> release_notes.md
-          echo "📱 **Builds included:**" >> release_notes.md
+          echo "**Builds included:**" >> release_notes.md
           echo "- Android APK" >> release_notes.md
           echo "- Web build" >> release_notes.md
           echo "- Linux build" >> release_notes.md
           echo "" >> release_notes.md
           echo "**Commit:** ${{ github.sha }}" >> release_notes.md
           echo "**Commit message:** ${{ needs.check-release-trigger.outputs.commit-message }}" >> release_notes.md
-          echo "body_path=release_notes.md" >> $GITHUB_ENV
+          echo "BODY_PATH=release_notes.md" >> $GITHUB_ENV
         fi
     
     - name: Create GitHub Release
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: v${{ steps.version.outputs.version }}
-        name: Release v${{ steps.version.outputs.version }}
-        body_path: ${{ env.body_path }}
-        files: |
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        TAG="v${{ steps.version.outputs.version }}"
+        FILES=(
           portfolio-web-${{ steps.version.outputs.version }}.zip
           portfolio-linux-${{ steps.version.outputs.version }}.tar.gz
           portfolio-android-${{ steps.version.outputs.version }}.apk
           portfolio-web-latest.zip
           portfolio-linux-latest.tar.gz
           portfolio-android-latest.apk
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        )
+        if gh release view "$TAG" >/dev/null 2>&1; then
+          gh release edit "$TAG" --title "Release $TAG" --notes-file "$BODY_PATH"
+          gh release upload "$TAG" "${FILES[@]}" --clobber
+        else
+          gh release create "$TAG" "${FILES[@]}" --title "Release $TAG" --notes-file "$BODY_PATH" --target "${{ github.sha }}"
+        fi
     
     - name: Upload artifacts for multi-platform release
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: web-linux-android-builds
         path: |
@@ -287,13 +289,13 @@ jobs:
     if: needs.check-release-trigger.outputs.should-release == 'true'
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         ref: main
         fetch-depth: 0
     
     - name: Setup Flutter
-      uses: subosito/flutter-action@v2
+      uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
       with:
         flutter-version: '3.32.8'
         channel: 'stable'
@@ -331,7 +333,7 @@ jobs:
         Copy-Item "portfolio-windows-${{ steps.version.outputs.version }}.zip" -Destination "portfolio-windows-latest.zip"
     
     - name: Upload Windows artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: windows-builds
         path: |
@@ -345,13 +347,13 @@ jobs:
     if: needs.check-release-trigger.outputs.should-release == 'true'
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         ref: main
         fetch-depth: 0
     
     - name: Setup Flutter
-      uses: subosito/flutter-action@v2
+      uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
       with:
         flutter-version: '3.32.8'
         channel: 'stable'
@@ -399,7 +401,7 @@ jobs:
         cp portfolio-ios-${{ steps.version.outputs.version }}.ipa portfolio-ios-latest.ipa
     
     - name: Upload macOS and iOS artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: macos-ios-builds
         path: |
@@ -415,7 +417,7 @@ jobs:
     if: needs.check-release-trigger.outputs.should-release == 'true'
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       with:
         ref: main
         fetch-depth: 0
@@ -434,18 +436,18 @@ jobs:
         echo "VERSION=$VERSION" >> $GITHUB_ENV
     
     - name: Download all artifacts
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
     
     - name: Create release body
       run: |
         if [ -f "CHANGELOG.md" ] && [ -n "${{ needs.release.outputs.version }}" ]; then
           echo "Using CHANGELOG.md from semantic-release"
-          echo "body_path=CHANGELOG.md" >> $GITHUB_ENV
+          echo "BODY_PATH=CHANGELOG.md" >> $GITHUB_ENV
         else
           echo "Creating fallback release notes"
           echo "Portfolio release ${{ steps.version.outputs.version }}" > release_notes.md
           echo "" >> release_notes.md
-          echo "📱 **Builds included:**" >> release_notes.md
+          echo "**Builds included:**" >> release_notes.md
           echo "- Android APK" >> release_notes.md
           echo "- iOS IPA (unsigned)" >> release_notes.md
           echo "- Web build" >> release_notes.md
@@ -455,16 +457,15 @@ jobs:
           echo "" >> release_notes.md
           echo "**Commit:** ${{ github.sha }}" >> release_notes.md
           echo "**Commit message:** ${{ needs.check-release-trigger.outputs.commit-message }}" >> release_notes.md
-          echo "body_path=release_notes.md" >> $GITHUB_ENV
+          echo "BODY_PATH=release_notes.md" >> $GITHUB_ENV
         fi
     
     - name: Create GitHub Release
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: v${{ steps.version.outputs.version }}
-        name: Release v${{ steps.version.outputs.version }}
-        body_path: ${{ env.body_path }}
-        files: |
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        TAG="v${{ steps.version.outputs.version }}"
+        FILES=(
           web-linux-android-builds/portfolio-web-${{ steps.version.outputs.version }}.zip
           web-linux-android-builds/portfolio-linux-${{ steps.version.outputs.version }}.tar.gz
           web-linux-android-builds/portfolio-android-${{ steps.version.outputs.version }}.apk
@@ -477,7 +478,10 @@ jobs:
           macos-ios-builds/portfolio-macos-latest.tar.gz
           macos-ios-builds/portfolio-ios-${{ steps.version.outputs.version }}.ipa
           macos-ios-builds/portfolio-ios-latest.ipa
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        )
+        if gh release view "$TAG" >/dev/null 2>&1; then
+          gh release edit "$TAG" --title "Release $TAG" --notes-file "$BODY_PATH"
+          gh release upload "$TAG" "${FILES[@]}" --clobber
+        else
+          gh release create "$TAG" "${FILES[@]}" --title "Release $TAG" --notes-file "$BODY_PATH" --target "${{ github.sha }}"
+        fi

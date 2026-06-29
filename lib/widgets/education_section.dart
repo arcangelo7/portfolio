@@ -9,6 +9,7 @@ import '../l10n/app_localizations.dart';
 import '../l10n/localization_helper.dart';
 import '../services/cv_data_service.dart';
 import '../models/cv_data.dart';
+import '../utils/responsive.dart';
 import 'attachment_button.dart';
 
 class EducationSection extends StatefulWidget {
@@ -60,7 +61,7 @@ class _EducationSectionState extends State<EducationSection> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isMobile = MediaQuery.of(context).size.width < 768;
+    final isMobile = Responsive.isMobile(context);
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16),
@@ -93,7 +94,7 @@ class _EducationSectionState extends State<EducationSection> {
     }
 
     if (_error != null) {
-      return SelectableText('Error: $_error');
+      return SelectableText(l10n.sectionLoadError(_error!));
     }
 
     final educationEntries = _educationEntries ?? [];
@@ -128,26 +129,32 @@ class _EducationSectionState extends State<EducationSection> {
       entry.descriptionKey,
     );
     final isOngoing = entry.current;
+    final colorScheme = Theme.of(context).colorScheme;
+    final neutralBorderColor = colorScheme.onSurface.withValues(alpha: 0.12);
+    final neutralBackgroundColor = colorScheme.onSurface.withValues(
+      alpha: 0.06,
+    );
+    final currentBorderColor = colorScheme.primary.withValues(alpha: 0.3);
+    final periodBackgroundColor =
+        isOngoing
+            ? colorScheme.primary.withValues(alpha: 0.1)
+            : neutralBackgroundColor;
+    final periodBorderColor =
+        isOngoing ? currentBorderColor : neutralBorderColor;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(isMobile ? 16 : 20),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(isMobile ? 12 : 16),
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color:
-              isOngoing
-                  ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.3)
-                  : Theme.of(
-                    context,
-                  ).colorScheme.outline.withValues(alpha: 0.3),
+          color: isOngoing ? currentBorderColor : neutralBorderColor,
           width: isOngoing ? 2 : 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: (isOngoing
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.secondary)
+            color: (isOngoing ? colorScheme.primary : colorScheme.onSurface)
                 .withValues(alpha: 0.1),
             blurRadius: 6,
             offset: const Offset(0, 3),
@@ -170,7 +177,7 @@ class _EducationSectionState extends State<EducationSection> {
                           width: 8,
                           height: 8,
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary,
+                            color: colorScheme.primary,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -183,8 +190,8 @@ class _EducationSectionState extends State<EducationSection> {
                             fontWeight: FontWeight.bold,
                             color:
                                 isOngoing
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Theme.of(context).colorScheme.onSurface,
+                                    ? colorScheme.primary
+                                    : colorScheme.onSurface,
                             fontSize: 16,
                           ),
                         ),
@@ -195,7 +202,7 @@ class _EducationSectionState extends State<EducationSection> {
                   SelectableText(
                     institution,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: colorScheme.secondary,
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
                     ),
@@ -209,25 +216,17 @@ class _EducationSectionState extends State<EducationSection> {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: (isOngoing
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.tertiary)
-                            .withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: (isOngoing
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.tertiary)
-                              .withValues(alpha: 0.3),
-                        ),
+                        color: periodBackgroundColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: periodBorderColor),
                       ),
                       child: SelectableText(
                         period,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color:
                               isOngoing
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onSurface,
+                                  ? colorScheme.primary
+                                  : colorScheme.onSurface,
                           fontWeight: FontWeight.w600,
                           fontSize: 11,
                         ),
@@ -245,7 +244,7 @@ class _EducationSectionState extends State<EducationSection> {
                       width: 8,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
+                        color: colorScheme.primary,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -261,8 +260,8 @@ class _EducationSectionState extends State<EducationSection> {
                             fontWeight: FontWeight.bold,
                             color:
                                 isOngoing
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Theme.of(context).colorScheme.onSurface,
+                                    ? colorScheme.primary
+                                    : colorScheme.onSurface,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -271,7 +270,7 @@ class _EducationSectionState extends State<EducationSection> {
                           style: Theme.of(
                             context,
                           ).textTheme.titleMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: colorScheme.secondary,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -284,25 +283,17 @@ class _EducationSectionState extends State<EducationSection> {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: (isOngoing
-                              ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).colorScheme.tertiary)
-                          .withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: (isOngoing
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.tertiary)
-                            .withValues(alpha: 0.3),
-                      ),
+                      color: periodBackgroundColor,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: periodBorderColor),
                     ),
                     child: SelectableText(
                       period,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color:
                             isOngoing
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.onSurface,
+                                ? colorScheme.primary
+                                : colorScheme.onSurface,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -314,7 +305,7 @@ class _EducationSectionState extends State<EducationSection> {
             context,
             description,
             Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
+              color: colorScheme.onSurface,
               height: 1.5,
               fontSize: isMobile ? 13 : null,
             ),

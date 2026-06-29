@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import '../l10n/app_localizations.dart';
+import '../utils/responsive.dart';
 import 'lazy_image.dart';
 
 class StaticThemeElementsWidget extends StatefulWidget {
@@ -102,8 +103,8 @@ class _StaticThemeElementsWidgetState extends State<StaticThemeElementsWidget>
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final isMobile = screenSize.width < 768;
+    final screenSize = Responsive.sizeOf(context);
+    final isMobile = Responsive.isMobile(context);
 
     // Static position in top-left corner with equal distance from left and top
     final leftPosition = isMobile ? 20.0 : 40.0;

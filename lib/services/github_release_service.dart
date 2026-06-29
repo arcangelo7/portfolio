@@ -23,13 +23,13 @@ class GitHubReleaseService {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         final assets = data['assets'] as List;
-        
+
         final downloadUrls = <String, String>{};
-        
+
         for (final asset in assets) {
           final name = asset['name'] as String;
           final downloadUrl = asset['browser_download_url'] as String;
-          
+
           if (name.contains('android')) {
             downloadUrls['android'] = downloadUrl;
           } else if (name.contains('ios')) {
@@ -42,7 +42,7 @@ class GitHubReleaseService {
             downloadUrls['linux'] = downloadUrl;
           }
         }
-        
+
         return downloadUrls;
       } else {
         throw Exception('Failed to load release data: ${response.statusCode}');

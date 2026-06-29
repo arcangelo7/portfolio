@@ -2,21 +2,41 @@
 //
 // SPDX-License-Identifier: ISC
 
+String _requiredString(Map<String, dynamic> json, String key) {
+  return json[key] as String;
+}
+
+String? _optionalString(Map<String, dynamic> json, String key) {
+  return json[key] as String?;
+}
+
+int _requiredInt(Map<String, dynamic> json, String key) {
+  return json[key] as int;
+}
+
+Iterable<Map<String, dynamic>> _objectList(
+  Map<String, dynamic> json,
+  String key,
+) {
+  return (json[key] as List<dynamic>).cast<Map<String, dynamic>>();
+}
+
 class LanguageData {
   final MotherTongue motherTongue;
   final List<OtherLanguage> otherLanguages;
 
-  LanguageData({
-    required this.motherTongue,
-    required this.otherLanguages,
-  });
+  LanguageData({required this.motherTongue, required this.otherLanguages});
 
   factory LanguageData.fromJson(Map<String, dynamic> json) {
     return LanguageData(
-      motherTongue: MotherTongue.fromJson(json['motherTongue']),
-      otherLanguages: (json['otherLanguages'] as List)
-          .map((lang) => OtherLanguage.fromJson(lang))
-          .toList(),
+      motherTongue: MotherTongue.fromJson(
+        json['motherTongue'] as Map<String, dynamic>,
+      ),
+      otherLanguages:
+          _objectList(
+            json,
+            'otherLanguages',
+          ).map(OtherLanguage.fromJson).toList(),
     );
   }
 }
@@ -25,15 +45,12 @@ class MotherTongue {
   final String name;
   final int order;
 
-  MotherTongue({
-    required this.name,
-    required this.order,
-  });
+  MotherTongue({required this.name, required this.order});
 
   factory MotherTongue.fromJson(Map<String, dynamic> json) {
     return MotherTongue(
-      name: json['name'],
-      order: json['order'],
+      name: _requiredString(json, 'name'),
+      order: _requiredInt(json, 'order'),
     );
   }
 }
@@ -61,14 +78,14 @@ class OtherLanguage {
 
   factory OtherLanguage.fromJson(Map<String, dynamic> json) {
     return OtherLanguage(
-      name: json['name'],
-      listening: json['listening'],
-      reading: json['reading'],
-      spokenInteraction: json['spokenInteraction'],
-      spokenProduction: json['spokenProduction'],
-      writing: json['writing'],
-      badgeUrl: json['badgeUrl'],
-      order: json['order'],
+      name: _requiredString(json, 'name'),
+      listening: _requiredString(json, 'listening'),
+      reading: _requiredString(json, 'reading'),
+      spokenInteraction: _requiredString(json, 'spokenInteraction'),
+      spokenProduction: _requiredString(json, 'spokenProduction'),
+      writing: _requiredString(json, 'writing'),
+      badgeUrl: _optionalString(json, 'badgeUrl'),
+      order: _requiredInt(json, 'order'),
     );
   }
 }

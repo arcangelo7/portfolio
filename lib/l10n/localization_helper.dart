@@ -317,6 +317,27 @@ class LocalizationHelper {
       case 'languagesEnglish':
         return l10n.languagesEnglish;
 
+      case 'cvGenerationError':
+        return l10n.cvGenerationError('{error}');
+      case 'europassCvGenerationError':
+        return l10n.europassCvGenerationError('{error}');
+      case 'changeLanguageToEnglish':
+        return l10n.changeLanguageToEnglish;
+      case 'changeLanguageToItalian':
+        return l10n.changeLanguageToItalian;
+      case 'changeLanguageToSpanish':
+        return l10n.changeLanguageToSpanish;
+      case 'viewInstallationInstructions':
+        return l10n.viewInstallationInstructions;
+      case 'sectionLoadError':
+        return l10n.sectionLoadError('{error}');
+      case 'errorLoadingSkills':
+        return l10n.errorLoadingSkills('{error}');
+      case 'noSkillsDataAvailable':
+        return l10n.noSkillsDataAvailable;
+      case 'errorLoadingLanguages':
+        return l10n.errorLoadingLanguages('{error}');
+
       // Software description keys
       case 'description':
         return l10n.description;

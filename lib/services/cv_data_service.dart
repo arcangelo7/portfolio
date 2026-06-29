@@ -40,27 +40,34 @@ class CVDataService {
       );
       final skillsJson = await rootBundle.loadString('assets/data/skills.json');
 
-      final personalInfo = PersonalInfo.fromJson(json.decode(personalInfoJson));
+      final personalInfo = PersonalInfo.fromJson(
+        json.decode(personalInfoJson) as Map<String, dynamic>,
+      );
 
       final educationList =
-          (json.decode(educationJson) as List)
-              .map((item) => EducationEntry.fromJson(item))
+          (json.decode(educationJson) as List<dynamic>)
+              .cast<Map<String, dynamic>>()
+              .map(EducationEntry.fromJson)
               .toList();
       educationList.sort((a, b) => a.order.compareTo(b.order));
 
       final workExperienceList =
-          (json.decode(workExperienceJson) as List)
-              .map((item) => WorkExperienceEntry.fromJson(item))
+          (json.decode(workExperienceJson) as List<dynamic>)
+              .cast<Map<String, dynamic>>()
+              .map(WorkExperienceEntry.fromJson)
               .toList();
       workExperienceList.sort((a, b) => a.order.compareTo(b.order));
 
       final conferencesList =
-          (json.decode(conferencesJson) as List)
-              .map((item) => ConferenceEntry.fromJson(item))
+          (json.decode(conferencesJson) as List<dynamic>)
+              .cast<Map<String, dynamic>>()
+              .map(ConferenceEntry.fromJson)
               .toList();
       conferencesList.sort((a, b) => a.order.compareTo(b.order));
 
-      final skills = SkillsData.fromJson(json.decode(skillsJson));
+      final skills = SkillsData.fromJson(
+        json.decode(skillsJson) as Map<String, dynamic>,
+      );
       skills.categories.sort((a, b) => a.order.compareTo(b.order));
 
       _cachedData = CVData(
@@ -111,6 +118,8 @@ class CVDataService {
     final languagesJson = await rootBundle.loadString(
       'assets/data/languages.json',
     );
-    return LanguageData.fromJson(json.decode(languagesJson));
+    return LanguageData.fromJson(
+      json.decode(languagesJson) as Map<String, dynamic>,
+    );
   }
 }

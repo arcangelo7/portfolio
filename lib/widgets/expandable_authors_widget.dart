@@ -9,7 +9,7 @@ class ExpandableAuthorsWidget extends StatefulWidget {
   final List<String> authors;
   final String uniqueKey;
   final Set<String> expandedAuthors;
-  final Function(String) onToggle;
+  final ValueChanged<String> onToggle;
   final int threshold;
   final TextStyle? textStyle;
 
@@ -24,14 +24,17 @@ class ExpandableAuthorsWidget extends StatefulWidget {
   });
 
   @override
-  State<ExpandableAuthorsWidget> createState() => _ExpandableAuthorsWidgetState();
+  State<ExpandableAuthorsWidget> createState() =>
+      _ExpandableAuthorsWidgetState();
 }
 
 class _ExpandableAuthorsWidgetState extends State<ExpandableAuthorsWidget> {
   String get _authorsString {
     if (widget.authors.isEmpty) return 'Unknown Author';
     if (widget.authors.length == 1) return widget.authors.first;
-    if (widget.authors.length == 2) return '${widget.authors.first} & ${widget.authors.last}';
+    if (widget.authors.length == 2) {
+      return '${widget.authors.first} & ${widget.authors.last}';
+    }
     return widget.authors.join(', ');
   }
 
@@ -43,10 +46,12 @@ class _ExpandableAuthorsWidgetState extends State<ExpandableAuthorsWidget> {
     if (widget.authors.length <= widget.threshold) {
       return SelectableText(
         _authorsString,
-        style: widget.textStyle ?? Theme.of(context).textTheme.bodyLarge?.copyWith(
-          fontWeight: FontWeight.w500,
-          color: Theme.of(context).colorScheme.primary,
-        ),
+        style:
+            widget.textStyle ??
+            Theme.of(context).textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.w500,
+              color: Theme.of(context).colorScheme.primary,
+            ),
       );
     }
 
@@ -57,10 +62,12 @@ class _ExpandableAuthorsWidgetState extends State<ExpandableAuthorsWidget> {
           isExpanded
               ? _authorsString
               : '${widget.authors.take(3).join(', ')} ${l10n.andMoreAuthors(widget.authors.length - 3)}',
-          style: widget.textStyle ?? Theme.of(context).textTheme.bodyLarge?.copyWith(
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).colorScheme.primary,
-          ),
+          style:
+              widget.textStyle ??
+              Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).colorScheme.primary,
+              ),
         ),
         const SizedBox(height: 8),
         Container(

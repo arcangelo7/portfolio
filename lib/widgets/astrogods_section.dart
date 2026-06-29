@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
+import '../utils/responsive.dart';
 import 'starry_background.dart';
 
 class AstroGodsSection extends StatefulWidget {
@@ -63,7 +64,7 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isMobile = MediaQuery.of(context).size.width < 768;
+    final isMobile = Responsive.isMobile(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
@@ -232,7 +233,7 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
                     Colors.white.withValues(alpha: 0.02),
                   ],
                 ),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(8),
                 border: Border.all(
                   color: cardColor.withValues(alpha: 0.3),
                   width: 2,
@@ -255,7 +256,7 @@ class _AstroGodsSectionState extends State<AstroGodsSection> {
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: cardColor.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         child: Icon(
                           card['icon'] as IconData,

@@ -43,10 +43,12 @@ class OpenCitationsIndexService {
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> jsonData = json.decode(response.body);
+        final jsonData = json.decode(response.body) as List<dynamic>;
         final count =
             jsonData.isNotEmpty
-                ? (jsonData.first['count'] as String? ?? '0')
+                ? ((jsonData.first as Map<String, dynamic>)['count']
+                        as String? ??
+                    '0')
                 : '0';
         final citationCount = int.tryParse(count) ?? 0;
 
@@ -80,7 +82,7 @@ class OpenCitationsIndexService {
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> jsonData = json.decode(response.body);
+        final jsonData = json.decode(response.body) as List<dynamic>;
         final citations =
             jsonData
                 .map(

@@ -11,7 +11,7 @@ on:
     branches: [ main ]
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -20,70 +20,79 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
     
     - name: Setup Flutter
-      uses: subosito/flutter-action@v2
+      uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
       with:
         flutter-version: '3.32.8'
         channel: 'stable'
+
+    - name: Setup Python
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+      with:
+        python-version: '3.13'
     
     - name: Get dependencies
       run: flutter pub get
     
     - name: Analyze code
-      run: flutter analyze
+      run: flutter analyze --fatal-infos
     
-    - name: Install lcov
-      run: sudo apt-get install -y lcov
+    - name: Install coverage tools
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y lcov
+        python -m pip install "genbadge[coverage]"
     
     - name: Run tests with coverage and filter
       run: ./test/test_coverage.sh
-    
-    - name: Generate coverage percentage
-      id: coverage
-      run: |
-        COVERAGE=$(lcov --summary coverage/lcov.info | grep lines | awk '{print $2}' | sed 's/%//')
-        echo "percentage=$COVERAGE" >> $GITHUB_OUTPUT
-        echo "COVERAGE=$COVERAGE%" >> $GITHUB_ENV
-        echo "Coverage: $COVERAGE%"
     
     - name: Generate HTML coverage report
       run: |
         genhtml coverage/lcov.info -o coverage/html
         echo "Coverage report generated at coverage/html/index.html"
-    
-    - name: Calculate badge color
-      run: |
-        COVERAGE_NUM=$(echo ${{ env.COVERAGE }} | sed 's/%//')
-        
-        if (( $(echo "$COVERAGE_NUM >= 90" | bc -l) )); then
-          COLOR="green"
-        elif (( $(echo "$COVERAGE_NUM >= 75" | bc -l) )); then
-          COLOR="yellow"
-        elif (( $(echo "$COVERAGE_NUM >= 60" | bc -l) )); then
-          COLOR="orange"
-        else
-          COLOR="red"
-        fi
-        
-        echo "BADGE_COLOR=$COLOR" >> $GITHUB_ENV
-    
+
     - name: Generate coverage badge
-      uses: emibcn/badge-action@v2.0.3
-      with:
-        label: 'Coverage'
-        status: '${{ steps.coverage.outputs.percentage }}%'
-        color: '${{ env.BADGE_COLOR }}'
-        path: 'test/coverage-badge.svg'
-    
-    - name: Commit coverage badge
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add test/coverage-badge.svg
-        git diff --staged --quiet || git commit -m "Update coverage badge"
-        git push
+        python - <<'PY'
+        from pathlib import Path
+        from xml.etree import ElementTree
+
+        covered = 0
+        total = 0
+
+        for line in Path("coverage/lcov.info").read_text().splitlines():
+            if line.startswith("DA:"):
+                total += 1
+                hits = int(line.split(",", 1)[1])
+                if hits > 0:
+                    covered += 1
+
+        line_rate = covered / total if total else 0
+        coverage = ElementTree.Element(
+            "coverage",
+            {
+                "line-rate": f"{line_rate:.6f}",
+                "branch-rate": "0",
+                "lines-covered": str(covered),
+                "lines-valid": str(total),
+                "branches-covered": "0",
+                "branches-valid": "0",
+                "complexity": "0",
+                "version": "lcov",
+                "timestamp": "0",
+            },
+        )
+        ElementTree.SubElement(coverage, "packages")
+        ElementTree.ElementTree(coverage).write(
+            "coverage/coverage.xml",
+            encoding="utf-8",
+            xml_declaration=True,
+        )
+        PY
+        mkdir -p build/web/test/coverage
+        genbadge coverage -i coverage/coverage.xml -o build/web/test/coverage/coverage-badge.svg
     
     - name: Build web
       run: flutter build web --release --base-href /portfolio/
@@ -92,20 +101,19 @@ jobs:
       run: |
         mkdir -p build/web/test/coverage
         cp -r coverage/html/* build/web/test/coverage/
-        # Mirror documents to assets/documents/ (Flutter builds them into assets/assets/documents/)
         cp -r build/web/assets/assets/documents build/web/assets/documents
     
     - name: Setup Pages
-      uses: actions/configure-pages@v5
+      uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       if: github.ref == 'refs/heads/main'
 
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
       if: github.ref == 'refs/heads/main'
       with:
         path: ./build/web
 
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v4
+      uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
       if: github.ref == 'refs/heads/main'

@@ -7,7 +7,7 @@ SPDX-License-Identifier: ISC
 # Portfolio
 
 [![Test](https://github.com/arcangelo7/portfolio/actions/workflows/test.yml/badge.svg)](https://github.com/arcangelo7/portfolio/actions/workflows/test.yml)
-[![Coverage](test/coverage-badge.svg)](https://arcangelo7.github.io/portfolio/test/coverage/)
+[![Coverage](https://arcangelo7.github.io/portfolio/test/coverage/coverage-badge.svg)](https://arcangelo7.github.io/portfolio/test/coverage/)
 [![REUSE](https://github.com/arcangelo7/portfolio/actions/workflows/reuse.yml/badge.svg)](https://github.com/arcangelo7/portfolio/actions/workflows/reuse.yml)
 [![Built with Flutter](https://img.shields.io/badge/Built%20with-Flutter-02569B?style=flat&logo=flutter)](https://flutter.dev)
 
@@ -20,7 +20,7 @@ SPDX-License-Identifier: ISC
 
 A responsive Flutter portfolio website showcasing my institutional profile and skills.
 
-**🌐 Portfolio Website**: [https://arcangelo7.github.io/portfolio/](https://arcangelo7.github.io/portfolio/)
+**Portfolio website**: [https://arcangelo7.github.io/portfolio/](https://arcangelo7.github.io/portfolio/)
 
 ## Features
 
@@ -36,9 +36,9 @@ A responsive Flutter portfolio website showcasing my institutional profile and s
 
 - **Web**: [Live Demo](https://arcangelo7.github.io/portfolio/) - Also installable as Progressive Web App (PWA)
 - **Android**: [Download APK](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-android-latest.apk)
-- **iOS**: [Download IPA](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-ios-latest.ipa) (unsigned - requires sideloading) ⚠️ **Note**: I don't own a Mac or iPhone, so iOS builds are untested
+- **iOS**: [Download IPA](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-ios-latest.ipa) (unsigned - requires sideloading). **Note**: I don't own a Mac or iPhone, so iOS builds are untested
 - **Windows**: [Download Windows Build](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-windows-latest.zip)
-- **macOS**: [Download macOS Build](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-macos-latest.tar.gz) ⚠️ **Note**: I don't own a Mac, so macOS builds are untested
+- **macOS**: [Download macOS Build](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-macos-latest.tar.gz). **Note**: I don't own a Mac, so macOS builds are untested
 - **Linux**: [Download Linux Build](https://github.com/arcangelo7/portfolio/releases/latest/download/portfolio-linux-latest.tar.gz)
 
 ### Platform-specific Installation
@@ -128,4 +128,4 @@ Run tests with coverage (auto-excludes generated files):
 ./test/test_coverage.sh --html
 ```
 
-**📊 Test Coverage**: View detailed coverage report at [https://arcangelo7.github.io/portfolio/test/coverage/](https://arcangelo7.github.io/portfolio/test/coverage/)
+**Test coverage**: View detailed coverage report at [https://arcangelo7.github.io/portfolio/test/coverage/](https://arcangelo7.github.io/portfolio/test/coverage/)

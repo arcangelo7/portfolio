@@ -5,11 +5,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../l10n/app_localizations.dart';
+import '../utils/responsive.dart';
 
 class TableOfContentsWidget extends StatefulWidget {
   final Map<String, GlobalKey> sectionKeys;
   final VoidCallback? onTap;
-  final Function(String)? onSectionChanged;
+  final ValueChanged<String>? onSectionChanged;
 
   const TableOfContentsWidget({
     super.key,
@@ -20,6 +21,18 @@ class TableOfContentsWidget extends StatefulWidget {
 
   @override
   State<TableOfContentsWidget> createState() => _TableOfContentsWidgetState();
+}
+
+class _TocSection {
+  final String key;
+  final String title;
+  final IconData icon;
+
+  const _TocSection({
+    required this.key,
+    required this.title,
+    required this.icon,
+  });
 }
 
 class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
@@ -110,37 +123,41 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
     }
   }
 
-  List<Map<String, dynamic>> _getSections(BuildContext context) {
+  List<_TocSection> _getSections(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return [
-      {'key': 'about', 'title': l10n.aboutMe, 'icon': Icons.person},
-      {'key': 'work', 'title': l10n.workExperience, 'icon': Icons.work},
-      {'key': 'education', 'title': l10n.education, 'icon': Icons.school},
-      {
-        'key': 'conferences',
-        'title': l10n.conferencesAndSeminars,
-        'icon': Icons.mic,
-      },
-      {'key': 'skills', 'title': l10n.skills, 'icon': Icons.build},
-      {'key': 'languages', 'title': l10n.languages, 'icon': Icons.language},
-      {
-        'key': 'publications',
-        'title': l10n.publications,
-        'icon': Icons.article,
-      },
-      {
-        'key': 'astrogods',
-        'title': l10n.astroGodsTitle,
-        'icon': Icons.travel_explore,
-      },
-      {'key': 'contact', 'title': l10n.getInTouch, 'icon': Icons.email},
+      _TocSection(key: 'about', title: l10n.aboutMe, icon: Icons.person),
+      _TocSection(key: 'work', title: l10n.workExperience, icon: Icons.work),
+      _TocSection(key: 'education', title: l10n.education, icon: Icons.school),
+      _TocSection(
+        key: 'conferences',
+        title: l10n.conferencesAndSeminars,
+        icon: Icons.mic,
+      ),
+      _TocSection(key: 'skills', title: l10n.skills, icon: Icons.build),
+      _TocSection(
+        key: 'languages',
+        title: l10n.languages,
+        icon: Icons.language,
+      ),
+      _TocSection(
+        key: 'publications',
+        title: l10n.publications,
+        icon: Icons.article,
+      ),
+      _TocSection(
+        key: 'astrogods',
+        title: l10n.astroGodsTitle,
+        icon: Icons.travel_explore,
+      ),
+      _TocSection(key: 'contact', title: l10n.getInTouch, icon: Icons.email),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
     final sections = _getSections(context);
-    final isMobile = MediaQuery.of(context).size.width < 768;
+    final isMobile = Responsive.isMobile(context);
 
     return ScaleTransition(
       scale: _scaleAnimation,
@@ -148,7 +165,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
         constraints: BoxConstraints(maxWidth: isMobile ? 250 : 280),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.15),
@@ -181,8 +198,8 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                     context,
                   ).colorScheme.primary.withValues(alpha: 0.05),
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
+                    topLeft: Radius.circular(8),
+                    topRight: Radius.circular(8),
                   ),
                 ),
                 child: Row(
@@ -217,12 +234,12 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                   (context, index) => SizedBox(height: isMobile ? 4 : 6),
               itemBuilder: (context, index) {
                 final section = sections[index];
-                final isActive = _activeSectionKey == section['key'];
+                final isActive = _activeSectionKey == section.key;
 
                 return Semantics(
                   button: true,
                   label:
-                      '${AppLocalizations.of(context)!.tableOfContents}: ${section['title']!}',
+                      '${AppLocalizations.of(context)!.tableOfContents}: ${section.title}',
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     decoration: BoxDecoration(
@@ -232,7 +249,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                                 context,
                               ).colorScheme.primary.withValues(alpha: 0.1)
                               : Colors.transparent,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(8),
                       border:
                           isActive
                               ? Border.all(
@@ -246,8 +263,8 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () => _scrollToSection(section['key']!),
-                        borderRadius: BorderRadius.circular(12),
+                        onTap: () => _scrollToSection(section.key),
+                        borderRadius: BorderRadius.circular(8),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal: isMobile ? 12 : 16,
@@ -256,7 +273,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                           child: Row(
                             children: [
                               Icon(
-                                section['icon'] as IconData,
+                                section.icon,
                                 size: isMobile ? 16 : 18,
                                 color:
                                     isActive
@@ -269,7 +286,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                               const SizedBox(width: 12),
                               Expanded(
                                 child: _buildStrikethroughText(
-                                  section['title']!,
+                                  section.title,
                                   Theme.of(
                                     context,
                                   ).textTheme.bodyMedium?.copyWith(

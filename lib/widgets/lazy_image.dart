@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: ISC
 
 import 'package:flutter/material.dart';
+import '../utils/responsive.dart';
 
 /// A lightweight lazy-loading image widget for assets.
 ///
@@ -104,7 +105,7 @@ class _LazyImageState extends State<LazyImage> {
 
     final position = renderBox!.localToGlobal(Offset.zero);
     final size = renderBox.size;
-    final screenHeight = MediaQuery.of(context).size.height;
+    final screenHeight = Responsive.sizeOf(context).height;
 
     // Consider the image visible if within the viewport or close to it (±200px)
     final isInOrNearViewport =
@@ -125,7 +126,7 @@ class _LazyImageState extends State<LazyImage> {
     if (widget.critical) {
       return _buildImage();
     }
-    
+
     if (!_isVisible && !_hasBeenVisible) {
       // Show placeholder while not visible
       return Container(
@@ -160,29 +161,32 @@ class _LazyImageState extends State<LazyImage> {
       filterQuality: widget.filterQuality,
       alignment: widget.alignment,
       // Use frameBuilder to show loading indicator for non-critical images
-      frameBuilder: widget.critical ? null : (context, child, frame, wasSynchronouslyLoaded) {
-        if (wasSynchronouslyLoaded || frame != null) {
-          return child;
-        }
-        return Container(
-          width: widget.width,
-          height: widget.height,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainer,
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Center(
-            child: SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-          ),
-        );
-      },
+      frameBuilder:
+          widget.critical
+              ? null
+              : (context, child, frame, wasSynchronouslyLoaded) {
+                if (wasSynchronouslyLoaded || frame != null) {
+                  return child;
+                }
+                return Container(
+                  width: widget.width,
+                  height: widget.height,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surfaceContainer,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                );
+              },
     );
     if (widget.semanticLabel == null || widget.semanticLabel!.isEmpty) {
       return ExcludeSemantics(child: imageWidget);

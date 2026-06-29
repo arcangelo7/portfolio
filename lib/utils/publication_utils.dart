@@ -7,39 +7,44 @@ import '../l10n/app_localizations.dart';
 
 class PublicationUtils {
   /// Build venue display with volume, issue and pages information
-  static String buildVenueWithDetails(String venue, String? volume, String? issue, String? pages) {
+  static String buildVenueWithDetails(
+    String venue,
+    String? volume,
+    String? issue,
+    String? pages,
+  ) {
     final parts = <String>[];
-    
+
     if (volume != null && volume.isNotEmpty) {
       parts.add(volume);
     }
-    
+
     if (issue != null && issue.isNotEmpty) {
       parts.add('($issue)');
     }
-    
+
     if (pages != null && pages.isNotEmpty) {
       parts.add('pp. $pages');
     }
-    
+
     if (parts.isNotEmpty) {
       return '$venue, ${parts.join(', ')}';
     }
-    
+
     return venue;
   }
 
   /// Check if publication type should show venue details (volume, issue, pages)
   static bool shouldShowVenueDetails(String itemType) {
-    return itemType == 'journalArticle' || 
-           itemType == 'bookSection' || 
-           itemType == 'conferencePaper';
+    return itemType == 'journalArticle' ||
+        itemType == 'bookSection' ||
+        itemType == 'conferencePaper';
   }
 
   /// Check if a publication should show a launch button (DOI or URL)
   static bool shouldShowLaunchButton(Publication publication) {
     return (publication.doi != null && publication.doi!.isNotEmpty) ||
-           (publication.url != null && publication.url!.isNotEmpty);
+        (publication.url != null && publication.url!.isNotEmpty);
   }
 
   /// Get the URL to launch for a publication (DOI takes precedence over URL)
@@ -72,7 +77,10 @@ class PublicationUtils {
   }
 
   /// Get category display name with localization
-  static String getCategoryDisplayName(String categoryKey, AppLocalizations l10n) {
+  static String getCategoryDisplayName(
+    String categoryKey,
+    AppLocalizations l10n,
+  ) {
     switch (categoryKey) {
       case 'journalArticle':
         return l10n.categoryJournalArticle;
@@ -107,7 +115,9 @@ class PublicationUtils {
   }
 
   /// Group publications by category and return them in order of importance
-  static Map<String, List<Publication>> groupPublicationsByCategory(List<Publication> publications) {
+  static Map<String, List<Publication>> groupPublicationsByCategory(
+    List<Publication> publications,
+  ) {
     final Map<String, List<Publication>> grouped = {};
     final categoryOrder = getCategoryOrder();
 

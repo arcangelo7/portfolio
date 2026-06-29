@@ -8,6 +8,7 @@ import '../l10n/localization_helper.dart';
 import '../services/cv_data_service.dart';
 import '../models/cv_data.dart';
 import '../main.dart';
+import '../utils/responsive.dart';
 import 'flutter_modal.dart';
 
 class SkillsSection extends StatefulWidget {
@@ -52,7 +53,7 @@ class _SkillsSectionState extends State<SkillsSection> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isMobile = MediaQuery.of(context).size.width < 768;
+    final isMobile = Responsive.isMobile(context);
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 16),
@@ -79,17 +80,21 @@ class _SkillsSectionState extends State<SkillsSection> {
     );
   }
 
-  Widget _buildContent(BuildContext context, AppLocalizations l10n, bool isMobile) {
+  Widget _buildContent(
+    BuildContext context,
+    AppLocalizations l10n,
+    bool isMobile,
+  ) {
     if (_isLoading) {
       return const CircularProgressIndicator();
     }
 
     if (_error != null) {
-      return Text('Error loading skills: $_error');
+      return Text(l10n.errorLoadingSkills(_error!));
     }
 
     if (_skillsData == null) {
-      return const Text('No skills data available');
+      return Text(l10n.noSkillsDataAvailable);
     }
 
     final skillsCategories = <String, List<String>>{};
@@ -99,12 +104,13 @@ class _SkillsSectionState extends State<SkillsSection> {
         l10n,
         category.nameKey,
       );
-      final skillNames = category.skills
-          .map((skill) => LocalizationHelper.getLocalizedText(
-                l10n,
-                skill.nameKey,
-              ))
-          .toList();
+      final skillNames =
+          category.skills
+              .map(
+                (skill) =>
+                    LocalizationHelper.getLocalizedText(l10n, skill.nameKey),
+              )
+              .toList();
       skillsCategories[categoryName] = skillNames;
     }
 
@@ -221,7 +227,7 @@ class SkillsBubbleChart extends StatelessWidget {
           ],
           stops: const [0.0, 0.6, 1.0],
         ),
-        borderRadius: BorderRadius.circular(isMobile ? 16 : 20),
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: categoryColor.withValues(alpha: 0.3),
           width: 1.5,
@@ -392,7 +398,7 @@ class SkillsBubbleChart extends StatelessWidget {
   }
 
   void _showFlutterModal(BuildContext context) {
-    showDialog(
+    showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (context) => const FlutterModal(),

@@ -79,21 +79,20 @@ class _StarryBackgroundState extends State<StarryBackground>
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: widget.forceNightBackground
-          ? const BoxDecoration(
-              gradient: RadialGradient(
-                center: Alignment.bottomCenter,
-                radius: 1.0,
-                colors: [
-                  Color(0xFF0c1116), // Dark blue at bottom
-                  Color(0xFF090a0f), // Almost black at top
-                ],
-                stops: [0.0, 1.0],
-              ),
-            )
-          : const BoxDecoration(
-              color: Colors.transparent,
-            ),
+      decoration:
+          widget.forceNightBackground
+              ? const BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment.bottomCenter,
+                  radius: 1.0,
+                  colors: [
+                    Color(0xFF0c1116), // Dark blue at bottom
+                    Color(0xFF090a0f), // Almost black at top
+                  ],
+                  stops: [0.0, 1.0],
+                ),
+              )
+              : const BoxDecoration(color: Colors.transparent),
       child: Stack(
         children: [
           // Stars layer 1 (small, fast)

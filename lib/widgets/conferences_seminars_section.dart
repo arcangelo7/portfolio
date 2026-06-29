@@ -9,6 +9,7 @@ import '../l10n/app_localizations.dart';
 import '../l10n/localization_helper.dart';
 import '../services/cv_data_service.dart';
 import '../models/cv_data.dart';
+import '../utils/responsive.dart';
 
 class ConferencesSeminarsSection extends StatefulWidget {
   const ConferencesSeminarsSection({super.key});
@@ -61,7 +62,7 @@ class _ConferencesSeminarsSectionState
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isMobile = MediaQuery.of(context).size.width < 768;
+    final isMobile = Responsive.isMobile(context);
 
     return Container(
       padding: EdgeInsets.all(isMobile ? 20 : 64),
@@ -92,7 +93,7 @@ class _ConferencesSeminarsSectionState
     }
 
     if (_error != null) {
-      return SelectableText('Error: $_error');
+      return SelectableText(l10n.sectionLoadError(_error!));
     }
 
     final conferenceEntries = _conferenceEntries ?? [];
@@ -126,19 +127,22 @@ class _ConferencesSeminarsSectionState
       l10n,
       entry.descriptionKey,
     );
+    final colorScheme = Theme.of(context).colorScheme;
+    final neutralBorderColor = colorScheme.onSurface.withValues(alpha: 0.12);
+    final neutralBackgroundColor = colorScheme.onSurface.withValues(
+      alpha: 0.06,
+    );
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(isMobile ? 20 : 24),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(isMobile ? 12 : 16),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
-          width: 1,
-        ),
+        color: colorScheme.surfaceContainer,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: neutralBorderColor, width: 1),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+            color: colorScheme.onSurface.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -155,7 +159,7 @@ class _ConferencesSeminarsSectionState
                     title,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: colorScheme.primary,
                       fontSize: 18,
                     ),
                   ),
@@ -163,7 +167,7 @@ class _ConferencesSeminarsSectionState
                   SelectableText(
                     location,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: colorScheme.secondary,
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                     ),
@@ -177,20 +181,14 @@ class _ConferencesSeminarsSectionState
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.tertiary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.tertiary.withValues(alpha: 0.3),
-                        ),
+                        color: neutralBackgroundColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: neutralBorderColor),
                       ),
                       child: SelectableText(
                         period,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
+                          color: colorScheme.onSurface,
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
                         ),
@@ -212,7 +210,7 @@ class _ConferencesSeminarsSectionState
                             context,
                           ).textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
+                            color: colorScheme.primary,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -221,7 +219,7 @@ class _ConferencesSeminarsSectionState
                           style: Theme.of(
                             context,
                           ).textTheme.titleMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.secondary,
+                            color: colorScheme.secondary,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -234,20 +232,14 @@ class _ConferencesSeminarsSectionState
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.tertiary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.tertiary.withValues(alpha: 0.3),
-                      ),
+                      color: neutralBackgroundColor,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: neutralBorderColor),
                     ),
                     child: SelectableText(
                       period,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface,
+                        color: colorScheme.onSurface,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -259,7 +251,7 @@ class _ConferencesSeminarsSectionState
             context,
             description,
             Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
+              color: colorScheme.onSurface,
               height: 1.5,
               fontSize: isMobile ? 14 : null,
             ),

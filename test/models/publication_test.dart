@@ -3,27 +3,10 @@
 // SPDX-License-Identifier: ISC
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:portfolio/l10n/app_localizations_en.dart';
 import 'package:portfolio/models/publication.dart';
 
-class MockLocalizations {
-  String get categoryJournalArticle => 'Journal Article';
-  String get categoryConferencePaper => 'Conference Paper';
-  String get categoryBook => 'Book';
-  String get categoryBookSection => 'Book Section';
-  String get categorySoftware => 'Software';
-  String get categoryPresentation => 'Presentation';
-  String get categoryThesis => 'Thesis';
-  String get categoryReport => 'Report';
-  String get categoryOther => 'Other';
-  String get viewUrl => 'View Article';
-  String get viewPaper => 'View Paper';
-  String get viewBook => 'View Book';
-  String get viewChapter => 'View Chapter';
-  String get viewSoftware => 'View Software';
-  String get viewPresentation => 'View Presentation';
-  String get viewThesis => 'View Thesis';
-  String get viewReport => 'View Report';
-}
+final appLocalizations = AppLocalizationsEn();
 
 void main() {
   group('Publication.fromJson creator type handling', () {
@@ -653,12 +636,6 @@ void main() {
   });
 
   group('Publication category display names', () {
-    late MockLocalizations mockL10n;
-
-    setUp(() {
-      mockL10n = MockLocalizations();
-    });
-
     test('should return correct category display names', () {
       const journalArticle = Publication(
         key: 'test',
@@ -716,39 +693,33 @@ void main() {
       );
 
       expect(
-        journalArticle.getCategoryDisplayName(mockL10n),
-        equals('Journal Article'),
+        journalArticle.getCategoryDisplayName(appLocalizations),
+        equals('Journal article'),
       );
       expect(
-        conferencePaper.getCategoryDisplayName(mockL10n),
-        equals('Conference Paper'),
+        conferencePaper.getCategoryDisplayName(appLocalizations),
+        equals('Conference paper'),
       );
-      expect(book.getCategoryDisplayName(mockL10n), equals('Book'));
+      expect(book.getCategoryDisplayName(appLocalizations), equals('Book'));
       expect(
-        bookSection.getCategoryDisplayName(mockL10n),
-        equals('Book Section'),
+        bookSection.getCategoryDisplayName(appLocalizations),
+        equals('Book section'),
       );
       expect(
-        computerProgram.getCategoryDisplayName(mockL10n),
+        computerProgram.getCategoryDisplayName(appLocalizations),
         equals('Software'),
       );
       expect(
-        presentation.getCategoryDisplayName(mockL10n),
+        presentation.getCategoryDisplayName(appLocalizations),
         equals('Presentation'),
       );
-      expect(thesis.getCategoryDisplayName(mockL10n), equals('Thesis'));
-      expect(report.getCategoryDisplayName(mockL10n), equals('Report'));
-      expect(unknown.getCategoryDisplayName(mockL10n), equals('Other'));
+      expect(thesis.getCategoryDisplayName(appLocalizations), equals('Thesis'));
+      expect(report.getCategoryDisplayName(appLocalizations), equals('Report'));
+      expect(unknown.getCategoryDisplayName(appLocalizations), equals('Other'));
     });
   });
 
   group('Publication view button text', () {
-    late MockLocalizations mockL10n;
-
-    setUp(() {
-      mockL10n = MockLocalizations();
-    });
-
     test('should return correct view button text for each item type', () {
       const journalArticle = Publication(
         key: 'test',
@@ -806,23 +777,32 @@ void main() {
       );
 
       expect(
-        journalArticle.getViewButtonText(mockL10n),
+        journalArticle.getViewButtonText(appLocalizations),
         equals('View Article'),
       );
-      expect(conferencePaper.getViewButtonText(mockL10n), equals('View Paper'));
-      expect(book.getViewButtonText(mockL10n), equals('View Book'));
-      expect(bookSection.getViewButtonText(mockL10n), equals('View Chapter'));
       expect(
-        computerProgram.getViewButtonText(mockL10n),
+        conferencePaper.getViewButtonText(appLocalizations),
+        equals('View Paper'),
+      );
+      expect(book.getViewButtonText(appLocalizations), equals('View Book'));
+      expect(
+        bookSection.getViewButtonText(appLocalizations),
+        equals('View Chapter'),
+      );
+      expect(
+        computerProgram.getViewButtonText(appLocalizations),
         equals('View Software'),
       );
       expect(
-        presentation.getViewButtonText(mockL10n),
+        presentation.getViewButtonText(appLocalizations),
         equals('View Presentation'),
       );
-      expect(thesis.getViewButtonText(mockL10n), equals('View Thesis'));
-      expect(report.getViewButtonText(mockL10n), equals('View Report'));
-      expect(unknown.getViewButtonText(mockL10n), equals('View Article'));
+      expect(thesis.getViewButtonText(appLocalizations), equals('View Thesis'));
+      expect(report.getViewButtonText(appLocalizations), equals('View Report'));
+      expect(
+        unknown.getViewButtonText(appLocalizations),
+        equals('View Article'),
+      );
     });
   });
 

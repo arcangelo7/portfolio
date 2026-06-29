@@ -133,7 +133,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutMeDescription.
   ///
   /// In en, this message translates to:
-  /// **'I have a joint PhD in Cultural Heritage in the Digital Ecosystem (University of Bologna) and Engineering Technology (KU Leuven). My thing is enabling cultural heritage experts to curate and publish FAIR data (Findable, Accessible, Interoperable, Reusable) through Semantic Web technologies, without having to become tech experts themselves. That\'s how [HERITRACE](https://opencitations.github.io/heritrace/) came about: a system for curating knowledge graphs that keeps track of who changed what and why.\n\nRight now I\'m a postdoc at the University of Bologna, working on the [GRAPHIA](https://cordis.europa.eu/project/id/101188018) project (Horizon Europe) to bring scattered humanities and social sciences data together into a single knowledge graph. I also work with [OpenCitations](https://opencitations.net/) to make scholarly citation data open and reusable.'**
+  /// **'I have a joint PhD in Cultural Heritage in the Digital Ecosystem (University of Bologna) and Engineering Technology (KU Leuven). My work focuses on supporting cultural heritage experts in curating and publishing FAIR data (Findable, Accessible, Interoperable, Reusable) through Semantic Web technologies, without requiring them to become technical experts themselves. That\'s how [HERITRACE](https://opencitations.github.io/heritrace/) came about: a system for curating knowledge graphs that keeps track of who changed what and why.\n\nRight now I\'m a postdoc at the University of Bologna, working on the [GRAPHIA](https://cordis.europa.eu/project/id/101188018) project (Horizon Europe) to bring scattered humanities and social sciences data together into a single knowledge graph. I also work with [OpenCitations](https://opencitations.net/) to make scholarly citation data open and reusable.'**
   String get aboutMeDescription;
 
   /// No description provided for @skills.
@@ -1276,6 +1276,18 @@ abstract class AppLocalizations {
   /// **'CV generated successfully'**
   String get cvGeneratedSuccessfully;
 
+  /// No description provided for @cvGenerationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error generating CV: {error}'**
+  String cvGenerationError(Object error);
+
+  /// No description provided for @europassCvGenerationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error generating Europass CV: {error}'**
+  String europassCvGenerationError(Object error);
+
   /// No description provided for @cvEducationTitle.
   ///
   /// In en, this message translates to:
@@ -1348,6 +1360,24 @@ abstract class AppLocalizations {
   /// **'Select Language'**
   String get selectLanguage;
 
+  /// No description provided for @changeLanguageToEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'Change language to English'**
+  String get changeLanguageToEnglish;
+
+  /// No description provided for @changeLanguageToItalian.
+  ///
+  /// In en, this message translates to:
+  /// **'Change language to Italian'**
+  String get changeLanguageToItalian;
+
+  /// No description provided for @changeLanguageToSpanish.
+  ///
+  /// In en, this message translates to:
+  /// **'Change language to Spanish'**
+  String get changeLanguageToSpanish;
+
   /// No description provided for @flutterAppTitle.
   ///
   /// In en, this message translates to:
@@ -1407,6 +1437,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'For installation instructions, check the README on GitHub'**
   String get installationInstructions;
+
+  /// No description provided for @viewInstallationInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'View installation instructions'**
+  String get viewInstallationInstructions;
 
   /// No description provided for @closeFlutterInfo.
   ///
@@ -1713,6 +1749,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'English'**
   String get languagesEnglish;
+
+  /// No description provided for @sectionLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String sectionLoadError(Object error);
+
+  /// No description provided for @errorLoadingSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading skills: {error}'**
+  String errorLoadingSkills(Object error);
+
+  /// No description provided for @noSkillsDataAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No skills data available'**
+  String get noSkillsDataAvailable;
+
+  /// No description provided for @errorLoadingLanguages.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading languages: {error}'**
+  String errorLoadingLanguages(Object error);
 
   /// No description provided for @exportCVEuropass.
   ///

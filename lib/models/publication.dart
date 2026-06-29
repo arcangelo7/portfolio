@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: ISC
 
+import '../l10n/app_localizations.dart';
+
 class Publication {
   final String key;
   final String title;
@@ -113,6 +115,7 @@ class Publication {
 
     final authors =
         creators
+            .cast<Map<String, dynamic>>()
             .where((creator) => creator['creatorType'] == primaryCreatorType)
             .map((creator) {
               final firstName = creator['firstName'] as String? ?? '';
@@ -164,7 +167,7 @@ class Publication {
     return yearMatch?.group(0) ?? year!;
   }
 
-  String getCategoryDisplayName(dynamic l10n) {
+  String getCategoryDisplayName(AppLocalizations l10n) {
     switch (itemType) {
       case 'journalArticle':
         return l10n.categoryJournalArticle;
@@ -187,34 +190,35 @@ class Publication {
     }
   }
 
-  String getViewButtonText(dynamic l10n) {
+  String getViewButtonText(AppLocalizations l10n) {
     switch (itemType) {
       case 'journalArticle':
-        return l10n.viewUrl; // "View Article"
+        return l10n.viewUrl;
       case 'conferencePaper':
-        return l10n.viewPaper; // "View Paper"
+        return l10n.viewPaper;
       case 'book':
-        return l10n.viewBook; // "View Book"
+        return l10n.viewBook;
       case 'bookSection':
-        return l10n.viewChapter; // "View Chapter"
+        return l10n.viewChapter;
       case 'computerProgram':
-        return l10n.viewSoftware; // "View Software"
+        return l10n.viewSoftware;
       case 'presentation':
-        return l10n.viewPresentation; // "View Presentation"
+        return l10n.viewPresentation;
       case 'thesis':
-        return l10n.viewThesis; // "View Thesis"
+        return l10n.viewThesis;
       case 'report':
-        return l10n.viewReport; // "View Report"
+        return l10n.viewReport;
       default:
-        return l10n.viewUrl; // fallback to "View Article"
+        return l10n.viewUrl;
     }
   }
 
   String get citation {
-    final venueText = (journal?.isNotEmpty == true) 
-        ? journal! 
-        : (venue?.isNotEmpty == true) 
-            ? venue! 
+    final venueText =
+        (journal?.isNotEmpty == true)
+            ? journal!
+            : (venue?.isNotEmpty == true)
+            ? venue!
             : '';
     final yearText = displayYear;
 

@@ -13,6 +13,7 @@ import '../services/opencitations_index_service.dart';
 import '../services/seo_service.dart';
 import 'expandable_authors_widget.dart';
 import '../utils/publication_utils.dart';
+import '../utils/responsive.dart';
 import 'lazy_image.dart';
 import '../services/opencitations_meta_service.dart';
 import '../services/github_service.dart';
@@ -76,8 +77,6 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   int _currentPage = 0;
   static const int _publicationsPerPage = 10;
   final GlobalKey _publicationsSectionKey = GlobalKey();
-
-  
 
   @override
   void initState() {
@@ -273,20 +272,35 @@ class _PublicationsSectionState extends State<PublicationsSection> {
 
     // Apply category filter
     if (_selectedCategoryKey != 'all') {
-      filtered = filtered.where((pub) => pub.itemType == _selectedCategoryKey).toList();
+      filtered =
+          filtered
+              .where((pub) => pub.itemType == _selectedCategoryKey)
+              .toList();
     }
 
     // Apply search filter
     if (_searchQuery.isNotEmpty) {
-      filtered = filtered.where((pub) {
-        final titleMatch = pub.title.toLowerCase().contains(_searchQuery);
-        final authorsMatch = pub.authorsString.toLowerCase().contains(_searchQuery);
-        final venueMatch = pub.displayVenue.toLowerCase().contains(_searchQuery);
-        final yearMatch = pub.displayYear.toLowerCase().contains(_searchQuery);
-        final abstractMatch = pub.abstractText?.toLowerCase().contains(_searchQuery) ?? false;
+      filtered =
+          filtered.where((pub) {
+            final titleMatch = pub.title.toLowerCase().contains(_searchQuery);
+            final authorsMatch = pub.authorsString.toLowerCase().contains(
+              _searchQuery,
+            );
+            final venueMatch = pub.displayVenue.toLowerCase().contains(
+              _searchQuery,
+            );
+            final yearMatch = pub.displayYear.toLowerCase().contains(
+              _searchQuery,
+            );
+            final abstractMatch =
+                pub.abstractText?.toLowerCase().contains(_searchQuery) ?? false;
 
-        return titleMatch || authorsMatch || venueMatch || yearMatch || abstractMatch;
-      }).toList();
+            return titleMatch ||
+                authorsMatch ||
+                venueMatch ||
+                yearMatch ||
+                abstractMatch;
+          }).toList();
     }
 
     _filteredPublications = filtered;
@@ -399,21 +413,27 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     await _urlLauncher.openUrl(url);
   }
 
-  /// Handle the launch button press for a publication
+  Color _neutralBorderColor([double alpha = 0.12]) {
+    return Theme.of(context).colorScheme.onSurface.withValues(alpha: alpha);
+  }
+
+  Color _neutralBackgroundColor([double alpha = 0.06]) {
+    return Theme.of(context).colorScheme.onSurface.withValues(alpha: alpha);
+  }
+
   Future<void> _handleLaunchButtonPress(Publication publication) async {
     final url = PublicationUtils.getLaunchUrl(publication);
     await _launchUrl(url);
   }
 
-  /// Build the launch button for a publication
   Widget _buildLaunchButton(Publication publication, AppLocalizations l10n) {
     return ElevatedButton.icon(
       onPressed: () => _handleLaunchButtonPress(publication),
       icon: const Icon(Icons.open_in_new, size: 16),
       label: Text(publication.getViewButtonText(l10n)),
       style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.tertiary,
-        foregroundColor: Theme.of(context).colorScheme.onTertiary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
     );
@@ -560,10 +580,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
-        ),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: _neutralBorderColor()),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -654,10 +672,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
-          ),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: _neutralBorderColor()),
         ),
         child: Row(
           children: [
@@ -690,10 +706,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
-        ),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: _neutralBorderColor()),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -744,10 +758,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
-        ),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: _neutralBorderColor()),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -775,10 +787,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                     vertical: 4,
                   ),
                   decoration: BoxDecoration(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
+                    color: _neutralBackgroundColor(),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: SelectableText(
                     l10n.citationCount(citationCount),
@@ -893,11 +903,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.outline.withValues(alpha: 0.1),
-                      ),
+                      border: Border.all(color: _neutralBorderColor(0.1)),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -962,9 +968,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.tertiary.withValues(alpha: 0.2),
+                                color: _neutralBackgroundColor(),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: SelectableText(
@@ -1059,7 +1063,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isMobile = MediaQuery.of(context).size.width < 768;
+    final isMobile = Responsive.isMobile(context);
 
     return Container(
       key: _publicationsSectionKey,
@@ -1105,7 +1109,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             _buildTotalCitationCountWidget(l10n),
           ],
           const SizedBox(height: 32),
-          if (!_isLoading && _publications != null && _publications!.isNotEmpty) ...[
+          if (!_isLoading &&
+              _publications != null &&
+              _publications!.isNotEmpty) ...[
             _buildSearchBar(l10n),
             const SizedBox(height: 24),
             _buildCategoryFilter(l10n),
@@ -1127,19 +1133,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-            Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
-          width: 1,
-        ),
+        color: _neutralBackgroundColor(),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: _neutralBorderColor(), width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -1187,38 +1183,36 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       child: TextField(
         controller: _searchController,
         onChanged: _onSearchChanged,
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
+        style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
         decoration: InputDecoration(
           hintText: l10n.searchPublications,
           hintStyle: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.6),
           ),
           prefixIcon: Icon(
             Icons.search,
             color: Theme.of(context).colorScheme.primary,
           ),
-          suffixIcon: _searchQuery.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(Icons.clear),
-                  onPressed: () {
-                    _searchController.clear();
-                    _onSearchChanged('');
-                  },
-                )
-              : null,
+          suffixIcon:
+              _searchQuery.isNotEmpty
+                  ? IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      _searchController.clear();
+                      _onSearchChanged('');
+                    },
+                  )
+                  : null,
           filled: true,
           fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
-              width: 1,
-            ),
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: _neutralBorderColor(), width: 1),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
               color: Theme.of(context).colorScheme.primary,
               width: 2,
@@ -1265,9 +1259,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                 color:
                     isSelected
                         ? Theme.of(context).colorScheme.primary
-                        : Theme.of(
-                          context,
-                        ).colorScheme.outline.withValues(alpha: 0.3),
+                        : _neutralBorderColor(),
               ),
             );
           }).toList(),
@@ -1329,7 +1321,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
             color: Theme.of(
@@ -1379,10 +1371,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 margin: const EdgeInsets.only(right: 8),
                 decoration: BoxDecoration(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.secondary.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(12),
+                  color: _neutralBackgroundColor(),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: SelectableText(
                   publication.getCategoryDisplayName(l10n),
@@ -1396,10 +1386,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.tertiary.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(12),
+                  color: _neutralBackgroundColor(),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: SelectableText(
                   publication.displayYear,
@@ -1421,7 +1409,6 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       ),
     );
   }
-
 
   Widget _buildPaginationControls(AppLocalizations l10n) {
     return Container(
@@ -1457,9 +1444,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                       color:
                           isCurrentPage
                               ? Theme.of(context).colorScheme.primary
-                              : Theme.of(
-                                context,
-                              ).colorScheme.outline.withValues(alpha: 0.3),
+                              : _neutralBorderColor(),
                     ),
                   ),
                   child: Text(

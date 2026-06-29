@@ -201,12 +201,12 @@ class SEOService {
                 (pub) => pub['doi'] != null && pub['doi'].toString().isNotEmpty,
               )
               .map(
-                (pub) => {
-                  '@type': _getPublicationType(pub['type']),
+                (pub) => <String, Object?>{
+                  '@type': _getPublicationType(pub['type'] as String?),
                   'name': pub['title'],
                   'author': _buildAuthors(pub['authors']),
                   'identifier': [
-                    {
+                    <String, Object?>{
                       '@type': 'PropertyValue',
                       'propertyID': 'DOI',
                       'value': pub['doi'],
@@ -215,9 +215,11 @@ class SEOService {
                   if (pub['url'] != null && pub['url'].toString().isNotEmpty)
                     'url': pub['url'],
                   if (pub['datePublished'] != null)
-                    'datePublished': _normalizeDate(pub['datePublished']),
+                    'datePublished': _normalizeDate(
+                      pub['datePublished'] as String?,
+                    ),
                   if (pub['venue'] != null || pub['journal'] != null)
-                    'publisher': {
+                    'publisher': <String, Object?>{
                       '@type': 'Organization',
                       'name': pub['venue'] ?? pub['journal'],
                     },
@@ -228,7 +230,7 @@ class SEOService {
                   if (pub['issue'] != null) 'issueNumber': pub['issue'],
                   if (pub['pages'] != null) 'pagination': pub['pages'],
                   'inLanguage': 'en',
-                  'genre': _getGenre(pub['type']),
+                  'genre': _getGenre(pub['type'] as String?),
                 },
               )
               .toList(),
@@ -312,14 +314,14 @@ class SEOService {
     return date;
   }
 
-  static List<Map<String, String>> _buildAuthors(dynamic authors) {
+  static List<Map<String, String>> _buildAuthors(Object? authors) {
     if (authors == null) {
       return [
         {'@type': 'Person', 'name': 'Arcangelo Massari'},
       ];
     }
 
-    if (authors is List) {
+    if (authors is List<Object?>) {
       final authorList =
           authors
               .where((author) => author != null && author.toString().isNotEmpty)
@@ -338,14 +340,13 @@ class SEOService {
     ];
   }
 
-  static String _jsonEncode(Map<String, dynamic> data) {
-    // Simple JSON encoding for web
+  static String _jsonEncode(Map<String, Object?> data) {
     final buffer = StringBuffer();
     _encodeValue(data, buffer);
     return buffer.toString();
   }
 
-  static void _encodeValue(dynamic value, StringBuffer buffer) {
+  static void _encodeValue(Object? value, StringBuffer buffer) {
     if (value == null) {
       buffer.write('null');
     } else if (value is String) {
@@ -356,14 +357,14 @@ class SEOService {
       buffer.write(value.toString());
     } else if (value is bool) {
       buffer.write(value.toString());
-    } else if (value is List) {
+    } else if (value is List<Object?>) {
       buffer.write('[');
       for (int i = 0; i < value.length; i++) {
         if (i > 0) buffer.write(',');
         _encodeValue(value[i], buffer);
       }
       buffer.write(']');
-    } else if (value is Map) {
+    } else if (value is Map<Object?, Object?>) {
       buffer.write('{');
       bool first = true;
       for (final entry in value.entries) {

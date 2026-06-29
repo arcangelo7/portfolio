@@ -3,27 +3,10 @@
 // SPDX-License-Identifier: ISC
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:portfolio/l10n/app_localizations_en.dart';
 import 'package:portfolio/models/publication.dart';
 
-class MockLocalizations {
-  String get categoryJournalArticle => 'Journal Article';
-  String get categoryConferencePaper => 'Conference Paper';
-  String get categoryBook => 'Book';
-  String get categoryBookSection => 'Book Section';
-  String get categorySoftware => 'Software';
-  String get categoryPresentation => 'Presentation';
-  String get categoryThesis => 'Thesis';
-  String get categoryReport => 'Report';
-  String get categoryOther => 'Other';
-  String get viewUrl => 'View Article';
-  String get viewPaper => 'View Paper';
-  String get viewBook => 'View Book';
-  String get viewChapter => 'View Chapter';
-  String get viewSoftware => 'View Software';
-  String get viewPresentation => 'View Presentation';
-  String get viewThesis => 'View Thesis';
-  String get viewReport => 'View Report';
-}
+final appLocalizations = AppLocalizationsEn();
 
 void main() {
   group('DynamicCVGeneratorService thesis venue handling', () {
@@ -60,7 +43,6 @@ void main() {
     });
 
     test('should get correct category display name for thesis', () {
-      final mockL10n = MockLocalizations();
       final thesis = Publication(
         key: 'test',
         title: 'Test Thesis',
@@ -69,12 +51,11 @@ void main() {
         venue: 'University of Bologna, Bologna, Italy',
       );
 
-      final displayName = thesis.getCategoryDisplayName(mockL10n);
+      final displayName = thesis.getCategoryDisplayName(appLocalizations);
       expect(displayName, equals('Thesis'));
     });
 
     test('should get correct view button text for thesis', () {
-      final mockL10n = MockLocalizations();
       final thesis = Publication(
         key: 'test',
         title: 'Test Thesis',
@@ -83,7 +64,7 @@ void main() {
         venue: 'University of Bologna, Bologna, Italy',
       );
 
-      final viewText = thesis.getViewButtonText(mockL10n);
+      final viewText = thesis.getViewButtonText(appLocalizations);
       expect(viewText, equals('View Thesis'));
     });
 

@@ -103,7 +103,7 @@ class OpenCitationsMetaService {
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
+        final data = json.decode(response.body) as List<dynamic>;
         if (data.isNotEmpty) {
           final item = data.first as Map<String, dynamic>;
           return _parsePublicationMetadata(item, doi);
@@ -164,7 +164,7 @@ class OpenCitationsMetaService {
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> jsonData = json.decode(response.body);
+        final jsonData = json.decode(response.body) as List<dynamic>;
         if (jsonData.isNotEmpty) {
           return CitationMetadata.fromJson(
             jsonData.first as Map<String, dynamic>,

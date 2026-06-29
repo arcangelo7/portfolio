@@ -33,13 +33,11 @@ class ZoteroService {
             'limit': '50',
           },
         ),
-        headers: {
-          'Accept': 'application/json',
-        },
+        headers: {'Accept': 'application/json'},
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> jsonData = json.decode(response.body);
+        final jsonData = json.decode(response.body) as List<dynamic>;
         final publications =
             jsonData
                 .map(

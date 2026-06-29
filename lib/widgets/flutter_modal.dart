@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../l10n/app_localizations.dart';
 import '../main.dart';
 import '../services/github_release_service.dart';
+import '../utils/responsive.dart';
 
 class FlutterModal extends StatefulWidget {
   const FlutterModal({super.key});
@@ -55,22 +56,20 @@ class _FlutterModalState extends State<FlutterModal> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final screenSize = Responsive.sizeOf(context);
+    final isCompact = screenSize.width < 600;
 
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Container(
-        padding: EdgeInsets.all(
-          MediaQuery.of(context).size.width < 600 ? 16 : 24,
-        ),
+        padding: EdgeInsets.all(isCompact ? 16 : 24),
         constraints: BoxConstraints(
           maxWidth:
-              MediaQuery.of(context).size.width < 600
-                  ? MediaQuery.of(context).size.width * 0.95
-                  : MediaQuery.of(context).size.width * 0.8,
-          maxHeight: MediaQuery.of(context).size.height * 0.8,
+              isCompact ? screenSize.width * 0.95 : screenSize.width * 0.8,
+          maxHeight: screenSize.height * 0.8,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(8),
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -90,7 +89,7 @@ class _FlutterModalState extends State<FlutterModal> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: PortfolioTheme.cobaltBlue,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Icon(
                       Icons.flutter_dash,
@@ -221,7 +220,7 @@ class _FlutterModalState extends State<FlutterModal> {
                           'https://github.com/arcangelo7/portfolio/blob/main/README.md',
                         ),
                     icon: const Icon(Icons.article, size: 18),
-                    label: const Text('View Installation Instructions'),
+                    label: Text(l10n.viewInstallationInstructions),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -230,7 +229,7 @@ class _FlutterModalState extends State<FlutterModal> {
                         vertical: 12,
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       elevation: 3,
                     ),
@@ -267,9 +266,7 @@ class _FlutterModalState extends State<FlutterModal> {
           backgroundColor: color,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           elevation: 4,
         ),
       ),

@@ -645,6 +645,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get cvGeneratedSuccessfully => 'CV generado exitosamente';
 
   @override
+  String cvGenerationError(Object error) {
+    return 'Error al generar el CV: $error';
+  }
+
+  @override
+  String europassCvGenerationError(Object error) {
+    return 'Error al generar el CV Europass: $error';
+  }
+
+  @override
   String get cvEducationTitle => 'EDUCACIÓN Y FORMACIÓN';
 
   @override
@@ -681,6 +691,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get selectLanguage => 'Seleccionar idioma';
 
   @override
+  String get changeLanguageToEnglish => 'Cambiar idioma a inglés';
+
+  @override
+  String get changeLanguageToItalian => 'Cambiar idioma a italiano';
+
+  @override
+  String get changeLanguageToSpanish => 'Cambiar idioma a español';
+
+  @override
   String get flutterAppTitle => 'Hecho con Flutter';
 
   @override
@@ -711,6 +730,9 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get installationInstructions =>
       'Para instrucciones de instalación, consulta el README en GitHub';
+
+  @override
+  String get viewInstallationInstructions => 'Ver instrucciones de instalación';
 
   @override
   String get closeFlutterInfo => '¡Entendido!';
@@ -872,6 +894,24 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get languagesEnglish => 'Inglés';
+
+  @override
+  String sectionLoadError(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String errorLoadingSkills(Object error) {
+    return 'Error al cargar habilidades: $error';
+  }
+
+  @override
+  String get noSkillsDataAvailable => 'No hay datos de habilidades disponibles';
+
+  @override
+  String errorLoadingLanguages(Object error) {
+    return 'Error al cargar idiomas: $error';
+  }
 
   @override
   String get exportCVEuropass => 'Exportar CV Europass';
