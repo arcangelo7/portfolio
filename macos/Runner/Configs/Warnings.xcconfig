@@ -1,8 +1,6 @@
-/*
- * SPDX-FileCopyrightText: NONE
- *
- * SPDX-License-Identifier: CC0-1.0
- */
+// SPDX-FileCopyrightText: NONE
+//
+// SPDX-License-Identifier: CC0-1.0
 
 WARNING_CFLAGS = -Wall -Wconditional-uninitialized -Wnullable-to-nonnull-conversion -Wmissing-method-return-type -Woverlength-strings
 GCC_WARN_UNDECLARED_SELECTOR = YES

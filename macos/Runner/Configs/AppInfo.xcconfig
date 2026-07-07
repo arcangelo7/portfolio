@@ -1,8 +1,6 @@
-/*
- * SPDX-FileCopyrightText: NONE
- *
- * SPDX-License-Identifier: CC0-1.0
- */
+// SPDX-FileCopyrightText: NONE
+//
+// SPDX-License-Identifier: CC0-1.0
 
 // Application-level settings for the Runner target.
 //

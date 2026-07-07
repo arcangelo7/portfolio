@@ -1,8 +1,6 @@
-/*
- * SPDX-FileCopyrightText: NONE
- *
- * SPDX-License-Identifier: CC0-1.0
- */
+// SPDX-FileCopyrightText: NONE
+//
+// SPDX-License-Identifier: CC0-1.0
 
 #include "../../Flutter/Flutter-Debug.xcconfig"
 #include "Warnings.xcconfig"
