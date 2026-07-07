@@ -44,7 +44,7 @@ dependencies:
   pdf: ^3.13.0
   printing: ^5.15.0
   country_flags: 4.1.2
-  window_manager: 0.5.1
+  window_manager: ^0.5.2
   web: 1.1.1
   cupertino_icons: 1.0.9
   flutter_svg: ^2.3.0
