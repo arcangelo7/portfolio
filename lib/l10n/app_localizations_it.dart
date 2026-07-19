@@ -9,12 +9,11 @@ class AppLocalizationsIt extends AppLocalizations {
   AppLocalizationsIt([String locale = 'it']) : super(locale);
 
   @override
-  String get appTitle =>
-      'Arcangelo Massari - Ricercatore post-doc in Knowledge Graphs e Open Science';
+  String get appTitle => 'Arcangelo Massari';
 
   @override
   String get professionalTitle =>
-      'Ricercatore post-doc in Knowledge Graphs e Open Science';
+      'Ricercatore in grafi di conoscenza e scienza aperta';
 
   @override
   String get seoDescription =>

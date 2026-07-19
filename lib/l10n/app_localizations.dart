@@ -103,7 +103,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'Arcangelo Massari - Postdoctoral Researcher in Knowledge Graphs and Open Science'**
+  /// **'Arcangelo Massari'**
   String get appTitle;
 
   /// No description provided for @professionalTitle.

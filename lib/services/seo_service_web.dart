@@ -18,9 +18,9 @@ class SEOService {
 
     _updateMetaTag('name', 'description', l10n.seoDescription);
     _updateMetaTag('property', 'og:title', l10n.appTitle);
-    _updateMetaTag('property', 'og:description', l10n.seoDescription);
+    _updateMetaTag('property', 'og:description', l10n.professionalTitle);
     _updateMetaTag('property', 'twitter:title', l10n.appTitle);
-    _updateMetaTag('property', 'twitter:description', l10n.seoDescription);
+    _updateMetaTag('property', 'twitter:description', l10n.professionalTitle);
 
     _updateMetaTag('property', 'og:locale', _getLocaleCode(languageCode));
 
