@@ -103,13 +103,19 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'Arcangelo Massari Portfolio'**
+  /// **'Arcangelo Massari - Postdoctoral Researcher in Knowledge Graphs and Open Science'**
   String get appTitle;
+
+  /// No description provided for @professionalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Postdoctoral Researcher in Knowledge Graphs and Open Science'**
+  String get professionalTitle;
 
   /// No description provided for @seoDescription.
   ///
   /// In en, this message translates to:
-  /// **'Postdoctoral researcher in Digital Humanities at University of Bologna. Research on Semantic Web, provenance, change tracking, and cultural heritage.'**
+  /// **'Postdoctoral researcher at the University of Bologna developing Semantic Web tools for FAIR knowledge graphs, with a focus on provenance, change tracking, cultural heritage, and scholarly data.'**
   String get seoDescription;
 
   /// No description provided for @name.
@@ -1393,7 +1399,7 @@ abstract class AppLocalizations {
   /// No description provided for @flutterAppDescription.
   ///
   /// In en, this message translates to:
-  /// **'This portfolio is built with Flutter, which means you can download it as a native app for Android, iOS, Windows, macOS and Linux, or install it as a Progressive Web App. Why would you want my portfolio as an installable app? I have no idea, but it\'s pretty cool'**
+  /// **'This portfolio is built with Flutter, which means you can download it as a native app for Android, iOS, Windows, macOS and Linux, or install it as a Progressive Web App. Why would you want my portfolio as an installable app? I have no idea.'**
   String get flutterAppDescription;
 
   /// No description provided for @downloadForAndroid.
@@ -1431,18 +1437,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View source code'**
   String get viewSourceCode;
-
-  /// No description provided for @installationInstructions.
-  ///
-  /// In en, this message translates to:
-  /// **'For installation instructions, check the README on GitHub'**
-  String get installationInstructions;
-
-  /// No description provided for @viewInstallationInstructions.
-  ///
-  /// In en, this message translates to:
-  /// **'View installation instructions'**
-  String get viewInstallationInstructions;
 
   /// No description provided for @closeFlutterInfo.
   ///
@@ -1653,6 +1647,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'50-hour course on Academic English at the University Language Centre, covering academic writing, speaking, listening and reading.'**
   String get acesDescription;
+
+  /// No description provided for @bici.
+  ///
+  /// In en, this message translates to:
+  /// **'Bertinoro International Center for Informatics (BiCi)'**
+  String get bici;
+
+  /// No description provided for @iswsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'International Semantic Web Research Summer School (ISWS 2022)'**
+  String get iswsTitle;
+
+  /// No description provided for @iswsPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Jul 3-9, 2022'**
+  String get iswsPeriod;
+
+  /// No description provided for @iswsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'One-week intensive school combining lectures and team-based work on open research problems in the Semantic Web. [ISWS 2022](https://2022.semanticwebschool.org/).'**
+  String get iswsDescription;
 
   /// No description provided for @diplomaSupplement.
   ///

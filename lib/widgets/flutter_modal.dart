@@ -204,41 +204,20 @@ class _FlutterModalState extends State<FlutterModal> {
                   ],
                 ),
               const SizedBox(height: 24),
-              Column(
-                children: [
-                  SelectableText(
-                    l10n.installationInstructions,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton.icon(
-                    onPressed:
-                        () => _launchUrl(
-                          'https://github.com/arcangelo7/portfolio/blob/main/README.md',
-                        ),
-                    icon: const Icon(Icons.article, size: 18),
-                    label: Text(l10n.viewInstallationInstructions),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      elevation: 3,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              TextButton(
+              ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  elevation: 3,
+                ),
                 child: Text(l10n.closeFlutterInfo),
               ),
             ],

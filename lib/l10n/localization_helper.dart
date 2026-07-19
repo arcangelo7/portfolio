@@ -52,6 +52,12 @@ class LocalizationHelper {
         return l10n.acesPeriod;
       case 'acesDescription':
         return l10n.acesDescription;
+      case 'iswsTitle':
+        return l10n.iswsTitle;
+      case 'iswsPeriod':
+        return l10n.iswsPeriod;
+      case 'iswsDescription':
+        return l10n.iswsDescription;
 
       // Institutions
       case 'universityBologna':
@@ -60,6 +66,8 @@ class LocalizationHelper {
         return l10n.kuLeuven;
       case 'claUnibo':
         return l10n.claUnibo;
+      case 'bici':
+        return l10n.bici;
 
       // Work experience entries
       case 'researchContractorTitle':
@@ -327,8 +335,6 @@ class LocalizationHelper {
         return l10n.changeLanguageToItalian;
       case 'changeLanguageToSpanish':
         return l10n.changeLanguageToSpanish;
-      case 'viewInstallationInstructions':
-        return l10n.viewInstallationInstructions;
       case 'sectionLoadError':
         return l10n.sectionLoadError('{error}');
       case 'errorLoadingSkills':

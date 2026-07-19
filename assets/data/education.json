@@ -36,6 +36,17 @@
     "order": 3
   },
   {
+    "id": "isws_2022",
+    "startDate": "2022-07-03",
+    "endDate": "2022-07-09",
+    "current": false,
+    "institutionKey": "bici",
+    "titleKey": "iswsTitle",
+    "periodKey": "iswsPeriod",
+    "descriptionKey": "iswsDescription",
+    "order": 4
+  },
+  {
     "id": "masters_degree",
     "startDate": "2019-08",
     "endDate": "2021-11",
@@ -47,7 +58,7 @@
     "attachments": [
       {"type": "diplomaSupplement", "url": "https://arcangelo7.github.io/portfolio/assets/documents/diploma_supplement_master.pdf"}
     ],
-    "order": 4
+    "order": 5
   },
   {
     "id": "bachelors_degree",
@@ -61,6 +72,6 @@
     "attachments": [
       {"type": "completedExams", "url": "https://arcangelo7.github.io/portfolio/assets/documents/completed_exams_bachelor.pdf"}
     ],
-    "order": 5
+    "order": 6
   }
 ]

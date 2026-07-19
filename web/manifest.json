@@ -6,7 +6,7 @@
     "display": "standalone",
     "background_color": "#000075",
     "theme_color": "#000075",
-    "description": "Personal portfolio of Arcangelo Massari, PhD candidate in Cultural Heritage in the Digital Ecosystem at the University of Bologna. Showcasing research projects and academic work in digital humanities.",
+    "description": "Postdoctoral researcher at the University of Bologna developing Semantic Web tools for FAIR knowledge graphs, with a focus on provenance, change tracking, cultural heritage, and scholarly data.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

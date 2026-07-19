@@ -37,10 +37,9 @@ class HeroSection extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.bottomRight,
           end: Alignment.topLeft,
-          colors:
-              isDark
-                  ? [PortfolioTheme.cobaltBlue, PortfolioTheme.astroMysticBlue]
-                  : [PortfolioTheme.emeraldGreen, PortfolioTheme.astroGold],
+          colors: isDark
+              ? [PortfolioTheme.cobaltBlue, PortfolioTheme.astroMysticBlue]
+              : [PortfolioTheme.emeraldGreen, PortfolioTheme.astroGold],
         ),
       ),
       child: Stack(
@@ -60,14 +59,12 @@ class HeroSection extends StatelessWidget {
           Positioned.fill(
             child: LazyImage(
               assetPath: 'assets/images/profile_cutout.webp',
-              fit:
-                  screenWidth / screenSize.height > 2.1
-                      ? BoxFit.contain
-                      : BoxFit.cover,
-              alignment:
-                  screenWidth / screenSize.height > 2.1
-                      ? Alignment.bottomRight
-                      : Alignment.center,
+              fit: screenWidth / screenSize.height > 2.1
+                  ? BoxFit.contain
+                  : BoxFit.cover,
+              alignment: screenWidth / screenSize.height > 2.1
+                  ? Alignment.bottomRight
+                  : Alignment.center,
               semanticLabel: l10n.profileImageAlt,
               errorBuilder: (context, error, stackTrace) {
                 return const Center(
@@ -89,10 +86,9 @@ class HeroSection extends StatelessWidget {
               width: isMobile ? null : screenWidth * 0.4,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment:
-                    isMobile
-                        ? CrossAxisAlignment.center
-                        : CrossAxisAlignment.start,
+                crossAxisAlignment: isMobile
+                    ? CrossAxisAlignment.center
+                    : CrossAxisAlignment.start,
                 children: [
                   Semantics(
                     header: true,
@@ -113,6 +109,24 @@ class HeroSection extends StatelessWidget {
                       textAlign: isMobile ? TextAlign.center : TextAlign.start,
                       semanticsLabel: 'Main heading: ${l10n.name}',
                     ),
+                  ),
+                  const SizedBox(height: 12),
+                  SelectableText(
+                    l10n.professionalTitle,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: PortfolioTheme.iceWhite.withValues(alpha: 0.9),
+                      fontWeight: FontWeight.w500,
+                      fontSize: isMobile ? 18 : 24,
+                      height: 1.3,
+                      shadows: [
+                        Shadow(
+                          offset: const Offset(1, 1),
+                          blurRadius: 3,
+                          color: Colors.black.withValues(alpha: 0.3),
+                        ),
+                      ],
+                    ),
+                    textAlign: isMobile ? TextAlign.center : TextAlign.start,
                   ),
                   const SizedBox(height: 32),
                   ElevatedButton(

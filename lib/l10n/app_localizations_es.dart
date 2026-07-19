@@ -9,11 +9,16 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get appTitle => 'Portfolio de Arcangelo Massari';
+  String get appTitle =>
+      'Arcangelo Massari - Investigador postdoctoral en grafos de conocimiento y ciencia abierta';
+
+  @override
+  String get professionalTitle =>
+      'Investigador postdoctoral en grafos de conocimiento y ciencia abierta';
 
   @override
   String get seoDescription =>
-      'Investigador postdoctoral en Humanidades Digitales en la Universidad de Bolonia. Investigación sobre Web Semántica, provenance, change tracking y patrimonio cultural.';
+      'Investigador postdoctoral en la Universidad de Bolonia que desarrolla herramientas de Web Semántica para grafos de conocimiento FAIR, con énfasis en provenance, change tracking, patrimonio cultural y datos académicos.';
 
   @override
   String get name => 'Arcangelo Massari';
@@ -704,7 +709,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get flutterAppDescription =>
-      'Este portafolio está hecho con Flutter, lo que significa que puedes descargarlo como app nativa para Android, iOS, Windows, macOS y Linux, o instalarlo como Progressive Web App. ¿Por qué querrías mi portafolio como app instalable? No tengo ni idea, pero mola';
+      'Este portafolio está hecho con Flutter, lo que significa que puedes descargarlo como app nativa para Android, iOS, Windows, macOS y Linux, o instalarlo como Progressive Web App. ¿Por qué querrías mi portafolio como app instalable? No tengo ni idea.';
 
   @override
   String get downloadForAndroid => 'Descargar para Android';
@@ -723,13 +728,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get viewSourceCode => 'Ver código fuente';
-
-  @override
-  String get installationInstructions =>
-      'Para instrucciones de instalación, consulta el README en GitHub';
-
-  @override
-  String get viewInstallationInstructions => 'Ver instrucciones de instalación';
 
   @override
   String get closeFlutterInfo => '¡Entendido!';
@@ -842,6 +840,20 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get acesDescription =>
       'Curso de 50 horas de inglés académico en el Centro Lingüístico de Ateneo, con escritura, expresión oral, comprensión auditiva y lectura académica.';
+
+  @override
+  String get bici => 'Bertinoro International Center for Informatics (BiCi)';
+
+  @override
+  String get iswsTitle =>
+      'International Semantic Web Research Summer School (ISWS 2022)';
+
+  @override
+  String get iswsPeriod => '3-9 Jul 2022';
+
+  @override
+  String get iswsDescription =>
+      'Escuela intensiva de una semana con clases y trabajo en equipo sobre problemas abiertos de investigación en la Web Semántica. [ISWS 2022](https://2022.semanticwebschool.org/).';
 
   @override
   String get diplomaSupplement => 'Suplemento al Diploma';
