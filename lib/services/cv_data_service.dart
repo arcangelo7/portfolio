@@ -10,6 +10,8 @@ import '../models/language_data.dart';
 class CVDataService {
   static CVData? _cachedData;
   static Future<CVData>? _loadingFuture;
+  static LanguageData? _cachedLanguageData;
+  static Future<LanguageData>? _languageLoadingFuture;
 
   static Future<CVData> loadCVData() async {
     if (_cachedData != null) {
@@ -44,11 +46,10 @@ class CVDataService {
         json.decode(personalInfoJson) as Map<String, dynamic>,
       );
 
-      final educationList =
-          (json.decode(educationJson) as List<dynamic>)
-              .cast<Map<String, dynamic>>()
-              .map(EducationEntry.fromJson)
-              .toList();
+      final educationList = (json.decode(educationJson) as List<dynamic>)
+          .cast<Map<String, dynamic>>()
+          .map(EducationEntry.fromJson)
+          .toList();
       educationList.sort((a, b) => a.order.compareTo(b.order));
 
       final workExperienceList =
@@ -58,11 +59,10 @@ class CVDataService {
               .toList();
       workExperienceList.sort((a, b) => a.order.compareTo(b.order));
 
-      final conferencesList =
-          (json.decode(conferencesJson) as List<dynamic>)
-              .cast<Map<String, dynamic>>()
-              .map(ConferenceEntry.fromJson)
-              .toList();
+      final conferencesList = (json.decode(conferencesJson) as List<dynamic>)
+          .cast<Map<String, dynamic>>()
+          .map(ConferenceEntry.fromJson)
+          .toList();
       conferencesList.sort((a, b) => a.order.compareTo(b.order));
 
       final skills = SkillsData.fromJson(
@@ -87,6 +87,8 @@ class CVDataService {
   static void clearCache() {
     _cachedData = null;
     _loadingFuture = null;
+    _cachedLanguageData = null;
+    _languageLoadingFuture = null;
   }
 
   static Future<List<EducationEntry>> getEducation() async {
@@ -114,12 +116,20 @@ class CVDataService {
     return data.personalInfo;
   }
 
-  static Future<LanguageData> getLanguages() async {
+  static Future<LanguageData> getLanguages() {
+    if (_cachedLanguageData != null) {
+      return Future.value(_cachedLanguageData);
+    }
+    return _languageLoadingFuture ??= _loadLanguages();
+  }
+
+  static Future<LanguageData> _loadLanguages() async {
     final languagesJson = await rootBundle.loadString(
       'assets/data/languages.json',
     );
-    return LanguageData.fromJson(
+    _cachedLanguageData = LanguageData.fromJson(
       json.decode(languagesJson) as Map<String, dynamic>,
     );
+    return _cachedLanguageData!;
   }
 }

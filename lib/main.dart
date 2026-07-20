@@ -2,32 +2,40 @@
 //
 // SPDX-License-Identifier: ISC
 
-import 'package:flutter/material.dart';
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show ScrollCacheExtent;
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:printing/printing.dart';
+import 'package:scrollview_observer/scrollview_observer.dart';
 import 'package:window_manager/window_manager.dart';
+
+import 'controllers/publications_controller.dart';
 import 'l10n/app_localizations.dart';
-import 'widgets/about_section.dart';
-import 'widgets/contact_section.dart';
-import 'widgets/hero_section.dart';
-import 'widgets/language_selector_sheet.dart';
-import 'widgets/publications_section.dart';
-import 'widgets/work_experience_section.dart';
-import 'widgets/education_section.dart';
-import 'widgets/conferences_seminars_section.dart';
-import 'widgets/astrogods_section.dart';
-import 'widgets/theme_toggle_widget.dart';
-import 'widgets/table_of_contents_widget.dart';
-import 'widgets/skills_section.dart';
-import 'widgets/languages_section.dart';
+import 'models/cv_data.dart';
+import 'models/language_data.dart';
+import 'services/cv_data_service.dart';
 import 'services/dynamic_cv_generator_service.dart';
 import 'services/europass_cv_generator_service.dart';
-import 'services/zotero_service.dart';
 import 'services/seo_service.dart';
+import 'services/zotero_service.dart';
 import 'utils/responsive.dart';
 import 'utils/web_utils.dart';
-import 'package:printing/printing.dart';
+import 'widgets/about_section.dart';
+import 'widgets/astrogods_section.dart';
+import 'widgets/conferences_seminars_section.dart';
+import 'widgets/contact_section.dart';
+import 'widgets/education_section.dart';
+import 'widgets/hero_section.dart';
+import 'widgets/language_selector_sheet.dart';
+import 'widgets/languages_section.dart';
+import 'widgets/publications_section.dart';
+import 'widgets/skills_section.dart';
+import 'widgets/table_of_contents_widget.dart';
+import 'widgets/theme_toggle_widget.dart';
+import 'widgets/work_experience_section.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -137,13 +145,11 @@ class PortfolioApp extends StatefulWidget {
 class _PortfolioAppState extends State<PortfolioApp> {
   Locale? _locale;
   ThemeMode _themeMode = ThemeMode.light;
-  GlobalKey<_LandingPageState>? _landingPageKey;
-  Timer? _fragmentNavigationTimer;
+  String? _initialSectionId;
 
   @override
   void initState() {
     super.initState();
-    _landingPageKey = GlobalKey<_LandingPageState>();
     if (kIsWeb) {
       _initializeLanguageFromUrl();
     }
@@ -174,18 +180,8 @@ class _PortfolioAppState extends State<PortfolioApp> {
         _updateUrlWithLanguage('en', replaceState: true);
       }
 
-      // Handle fragment (anchor) navigation after the widget is built
       if (fragment.isNotEmpty) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _fragmentNavigationTimer?.cancel();
-          _fragmentNavigationTimer = Timer(
-            const Duration(milliseconds: 1000),
-            () {
-              if (!mounted) return;
-              _navigateToSection(fragment);
-            },
-          );
-        });
+        _initialSectionId = fragment;
       }
     } catch (e) {
       // Fallback to English on any error
@@ -193,11 +189,6 @@ class _PortfolioAppState extends State<PortfolioApp> {
         _locale = const Locale('en');
       });
     }
-  }
-
-  void _navigateToSection(String sectionId) {
-    // Call the landing page to scroll to the section
-    _landingPageKey?.currentState?.scrollToSectionById(sectionId);
   }
 
   void _updateUrlWithLanguage(
@@ -247,8 +238,9 @@ class _PortfolioAppState extends State<PortfolioApp> {
 
   void _toggleTheme() {
     setState(() {
-      _themeMode =
-          _themeMode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
+      _themeMode = _themeMode == ThemeMode.dark
+          ? ThemeMode.light
+          : ThemeMode.dark;
     });
   }
 
@@ -297,20 +289,14 @@ class _PortfolioAppState extends State<PortfolioApp> {
       ],
       supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
       home: LandingPage(
-        key: _landingPageKey,
         onLanguageChanged: _changeLanguage,
         currentLocale: _locale ?? const Locale('en'),
         onThemeToggle: _toggleTheme,
         isDarkMode: _themeMode == ThemeMode.dark,
         onSectionChanged: updateUrlWithSection,
+        initialSectionId: _initialSectionId,
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _fragmentNavigationTimer?.cancel();
-    super.dispose();
   }
 }
 
@@ -320,6 +306,8 @@ class LandingPage extends StatefulWidget {
   final VoidCallback onThemeToggle;
   final bool isDarkMode;
   final ValueChanged<String> onSectionChanged;
+  final String? initialSectionId;
+  final PublicationsController? publicationsController;
 
   const LandingPage({
     super.key,
@@ -328,6 +316,8 @@ class LandingPage extends StatefulWidget {
     required this.onThemeToggle,
     required this.isDarkMode,
     required this.onSectionChanged,
+    this.initialSectionId,
+    this.publicationsController,
   });
 
   @override
@@ -336,28 +326,39 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage>
     with TickerProviderStateMixin {
-  final GlobalKey _aboutKey = GlobalKey();
-  final GlobalKey _workKey = GlobalKey();
-  final GlobalKey _educationKey = GlobalKey();
-  final GlobalKey _conferencesKey = GlobalKey();
-  final GlobalKey _skillsKey = GlobalKey();
-  final GlobalKey _languagesKey = GlobalKey();
-  final GlobalKey _publicationsKey = GlobalKey();
-  final GlobalKey _astrogodsKey = GlobalKey();
-  final GlobalKey _contactKey = GlobalKey();
+  static const int _publicationChunkStartIndex = 7;
+  static const int _astroGodsIndex =
+      _publicationChunkStartIndex + PublicationsSection.chunkCount;
+  static const int _contactIndex = _astroGodsIndex + 1;
+  static const Map<String, int> _sectionIndices = {
+    'hero': 0,
+    'about': 1,
+    'work': 2,
+    'education': 3,
+    'conferences': 4,
+    'skills': 5,
+    'languages': 6,
+    'publications': 7,
+    'astrogods': _astroGodsIndex,
+    'contact': _contactIndex,
+  };
+  static const int _itemCount = _contactIndex + 1;
 
   bool _isFabExpanded = false;
   bool _isTocVisible = false;
   bool _isDownloadingCV = false;
   bool _isDownloadingEuropassCV = false;
+  bool _isInitialSectionPositioned = true;
+  Set<int> _visibleSectionIndices = {0};
 
-  late AnimationController _fabAnimationController;
-  late AnimationController _tocAnimationController;
-
-  bool _isInTestEnvironment() {
-    return WidgetsBinding.instance.runtimeType.toString() ==
-        'TestWidgetsFlutterBinding';
-  }
+  late final AnimationController _fabAnimationController;
+  late final ScrollController _scrollController;
+  late final ListObserverController _listObserverController;
+  late final Future<void> _sectionDataReady;
+  late final PublicationsController _publicationsController;
+  late final bool _ownsPublicationsController;
+  CVData? _cvData;
+  LanguageData? _languageData;
 
   @override
   void initState() {
@@ -366,36 +367,86 @@ class _LandingPageState extends State<LandingPage>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    _tocAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
+    _scrollController = ScrollController();
+    _listObserverController = ListObserverController(
+      controller: _scrollController,
+    )..cacheJumpIndexOffset = false;
+    _sectionDataReady = _loadSectionData();
+    final initialIndex = _sectionIndices[widget.initialSectionId];
+    if (initialIndex != null) {
+      _isInitialSectionPositioned = false;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        unawaited(_positionInitialSection(initialIndex));
+      });
+    }
+    _ownsPublicationsController = widget.publicationsController == null;
+    _publicationsController =
+        widget.publicationsController ?? PublicationsController();
+    unawaited(_publicationsController.loadPublications());
   }
 
   @override
   void dispose() {
     _fabAnimationController.dispose();
-    _tocAnimationController.dispose();
+    _scrollController.dispose();
+    if (_ownsPublicationsController) {
+      _publicationsController.dispose();
+    }
     super.dispose();
   }
 
-  void _scrollToSection(String sectionName, GlobalKey sectionKey) {
-    final context = sectionKey.currentContext;
-    if (context != null) {
-      Scrollable.ensureVisible(
-        context,
-        duration: const Duration(milliseconds: 800),
-        curve: Curves.easeInOut,
-      );
-      widget.onSectionChanged(sectionName);
+  Future<void> _loadSectionData() async {
+    final cvDataFuture = CVDataService.loadCVData();
+    final languageDataFuture = CVDataService.getLanguages();
+    final cvData = await cvDataFuture;
+    final languageData = await languageDataFuture;
+    if (mounted) {
+      setState(() {
+        _cvData = cvData;
+        _languageData = languageData;
+      });
     }
   }
 
-  void scrollToSectionById(String sectionId) {
-    final sectionKey = _sectionKeys[sectionId];
-    if (sectionKey != null) {
-      _scrollToSection(sectionId, sectionKey);
+  Future<void> scrollToSectionById(String sectionId) async {
+    final index = _sectionIndices[sectionId];
+    if (index == null) {
+      return;
     }
+    await _prepareSectionNavigation(index);
+    if (!mounted) {
+      return;
+    }
+    await WidgetsBinding.instance.endOfFrame;
+    await _listObserverController.animateTo(
+      index: index,
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.easeInOut,
+    );
+    if (mounted) {
+      widget.onSectionChanged(sectionId);
+    }
+  }
+
+  Future<void> _positionInitialSection(int index) async {
+    await _prepareSectionNavigation(index);
+    if (!mounted) {
+      return;
+    }
+    await WidgetsBinding.instance.endOfFrame;
+    await _listObserverController.jumpTo(index: index);
+    if (mounted) {
+      setState(() {
+        _isInitialSectionPositioned = true;
+      });
+    }
+  }
+
+  Future<void> _prepareSectionNavigation(int index) async {
+    await Future.wait([
+      _sectionDataReady,
+      if (index >= _astroGodsIndex) _publicationsController.prepareLayout(),
+    ]);
   }
 
   void _toggleFab() {
@@ -412,25 +463,8 @@ class _LandingPageState extends State<LandingPage>
   void _toggleToc() {
     setState(() {
       _isTocVisible = !_isTocVisible;
-      if (_isTocVisible) {
-        _tocAnimationController.forward();
-      } else {
-        _tocAnimationController.reverse();
-      }
     });
   }
-
-  Map<String, GlobalKey> get _sectionKeys => {
-    'about': _aboutKey,
-    'work': _workKey,
-    'education': _educationKey,
-    'conferences': _conferencesKey,
-    'skills': _skillsKey,
-    'languages': _languagesKey,
-    'publications': _publicationsKey,
-    'astrogods': _astrogodsKey,
-    'contact': _contactKey,
-  };
 
   Future<void> _downloadCV() async {
     if (_isDownloadingCV) return;
@@ -582,26 +616,50 @@ class _LandingPageState extends State<LandingPage>
             children: [
               if (!isMobile && isDesktop) _buildCustomTitleBar(context),
               Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      HeroSection(
-                        onViewWork: () => scrollToSectionById('publications'),
-                        enableThemeAnimation: !_isInTestEnvironment(),
+                child: IgnorePointer(
+                  ignoring: !_isInitialSectionPositioned,
+                  child: Opacity(
+                    opacity: _isInitialSectionPositioned ? 1 : 0,
+                    child: ListViewObserver(
+                      controller: _listObserverController,
+                      onObserve: (result) {
+                        final visibleIndices = result.displayingChildIndexList
+                            .toSet();
+                        if (visibleIndices.isNotEmpty) {
+                          _visibleSectionIndices = visibleIndices;
+                        }
+                      },
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        scrollCacheExtent: ScrollCacheExtent.pixels(
+                          Responsive.sizeOf(context).height,
+                        ),
+                        itemCount: _itemCount,
+                        itemBuilder: (context, index) {
+                          final sectionId = _sectionIdAt(index);
+                          return IndexedSemantics(
+                            index: index,
+                            child: KeyedSubtree(
+                              key: ValueKey(
+                                sectionId == null
+                                    ? 'publications-chunk-$index'
+                                    : 'section-$sectionId',
+                              ),
+                              child: _buildItem(
+                                index,
+                                sectionId: sectionId,
+                                animateTheme: _visibleSectionIndices.contains(
+                                  index,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        addAutomaticKeepAlives: false,
+                        addRepaintBoundaries: false,
+                        addSemanticIndexes: false,
                       ),
-                      AboutSection(key: _aboutKey),
-                      WorkExperienceSection(key: _workKey),
-                      EducationSection(key: _educationKey),
-                      ConferencesSeminarsSection(key: _conferencesKey),
-                      SkillsSection(key: _skillsKey),
-                      LanguagesSection(key: _languagesKey),
-                      PublicationsSection(key: _publicationsKey),
-                      AstroGodsSection(key: _astrogodsKey),
-                      ContactSection(
-                        key: _contactKey,
-                        currentLocale: widget.currentLocale,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
@@ -610,14 +668,75 @@ class _LandingPageState extends State<LandingPage>
           if (_isTocVisible) _buildTocOverlay(context),
         ],
       ),
-      floatingActionButton:
-          isMobile
-              ? _buildExpandableFab(context)
-              : _buildFloatingControls(context),
-      floatingActionButtonLocation:
-          isMobile
-              ? FloatingActionButtonLocation.endFloat
-              : FloatingActionButtonLocation.endTop,
+      floatingActionButton: Builder(
+        builder: (context) => isMobile
+            ? _buildExpandableFab(context)
+            : _buildFloatingControls(context),
+      ),
+      floatingActionButtonLocation: isMobile
+          ? FloatingActionButtonLocation.endFloat
+          : FloatingActionButtonLocation.endTop,
+    );
+  }
+
+  String? _sectionIdAt(int index) {
+    for (final entry in _sectionIndices.entries) {
+      if (entry.value == index) {
+        return entry.key;
+      }
+    }
+    return null;
+  }
+
+  Widget _buildItem(
+    int index, {
+    required String? sectionId,
+    required bool animateTheme,
+  }) {
+    if (index >= _publicationChunkStartIndex &&
+        index < _publicationChunkStartIndex + PublicationsSection.chunkCount) {
+      final section = PublicationsSection(
+        controller: _publicationsController,
+        chunkIndex: index - _publicationChunkStartIndex,
+        onPageChanged: () {
+          unawaited(scrollToSectionById('publications'));
+        },
+      );
+      return _withSectionTheme(section, animateTheme: animateTheme);
+    }
+    return _buildSection(sectionId!, animateTheme: animateTheme);
+  }
+
+  Widget _buildSection(String sectionId, {required bool animateTheme}) {
+    final section = switch (sectionId) {
+      'hero' => HeroSection(
+        isDarkMode: widget.isDarkMode,
+        onViewWork: () => scrollToSectionById('publications'),
+      ),
+      'about' => const AboutSection(),
+      'work' => WorkExperienceSection(entries: _cvData?.workExperience),
+      'education' => EducationSection(entries: _cvData?.education),
+      'conferences' => ConferencesSeminarsSection(
+        entries: _cvData?.conferences,
+      ),
+      'skills' => SkillsSection(data: _cvData?.skills),
+      'languages' => LanguagesSection(data: _languageData),
+      'astrogods' => const AstroGodsSection(),
+      'contact' => ContactSection(currentLocale: widget.currentLocale),
+      _ => throw ArgumentError.value(sectionId, 'sectionId'),
+    };
+    return _withSectionTheme(section, animateTheme: animateTheme);
+  }
+
+  Widget _withSectionTheme(Widget section, {required bool animateTheme}) {
+    if (animateTheme) {
+      return section;
+    }
+    return Theme(
+      data: widget.isDarkMode
+          ? PortfolioTheme.darkTheme
+          : PortfolioTheme.lightTheme,
+      child: section,
     );
   }
 
@@ -637,10 +756,9 @@ class _LandingPageState extends State<LandingPage>
           gradient: LinearGradient(
             begin: Alignment.bottomRight,
             end: Alignment.topLeft,
-            colors:
-                Theme.of(context).brightness == Brightness.dark
-                    ? [PortfolioTheme.cobaltBlue, PortfolioTheme.violet]
-                    : [PortfolioTheme.cobaltBlue, PortfolioTheme.emeraldGreen],
+            colors: Theme.of(context).brightness == Brightness.dark
+                ? [PortfolioTheme.cobaltBlue, PortfolioTheme.violet]
+                : [PortfolioTheme.cobaltBlue, PortfolioTheme.emeraldGreen],
           ),
         ),
         child: Row(
@@ -709,10 +827,9 @@ class _LandingPageState extends State<LandingPage>
         color: Colors.transparent,
         child: InkWell(
           onTap: onPressed,
-          hoverColor:
-              isClose
-                  ? Colors.red.withValues(alpha: 0.3)
-                  : Colors.white.withValues(alpha: 0.1),
+          hoverColor: isClose
+              ? Colors.red.withValues(alpha: 0.3)
+              : Colors.white.withValues(alpha: 0.1),
           child: Icon(icon, size: 14, color: PortfolioTheme.iceWhite),
         ),
       ),
@@ -726,20 +843,19 @@ class _LandingPageState extends State<LandingPage>
         mainAxisSize: MainAxisSize.min,
         children: [
           FloatingActionButton(
+            key: const ValueKey('theme-toggle'),
             heroTag: "theme_toggle",
             shape: const CircleBorder(),
             onPressed: widget.onThemeToggle,
             backgroundColor: Theme.of(context).colorScheme.primary,
-            tooltip:
-                widget.isDarkMode
-                    ? AppLocalizations.of(context)!.lightModeIconAlt
-                    : AppLocalizations.of(context)!.darkModeIconAlt,
+            tooltip: widget.isDarkMode
+                ? AppLocalizations.of(context)!.lightModeIconAlt
+                : AppLocalizations.of(context)!.darkModeIconAlt,
             child: Semantics(
               button: true,
-              label:
-                  widget.isDarkMode
-                      ? AppLocalizations.of(context)!.lightModeIconAlt
-                      : AppLocalizations.of(context)!.darkModeIconAlt,
+              label: widget.isDarkMode
+                  ? AppLocalizations.of(context)!.lightModeIconAlt
+                  : AppLocalizations.of(context)!.darkModeIconAlt,
               child: ThemeToggleWidget(
                 isDarkMode: widget.isDarkMode,
                 size: 56.0,
@@ -763,33 +879,31 @@ class _LandingPageState extends State<LandingPage>
           FloatingActionButton(
             heroTag: "download_cv",
             shape: const CircleBorder(),
-            onPressed:
-                (_isDownloadingCV || _isDownloadingEuropassCV)
-                    ? null
-                    : _showCVDownloadDialog,
+            onPressed: (_isDownloadingCV || _isDownloadingEuropassCV)
+                ? null
+                : _showCVDownloadDialog,
             backgroundColor: Theme.of(context).colorScheme.error,
-            tooltip:
-                (_isDownloadingCV || _isDownloadingEuropassCV)
-                    ? AppLocalizations.of(context)!.downloadingCV
-                    : AppLocalizations.of(context)!.downloadCV,
-            child:
-                (_isDownloadingCV || _isDownloadingEuropassCV)
-                    ? SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Theme.of(context).colorScheme.onError,
-                      ),
-                    )
-                    : Icon(
-                      Icons.download_rounded,
+            tooltip: (_isDownloadingCV || _isDownloadingEuropassCV)
+                ? AppLocalizations.of(context)!.downloadingCV
+                : AppLocalizations.of(context)!.downloadCV,
+            child: (_isDownloadingCV || _isDownloadingEuropassCV)
+                ? SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
                       color: Theme.of(context).colorScheme.onError,
-                      size: 32.0,
                     ),
+                  )
+                : Icon(
+                    Icons.download_rounded,
+                    color: Theme.of(context).colorScheme.onError,
+                    size: 32.0,
+                  ),
           ),
           const SizedBox(height: 16),
           FloatingActionButton(
+            key: const ValueKey('toc-toggle'),
             heroTag: "table_of_contents",
             shape: const CircleBorder(),
             onPressed: _toggleToc,
@@ -811,169 +925,152 @@ class _LandingPageState extends State<LandingPage>
   }
 
   Widget _buildExpandableFab(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-          height: _isFabExpanded ? 56 : 0,
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 300),
-            opacity: _isFabExpanded ? 1.0 : 0.0,
-            child:
-                _isFabExpanded
-                    ? FloatingActionButton(
-                      heroTag: "theme_toggle_mobile",
-                      shape: const CircleBorder(),
-                      onPressed: () {
-                        widget.onThemeToggle();
-                        _toggleFab();
-                      },
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      tooltip:
-                          widget.isDarkMode
-                              ? AppLocalizations.of(context)!.lightModeIconAlt
-                              : AppLocalizations.of(context)!.darkModeIconAlt,
-                      child: Semantics(
-                        button: true,
-                        label:
-                            widget.isDarkMode
-                                ? AppLocalizations.of(context)!.lightModeIconAlt
-                                : AppLocalizations.of(context)!.darkModeIconAlt,
-                        child: ThemeToggleWidget(
-                          isDarkMode: widget.isDarkMode,
-                          size: 56.0,
-                        ),
-                      ),
-                    )
-                    : const SizedBox.shrink(),
+    final menuAnimation = CurvedAnimation(
+      parent: _fabAnimationController,
+      curve: Curves.easeOut,
+    );
+    final slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.35),
+      end: Offset.zero,
+    ).animate(menuAnimation);
+
+    Widget menuButton({required double bottom, required Widget child}) {
+      return Positioned(
+        right: 0,
+        bottom: bottom,
+        child: IgnorePointer(
+          ignoring: !_isFabExpanded,
+          child: FadeTransition(
+            opacity: menuAnimation,
+            child: SlideTransition(position: slideAnimation, child: child),
           ),
         ),
-        if (_isFabExpanded) const SizedBox(height: 16),
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-          height: _isFabExpanded ? 56 : 0,
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 300),
-            opacity: _isFabExpanded ? 1.0 : 0.0,
-            child:
-                _isFabExpanded
-                    ? FloatingActionButton(
-                      heroTag: "language_selector_mobile",
-                      shape: const CircleBorder(),
-                      onPressed: () {
-                        _showLanguageSelector(context);
-                        _toggleFab();
-                      },
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                      tooltip: AppLocalizations.of(context)!.selectLanguage,
-                      child: Icon(
-                        Icons.language,
-                        color: Theme.of(context).colorScheme.onSecondary,
-                        size: 24.0,
-                      ),
-                    )
-                    : const SizedBox.shrink(),
-          ),
-        ),
-        if (_isFabExpanded) const SizedBox(height: 16),
-        // Download CV FAB
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-          height: _isFabExpanded ? 56 : 0,
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 300),
-            opacity: _isFabExpanded ? 1.0 : 0.0,
-            child:
-                _isFabExpanded
-                    ? FloatingActionButton(
-                      heroTag: "download_cv_mobile",
-                      shape: const CircleBorder(),
-                      onPressed:
-                          (_isDownloadingCV || _isDownloadingEuropassCV)
-                              ? null
-                              : () {
-                                _showCVDownloadDialog();
-                                _toggleFab();
-                              },
-                      backgroundColor: Theme.of(context).colorScheme.error,
-                      tooltip:
-                          (_isDownloadingCV || _isDownloadingEuropassCV)
-                              ? AppLocalizations.of(context)!.downloadingCV
-                              : AppLocalizations.of(context)!.downloadCV,
-                      child:
-                          (_isDownloadingCV || _isDownloadingEuropassCV)
-                              ? SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Theme.of(context).colorScheme.onError,
-                                ),
-                              )
-                              : Icon(
-                                Icons.download_rounded,
-                                color: Theme.of(context).colorScheme.onError,
-                                size: 24.0,
-                              ),
-                    )
-                    : const SizedBox.shrink(),
-          ),
-        ),
-        if (_isFabExpanded) const SizedBox(height: 16),
-        // TOC FAB
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-          height: _isFabExpanded ? 56 : 0,
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 300),
-            opacity: _isFabExpanded ? 1.0 : 0.0,
-            child:
-                _isFabExpanded
-                    ? FloatingActionButton(
-                      heroTag: "table_of_contents_mobile",
-                      shape: const CircleBorder(),
-                      onPressed: () {
-                        _toggleToc();
-                        _toggleFab();
-                      },
-                      backgroundColor: Theme.of(context).colorScheme.tertiary,
-                      tooltip: AppLocalizations.of(context)!.tableOfContents,
-                      child: AnimatedRotation(
-                        turns: _isTocVisible ? 0.125 : 0.0,
-                        duration: const Duration(milliseconds: 300),
-                        child: Icon(
-                          _isTocVisible ? Icons.close : Icons.list_rounded,
-                          color: Theme.of(context).colorScheme.onTertiary,
-                          size: 24.0,
-                        ),
-                      ),
-                    )
-                    : const SizedBox.shrink(),
-          ),
-        ),
-        if (_isFabExpanded) const SizedBox(height: 16),
-        // Main FAB
-        FloatingActionButton(
-          heroTag: "main_fab_mobile",
-          shape: const CircleBorder(),
-          onPressed: _toggleFab,
-          backgroundColor: Theme.of(context).colorScheme.tertiary,
-          child: AnimatedRotation(
-            turns: _isFabExpanded ? 0.375 : 0.0, // 135 degrees
-            duration: const Duration(milliseconds: 300),
-            child: Icon(
-              _isFabExpanded ? Icons.close : Icons.settings,
-              color: Theme.of(context).colorScheme.onTertiary,
-              size: 24.0,
+      );
+    }
+
+    return SizedBox(
+      width: 56,
+      height: 344,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          menuButton(
+            bottom: 288,
+            child: FloatingActionButton(
+              key: const ValueKey('theme-toggle-mobile'),
+              heroTag: "theme_toggle_mobile",
+              shape: const CircleBorder(),
+              onPressed: () {
+                widget.onThemeToggle();
+                _toggleFab();
+              },
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              tooltip: widget.isDarkMode
+                  ? AppLocalizations.of(context)!.lightModeIconAlt
+                  : AppLocalizations.of(context)!.darkModeIconAlt,
+              child: Semantics(
+                button: true,
+                label: widget.isDarkMode
+                    ? AppLocalizations.of(context)!.lightModeIconAlt
+                    : AppLocalizations.of(context)!.darkModeIconAlt,
+                child: ThemeToggleWidget(
+                  isDarkMode: widget.isDarkMode,
+                  size: 56.0,
+                ),
+              ),
             ),
           ),
-        ),
-      ],
+          menuButton(
+            bottom: 216,
+            child: FloatingActionButton(
+              heroTag: "language_selector_mobile",
+              shape: const CircleBorder(),
+              onPressed: () {
+                _showLanguageSelector(context);
+                _toggleFab();
+              },
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              tooltip: AppLocalizations.of(context)!.selectLanguage,
+              child: Icon(
+                Icons.language,
+                color: Theme.of(context).colorScheme.onSecondary,
+                size: 24.0,
+              ),
+            ),
+          ),
+          menuButton(
+            bottom: 144,
+            child: FloatingActionButton(
+              heroTag: "download_cv_mobile",
+              shape: const CircleBorder(),
+              onPressed: (_isDownloadingCV || _isDownloadingEuropassCV)
+                  ? null
+                  : () {
+                      _showCVDownloadDialog();
+                      _toggleFab();
+                    },
+              backgroundColor: Theme.of(context).colorScheme.error,
+              tooltip: (_isDownloadingCV || _isDownloadingEuropassCV)
+                  ? AppLocalizations.of(context)!.downloadingCV
+                  : AppLocalizations.of(context)!.downloadCV,
+              child: (_isDownloadingCV || _isDownloadingEuropassCV)
+                  ? SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Theme.of(context).colorScheme.onError,
+                      ),
+                    )
+                  : Icon(
+                      Icons.download_rounded,
+                      color: Theme.of(context).colorScheme.onError,
+                      size: 24.0,
+                    ),
+            ),
+          ),
+          menuButton(
+            bottom: 72,
+            child: FloatingActionButton(
+              key: const ValueKey('toc-toggle-mobile'),
+              heroTag: "table_of_contents_mobile",
+              shape: const CircleBorder(),
+              onPressed: () {
+                _toggleToc();
+                _toggleFab();
+              },
+              backgroundColor: Theme.of(context).colorScheme.tertiary,
+              tooltip: AppLocalizations.of(context)!.tableOfContents,
+              child: Icon(
+                _isTocVisible ? Icons.close : Icons.list_rounded,
+                color: Theme.of(context).colorScheme.onTertiary,
+                size: 24.0,
+              ),
+            ),
+          ),
+          Positioned(
+            right: 0,
+            bottom: 0,
+            child: FloatingActionButton(
+              heroTag: "main_fab_mobile",
+              shape: const CircleBorder(),
+              onPressed: _toggleFab,
+              backgroundColor: Theme.of(context).colorScheme.tertiary,
+              child: RotationTransition(
+                turns: Tween<double>(
+                  begin: 0,
+                  end: 0.375,
+                ).animate(menuAnimation),
+                child: Icon(
+                  _isFabExpanded ? Icons.close : Icons.settings,
+                  color: Theme.of(context).colorScheme.onTertiary,
+                  size: 24.0,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -993,9 +1090,8 @@ class _LandingPageState extends State<LandingPage>
               child: Padding(
                 padding: EdgeInsets.all(isMobile ? 20 : 40),
                 child: TableOfContentsWidget(
-                  sectionKeys: _sectionKeys,
+                  onSectionSelected: scrollToSectionById,
                   onTap: _toggleToc,
-                  onSectionChanged: widget.onSectionChanged,
                 ),
               ),
             ),

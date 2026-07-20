@@ -20,6 +20,7 @@ class StarryBackground extends StatefulWidget {
   final int animationSpeed2;
   final int animationSpeed3;
   final bool forceNightBackground;
+  final bool enableAnimation;
 
   const StarryBackground({
     super.key,
@@ -36,6 +37,7 @@ class StarryBackground extends StatefulWidget {
     this.animationSpeed2 = 100,
     this.animationSpeed3 = 150,
     this.forceNightBackground = false,
+    this.enableAnimation = true,
   });
 
   @override
@@ -129,10 +131,14 @@ class _StarryBackgroundState extends State<StarryBackground>
   List<_StarPoint> _buildStars(int starCount, int seed) {
     final random = math.Random(seed);
     return List.generate(starCount, (_) {
+      final xFactor = random.nextDouble() * 1.6;
+      final yFactor = random.nextDouble() * 2;
+      final phase = random.nextDouble() * math.pi * 2;
       return _StarPoint(
-        xFactor: random.nextDouble() * 1.6,
-        yFactor: random.nextDouble() * 2,
-        phase: random.nextDouble() * math.pi * 2,
+        xFactor: xFactor,
+        yFactor: yFactor,
+        sinePhase: math.sin(phase),
+        cosinePhase: math.cos(phase),
       );
     });
   }
@@ -203,7 +209,8 @@ class _StarryBackgroundState extends State<StarryBackground>
   }
 
   void _syncAnimation() {
-    final shouldAnimate = !_disableAnimations && _isInOrNearViewport;
+    final shouldAnimate =
+        widget.enableAnimation && !_disableAnimations && _isInOrNearViewport;
     if (shouldAnimate && !_animationController.isAnimating) {
       _animationController.repeat();
     } else if (!shouldAnimate && _animationController.isAnimating) {
@@ -213,20 +220,20 @@ class _StarryBackgroundState extends State<StarryBackground>
 
   @override
   Widget build(BuildContext context) {
-    final shouldAnimate = !_disableAnimations && _isInOrNearViewport;
+    final shouldAnimate =
+        widget.enableAnimation && !_disableAnimations && _isInOrNearViewport;
 
     return Container(
-      decoration:
-          widget.forceNightBackground
-              ? const BoxDecoration(
-                gradient: RadialGradient(
-                  center: Alignment.bottomCenter,
-                  radius: 1.0,
-                  colors: [Color(0xFF0c1116), Color(0xFF090a0f)],
-                  stops: [0.0, 1.0],
-                ),
-              )
-              : const BoxDecoration(color: Colors.transparent),
+      decoration: widget.forceNightBackground
+          ? const BoxDecoration(
+              gradient: RadialGradient(
+                center: Alignment.bottomCenter,
+                radius: 1.0,
+                colors: [Color(0xFF0c1116), Color(0xFF090a0f)],
+                stops: [0.0, 1.0],
+              ),
+            )
+          : const BoxDecoration(color: Colors.transparent),
       child: Stack(
         children: [
           Positioned.fill(
@@ -313,12 +320,14 @@ class _StarLayer {
 class _StarPoint {
   final double xFactor;
   final double yFactor;
-  final double phase;
+  final double sinePhase;
+  final double cosinePhase;
 
   const _StarPoint({
     required this.xFactor,
     required this.yFactor,
-    required this.phase,
+    required this.sinePhase,
+    required this.cosinePhase,
   });
 }
 
@@ -344,10 +353,12 @@ class _StarPainter extends CustomPainter {
     final elapsedSeconds = animationValue * loopDurationSeconds;
 
     for (final layer in layers) {
-      final layerProgress =
-          animate
-              ? (elapsedSeconds % layer.animationSpeed) / layer.animationSpeed
-              : 0.0;
+      final layerProgress = animate
+          ? (elapsedSeconds % layer.animationSpeed) / layer.animationSpeed
+          : 0.0;
+      final twinkleAngle = layerProgress * math.pi * 2;
+      final sineTwinkle = math.sin(twinkleAngle);
+      final cosineTwinkle = math.cos(twinkleAngle);
 
       for (final star in layer.stars) {
         final x = star.xFactor * size.width;
@@ -359,7 +370,10 @@ class _StarPainter extends CustomPainter {
             x >= -layer.starSize &&
             x <= size.width + layer.starSize) {
           final twinkle =
-              (math.sin(layerProgress * math.pi * 2 + star.phase) + 1) * 0.5;
+              (sineTwinkle * star.cosinePhase +
+                  cosineTwinkle * star.sinePhase +
+                  1) *
+              0.5;
           paint.color = starColor.withValues(alpha: 0.3 + twinkle * 0.7);
 
           canvas.drawCircle(

@@ -6,6 +6,15 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/publication.dart';
 
+class ZoteroServiceException implements Exception {
+  final String message;
+
+  const ZoteroServiceException(this.message);
+
+  @override
+  String toString() => message;
+}
+
 class ZoteroService {
   static const String baseUrl = 'https://api.zotero.org';
 
@@ -22,8 +31,9 @@ class ZoteroService {
       return _cachedPublications!;
     }
 
+    late final http.Response response;
     try {
-      final response = await http.get(
+      response = await http.get(
         Uri.parse('$baseUrl/groups/$groupId/items').replace(
           queryParameters: {
             'itemType':
@@ -35,27 +45,26 @@ class ZoteroService {
         ),
         headers: {'Accept': 'application/json'},
       );
-
-      if (response.statusCode == 200) {
-        final jsonData = json.decode(response.body) as List<dynamic>;
-        final publications =
-            jsonData
-                .map(
-                  (item) => Publication.fromJson(item as Map<String, dynamic>),
-                )
-                .where((pub) => pub.title.isNotEmpty)
-                .toList();
-
-        _cachedPublications = publications;
-        _lastFetch = DateTime.now();
-
-        return publications;
-      } else {
-        throw Exception('Failed to load publications: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Failed to load publications: $e');
+    } on http.ClientException catch (error) {
+      throw ZoteroServiceException('Failed to load publications: $error');
     }
+
+    if (response.statusCode != 200) {
+      throw ZoteroServiceException(
+        'Failed to load publications: ${response.statusCode}',
+      );
+    }
+
+    final jsonData = json.decode(response.body) as List<dynamic>;
+    final publications = jsonData
+        .map((item) => Publication.fromJson(item as Map<String, dynamic>))
+        .where((publication) => publication.title.isNotEmpty)
+        .toList();
+
+    _cachedPublications = publications;
+    _lastFetch = DateTime.now();
+
+    return publications;
   }
 
   void clearCache() {

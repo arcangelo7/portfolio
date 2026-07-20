@@ -13,7 +13,9 @@ import '../utils/responsive.dart';
 import 'attachment_button.dart';
 
 class WorkExperienceSection extends StatefulWidget {
-  const WorkExperienceSection({super.key});
+  final List<WorkExperienceEntry>? entries;
+
+  const WorkExperienceSection({super.key, this.entries});
 
   @override
   State<WorkExperienceSection> createState() => _WorkExperienceSectionState();
@@ -21,13 +23,27 @@ class WorkExperienceSection extends StatefulWidget {
 
 class _WorkExperienceSectionState extends State<WorkExperienceSection> {
   List<WorkExperienceEntry>? _workEntries;
-  bool _isLoading = true;
+  late bool _isLoading;
   String? _error;
 
   @override
   void initState() {
     super.initState();
-    _loadWorkExperience();
+    _workEntries = widget.entries;
+    _isLoading = widget.entries == null;
+    if (_isLoading) {
+      _loadWorkExperience();
+    }
+  }
+
+  @override
+  void didUpdateWidget(WorkExperienceSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.entries != null && oldWidget.entries != widget.entries) {
+      _workEntries = widget.entries;
+      _isLoading = false;
+      _error = null;
+    }
   }
 
   Future<void> _loadWorkExperience() async {
@@ -98,15 +114,14 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
     final workEntries = _workEntries ?? [];
 
     return Column(
-      children:
-          workEntries.map((entry) {
-            return Column(
-              children: [
-                _buildExperienceItem(context, l10n, entry, isMobile),
-                if (entry != workEntries.last) const SizedBox(height: 32),
-              ],
-            );
-          }).toList(),
+      children: workEntries.map((entry) {
+        return Column(
+          children: [
+            _buildExperienceItem(context, l10n, entry, isMobile),
+            if (entry != workEntries.last) const SizedBox(height: 32),
+          ],
+        );
+      }).toList(),
     );
   }
 
@@ -130,12 +145,12 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
       alpha: 0.06,
     );
     final currentBorderColor = colorScheme.primary.withValues(alpha: 0.3);
-    final periodBackgroundColor =
-        isOngoing
-            ? colorScheme.primary.withValues(alpha: 0.1)
-            : neutralBackgroundColor;
-    final periodBorderColor =
-        isOngoing ? currentBorderColor : neutralBorderColor;
+    final periodBackgroundColor = isOngoing
+        ? colorScheme.primary.withValues(alpha: 0.1)
+        : neutralBackgroundColor;
+    final periodBorderColor = isOngoing
+        ? currentBorderColor
+        : neutralBorderColor;
 
     return Container(
       width: double.infinity,
@@ -161,48 +176,109 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
         children: [
           isMobile
               ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (isOngoing)
-                        Container(
-                          margin: const EdgeInsets.only(right: 8, top: 4),
-                          width: 8,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            color: colorScheme.primary,
-                            shape: BoxShape.circle,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (isOngoing)
+                          Container(
+                            margin: const EdgeInsets.only(right: 8, top: 4),
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: colorScheme.primary,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        Expanded(
+                          child: SelectableText(
+                            title,
+                            style: Theme.of(context).textTheme.headlineSmall
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: colorScheme.primary,
+                                  fontSize: 18,
+                                ),
                           ),
                         ),
-                      Expanded(
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    SelectableText(
+                      company,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: colorScheme.secondary,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: periodBackgroundColor,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: periodBorderColor),
+                        ),
                         child: SelectableText(
-                          title,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: colorScheme.primary,
-                            fontSize: 18,
-                          ),
+                          period,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: isOngoing
+                                    ? colorScheme.primary
+                                    : colorScheme.onSurface,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  SelectableText(
-                    company,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: colorScheme.secondary,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
+                  ],
+                )
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (isOngoing)
+                      Container(
+                        margin: const EdgeInsets.only(right: 8, top: 4),
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: colorScheme.primary,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SelectableText(
+                            title,
+                            style: Theme.of(context).textTheme.headlineSmall
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: colorScheme.primary,
+                                ),
+                          ),
+                          const SizedBox(height: 4),
+                          SelectableText(
+                            company,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(
+                                  color: colorScheme.secondary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 6,
@@ -215,80 +291,15 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
                       child: SelectableText(
                         period,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color:
-                              isOngoing
-                                  ? colorScheme.primary
-                                  : colorScheme.onSurface,
+                          color: isOngoing
+                              ? colorScheme.primary
+                              : colorScheme.onSurface,
                           fontWeight: FontWeight.w600,
-                          fontSize: 12,
                         ),
                       ),
                     ),
-                  ),
-                ],
-              )
-              : Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (isOngoing)
-                    Container(
-                      margin: const EdgeInsets.only(right: 8, top: 4),
-                      width: 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: colorScheme.primary,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SelectableText(
-                          title,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: colorScheme.primary,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        SelectableText(
-                          company,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleMedium?.copyWith(
-                            color: colorScheme.secondary,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: periodBackgroundColor,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: periodBorderColor),
-                    ),
-                    child: SelectableText(
-                      period,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color:
-                            isOngoing
-                                ? colorScheme.primary
-                                : colorScheme.onSurface,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
           const SizedBox(height: 16),
           _buildTextWithMarkdownLinks(
             context,
@@ -304,10 +315,9 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children:
-                  entry.attachments
-                      .map((a) => AttachmentButton(attachment: a))
-                      .toList(),
+              children: entry.attachments
+                  .map((a) => AttachmentButton(attachment: a))
+                  .toList(),
             ),
           ],
         ],
@@ -346,37 +356,33 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
             linkText.length > 2 &&
             linkText.startsWith('*') &&
             linkText.endsWith('*');
-        final displayText =
-            isItalicLink
-                ? linkText.substring(1, linkText.length - 1)
-                : linkText;
-        final linkStyle =
-            style == null
-                ? TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  decoration: TextDecoration.underline,
-                  fontStyle: isItalicLink ? FontStyle.italic : null,
-                )
-                : style.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                  decoration: TextDecoration.underline,
-                  fontStyle: isItalicLink ? FontStyle.italic : null,
-                );
+        final displayText = isItalicLink
+            ? linkText.substring(1, linkText.length - 1)
+            : linkText;
+        final linkStyle = style == null
+            ? TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                decoration: TextDecoration.underline,
+                fontStyle: isItalicLink ? FontStyle.italic : null,
+              )
+            : style.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                decoration: TextDecoration.underline,
+                fontStyle: isItalicLink ? FontStyle.italic : null,
+              );
 
         spans.add(
           TextSpan(
             text: displayText,
             style: linkStyle,
-            recognizer:
-                TapGestureRecognizer()
-                  ..onTap = () => _launchUrl(match.group(2)!),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => _launchUrl(match.group(2)!),
           ),
         );
       } else {
-        final italicStyle =
-            style == null
-                ? const TextStyle(fontStyle: FontStyle.italic)
-                : style.copyWith(fontStyle: FontStyle.italic);
+        final italicStyle = style == null
+            ? const TextStyle(fontStyle: FontStyle.italic)
+            : style.copyWith(fontStyle: FontStyle.italic);
 
         spans.add(TextSpan(text: match.group(3)!, style: italicStyle));
       }

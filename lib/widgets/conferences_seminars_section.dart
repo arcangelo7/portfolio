@@ -12,7 +12,9 @@ import '../models/cv_data.dart';
 import '../utils/responsive.dart';
 
 class ConferencesSeminarsSection extends StatefulWidget {
-  const ConferencesSeminarsSection({super.key});
+  final List<ConferenceEntry>? entries;
+
+  const ConferencesSeminarsSection({super.key, this.entries});
 
   @override
   State<ConferencesSeminarsSection> createState() =>
@@ -22,13 +24,27 @@ class ConferencesSeminarsSection extends StatefulWidget {
 class _ConferencesSeminarsSectionState
     extends State<ConferencesSeminarsSection> {
   List<ConferenceEntry>? _conferenceEntries;
-  bool _isLoading = true;
+  late bool _isLoading;
   String? _error;
 
   @override
   void initState() {
     super.initState();
-    _loadConferences();
+    _conferenceEntries = widget.entries;
+    _isLoading = widget.entries == null;
+    if (_isLoading) {
+      _loadConferences();
+    }
+  }
+
+  @override
+  void didUpdateWidget(ConferencesSeminarsSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.entries != null && oldWidget.entries != widget.entries) {
+      _conferenceEntries = widget.entries;
+      _isLoading = false;
+      _error = null;
+    }
   }
 
   Future<void> _loadConferences() async {
@@ -99,15 +115,14 @@ class _ConferencesSeminarsSectionState
     final conferenceEntries = _conferenceEntries ?? [];
 
     return Column(
-      children:
-          conferenceEntries.map((entry) {
-            return Column(
-              children: [
-                _buildConferenceItem(context, l10n, entry, isMobile),
-                if (entry != conferenceEntries.last) const SizedBox(height: 32),
-              ],
-            );
-          }).toList(),
+      children: conferenceEntries.map((entry) {
+        return Column(
+          children: [
+            _buildConferenceItem(context, l10n, entry, isMobile),
+            if (entry != conferenceEntries.last) const SizedBox(height: 32),
+          ],
+        );
+      }).toList(),
     );
   }
 
@@ -153,29 +168,80 @@ class _ConferencesSeminarsSectionState
         children: [
           isMobile
               ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SelectableText(
-                    title,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: colorScheme.primary,
-                      fontSize: 18,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SelectableText(
+                      title,
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.primary,
+                            fontSize: 18,
+                          ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  SelectableText(
-                    location,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: colorScheme.secondary,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
+                    const SizedBox(height: 4),
+                    SelectableText(
+                      location,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: colorScheme.secondary,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
+                    const SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: neutralBackgroundColor,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: neutralBorderColor),
+                        ),
+                        child: SelectableText(
+                          period,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: colorScheme.onSurface,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SelectableText(
+                            title,
+                            style: Theme.of(context).textTheme.headlineSmall
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: colorScheme.primary,
+                                ),
+                          ),
+                          const SizedBox(height: 4),
+                          SelectableText(
+                            location,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(
+                                  color: colorScheme.secondary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 6,
@@ -190,62 +256,11 @@ class _ConferencesSeminarsSectionState
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: colorScheme.onSurface,
                           fontWeight: FontWeight.w600,
-                          fontSize: 12,
                         ),
                       ),
                     ),
-                  ),
-                ],
-              )
-              : Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SelectableText(
-                          title,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: colorScheme.primary,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        SelectableText(
-                          location,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleMedium?.copyWith(
-                            color: colorScheme.secondary,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: neutralBackgroundColor,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: neutralBorderColor),
-                    ),
-                    child: SelectableText(
-                      period,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurface,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
           const SizedBox(height: 16),
           _buildTextWithMarkdownLinks(
             context,
@@ -292,37 +307,33 @@ class _ConferencesSeminarsSectionState
             linkText.length > 2 &&
             linkText.startsWith('*') &&
             linkText.endsWith('*');
-        final displayText =
-            isItalicLink
-                ? linkText.substring(1, linkText.length - 1)
-                : linkText;
-        final linkStyle =
-            style == null
-                ? TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  decoration: TextDecoration.underline,
-                  fontStyle: isItalicLink ? FontStyle.italic : null,
-                )
-                : style.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                  decoration: TextDecoration.underline,
-                  fontStyle: isItalicLink ? FontStyle.italic : null,
-                );
+        final displayText = isItalicLink
+            ? linkText.substring(1, linkText.length - 1)
+            : linkText;
+        final linkStyle = style == null
+            ? TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                decoration: TextDecoration.underline,
+                fontStyle: isItalicLink ? FontStyle.italic : null,
+              )
+            : style.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                decoration: TextDecoration.underline,
+                fontStyle: isItalicLink ? FontStyle.italic : null,
+              );
 
         spans.add(
           TextSpan(
             text: displayText,
             style: linkStyle,
-            recognizer:
-                TapGestureRecognizer()
-                  ..onTap = () => _launchUrl(match.group(2)!),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => _launchUrl(match.group(2)!),
           ),
         );
       } else {
-        final italicStyle =
-            style == null
-                ? const TextStyle(fontStyle: FontStyle.italic)
-                : style.copyWith(fontStyle: FontStyle.italic);
+        final italicStyle = style == null
+            ? const TextStyle(fontStyle: FontStyle.italic)
+            : style.copyWith(fontStyle: FontStyle.italic);
 
         spans.add(TextSpan(text: match.group(3)!, style: italicStyle));
       }

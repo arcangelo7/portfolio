@@ -13,7 +13,9 @@ import '../utils/responsive.dart';
 import 'attachment_button.dart';
 
 class EducationSection extends StatefulWidget {
-  const EducationSection({super.key});
+  final List<EducationEntry>? entries;
+
+  const EducationSection({super.key, this.entries});
 
   @override
   State<EducationSection> createState() => _EducationSectionState();
@@ -21,13 +23,27 @@ class EducationSection extends StatefulWidget {
 
 class _EducationSectionState extends State<EducationSection> {
   List<EducationEntry>? _educationEntries;
-  bool _isLoading = true;
+  late bool _isLoading;
   String? _error;
 
   @override
   void initState() {
     super.initState();
-    _loadEducation();
+    _educationEntries = widget.entries;
+    _isLoading = widget.entries == null;
+    if (_isLoading) {
+      _loadEducation();
+    }
+  }
+
+  @override
+  void didUpdateWidget(EducationSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.entries != null && oldWidget.entries != widget.entries) {
+      _educationEntries = widget.entries;
+      _isLoading = false;
+      _error = null;
+    }
   }
 
   Future<void> _loadEducation() async {
@@ -100,15 +116,14 @@ class _EducationSectionState extends State<EducationSection> {
     final educationEntries = _educationEntries ?? [];
 
     return Column(
-      children:
-          educationEntries.map((entry) {
-            return Column(
-              children: [
-                _buildEducationItem(context, l10n, entry, isMobile),
-                if (entry != educationEntries.last) const SizedBox(height: 24),
-              ],
-            );
-          }).toList(),
+      children: educationEntries.map((entry) {
+        return Column(
+          children: [
+            _buildEducationItem(context, l10n, entry, isMobile),
+            if (entry != educationEntries.last) const SizedBox(height: 24),
+          ],
+        );
+      }).toList(),
     );
   }
 
@@ -135,12 +150,12 @@ class _EducationSectionState extends State<EducationSection> {
       alpha: 0.06,
     );
     final currentBorderColor = colorScheme.primary.withValues(alpha: 0.3);
-    final periodBackgroundColor =
-        isOngoing
-            ? colorScheme.primary.withValues(alpha: 0.1)
-            : neutralBackgroundColor;
-    final periodBorderColor =
-        isOngoing ? currentBorderColor : neutralBorderColor;
+    final periodBackgroundColor = isOngoing
+        ? colorScheme.primary.withValues(alpha: 0.1)
+        : neutralBackgroundColor;
+    final periodBorderColor = isOngoing
+        ? currentBorderColor
+        : neutralBorderColor;
 
     return Container(
       width: double.infinity,
@@ -166,51 +181,113 @@ class _EducationSectionState extends State<EducationSection> {
         children: [
           isMobile
               ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (isOngoing)
-                        Container(
-                          margin: const EdgeInsets.only(right: 8, top: 4),
-                          width: 8,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            color: colorScheme.primary,
-                            shape: BoxShape.circle,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (isOngoing)
+                          Container(
+                            margin: const EdgeInsets.only(right: 8, top: 4),
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: colorScheme.primary,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        Expanded(
+                          child: SelectableText(
+                            degree,
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: isOngoing
+                                      ? colorScheme.primary
+                                      : colorScheme.onSurface,
+                                  fontSize: 16,
+                                ),
                           ),
                         ),
-                      Expanded(
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    SelectableText(
+                      institution,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: colorScheme.secondary,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: periodBackgroundColor,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: periodBorderColor),
+                        ),
                         child: SelectableText(
-                          degree,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color:
-                                isOngoing
+                          period,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: isOngoing
                                     ? colorScheme.primary
                                     : colorScheme.onSurface,
-                            fontSize: 16,
-                          ),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 11,
+                              ),
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  SelectableText(
-                    institution,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: colorScheme.secondary,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
+                  ],
+                )
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (isOngoing)
+                      Container(
+                        margin: const EdgeInsets.only(right: 8, top: 4),
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          color: colorScheme.primary,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SelectableText(
+                            degree,
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: isOngoing
+                                      ? colorScheme.primary
+                                      : colorScheme.onSurface,
+                                ),
+                          ),
+                          const SizedBox(height: 4),
+                          SelectableText(
+                            institution,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(
+                                  color: colorScheme.secondary,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
                         vertical: 6,
@@ -223,83 +300,15 @@ class _EducationSectionState extends State<EducationSection> {
                       child: SelectableText(
                         period,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color:
-                              isOngoing
-                                  ? colorScheme.primary
-                                  : colorScheme.onSurface,
+                          color: isOngoing
+                              ? colorScheme.primary
+                              : colorScheme.onSurface,
                           fontWeight: FontWeight.w600,
-                          fontSize: 11,
                         ),
                       ),
                     ),
-                  ),
-                ],
-              )
-              : Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (isOngoing)
-                    Container(
-                      margin: const EdgeInsets.only(right: 8, top: 4),
-                      width: 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: colorScheme.primary,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SelectableText(
-                          degree,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color:
-                                isOngoing
-                                    ? colorScheme.primary
-                                    : colorScheme.onSurface,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        SelectableText(
-                          institution,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleMedium?.copyWith(
-                            color: colorScheme.secondary,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: periodBackgroundColor,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: periodBorderColor),
-                    ),
-                    child: SelectableText(
-                      period,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color:
-                            isOngoing
-                                ? colorScheme.primary
-                                : colorScheme.onSurface,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
           const SizedBox(height: 12),
           _buildTextWithMarkdownLinks(
             context,
@@ -315,10 +324,9 @@ class _EducationSectionState extends State<EducationSection> {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children:
-                  entry.attachments
-                      .map((a) => AttachmentButton(attachment: a))
-                      .toList(),
+              children: entry.attachments
+                  .map((a) => AttachmentButton(attachment: a))
+                  .toList(),
             ),
           ],
         ],
@@ -357,37 +365,33 @@ class _EducationSectionState extends State<EducationSection> {
             linkText.length > 2 &&
             linkText.startsWith('*') &&
             linkText.endsWith('*');
-        final displayText =
-            isItalicLink
-                ? linkText.substring(1, linkText.length - 1)
-                : linkText;
-        final linkStyle =
-            style == null
-                ? TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  decoration: TextDecoration.underline,
-                  fontStyle: isItalicLink ? FontStyle.italic : null,
-                )
-                : style.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                  decoration: TextDecoration.underline,
-                  fontStyle: isItalicLink ? FontStyle.italic : null,
-                );
+        final displayText = isItalicLink
+            ? linkText.substring(1, linkText.length - 1)
+            : linkText;
+        final linkStyle = style == null
+            ? TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                decoration: TextDecoration.underline,
+                fontStyle: isItalicLink ? FontStyle.italic : null,
+              )
+            : style.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                decoration: TextDecoration.underline,
+                fontStyle: isItalicLink ? FontStyle.italic : null,
+              );
 
         spans.add(
           TextSpan(
             text: displayText,
             style: linkStyle,
-            recognizer:
-                TapGestureRecognizer()
-                  ..onTap = () => _launchUrl(match.group(2)!),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => _launchUrl(match.group(2)!),
           ),
         );
       } else {
-        final italicStyle =
-            style == null
-                ? const TextStyle(fontStyle: FontStyle.italic)
-                : style.copyWith(fontStyle: FontStyle.italic);
+        final italicStyle = style == null
+            ? const TextStyle(fontStyle: FontStyle.italic)
+            : style.copyWith(fontStyle: FontStyle.italic);
 
         spans.add(TextSpan(text: match.group(3)!, style: italicStyle));
       }

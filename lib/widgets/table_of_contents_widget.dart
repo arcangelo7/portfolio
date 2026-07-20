@@ -8,15 +8,13 @@ import '../l10n/app_localizations.dart';
 import '../utils/responsive.dart';
 
 class TableOfContentsWidget extends StatefulWidget {
-  final Map<String, GlobalKey> sectionKeys;
+  final Future<void> Function(String) onSectionSelected;
   final VoidCallback? onTap;
-  final ValueChanged<String>? onSectionChanged;
 
   const TableOfContentsWidget({
     super.key,
-    required this.sectionKeys,
+    required this.onSectionSelected,
     this.onTap,
-    this.onSectionChanged,
   });
 
   @override
@@ -99,28 +97,15 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
     super.dispose();
   }
 
-  void _scrollToSection(String sectionKey) {
-    final key = widget.sectionKeys[sectionKey];
-    if (key?.currentContext != null) {
-      HapticFeedback.lightImpact();
-
-      setState(() {
-        _activeSectionKey = sectionKey;
-      });
-
-      Scrollable.ensureVisible(
-        key!.currentContext!,
-        duration: const Duration(milliseconds: 800),
-        curve: Curves.easeInOut,
-      ).then((_) {
-        if (widget.onSectionChanged != null) {
-          widget.onSectionChanged!(sectionKey);
-        }
-        if (widget.onTap != null) {
-          widget.onTap!();
-        }
-      });
+  Future<void> _scrollToSection(String sectionKey) async {
+    HapticFeedback.lightImpact();
+    setState(() {
+      _activeSectionKey = sectionKey;
+    });
+    if (widget.onTap != null) {
+      widget.onTap!();
     }
+    await widget.onSectionSelected(sectionKey);
   }
 
   List<_TocSection> _getSections(BuildContext context) {
@@ -213,13 +198,12 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                     Expanded(
                       child: Text(
                         AppLocalizations.of(context)!.tableOfContents,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: isMobile ? 16 : 18,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).colorScheme.primary,
+                              fontSize: isMobile ? 16 : 18,
+                            ),
                       ),
                     ),
                   ],
@@ -230,8 +214,8 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
               shrinkWrap: true,
               padding: EdgeInsets.all(isMobile ? 8 : 12),
               itemCount: sections.length,
-              separatorBuilder:
-                  (context, index) => SizedBox(height: isMobile ? 4 : 6),
+              separatorBuilder: (context, index) =>
+                  SizedBox(height: isMobile ? 4 : 6),
               itemBuilder: (context, index) {
                 final section = sections[index];
                 final isActive = _activeSectionKey == section.key;
@@ -243,22 +227,20 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     decoration: BoxDecoration(
-                      color:
-                          isActive
-                              ? Theme.of(
-                                context,
-                              ).colorScheme.primary.withValues(alpha: 0.1)
-                              : Colors.transparent,
+                      color: isActive
+                          ? Theme.of(
+                              context,
+                            ).colorScheme.primary.withValues(alpha: 0.1)
+                          : Colors.transparent,
                       borderRadius: BorderRadius.circular(8),
-                      border:
-                          isActive
-                              ? Border.all(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.primary.withValues(alpha: 0.3),
-                                width: 1,
-                              )
-                              : null,
+                      border: isActive
+                          ? Border.all(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primary.withValues(alpha: 0.3),
+                              width: 1,
+                            )
+                          : null,
                     ),
                     child: Material(
                       color: Colors.transparent,
@@ -275,13 +257,10 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                               Icon(
                                 section.icon,
                                 size: isMobile ? 16 : 18,
-                                color:
-                                    isActive
-                                        ? Theme.of(context).colorScheme.primary
-                                        : Theme.of(context)
-                                            .colorScheme
-                                            .onSurface
-                                            .withValues(alpha: 0.7),
+                                color: isActive
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Theme.of(context).colorScheme.onSurface
+                                          .withValues(alpha: 0.7),
                               ),
                               const SizedBox(width: 12),
                               Expanded(
@@ -290,18 +269,14 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                                   Theme.of(
                                     context,
                                   ).textTheme.bodyMedium?.copyWith(
-                                    fontWeight:
-                                        isActive
-                                            ? FontWeight.w600
-                                            : FontWeight.w500,
-                                    color:
-                                        isActive
-                                            ? Theme.of(
-                                              context,
-                                            ).colorScheme.primary
-                                            : Theme.of(
-                                              context,
-                                            ).colorScheme.onSurface,
+                                    fontWeight: isActive
+                                        ? FontWeight.w600
+                                        : FontWeight.w500,
+                                    color: isActive
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(
+                                            context,
+                                          ).colorScheme.onSurface,
                                     fontSize: isMobile ? 14 : 15,
                                   ),
                                   context,

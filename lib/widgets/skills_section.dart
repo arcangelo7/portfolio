@@ -12,7 +12,9 @@ import '../utils/responsive.dart';
 import 'flutter_modal.dart';
 
 class SkillsSection extends StatefulWidget {
-  const SkillsSection({super.key});
+  final SkillsData? data;
+
+  const SkillsSection({super.key, this.data});
 
   @override
   State<SkillsSection> createState() => _SkillsSectionState();
@@ -20,13 +22,27 @@ class SkillsSection extends StatefulWidget {
 
 class _SkillsSectionState extends State<SkillsSection> {
   SkillsData? _skillsData;
-  bool _isLoading = true;
+  late bool _isLoading;
   String? _error;
 
   @override
   void initState() {
     super.initState();
-    _loadSkills();
+    _skillsData = widget.data;
+    _isLoading = widget.data == null;
+    if (_isLoading) {
+      _loadSkills();
+    }
+  }
+
+  @override
+  void didUpdateWidget(SkillsSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.data != null && oldWidget.data != widget.data) {
+      _skillsData = widget.data;
+      _isLoading = false;
+      _error = null;
+    }
   }
 
   Future<void> _loadSkills() async {
@@ -104,13 +120,11 @@ class _SkillsSectionState extends State<SkillsSection> {
         l10n,
         category.nameKey,
       );
-      final skillNames =
-          category.skills
-              .map(
-                (skill) =>
-                    LocalizationHelper.getLocalizedText(l10n, skill.nameKey),
-              )
-              .toList();
+      final skillNames = category.skills
+          .map(
+            (skill) => LocalizationHelper.getLocalizedText(l10n, skill.nameKey),
+          )
+          .toList();
       skillsCategories[categoryName] = skillNames;
     }
 
@@ -191,19 +205,18 @@ class SkillsBubbleChart extends StatelessWidget {
       spacing: isMobile ? 8 : 12,
       runSpacing: isMobile ? 12 : 16,
       alignment: WrapAlignment.center,
-      children:
-          categoryEntries.asMap().entries.map((mapEntry) {
-            final index = mapEntry.key;
-            final categoryEntry = mapEntry.value;
-            final categoryColor = _getCategoryColor(index, context);
+      children: categoryEntries.asMap().entries.map((mapEntry) {
+        final index = mapEntry.key;
+        final categoryEntry = mapEntry.value;
+        final categoryColor = _getCategoryColor(index, context);
 
-            return _buildCategoryBubble(
-              context,
-              categoryEntry.key,
-              categoryEntry.value,
-              categoryColor,
-            );
-          }).toList(),
+        return _buildCategoryBubble(
+          context,
+          categoryEntry.key,
+          categoryEntry.value,
+          categoryColor,
+        );
+      }).toList(),
     );
   }
 
@@ -273,13 +286,11 @@ class SkillsBubbleChart extends StatelessWidget {
             spacing: isMobile ? 6 : 8,
             runSpacing: isMobile ? 6 : 8,
             alignment: WrapAlignment.center,
-            children:
-                skills
-                    .map(
-                      (skill) =>
-                          _buildSkillBubble(context, skill, categoryColor),
-                    )
-                    .toList(),
+            children: skills
+                .map(
+                  (skill) => _buildSkillBubble(context, skill, categoryColor),
+                )
+                .toList(),
           ),
         ],
       ),

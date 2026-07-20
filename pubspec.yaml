@@ -48,9 +48,12 @@ dependencies:
   web: 1.1.1
   cupertino_icons: 1.0.9
   flutter_svg: ^2.3.0
+  scrollview_observer: 1.27.0
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
   mocktail: 1.0.5
   plugin_platform_interface: 2.1.8

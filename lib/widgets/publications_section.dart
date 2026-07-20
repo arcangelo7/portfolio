@@ -2,311 +2,113 @@
 //
 // SPDX-License-Identifier: ISC
 
-import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+
+import '../controllers/publications_controller.dart';
 import '../l10n/app_localizations.dart';
 import '../models/publication.dart';
-import '../services/zotero_service.dart';
-import '../services/opencitations_index_service.dart';
-import '../services/seo_service.dart';
-import 'expandable_authors_widget.dart';
+import '../services/opencitations_meta_service.dart';
 import '../utils/publication_utils.dart';
 import '../utils/responsive.dart';
+import 'expandable_authors_widget.dart';
 import 'lazy_image.dart';
-import '../services/opencitations_meta_service.dart';
-import '../services/github_service.dart';
-
-/// Interface for URL launching to enable dependency injection and testing
-abstract class UrlLauncher {
-  Future<void> openUrl(String url);
-}
-
-/// Default implementation using url_launcher package
-class DefaultUrlLauncher implements UrlLauncher {
-  @override
-  Future<void> openUrl(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
-}
 
 class PublicationsSection extends StatefulWidget {
-  final ZoteroService? zoteroService;
-  final OpenCitationsIndexService? openCitationsService;
-  final OpenCitationsMetaService? openCitationsMetaService;
-  final UrlLauncher? urlLauncher;
+  static const int chunkCount = 5;
+
+  final PublicationsController controller;
+  final int? chunkIndex;
+  final VoidCallback? onPageChanged;
 
   const PublicationsSection({
     super.key,
-    this.zoteroService,
-    this.openCitationsService,
-    this.openCitationsMetaService,
-    this.urlLauncher,
-  });
+    required this.controller,
+    this.chunkIndex,
+    this.onPageChanged,
+  }) : assert(
+         chunkIndex == null || (chunkIndex >= 0 && chunkIndex < chunkCount),
+       );
 
   @override
   State<PublicationsSection> createState() => _PublicationsSectionState();
 }
 
 class _PublicationsSectionState extends State<PublicationsSection> {
-  late final ZoteroService _zoteroService;
-  late final OpenCitationsIndexService _openCitationsService;
-  late final OpenCitationsMetaService _openCitationsMetaService;
-  late final UrlLauncher _urlLauncher;
-  List<Publication>? _publications;
-  List<Publication>? _filteredPublications;
-  bool _isLoading = true;
-  String? _error;
-  String _selectedCategoryKey = 'all';
-  String _searchQuery = '';
-  final TextEditingController _searchController = TextEditingController();
-  final Set<String> _expandedAuthors = {};
-  final Set<String> _expandedAbstracts = {};
-  final Set<String> _expandedCitations = {};
-  final Set<String> _expandedCitationAuthors = {};
-  final Map<String, List<CitationMetadata>> _citationMetadataCache = {};
-  final Map<String, bool> _loadingCitations = {};
-  final Map<String, String?> _gitHubDescriptionCache = {};
-  final Map<String, bool> _loadingGitHubDescriptions = {};
-  int? _totalCitationCount;
-  bool _isLoadingTotalCitations = false;
-  int _currentPage = 0;
-  static const int _publicationsPerPage = 10;
   final GlobalKey _publicationsSectionKey = GlobalKey();
+  late final TextEditingController _searchController;
+
+  List<Publication>? get _publications => widget.controller.publications;
+  List<Publication>? get _filteredPublications =>
+      widget.controller.filteredPublications;
+  bool get _isLoading => widget.controller.isLoading;
+  String? get _error => widget.controller.error;
+  String get _selectedCategoryKey => widget.controller.selectedCategoryKey;
+  String get _searchQuery => widget.controller.searchQuery;
+  Set<String> get _expandedAuthors => widget.controller.expandedAuthors;
+  Set<String> get _expandedAbstracts => widget.controller.expandedAbstracts;
+  Set<String> get _expandedCitations => widget.controller.expandedCitations;
+  Set<String> get _expandedCitationAuthors =>
+      widget.controller.expandedCitationAuthors;
+  Map<String, List<CitationMetadata>> get _citationMetadataCache =>
+      widget.controller.citationMetadataCache;
+  Map<String, bool> get _loadingCitations => widget.controller.loadingCitations;
+  Map<String, String?> get _gitHubDescriptionCache =>
+      widget.controller.gitHubDescriptionCache;
+  Map<String, bool> get _loadingGitHubDescriptions =>
+      widget.controller.loadingGitHubDescriptions;
+  int? get _totalCitationCount => widget.controller.totalCitationCount;
+  bool get _isLoadingTotalCitations =>
+      widget.controller.isLoadingTotalCitations;
+  int get _currentPage => widget.controller.currentPage;
 
   @override
   void initState() {
     super.initState();
-    _zoteroService = widget.zoteroService ?? ZoteroService();
-    _openCitationsService =
-        widget.openCitationsService ?? OpenCitationsIndexService();
-    _openCitationsMetaService =
-        widget.openCitationsMetaService ?? OpenCitationsMetaService();
-    _urlLauncher = widget.urlLauncher ?? DefaultUrlLauncher();
-    _loadPublications();
+    _searchController = TextEditingController(
+      text: widget.controller.searchQuery,
+    );
+    widget.controller.addListener(_onControllerChanged);
+  }
+
+  @override
+  void didUpdateWidget(PublicationsSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller == widget.controller) {
+      return;
+    }
+    oldWidget.controller.removeListener(_onControllerChanged);
+    widget.controller.addListener(_onControllerChanged);
+    _searchController.text = widget.controller.searchQuery;
   }
 
   @override
   void dispose() {
+    widget.controller.removeListener(_onControllerChanged);
     _searchController.dispose();
     super.dispose();
   }
 
-  Future<void> _loadPublications() async {
-    try {
-      final publications = await _zoteroService.getPublications();
-      if (mounted) {
-        setState(() {
-          _publications = publications;
-          _filteredPublications = publications;
-          _isLoading = false;
-          _error = null;
-        });
-
-        // Update SEO structured data for publications
-        final publicationsData =
-            publications
-                .map(
-                  (pub) => {
-                    'title': pub.title,
-                    'type': pub.itemType,
-                    'doi': pub.doi,
-                    'datePublished': pub.year,
-                    'venue': pub.venue,
-                    'authors': pub.authors,
-                    'abstract': pub.abstractText,
-                    'url': pub.url,
-                    'journal': pub.journal,
-                    'volume': pub.volume,
-                    'issue': pub.issue,
-                    'pages': pub.pages,
-                  },
-                )
-                .toList();
-        SEOService.addStructuredDataForPublications(publicationsData);
-
-        _loadCitationCounts();
-        _loadTotalCitationCount();
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _publications = null;
-          _filteredPublications = null;
-          _isLoading = false;
-          _error = e.toString();
-        });
-      }
+  void _onControllerChanged() {
+    if (mounted) {
+      setState(() {});
     }
   }
 
-  Future<void> _loadCitationCounts() async {
-    if (_publications == null) return;
-
-    final publicationsWithDoi =
-        _publications!.where((pub) => pub.hasDoi).toList();
-
-    for (final publication in publicationsWithDoi) {
-      if (publication.doi != null && !publication.hasLoadedCitations) {
-        try {
-          final citationCount = await _openCitationsService.getCitationCount(
-            publication.doi!,
-          );
-          final updatedPublication = publication.copyWith(
-            citationCount: citationCount,
-            hasLoadedCitations: true,
-          );
-
-          if (mounted) {
-            setState(() {
-              final index = _publications!.indexWhere(
-                (p) => p.key == publication.key,
-              );
-              if (index != -1) {
-                _publications![index] = updatedPublication;
-                _filterPublications(
-                  _selectedCategoryKey,
-                  AppLocalizations.of(context)!,
-                );
-              }
-            });
-          }
-        } catch (e) {
-          // Citation count loading failed, continue without citation data
-        }
-      }
-    }
-  }
-
-  Future<void> _loadTotalCitationCount() async {
-    if (_publications == null || _isLoadingTotalCitations) return;
-
-    final publicationsWithDoi =
-        _publications!
-            .where((pub) => pub.hasDoi)
-            .map((pub) => pub.doi!)
-            .toList();
-
-    if (publicationsWithDoi.isEmpty) return;
-
-    setState(() {
-      _isLoadingTotalCitations = true;
-    });
-
-    try {
-      final totalCount = await _openCitationsService.getTotalCitationCount(
-        publicationsWithDoi,
-      );
-
-      if (mounted) {
-        setState(() {
-          _totalCitationCount = totalCount;
-          _isLoadingTotalCitations = false;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _totalCitationCount = 0;
-          _isLoadingTotalCitations = false;
-        });
-      }
-    }
-  }
-
-  Future<void> _loadCitations(String doi, String publicationKey) async {
-    if (_citationMetadataCache.containsKey(publicationKey) ||
-        _loadingCitations[publicationKey] == true) {
-      return;
-    }
-
-    setState(() {
-      _loadingCitations[publicationKey] = true;
-    });
-
-    try {
-      final citationMetadata = await _openCitationsMetaService
-          .getCitationMetadataForDoi(doi, indexService: _openCitationsService);
-      if (mounted) {
-        setState(() {
-          _citationMetadataCache[publicationKey] = citationMetadata;
-          _loadingCitations[publicationKey] = false;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _citationMetadataCache[publicationKey] = [];
-          _loadingCitations[publicationKey] = false;
-        });
-      }
-    }
-  }
-
-  void _filterPublications(String categoryKey, AppLocalizations l10n) {
-    if (_publications == null) return;
-
-    setState(() {
-      _selectedCategoryKey = categoryKey;
-      _currentPage = 0;
-      _applyFilters();
-    });
+  void _filterPublications(String categoryKey) {
+    widget.controller.selectCategory(categoryKey);
   }
 
   void _onSearchChanged(String query) {
-    setState(() {
-      _searchQuery = query.toLowerCase();
-      _currentPage = 0;
-      _applyFilters();
-    });
-  }
-
-  void _applyFilters() {
-    if (_publications == null) return;
-
-    var filtered = _publications!;
-
-    // Apply category filter
-    if (_selectedCategoryKey != 'all') {
-      filtered =
-          filtered
-              .where((pub) => pub.itemType == _selectedCategoryKey)
-              .toList();
-    }
-
-    // Apply search filter
-    if (_searchQuery.isNotEmpty) {
-      filtered =
-          filtered.where((pub) {
-            final titleMatch = pub.title.toLowerCase().contains(_searchQuery);
-            final authorsMatch = pub.authorsString.toLowerCase().contains(
-              _searchQuery,
-            );
-            final venueMatch = pub.displayVenue.toLowerCase().contains(
-              _searchQuery,
-            );
-            final yearMatch = pub.displayYear.toLowerCase().contains(
-              _searchQuery,
-            );
-            final abstractMatch =
-                pub.abstractText?.toLowerCase().contains(_searchQuery) ?? false;
-
-            return titleMatch ||
-                authorsMatch ||
-                venueMatch ||
-                yearMatch ||
-                abstractMatch;
-          }).toList();
-    }
-
-    _filteredPublications = filtered;
+    widget.controller.updateSearch(query);
   }
 
   void _scrollToPublications() {
+    if (widget.onPageChanged case final onPageChanged?) {
+      onPageChanged();
+      return;
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final context = _publicationsSectionKey.currentContext;
       if (context != null) {
@@ -321,56 +123,39 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   }
 
   void _nextPage() {
-    if (_filteredPublications == null) return;
-    final maxPage =
-        (_filteredPublications!.length / _publicationsPerPage).ceil() - 1;
-
-    setState(() {
-      if (_currentPage < maxPage) {
-        _currentPage++;
-      }
-    });
+    widget.controller.nextPage();
     _scrollToPublications();
   }
 
   void _previousPage() {
-    setState(() {
-      if (_currentPage > 0) {
-        _currentPage--;
-      }
-    });
+    widget.controller.previousPage();
     _scrollToPublications();
   }
 
   void _goToPage(int page) {
-    if (_filteredPublications == null) return;
-    final maxPage =
-        (_filteredPublications!.length / _publicationsPerPage).ceil() - 1;
-
-    setState(() {
-      _currentPage = page.clamp(0, maxPage);
-    });
+    widget.controller.goToPage(page);
     _scrollToPublications();
   }
 
   List<Publication> _getCurrentPagePublications() {
-    if (_filteredPublications == null) return [];
-
-    final startIndex = _currentPage * _publicationsPerPage;
-    final endIndex = (startIndex + _publicationsPerPage).clamp(
-      0,
-      _filteredPublications!.length,
-    );
-
-    return _filteredPublications!.sublist(startIndex, endIndex);
-  }
-
-  int get _totalPages {
-    if (_filteredPublications == null || _filteredPublications!.isEmpty) {
-      return 1;
+    final publications = widget.controller.currentPagePublications;
+    final chunkIndex = widget.chunkIndex;
+    if (chunkIndex == null) {
+      return publications;
     }
-    return (_filteredPublications!.length / _publicationsPerPage).ceil();
+
+    final cardsPerChunk =
+        PublicationsController.publicationsPerPage ~/
+        PublicationsSection.chunkCount;
+    final start = chunkIndex * cardsPerChunk;
+    if (start >= publications.length) {
+      return [];
+    }
+    final end = (start + cardsPerChunk).clamp(0, publications.length).toInt();
+    return publications.sublist(start, end);
   }
+
+  int get _totalPages => widget.controller.totalPages;
 
   Map<String, String> _getCategoryMapping(AppLocalizations l10n) {
     return {
@@ -387,30 +172,11 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   }
 
   List<String> _getAvailableCategoryKeys() {
-    if (_publications == null) return ['all'];
-
-    final categories = <String>{'all'};
-    for (final pub in _publications!) {
-      categories.add(pub.itemType);
-    }
-
-    // Use priority order from PublicationUtils instead of alphabetical
-    final categoryOrder = PublicationUtils.getCategoryOrder();
-    final sortedCategories =
-        categoryOrder.where((cat) => categories.contains(cat)).toList();
-
-    // Add any unknown categories at the end
-    final unknownCategories =
-        categories
-            .where((cat) => cat != 'all' && !categoryOrder.contains(cat))
-            .toList()
-          ..sort();
-
-    return ['all', ...sortedCategories, ...unknownCategories];
+    return widget.controller.availableCategoryKeys;
   }
 
   Future<void> _launchUrl(String url) async {
-    await _urlLauncher.openUrl(url);
+    await widget.controller.openUrl(url);
   }
 
   Color _neutralBorderColor([double alpha = 0.12]) {
@@ -521,44 +287,13 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       authors: publication.authors,
       uniqueKey: publication.key,
       expandedAuthors: _expandedAuthors,
-      onToggle: (key) {
-        setState(() {
-          if (_expandedAuthors.contains(key)) {
-            _expandedAuthors.remove(key);
-          } else {
-            _expandedAuthors.add(key);
-          }
-        });
-      },
+      onToggle: widget.controller.toggleAuthors,
       threshold: 5,
       textStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
         fontWeight: FontWeight.w500,
         color: Theme.of(context).colorScheme.primary,
       ),
     );
-  }
-
-  Future<void> _loadGitHubDescription(Publication publication) async {
-    final key = publication.key;
-    if (_gitHubDescriptionCache.containsKey(key) ||
-        _loadingGitHubDescriptions[key] == true) {
-      return;
-    }
-
-    setState(() {
-      _loadingGitHubDescriptions[key] = true;
-    });
-
-    final description = await GitHubService.getDescriptionFromUrl(
-      publication.url,
-    );
-
-    if (mounted) {
-      setState(() {
-        _gitHubDescriptionCache[key] = description;
-        _loadingGitHubDescriptions[key] = false;
-      });
-    }
   }
 
   Widget _buildAbstractSection(Publication publication, AppLocalizations l10n) {
@@ -615,13 +350,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
               alignment: Alignment.centerLeft,
               child: TextButton.icon(
                 onPressed: () {
-                  setState(() {
-                    if (isExpanded) {
-                      _expandedAbstracts.remove(publicationKey);
-                    } else {
-                      _expandedAbstracts.add(publicationKey);
-                    }
-                  });
+                  widget.controller.toggleAbstract(publicationKey);
                 },
                 icon: Icon(
                   isExpanded ? Icons.expand_less : Icons.expand_more,
@@ -660,7 +389,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
 
     if (!_gitHubDescriptionCache.containsKey(key) &&
         _loadingGitHubDescriptions[key] != true) {
-      _loadGitHubDescription(publication);
+      widget.controller.loadGitHubDescription(publication);
     }
 
     final isLoading = _loadingGitHubDescriptions[key] == true;
@@ -856,11 +585,12 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                 alignment: Alignment.centerLeft,
                 child: TextButton.icon(
                   onPressed: () {
-                    setState(() {
-                      _expandedCitations.add(publicationKey);
-                    });
+                    widget.controller.expandCitations(publicationKey);
                     if (publication.doi != null) {
-                      _loadCitations(publication.doi!, publicationKey);
+                      widget.controller.loadCitations(
+                        publication.doi!,
+                        publicationKey,
+                      );
                     }
                   },
                   icon: const Icon(Icons.expand_more, size: 16),
@@ -910,12 +640,11 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                       children: [
                         SelectableText(
                           citation.displayTitle,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
+                          style: Theme.of(context).textTheme.titleSmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
                         ),
                         const SizedBox(height: 8),
                         ExpandableAuthorsWidget(
@@ -923,22 +652,13 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                           uniqueKey:
                               'citation_${citation.id ?? citation.title}_$publicationKey',
                           expandedAuthors: _expandedCitationAuthors,
-                          onToggle: (key) {
-                            setState(() {
-                              if (_expandedCitationAuthors.contains(key)) {
-                                _expandedCitationAuthors.remove(key);
-                              } else {
-                                _expandedCitationAuthors.add(key);
-                              }
-                            });
-                          },
+                          onToggle: widget.controller.toggleCitationAuthors,
                           threshold: 3,
-                          textStyle: Theme.of(
-                            context,
-                          ).textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                          textStyle: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                         ),
                         const SizedBox(height: 4),
                         if (citation.displayVenue != 'Unknown Venue') ...[
@@ -949,14 +669,12 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                               citation.issue,
                               citation.page,
                             ),
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodySmall?.copyWith(
-                              fontStyle: FontStyle.italic,
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurface.withValues(alpha: 0.8),
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  fontStyle: FontStyle.italic,
+                                  color: Theme.of(context).colorScheme.onSurface
+                                      .withValues(alpha: 0.8),
+                                ),
                           ),
                           const SizedBox(height: 4),
                         ],
@@ -973,13 +691,13 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                               ),
                               child: SelectableText(
                                 citation.displayYear,
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.bodySmall?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color:
-                                      Theme.of(context).colorScheme.onSurface,
-                                ),
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface,
+                                    ),
                               ),
                             ),
                             if (citation.hasDoi) ...[
@@ -999,25 +717,24 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                                         Icon(
                                           Icons.open_in_new,
                                           size: 12,
-                                          color:
-                                              Theme.of(
-                                                context,
-                                              ).colorScheme.primary,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
                                         ),
                                         const SizedBox(width: 4),
                                         Text(
                                           l10n.viewUrl,
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.bodySmall?.copyWith(
-                                            color:
-                                                Theme.of(
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall
+                                              ?.copyWith(
+                                                color: Theme.of(
                                                   context,
                                                 ).colorScheme.primary,
-                                            decoration:
-                                                TextDecoration.underline,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                         ),
                                       ],
                                     ),
@@ -1036,9 +753,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                 alignment: Alignment.centerLeft,
                 child: TextButton.icon(
                   onPressed: () {
-                    setState(() {
-                      _expandedCitations.remove(publicationKey);
-                    });
+                    widget.controller.collapseCitations(publicationKey);
                   },
                   icon: const Icon(Icons.expand_less, size: 16),
                   label: Text(l10n.showLess),
@@ -1064,66 +779,87 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final isMobile = Responsive.isMobile(context);
+    final chunkIndex = widget.chunkIndex;
+    final isFirstChunk = chunkIndex == null || chunkIndex == 0;
+    final isLastChunk =
+        chunkIndex == null || chunkIndex == PublicationsSection.chunkCount - 1;
 
     return Container(
-      key: _publicationsSectionKey,
-      margin: const EdgeInsets.symmetric(vertical: 32),
-      padding: EdgeInsets.all(isMobile ? 20 : 64),
+      key: isFirstChunk ? _publicationsSectionKey : null,
+      margin: EdgeInsets.only(
+        top: isFirstChunk ? 32 : 0,
+        bottom: isLastChunk ? 32 : 0,
+      ),
+      padding: EdgeInsets.fromLTRB(
+        isMobile ? 20 : 64,
+        isFirstChunk ? (isMobile ? 20 : 64) : 0,
+        isMobile ? 20 : 64,
+        isLastChunk ? (isMobile ? 20 : 64) : 0,
+      ),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.05),
-            blurRadius: 16,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        boxShadow: chunkIndex == null
+            ? [
+                BoxShadow(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.05),
+                  blurRadius: 16,
+                  offset: const Offset(0, 4),
+                ),
+              ]
+            : null,
       ),
       child: Column(
         children: [
-          Semantics(
-            header: true,
-            child: SelectableText(
-              l10n.publications,
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
+          if (isFirstChunk) ...[
+            Semantics(
+              header: true,
+              child: SelectableText(
+                l10n.publications,
+                style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                semanticsLabel: 'Section heading: ${l10n.publications}',
               ),
-              semanticsLabel: 'Section heading: ${l10n.publications}',
             ),
-          ),
-          const SizedBox(height: 16),
-          SelectableText(
-            l10n.publicationsDescription,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.8),
+            const SizedBox(height: 16),
+            SelectableText(
+              l10n.publicationsDescription,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.8),
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
-          ),
-          if (_isLoadingTotalCitations || _totalCitationCount != null) ...[
+            if (_isLoadingTotalCitations || _totalCitationCount != null) ...[
+              const SizedBox(height: 24),
+              _buildTotalCitationCountWidget(l10n),
+            ],
+            const SizedBox(height: 32),
+            if (!_isLoading &&
+                _publications != null &&
+                _publications!.isNotEmpty) ...[
+              _buildSearchBar(l10n),
+              const SizedBox(height: 24),
+              _buildCategoryFilter(l10n),
+            ],
             const SizedBox(height: 24),
-            _buildTotalCitationCountWidget(l10n),
           ],
-          const SizedBox(height: 32),
-          if (!_isLoading &&
-              _publications != null &&
-              _publications!.isNotEmpty) ...[
-            _buildSearchBar(l10n),
-            const SizedBox(height: 24),
-            _buildCategoryFilter(l10n),
-          ],
-          const SizedBox(height: 24),
-          _buildPublicationsList(l10n),
-          if (!_isLoading &&
+          if (isFirstChunk ||
+              (!_isLoading &&
+                  _filteredPublications != null &&
+                  _filteredPublications!.isNotEmpty))
+            _buildPublicationsList(l10n),
+          if (isLastChunk &&
+              !_isLoading &&
               _filteredPublications != null &&
               _filteredPublications!.isNotEmpty &&
               _totalPages > 1)
             _buildPaginationControls(l10n),
-          const SizedBox(height: 40),
+          if (isLastChunk) const SizedBox(height: 40),
         ],
       ),
     );
@@ -1195,16 +931,15 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             Icons.search,
             color: Theme.of(context).colorScheme.primary,
           ),
-          suffixIcon:
-              _searchQuery.isNotEmpty
-                  ? IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      _searchController.clear();
-                      _onSearchChanged('');
-                    },
-                  )
-                  : null,
+          suffixIcon: _searchQuery.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    _searchController.clear();
+                    _onSearchChanged('');
+                  },
+                )
+              : null,
           filled: true,
           fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
           enabledBorder: OutlineInputBorder(
@@ -1235,34 +970,31 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       spacing: 8,
       runSpacing: 8,
       alignment: WrapAlignment.center,
-      children:
-          categoryKeys.map((categoryKey) {
-            final categoryName = categoryMapping[categoryKey] ?? categoryKey;
-            final isSelected = categoryKey == _selectedCategoryKey;
-            return FilterChip(
-              selected: isSelected,
-              label: Text(categoryName),
-              onSelected: (_) => _filterPublications(categoryKey, l10n),
-              backgroundColor: Theme.of(context).colorScheme.surface,
-              selectedColor: Theme.of(
-                context,
-              ).colorScheme.primary.withValues(alpha: 0.2),
-              checkmarkColor: Theme.of(context).colorScheme.primary,
-              labelStyle: TextStyle(
-                color:
-                    isSelected
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.onSurface,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-              ),
-              side: BorderSide(
-                color:
-                    isSelected
-                        ? Theme.of(context).colorScheme.primary
-                        : _neutralBorderColor(),
-              ),
-            );
-          }).toList(),
+      children: categoryKeys.map((categoryKey) {
+        final categoryName = categoryMapping[categoryKey] ?? categoryKey;
+        final isSelected = categoryKey == _selectedCategoryKey;
+        return FilterChip(
+          selected: isSelected,
+          label: Text(categoryName),
+          onSelected: (_) => _filterPublications(categoryKey),
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          selectedColor: Theme.of(
+            context,
+          ).colorScheme.primary.withValues(alpha: 0.2),
+          checkmarkColor: Theme.of(context).colorScheme.primary,
+          labelStyle: TextStyle(
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onSurface,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+          ),
+          side: BorderSide(
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : _neutralBorderColor(),
+          ),
+        );
+      }).toList(),
     );
   }
 
@@ -1308,10 +1040,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     }
 
     return Column(
-      children:
-          _getCurrentPagePublications()
-              .map((publication) => _buildPublicationCard(publication, l10n))
-              .toList(),
+      children: _getCurrentPagePublications()
+          .map((publication) => _buildPublicationCard(publication, l10n))
+          .toList(),
     );
   }
 
@@ -1350,11 +1081,11 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             SelectableText(
               PublicationUtils.shouldShowVenueDetails(publication.itemType)
                   ? PublicationUtils.buildVenueWithDetails(
-                    publication.displayVenue,
-                    publication.volume,
-                    publication.issue,
-                    publication.pages,
-                  )
+                      publication.displayVenue,
+                      publication.volume,
+                      publication.issue,
+                      publication.pages,
+                    )
                   : publication.displayVenue,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontStyle: FontStyle.italic,
@@ -1435,27 +1166,25 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color:
-                        isCurrentPage
-                            ? Theme.of(context).colorScheme.primary
-                            : Colors.transparent,
+                    color: isCurrentPage
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.transparent,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color:
-                          isCurrentPage
-                              ? Theme.of(context).colorScheme.primary
-                              : _neutralBorderColor(),
+                      color: isCurrentPage
+                          ? Theme.of(context).colorScheme.primary
+                          : _neutralBorderColor(),
                     ),
                   ),
                   child: Text(
                     '${index + 1}',
                     style: TextStyle(
-                      color:
-                          isCurrentPage
-                              ? Theme.of(context).colorScheme.onPrimary
-                              : Theme.of(context).colorScheme.onSurface,
-                      fontWeight:
-                          isCurrentPage ? FontWeight.bold : FontWeight.normal,
+                      color: isCurrentPage
+                          ? Theme.of(context).colorScheme.onPrimary
+                          : Theme.of(context).colorScheme.onSurface,
+                      fontWeight: isCurrentPage
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                     ),
                   ),
                 ),

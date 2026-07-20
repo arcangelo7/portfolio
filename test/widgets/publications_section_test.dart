@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:portfolio/controllers/publications_controller.dart';
 import 'package:portfolio/l10n/app_localizations.dart';
 import 'package:portfolio/widgets/publications_section.dart';
 import 'package:portfolio/models/publication.dart';
@@ -55,7 +56,7 @@ void main() {
 
   Widget createMockedTestWidget({
     List<Publication>? publications,
-    Exception? error,
+    ZoteroServiceException? error,
     UrlLauncher? urlLauncher,
   }) {
     if (error != null) {
@@ -68,6 +69,11 @@ void main() {
 
     // Setup URL launcher mock
     when(() => mockUrlLauncher.openUrl(any())).thenAnswer((_) async {});
+    final controller = PublicationsController(
+      zoteroService: mockZoteroService,
+      urlLauncher: urlLauncher ?? mockUrlLauncher,
+    );
+    controller.loadPublications();
 
     return MaterialApp(
       localizationsDelegates: const [
@@ -79,10 +85,7 @@ void main() {
       supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
       home: Scaffold(
         body: SingleChildScrollView(
-          child: PublicationsSection(
-            zoteroService: mockZoteroService,
-            urlLauncher: urlLauncher ?? mockUrlLauncher,
-          ),
+          child: PublicationsSection(controller: controller),
         ),
       ),
     );
@@ -150,8 +153,9 @@ void main() {
           year: '2023',
           itemType: 'journalArticle',
           journal: 'Test Journal',
-          abstractText:
-              index % 2 == 0 ? 'Abstract for publication $index' : null,
+          abstractText: index % 2 == 0
+              ? 'Abstract for publication $index'
+              : null,
           doi: index % 3 == 0 ? '10.1000/test.$index' : null,
         ),
       ),
@@ -218,7 +222,9 @@ void main() {
 
     testWidgets('handles error state', (WidgetTester tester) async {
       await tester.pumpWidget(
-        createMockedTestWidget(error: Exception('Network error')),
+        createMockedTestWidget(
+          error: const ZoteroServiceException('Network error'),
+        ),
       );
       await tester.pumpAndSettle();
 
@@ -867,17 +873,17 @@ void main() {
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
           'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
 
-      final publications =
-          createMockPublications()..add(
-            Publication(
-              key: 'long_abstract',
-              title: 'Test Publication with Long Abstract',
-              authors: ['Test Author'],
-              year: '2023',
-              itemType: 'journalArticle',
-              abstractText: longAbstract,
-            ),
-          );
+      final publications = createMockPublications()
+        ..add(
+          Publication(
+            key: 'long_abstract',
+            title: 'Test Publication with Long Abstract',
+            authors: ['Test Author'],
+            year: '2023',
+            itemType: 'journalArticle',
+            abstractText: longAbstract,
+          ),
+        );
 
       await tester.pumpWidget(
         createMockedTestWidget(publications: publications),
@@ -985,4 +991,157 @@ void main() {
       expect(find.byType(Html), findsWidgets);
     });
   });
+
+  testWidgets('preserves publication state after removal and reconstruction', (
+    WidgetTester tester,
+  ) async {
+    const fullAbstract =
+        'Persistent abstract content that is intentionally longer than two hundred and fifty characters. '
+        'It keeps enough detail to verify that the expanded form remains visible after the publications '
+        'section is removed from the lazy list and later reconstructed with the same controller instance. '
+        'The remaining sentence makes the text long enough for the expansion control.';
+    final publications = List.generate(
+      25,
+      (index) => Publication(
+        key: 'persistent$index',
+        title: 'Persistent Publication $index',
+        authors: const [
+          'Author One',
+          'Author Two',
+          'Author Three',
+          'Author Four',
+          'Author Five',
+          'Author Six',
+        ],
+        year: '2026',
+        itemType: 'journalArticle',
+        abstractText: fullAbstract,
+      ),
+    );
+    when(
+      () => mockZoteroService.getPublications(),
+    ).thenAnswer((_) async => publications);
+    when(() => mockUrlLauncher.openUrl(any())).thenAnswer((_) async {});
+    final controller = PublicationsController(
+      zoteroService: mockZoteroService,
+      urlLauncher: mockUrlLauncher,
+    );
+    await controller.loadPublications();
+    final hostKey = GlobalKey<_PublicationsHostState>();
+
+    await tester.pumpWidget(
+      _PublicationsHost(key: hostKey, controller: controller),
+    );
+    await tester.enterText(find.byType(TextField), 'Persistent');
+    await tester.tap(find.byType(FilterChip).at(1));
+    controller.goToPage(1);
+    controller.toggleAuthors('persistent10');
+    controller.toggleAbstract('persistent10');
+    await tester.pump();
+
+    expect(controller.searchQuery, 'Persistent');
+    expect(controller.selectedCategoryKey, 'journalArticle');
+    expect(controller.currentPage, 1);
+    expect(controller.expandedAuthors, {'persistent10'});
+    expect(controller.expandedAbstracts, {'persistent10'});
+
+    hostKey.currentState!.setSectionVisible(false);
+    await tester.pump();
+    expect(find.byType(PublicationsSection), findsNothing);
+
+    hostKey.currentState!.setSectionVisible(true);
+    await tester.pump();
+
+    final searchField = tester.widget<TextField>(find.byType(TextField));
+    expect(searchField.controller!.text, 'Persistent');
+    expect(find.text('Persistent Publication 10'), findsOneWidget);
+    expect(find.text('Persistent Publication 0'), findsNothing);
+    expect(find.text(fullAbstract), findsOneWidget);
+    expect(find.text('Show less'), findsNWidgets(2));
+  });
+
+  testWidgets('renders only the requested publication chunk', (
+    WidgetTester tester,
+  ) async {
+    final publications = List.generate(
+      PublicationsController.publicationsPerPage,
+      (index) => Publication(
+        key: 'chunk$index',
+        title: 'Chunk Publication $index',
+        authors: const ['Test Author'],
+        year: '2026',
+        itemType: 'journalArticle',
+      ),
+    );
+    when(
+      () => mockZoteroService.getPublications(),
+    ).thenAnswer((_) async => publications);
+    final controller = PublicationsController(
+      zoteroService: mockZoteroService,
+      urlLauncher: mockUrlLauncher,
+    );
+    addTearDown(controller.dispose);
+    await controller.loadPublications();
+
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
+        home: Scaffold(
+          body: PublicationsSection(controller: controller, chunkIndex: 2),
+        ),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.text('Chunk Publication 4'), findsOneWidget);
+    expect(find.text('Chunk Publication 5'), findsOneWidget);
+    expect(find.text('Chunk Publication 3'), findsNothing);
+    expect(find.text('Chunk Publication 6'), findsNothing);
+    expect(find.text('For Science'), findsNothing);
+  });
+}
+
+class _PublicationsHost extends StatefulWidget {
+  final PublicationsController controller;
+
+  const _PublicationsHost({super.key, required this.controller});
+
+  @override
+  State<_PublicationsHost> createState() => _PublicationsHostState();
+}
+
+class _PublicationsHostState extends State<_PublicationsHost> {
+  bool _sectionVisible = true;
+
+  void setSectionVisible(bool value) {
+    setState(() {
+      _sectionVisible = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
+      home: Scaffold(
+        body: SingleChildScrollView(
+          child: _sectionVisible
+              ? PublicationsSection(controller: widget.controller)
+              : const SizedBox.shrink(),
+        ),
+      ),
+    );
+  }
 }

@@ -11,7 +11,9 @@ import '../services/cv_data_service.dart';
 import '../utils/responsive.dart';
 
 class LanguagesSection extends StatefulWidget {
-  const LanguagesSection({super.key});
+  final LanguageData? data;
+
+  const LanguagesSection({super.key, this.data});
 
   @override
   State<LanguagesSection> createState() => _LanguagesSectionState();
@@ -19,13 +21,27 @@ class LanguagesSection extends StatefulWidget {
 
 class _LanguagesSectionState extends State<LanguagesSection> {
   LanguageData? _languageData;
-  bool _isLoading = true;
+  late bool _isLoading;
   String? _error;
 
   @override
   void initState() {
     super.initState();
-    _loadLanguages();
+    _languageData = widget.data;
+    _isLoading = widget.data == null;
+    if (_isLoading) {
+      _loadLanguages();
+    }
+  }
+
+  @override
+  void didUpdateWidget(LanguagesSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.data != null && oldWidget.data != widget.data) {
+      _languageData = widget.data;
+      _isLoading = false;
+      _error = null;
+    }
   }
 
   Future<void> _loadLanguages() async {
@@ -263,10 +279,9 @@ class _LanguagesSectionState extends State<LanguagesSection> {
     return Wrap(
       spacing: isMobile ? 8 : 12,
       runSpacing: isMobile ? 8 : 12,
-      children:
-          skills.map((skill) {
-            return _buildCefrChip(context, skill.$1, skill.$2, isMobile);
-          }).toList(),
+      children: skills.map((skill) {
+        return _buildCefrChip(context, skill.$1, skill.$2, isMobile);
+      }).toList(),
     );
   }
 
