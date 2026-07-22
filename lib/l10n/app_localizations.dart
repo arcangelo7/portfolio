@@ -256,11 +256,11 @@ abstract class AppLocalizations {
   /// **'SQL'**
   String get skillSQL;
 
-  /// No description provided for @skillRDFSerializations.
+  /// No description provided for @skillRDF.
   ///
   /// In en, this message translates to:
-  /// **'RDF and serializations (RDF/XML, JSON-LD, Turtle, N-Triples, N-Quads, TriG)'**
-  String get skillRDFSerializations;
+  /// **'RDF'**
+  String get skillRDF;
 
   /// No description provided for @skillSHACL.
   ///
@@ -298,12 +298,6 @@ abstract class AppLocalizations {
   /// **'Flask'**
   String get skillFlask;
 
-  /// No description provided for @skillPrisma.
-  ///
-  /// In en, this message translates to:
-  /// **'Prisma ORM'**
-  String get skillPrisma;
-
   /// No description provided for @skillBlazeGraph.
   ///
   /// In en, this message translates to:
@@ -334,11 +328,11 @@ abstract class AppLocalizations {
   /// **'D3.js'**
   String get skillD3JS;
 
-  /// No description provided for @skillMongoDB.
+  /// No description provided for @skillQLever.
   ///
   /// In en, this message translates to:
-  /// **'MongoDB'**
-  String get skillMongoDB;
+  /// **'QLever'**
+  String get skillQLever;
 
   /// No description provided for @skillPostgreSQL.
   ///
@@ -369,12 +363,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Debian'**
   String get skillDebian;
-
-  /// No description provided for @skillFedora.
-  ///
-  /// In en, this message translates to:
-  /// **'Fedora'**
-  String get skillFedora;
 
   /// No description provided for @skillArch.
   ///
@@ -769,7 +757,7 @@ abstract class AppLocalizations {
   /// No description provided for @tutorPeriod.
   ///
   /// In en, this message translates to:
-  /// **'Oct 2022 - Oct 2023, Oct 2025 - Present'**
+  /// **'Oct 2022 - Oct 2023, Oct 2025 - May 2026'**
   String get tutorPeriod;
 
   /// No description provided for @tutorDescription.

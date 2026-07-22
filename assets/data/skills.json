@@ -33,7 +33,7 @@
       "id": "semantic_web_technologies",
       "nameKey": "skillCategorySemanticWebTechnologies",
       "skills": [
-        {"id": "rdf_serializations", "nameKey": "skillRDFSerializations"},
+        {"id": "rdf", "nameKey": "skillRDF"},
         {"id": "sparql", "nameKey": "skillSPARQL"},
         {"id": "shacl", "nameKey": "skillSHACL"}
       ],
@@ -43,10 +43,10 @@
       "id": "frontend_libraries",
       "nameKey": "skillCategoryFrontendLibraries",
       "skills": [
-        {"id": "react", "nameKey": "skillReact"},
-        {"id": "d3js", "nameKey": "skillD3JS"},
         {"id": "flutter", "nameKey": "skillFlutter"},
-        {"id": "bootstrap", "nameKey": "skillBootstrap"}
+        {"id": "react", "nameKey": "skillReact"},
+        {"id": "bootstrap", "nameKey": "skillBootstrap"},
+        {"id": "d3js", "nameKey": "skillD3JS"}
       ],
       "order": 5
     },
@@ -54,9 +54,8 @@
       "id": "backend_frameworks",
       "nameKey": "skillCategoryBackendFrameworks",
       "skills": [
-        {"id": "nodejs", "nameKey": "skillNodeJS"},
         {"id": "flask", "nameKey": "skillFlask"},
-        {"id": "prisma", "nameKey": "skillPrisma"}
+        {"id": "nodejs", "nameKey": "skillNodeJS"}
       ],
       "order": 6
     },
@@ -64,13 +63,13 @@
       "id": "databases",
       "nameKey": "skillCategoryDatabases",
       "skills": [
-        {"id": "mongodb", "nameKey": "skillMongoDB"},
-        {"id": "postgresql", "nameKey": "skillPostgreSQL"},
-        {"id": "redis", "nameKey": "skillRedis"},
-        {"id": "apache_jena_fuseki", "nameKey": "skillApacheJenaFuseki"},
-        {"id": "blazegraph", "nameKey": "skillBlazeGraph"},
+        {"id": "qlever", "nameKey": "skillQLever"},
         {"id": "openlink_virtuoso", "nameKey": "skillOpenLinkVirtuoso"},
-        {"id": "graphdb", "nameKey": "skillGraphDB"}
+        {"id": "blazegraph", "nameKey": "skillBlazeGraph"},
+        {"id": "apache_jena_fuseki", "nameKey": "skillApacheJenaFuseki"},
+        {"id": "graphdb", "nameKey": "skillGraphDB"},
+        {"id": "postgresql", "nameKey": "skillPostgreSQL"},
+        {"id": "redis", "nameKey": "skillRedis"}
       ],
       "order": 7
     },
@@ -89,8 +88,7 @@
       "nameKey": "skillCategoryOperatingSystems",
       "skills": [
         {"id": "arch", "nameKey": "skillArch"},
-        {"id": "debian", "nameKey": "skillDebian"},
-        {"id": "fedora", "nameKey": "skillFedora"}
+        {"id": "debian", "nameKey": "skillDebian"}
       ],
       "order": 9
     }

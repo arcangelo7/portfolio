@@ -196,8 +196,8 @@ class LocalizationHelper {
         return l10n.skillSPARQL;
       case 'skillSQL':
         return l10n.skillSQL;
-      case 'skillRDFSerializations':
-        return l10n.skillRDFSerializations;
+      case 'skillRDF':
+        return l10n.skillRDF;
       case 'skillSHACL':
         return l10n.skillSHACL;
       case 'skillApacheJenaFuseki':
@@ -218,10 +218,8 @@ class LocalizationHelper {
         return l10n.skillNodeJS;
       case 'skillFlask':
         return l10n.skillFlask;
-      case 'skillPrisma':
-        return l10n.skillPrisma;
-      case 'skillMongoDB':
-        return l10n.skillMongoDB;
+      case 'skillQLever':
+        return l10n.skillQLever;
       case 'skillPostgreSQL':
         return l10n.skillPostgreSQL;
       case 'skillRedis':
@@ -234,8 +232,6 @@ class LocalizationHelper {
         return l10n.skillGitHubActions;
       case 'skillDebian':
         return l10n.skillDebian;
-      case 'skillFedora':
-        return l10n.skillFedora;
       case 'skillArch':
         return l10n.skillArch;
 

@@ -91,8 +91,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get skillSQL => 'SQL';
 
   @override
-  String get skillRDFSerializations =>
-      'RDF and serializations (RDF/XML, JSON-LD, Turtle, N-Triples, N-Quads, TriG)';
+  String get skillRDF => 'RDF';
 
   @override
   String get skillSHACL => 'SHACL';
@@ -113,9 +112,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get skillFlask => 'Flask';
 
   @override
-  String get skillPrisma => 'Prisma ORM';
-
-  @override
   String get skillBlazeGraph => 'BlazeGraph';
 
   @override
@@ -131,7 +127,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get skillD3JS => 'D3.js';
 
   @override
-  String get skillMongoDB => 'MongoDB';
+  String get skillQLever => 'QLever';
 
   @override
   String get skillPostgreSQL => 'PostgreSQL';
@@ -147,9 +143,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get skillDebian => 'Debian';
-
-  @override
-  String get skillFedora => 'Fedora';
 
   @override
   String get skillArch => 'Arch Linux';
@@ -356,7 +349,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get universityBologna => 'University of Bologna';
 
   @override
-  String get tutorPeriod => 'Oct 2022 - Oct 2023, Oct 2025 - Present';
+  String get tutorPeriod => 'Oct 2022 - Oct 2023, Oct 2025 - May 2026';
 
   @override
   String get tutorDescription =>
