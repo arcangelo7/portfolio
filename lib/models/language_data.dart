@@ -62,6 +62,7 @@ class OtherLanguage {
   final String spokenInteraction;
   final String spokenProduction;
   final String writing;
+  final DateTime certificateDate;
   final String? badgeUrl;
   final int order;
 
@@ -72,6 +73,7 @@ class OtherLanguage {
     required this.spokenInteraction,
     required this.spokenProduction,
     required this.writing,
+    required this.certificateDate,
     this.badgeUrl,
     required this.order,
   });
@@ -84,6 +86,7 @@ class OtherLanguage {
       spokenInteraction: _requiredString(json, 'spokenInteraction'),
       spokenProduction: _requiredString(json, 'spokenProduction'),
       writing: _requiredString(json, 'writing'),
+      certificateDate: DateTime.parse(_requiredString(json, 'certificateDate')),
       badgeUrl: _optionalString(json, 'badgeUrl'),
       order: _requiredInt(json, 'order'),
     );

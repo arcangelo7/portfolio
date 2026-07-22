@@ -253,6 +253,14 @@ class _LanguagesSectionState extends State<LanguagesSection> {
               fontSize: isMobile ? 10 : 11,
             ),
           ),
+          const SizedBox(height: 8),
+          SelectableText(
+            l10n.languageCertificateDate(lang.certificateDate),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurface.withValues(alpha: 0.6),
+              fontSize: isMobile ? 11 : 12,
+            ),
+          ),
           if (lang.badgeUrl != null) ...[
             const SizedBox(height: 12),
             _buildBadgeButton(context, l10n, lang.badgeUrl!),

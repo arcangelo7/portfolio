@@ -757,7 +757,7 @@ abstract class AppLocalizations {
   /// No description provided for @tutorPeriod.
   ///
   /// In en, this message translates to:
-  /// **'Oct 2022 - Oct 2023, Oct 2025 - May 2026'**
+  /// **'Oct 1, 2022 - May 1, 2023; Oct 1, 2025 - May 15, 2026'**
   String get tutorPeriod;
 
   /// No description provided for @tutorDescription.
@@ -775,7 +775,7 @@ abstract class AppLocalizations {
   /// No description provided for @researchContractorPeriod.
   ///
   /// In en, this message translates to:
-  /// **'Apr 2026 - Present'**
+  /// **'Apr 1, 2026 - Present'**
   String get researchContractorPeriod;
 
   /// No description provided for @researchContractorDescription.
@@ -799,7 +799,7 @@ abstract class AppLocalizations {
   /// No description provided for @researchGrantHolderPeriod.
   ///
   /// In en, this message translates to:
-  /// **'Nov 2025 - Mar 2026'**
+  /// **'Nov 1, 2025 - Mar 31, 2026'**
   String get researchGrantHolderPeriod;
 
   /// No description provided for @researchGrantHolderDescription.
@@ -823,7 +823,7 @@ abstract class AppLocalizations {
   /// No description provided for @researchFellowPeriod.
   ///
   /// In en, this message translates to:
-  /// **'Nov 2021 - Oct 2022'**
+  /// **'Dec 1, 2021 - Oct 31, 2022'**
   String get researchFellowPeriod;
 
   /// No description provided for @researchFellowDescription.
@@ -841,7 +841,7 @@ abstract class AppLocalizations {
   /// No description provided for @phdCulturalHeritagePeriod.
   ///
   /// In en, this message translates to:
-  /// **'Nov 2022 - Mar 2026'**
+  /// **'Nov 1, 2022 - Mar 26, 2026'**
   String get phdCulturalHeritagePeriod;
 
   /// No description provided for @phdCulturalHeritageDescription.
@@ -865,7 +865,7 @@ abstract class AppLocalizations {
   /// No description provided for @phdEngineeringPeriod.
   ///
   /// In en, this message translates to:
-  /// **'Mar 2023 - Mar 2026'**
+  /// **'Mar 1, 2023 - Mar 26, 2026'**
   String get phdEngineeringPeriod;
 
   /// No description provided for @phdEngineeringDescription.
@@ -907,7 +907,7 @@ abstract class AppLocalizations {
   /// No description provided for @mastersPeriod.
   ///
   /// In en, this message translates to:
-  /// **'Aug 2019 - Nov 2021'**
+  /// **'Sep 1, 2019 - Nov 3, 2021'**
   String get mastersPeriod;
 
   /// No description provided for @mastersDescription.
@@ -919,13 +919,13 @@ abstract class AppLocalizations {
   /// No description provided for @bachelorsDegreeTitle.
   ///
   /// In en, this message translates to:
-  /// **'Bachelor\'s degree in letters - modern curriculum'**
+  /// **'Bachelor\'s degree in Humanities'**
   String get bachelorsDegreeTitle;
 
   /// No description provided for @bachelorsPeriod.
   ///
   /// In en, this message translates to:
-  /// **'Aug 2017 - Nov 2019'**
+  /// **'Sep 1, 2017 - Nov 15, 2019'**
   String get bachelorsPeriod;
 
   /// No description provided for @bachelorsDescription.
@@ -1627,7 +1627,7 @@ abstract class AppLocalizations {
   /// No description provided for @acesPeriod.
   ///
   /// In en, this message translates to:
-  /// **'Oct 2025 - Jan 2026'**
+  /// **'Oct 1, 2025 - Mar 7, 2026'**
   String get acesPeriod;
 
   /// No description provided for @acesDescription.
@@ -1731,6 +1731,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Levels: Common European Framework of Reference for Languages'**
   String get languagesCefrReference;
+
+  /// No description provided for @languageCertificateDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate obtained on {date}'**
+  String languageCertificateDate(DateTime date);
 
   /// No description provided for @verifyCredential.
   ///

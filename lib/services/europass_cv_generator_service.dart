@@ -863,6 +863,13 @@ class EuropassCVGeneratorService {
                                   ),
                                 ),
                                 pw.TextSpan(
+                                  text: l10n.languageCertificateDate(
+                                    lang.certificateDate,
+                                  ),
+                                  style: const pw.TextStyle(fontSize: 8),
+                                ),
+                                const pw.TextSpan(text: ' | '),
+                                pw.TextSpan(
                                   text: LocalizationHelper.getLocalizedText(
                                     l10n,
                                     'verifyCredential',

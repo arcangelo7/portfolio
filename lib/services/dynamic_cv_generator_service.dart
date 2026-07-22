@@ -752,6 +752,11 @@ class DynamicCVGeneratorService {
         ),
         pw.SizedBox(height: 3),
         pw.Text(skills.join(' | '), style: const pw.TextStyle(fontSize: 11)),
+        pw.SizedBox(height: 3),
+        pw.Text(
+          l10n.languageCertificateDate(lang.certificateDate),
+          style: const pw.TextStyle(fontSize: 11),
+        ),
       ];
 
       if (lang.badgeUrl != null) {

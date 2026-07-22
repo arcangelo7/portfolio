@@ -349,7 +349,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get universityBologna => 'Alma Mater Studiorum Università di Bologna';
 
   @override
-  String get tutorPeriod => 'Ott 2022 - Ott 2023, Ott 2025 - Mag 2026';
+  String get tutorPeriod => '1 Ott 2022 - 1 Mag 2023; 1 Ott 2025 - 15 Mag 2026';
 
   @override
   String get tutorDescription =>
@@ -359,7 +359,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get researchContractorTitle => 'Contrattista di ricerca';
 
   @override
-  String get researchContractorPeriod => 'Apr 2026 - Presente';
+  String get researchContractorPeriod => '1 Apr 2026 - Presente';
 
   @override
   String get researchContractorDescription =>
@@ -373,7 +373,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Dipartimento di Filologia Classica e Italianistica (Università di Bologna)';
 
   @override
-  String get researchGrantHolderPeriod => 'Nov 2025 - Mar 2026';
+  String get researchGrantHolderPeriod => '1 Nov 2025 - 31 Mar 2026';
 
   @override
   String get researchGrantHolderDescription =>
@@ -387,7 +387,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Research Centre for Open Scholarly Metadata (Università di Bologna)';
 
   @override
-  String get researchFellowPeriod => 'Nov 2021 - Ott 2022';
+  String get researchFellowPeriod => '1 Dic 2021 - 31 Ott 2022';
 
   @override
   String get researchFellowDescription =>
@@ -398,7 +398,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Dottorato in patrimonio culturale nell\'ecosistema digitale';
 
   @override
-  String get phdCulturalHeritagePeriod => 'Nov 2022 - Mar 2026';
+  String get phdCulturalHeritagePeriod => '1 Nov 2022 - 26 Mar 2026';
 
   @override
   String get phdCulturalHeritageDescription =>
@@ -411,7 +411,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get kuLeuven => 'Katholieke Universiteit Leuven (Belgio)';
 
   @override
-  String get phdEngineeringPeriod => 'Mar 2023 - Mar 2026';
+  String get phdEngineeringPeriod => '1 Mar 2023 - 26 Mar 2026';
 
   @override
   String get phdEngineeringDescription =>
@@ -436,7 +436,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Laurea magistrale in digital humanities and digital knowledge';
 
   @override
-  String get mastersPeriod => 'Ago 2019 - Nov 2021';
+  String get mastersPeriod => '1 Set 2019 - 3 Nov 2021';
 
   @override
   String get mastersDescription =>
@@ -447,7 +447,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'Laurea triennale in lettere - curriculum moderno';
 
   @override
-  String get bachelorsPeriod => 'Ago 2017 - Nov 2019';
+  String get bachelorsPeriod => '1 Set 2017 - 15 Nov 2019';
 
   @override
   String get bachelorsDescription =>
@@ -826,7 +826,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get acesTitle => 'Academic English Skills (AcES)';
 
   @override
-  String get acesPeriod => 'Ott 2025 - Gen 2026';
+  String get acesPeriod => '1 Ott 2025 - 7 Mar 2026';
 
   @override
   String get acesDescription =>
@@ -882,6 +882,14 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get languagesCefrReference =>
       'Livelli: Quadro comune europeo di riferimento per le lingue';
+
+  @override
+  String languageCertificateDate(DateTime date) {
+    final intl.DateFormat dateDateFormat = intl.DateFormat.yMMMd(localeName);
+    final String dateString = dateDateFormat.format(date);
+
+    return 'Certificazione conseguita il $dateString';
+  }
 
   @override
   String get verifyCredential => 'Verifica credenziale';

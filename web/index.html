@@ -104,6 +104,7 @@ SPDX-License-Identifier: ISC
   {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": "https://arcangelomassari.com/#person",
     "name": "Arcangelo Massari",
     "givenName": "Arcangelo",
     "familyName": "Massari",
@@ -166,12 +167,58 @@ SPDX-License-Identifier: ISC
       {
         "@type": "Organization",
         "name": "University of Bologna",
-        "url": "https://www.unibo.it"
+        "url": "https://www.unibo.it",
+        "employee": [
+          {
+            "@type": "EmployeeRole",
+            "employee": {
+              "@id": "https://arcangelomassari.com/#person"
+            },
+            "roleName": "Postdoctoral researcher",
+            "startDate": "2026-04-01"
+          },
+          {
+            "@type": "EmployeeRole",
+            "employee": {
+              "@id": "https://arcangelomassari.com/#person"
+            },
+            "roleName": "Research grant holder",
+            "startDate": "2025-11-01",
+            "endDate": "2026-03-31"
+          },
+          {
+            "@type": "EmployeeRole",
+            "employee": {
+              "@id": "https://arcangelomassari.com/#person"
+            },
+            "roleName": "Teaching tutor",
+            "startDate": "2022-10-01",
+            "endDate": "2023-05-01"
+          },
+          {
+            "@type": "EmployeeRole",
+            "employee": {
+              "@id": "https://arcangelomassari.com/#person"
+            },
+            "roleName": "Teaching tutor",
+            "startDate": "2025-10-01",
+            "endDate": "2026-05-15"
+          }
+        ]
       },
       {
         "@type": "Organization",
         "name": "Research Centre for Open Scholarly Metadata",
-        "url": "https://openscholarlymetadata.org"
+        "url": "https://openscholarlymetadata.org",
+        "employee": {
+          "@type": "EmployeeRole",
+          "employee": {
+            "@id": "https://arcangelomassari.com/#person"
+          },
+          "roleName": "Research fellow",
+          "startDate": "2021-12-01",
+          "endDate": "2022-10-31"
+        }
       }
     ],
     "knowsAbout": [
@@ -206,7 +253,8 @@ SPDX-License-Identifier: ISC
         "@type": "EducationalOccupationalCredential",
         "name": "PhD in Cultural Heritage in Digital Ecosystem",
         "educationalLevel": "Doctoral",
-        "dateCreated": "2022-11",
+        "dateCreated": "2026-03-26",
+        "temporalCoverage": "2022-11-01/2026-03-26",
         "credentialCategory": "degree",
         "recognizedBy": {
           "@type": "EducationalOrganization",
@@ -217,7 +265,8 @@ SPDX-License-Identifier: ISC
         "@type": "EducationalOccupationalCredential", 
         "name": "PhD in Engineering Technology",
         "educationalLevel": "Doctoral",
-        "dateCreated": "2023-03",
+        "dateCreated": "2026-03-26",
+        "temporalCoverage": "2023-03-01/2026-03-26",
         "credentialCategory": "degree",
         "recognizedBy": {
           "@type": "EducationalOrganization",
@@ -228,11 +277,37 @@ SPDX-License-Identifier: ISC
         "@type": "EducationalOccupationalCredential",
         "name": "Master's Degree in Digital Humanities and Digital Knowledge",
         "educationalLevel": "Master",
-        "dateCreated": "2021-11",
+        "dateCreated": "2021-11-03",
+        "temporalCoverage": "2019-09-01/2021-11-03",
         "credentialCategory": "degree",
         "recognizedBy": {
           "@type": "EducationalOrganization",
           "name": "University of Bologna"
+        }
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "Bachelor's degree in Humanities",
+        "educationalLevel": "Bachelor",
+        "dateCreated": "2019-11-15",
+        "temporalCoverage": "2017-09-01/2019-11-15",
+        "credentialCategory": "degree",
+        "recognizedBy": {
+          "@type": "EducationalOrganization",
+          "name": "University of Bologna"
+        }
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "Academic English Skills (AcES)",
+        "educationalLevel": "C1",
+        "dateCreated": "2026-03-07",
+        "temporalCoverage": "2025-10-01/2026-03-07",
+        "credentialCategory": "language certificate",
+        "url": "https://bestr.it/award/show/MqjlyCBsQ4Wh0eps1DSqag",
+        "recognizedBy": {
+          "@type": "EducationalOrganization",
+          "name": "University Language Centre, University of Bologna"
         }
       }
     ],

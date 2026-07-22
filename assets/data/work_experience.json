@@ -1,7 +1,7 @@
 [
   {
     "id": "research_contractor",
-    "startDate": "2026-04",
+    "startDate": "2026-04-01",
     "endDate": null,
     "current": true,
     "companyKey": "ficlit",
@@ -15,8 +15,8 @@
   },
   {
     "id": "research_grant_holder",
-    "startDate": "2025-11",
-    "endDate": "2026-03",
+    "startDate": "2025-11-01",
+    "endDate": "2026-03-31",
     "current": false,
     "companyKey": "ficlit",
     "titleKey": "researchGrantHolderTitle",
@@ -29,9 +29,9 @@
   },
   {
     "id": "tutor",
-    "startDate": "2022-10",
-    "endDate": null,
-    "current": true,
+    "startDate": "2022-10-01",
+    "endDate": "2026-05-15",
+    "current": false,
     "companyKey": "ficlit",
     "titleKey": "tutorTitle",
     "periodKey": "tutorPeriod",
@@ -44,8 +44,8 @@
   },
   {
     "id": "research_fellow",
-    "startDate": "2021-11",
-    "endDate": "2022-10",
+    "startDate": "2021-12-01",
+    "endDate": "2022-10-31",
     "current": false,
     "companyKey": "researchCentreOpenScholarly",
     "titleKey": "researchFellowTitle",
