@@ -12,6 +12,7 @@ import '../models/cv_data.dart';
 import '../utils/responsive.dart';
 import 'attachment_button.dart';
 import 'section_header.dart';
+import 'timeline_item.dart';
 
 class WorkExperienceSection extends StatefulWidget {
   final List<WorkExperienceEntry>? entries;
@@ -104,14 +105,19 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
     final workEntries = _workEntries ?? [];
 
     return Column(
-      children: workEntries.map((entry) {
-        return Column(
-          children: [
-            _buildExperienceItem(context, l10n, entry, isMobile),
-            if (entry != workEntries.last) const SizedBox(height: 32),
-          ],
-        );
-      }).toList(),
+      children: [
+        for (var i = 0; i < workEntries.length; i++)
+          TimelineItem(
+            isFirst: i == 0,
+            isLast: i == workEntries.length - 1,
+            isCurrent: workEntries[i].current,
+            isMobile: isMobile,
+            spacing: 32,
+            // card top padding + half the title line height
+            nodeCenter: isMobile ? 32 : 38,
+            child: _buildExperienceItem(context, l10n, workEntries[i], isMobile),
+          ),
+      ],
     );
   }
 
@@ -168,31 +174,13 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (isOngoing)
-                          Container(
-                            margin: const EdgeInsets.only(right: 8, top: 4),
-                            width: 8,
-                            height: 8,
-                            decoration: BoxDecoration(
-                              color: colorScheme.primary,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        Expanded(
-                          child: SelectableText(
-                            title,
-                            style: Theme.of(context).textTheme.titleLarge
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: colorScheme.primary,
-                                  fontSize: 18,
-                                ),
-                          ),
-                        ),
-                      ],
+                    SelectableText(
+                      title,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: colorScheme.primary,
+                        fontSize: 18,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     SelectableText(
@@ -234,16 +222,6 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
               : Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (isOngoing)
-                      Container(
-                        margin: const EdgeInsets.only(right: 8, top: 4),
-                        width: 8,
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: colorScheme.primary,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

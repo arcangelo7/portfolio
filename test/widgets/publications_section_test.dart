@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: ISC
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -365,16 +367,28 @@ void main() {
 
   group('PublicationsSection Mocked Locale Tests', () {
     testWidgets('shows loading state initially', (WidgetTester tester) async {
-      final publications = createMockPublications();
-      when(() => mockZoteroService.getPublications()).thenAnswer(
-        (_) async => Future.delayed(
-          const Duration(milliseconds: 100),
-          () => publications,
-        ),
+      final publicationsCompleter = Completer<List<Publication>>();
+      when(
+        () => mockZoteroService.getPublications(),
+      ).thenAnswer((_) => publicationsCompleter.future);
+      final controller = PublicationsController(
+        zoteroService: mockZoteroService,
+        urlLauncher: mockUrlLauncher,
       );
+      addTearDown(controller.dispose);
+      controller.loadPublications();
 
       await tester.pumpWidget(
-        createMockedTestWidget(publications: publications),
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
+          home: Scaffold(body: PublicationsSection(controller: controller)),
+        ),
       );
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
@@ -1105,6 +1119,79 @@ void main() {
     expect(find.text('Chunk Publication 6'), findsNothing);
     expect(find.text('For Science'), findsNothing);
   });
+
+  testWidgets(
+    'loading a computerProgram description does not throw when a sibling '
+    'chunk sharing the same controller already finished building',
+    (WidgetTester tester) async {
+      final publications = [
+        Publication(
+          key: 'article0',
+          title: 'Chunk Publication 0',
+          authors: const ['Test Author'],
+          year: '2026',
+          itemType: 'journalArticle',
+        ),
+        Publication(
+          key: 'article1',
+          title: 'Chunk Publication 1',
+          authors: const ['Test Author'],
+          year: '2026',
+          itemType: 'journalArticle',
+        ),
+        Publication(
+          key: 'software2',
+          title: 'Chunk Publication 2',
+          authors: const ['Test Author'],
+          year: '2026',
+          itemType: 'computerProgram',
+          url: 'https://github.com/example/repo',
+        ),
+        Publication(
+          key: 'article3',
+          title: 'Chunk Publication 3',
+          authors: const ['Test Author'],
+          year: '2026',
+          itemType: 'journalArticle',
+        ),
+      ];
+      when(
+        () => mockZoteroService.getPublications(),
+      ).thenAnswer((_) async => publications);
+      final controller = PublicationsController(
+        zoteroService: mockZoteroService,
+        urlLauncher: mockUrlLauncher,
+        gitHubDescriptionLoader: (url) async => 'Mock description',
+      );
+      addTearDown(controller.dispose);
+      await controller.loadPublications();
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
+          home: Scaffold(
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  PublicationsSection(controller: controller, chunkIndex: 0),
+                  PublicationsSection(controller: controller, chunkIndex: 1),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+    },
+  );
 }
 
 class _PublicationsHost extends StatefulWidget {

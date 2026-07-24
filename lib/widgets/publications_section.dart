@@ -390,7 +390,11 @@ class _PublicationsSectionState extends State<PublicationsSection> {
 
     if (!_gitHubDescriptionCache.containsKey(key) &&
         _loadingGitHubDescriptions[key] != true) {
-      widget.controller.loadGitHubDescription(publication);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          widget.controller.loadGitHubDescription(publication);
+        }
+      });
     }
 
     final isLoading = _loadingGitHubDescriptions[key] == true;

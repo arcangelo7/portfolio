@@ -12,6 +12,7 @@ import '../models/cv_data.dart';
 import '../utils/responsive.dart';
 import 'attachment_button.dart';
 import 'section_header.dart';
+import 'timeline_item.dart';
 
 class EducationSection extends StatefulWidget {
   final List<EducationEntry>? entries;
@@ -106,14 +107,24 @@ class _EducationSectionState extends State<EducationSection> {
     final educationEntries = _educationEntries ?? [];
 
     return Column(
-      children: educationEntries.map((entry) {
-        return Column(
-          children: [
-            _buildEducationItem(context, l10n, entry, isMobile),
-            if (entry != educationEntries.last) const SizedBox(height: 24),
-          ],
-        );
-      }).toList(),
+      children: [
+        for (var i = 0; i < educationEntries.length; i++)
+          TimelineItem(
+            isFirst: i == 0,
+            isLast: i == educationEntries.length - 1,
+            isCurrent: educationEntries[i].current,
+            isMobile: isMobile,
+            spacing: 24,
+            // card top padding + half the title line height
+            nodeCenter: isMobile ? 27 : 34,
+            child: _buildEducationItem(
+              context,
+              l10n,
+              educationEntries[i],
+              isMobile,
+            ),
+          ),
+      ],
     );
   }
 
@@ -173,33 +184,15 @@ class _EducationSectionState extends State<EducationSection> {
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (isOngoing)
-                          Container(
-                            margin: const EdgeInsets.only(right: 8, top: 4),
-                            width: 8,
-                            height: 8,
-                            decoration: BoxDecoration(
-                              color: colorScheme.primary,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        Expanded(
-                          child: SelectableText(
-                            degree,
-                            style: Theme.of(context).textTheme.titleLarge
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: isOngoing
-                                      ? colorScheme.primary
-                                      : colorScheme.onSurface,
-                                  fontSize: 16,
-                                ),
-                          ),
-                        ),
-                      ],
+                    SelectableText(
+                      degree,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: isOngoing
+                            ? colorScheme.primary
+                            : colorScheme.onSurface,
+                        fontSize: 16,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     SelectableText(
@@ -241,16 +234,6 @@ class _EducationSectionState extends State<EducationSection> {
               : Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (isOngoing)
-                      Container(
-                        margin: const EdgeInsets.only(right: 8, top: 4),
-                        width: 8,
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: colorScheme.primary,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

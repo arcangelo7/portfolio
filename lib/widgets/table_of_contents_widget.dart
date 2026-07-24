@@ -210,92 +210,98 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                 ),
               ),
             ),
-            ListView.separated(
-              shrinkWrap: true,
-              padding: EdgeInsets.all(isMobile ? 8 : 12),
-              itemCount: sections.length,
-              separatorBuilder: (context, index) =>
-                  SizedBox(height: isMobile ? 4 : 6),
-              itemBuilder: (context, index) {
-                final section = sections[index];
-                final isActive = _activeSectionKey == section.key;
+            Flexible(
+              child: ListView.separated(
+                shrinkWrap: true,
+                padding: EdgeInsets.all(isMobile ? 8 : 12),
+                itemCount: sections.length,
+                separatorBuilder: (context, index) =>
+                    SizedBox(height: isMobile ? 4 : 6),
+                itemBuilder: (context, index) {
+                  final section = sections[index];
+                  final isActive = _activeSectionKey == section.key;
 
-                return Semantics(
-                  button: true,
-                  label:
-                      '${AppLocalizations.of(context)!.tableOfContents}: ${section.title}',
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    decoration: BoxDecoration(
-                      color: isActive
-                          ? Theme.of(
-                              context,
-                            ).colorScheme.primary.withValues(alpha: 0.1)
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(8),
-                      border: isActive
-                          ? Border.all(
-                              color: Theme.of(
+                  return Semantics(
+                    button: true,
+                    label:
+                        '${AppLocalizations.of(context)!.tableOfContents}: ${section.title}',
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      decoration: BoxDecoration(
+                        color: isActive
+                            ? Theme.of(
                                 context,
-                              ).colorScheme.primary.withValues(alpha: 0.3),
-                              width: 1,
-                            )
-                          : null,
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () => _scrollToSection(section.key),
+                              ).colorScheme.primary.withValues(alpha: 0.1)
+                            : Colors.transparent,
                         borderRadius: BorderRadius.circular(8),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: isMobile ? 12 : 16,
-                            vertical: isMobile ? 10 : 12,
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                section.icon,
-                                size: isMobile ? 16 : 18,
-                                color: isActive
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Theme.of(context).colorScheme.onSurface
-                                          .withValues(alpha: 0.7),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: _buildStrikethroughText(
-                                  section.title,
-                                  Theme.of(
-                                    context,
-                                  ).textTheme.labelLarge?.copyWith(
-                                    fontWeight: isActive
-                                        ? FontWeight.w600
-                                        : FontWeight.w500,
-                                    color: isActive
-                                        ? Theme.of(context).colorScheme.primary
-                                        : Theme.of(
-                                            context,
-                                          ).colorScheme.onSurface,
-                                    fontSize: isMobile ? 14 : 15,
-                                  ),
+                        border: isActive
+                            ? Border.all(
+                                color: Theme.of(
                                   context,
-                                ),
-                              ),
-                              if (isActive)
+                                ).colorScheme.primary.withValues(alpha: 0.3),
+                                width: 1,
+                              )
+                            : null,
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () => _scrollToSection(section.key),
+                          borderRadius: BorderRadius.circular(8),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: isMobile ? 12 : 16,
+                              vertical: isMobile ? 10 : 12,
+                            ),
+                            child: Row(
+                              children: [
                                 Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: isMobile ? 12 : 14,
-                                  color: Theme.of(context).colorScheme.primary,
+                                  section.icon,
+                                  size: isMobile ? 16 : 18,
+                                  color: isActive
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context).colorScheme.onSurface
+                                            .withValues(alpha: 0.7),
                                 ),
-                            ],
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: _buildStrikethroughText(
+                                    section.title,
+                                    Theme.of(
+                                      context,
+                                    ).textTheme.labelLarge?.copyWith(
+                                      fontWeight: isActive
+                                          ? FontWeight.w600
+                                          : FontWeight.w500,
+                                      color: isActive
+                                          ? Theme.of(
+                                              context,
+                                            ).colorScheme.primary
+                                          : Theme.of(
+                                              context,
+                                            ).colorScheme.onSurface,
+                                      fontSize: isMobile ? 14 : 15,
+                                    ),
+                                    context,
+                                  ),
+                                ),
+                                if (isActive)
+                                  Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: isMobile ? 12 : 14,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ],
         ),
