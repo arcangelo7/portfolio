@@ -10,6 +10,7 @@ import '../l10n/localization_helper.dart';
 import '../services/cv_data_service.dart';
 import '../models/cv_data.dart';
 import '../utils/responsive.dart';
+import 'section_header.dart';
 
 class ConferencesSeminarsSection extends StatefulWidget {
   final List<ConferenceEntry>? entries;
@@ -84,18 +85,7 @@ class _ConferencesSeminarsSectionState
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
-          Semantics(
-            header: true,
-            child: SelectableText(
-              l10n.conferencesAndSeminars,
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: isMobile ? 28 : null,
-              ),
-              semanticsLabel: 'Section heading: ${l10n.conferencesAndSeminars}',
-            ),
-          ),
+          SectionHeader(title: l10n.conferencesAndSeminars),
           const SizedBox(height: 32),
           _buildConferencesContent(l10n, isMobile),
         ],
@@ -172,7 +162,7 @@ class _ConferencesSeminarsSectionState
                   children: [
                     SelectableText(
                       title,
-                      style: Theme.of(context).textTheme.headlineSmall
+                      style: Theme.of(context).textTheme.titleLarge
                           ?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: colorScheme.primary,
@@ -223,7 +213,7 @@ class _ConferencesSeminarsSectionState
                         children: [
                           SelectableText(
                             title,
-                            style: Theme.of(context).textTheme.headlineSmall
+                            style: Theme.of(context).textTheme.titleLarge
                                 ?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: colorScheme.primary,

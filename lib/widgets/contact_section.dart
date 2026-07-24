@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/app_localizations.dart';
 import '../utils/responsive.dart';
+import 'section_header.dart';
 
 class ContactSection extends StatelessWidget {
   final Locale currentLocale;
@@ -26,18 +27,7 @@ class ContactSection extends StatelessWidget {
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
-          Semantics(
-            header: true,
-            child: SelectableText(
-              l10n.getInTouch,
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: isMobile ? 28 : null,
-              ),
-              semanticsLabel: 'Section heading: ${l10n.getInTouch}',
-            ),
-          ),
+          SectionHeader(title: l10n.getInTouch),
           const SizedBox(height: 32),
           Wrap(
             alignment: WrapAlignment.center,
@@ -134,7 +124,7 @@ class _ContactButton extends StatelessWidget {
         const SizedBox(height: 8),
         SelectableText(
           label,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
             color: Theme.of(
               context,
             ).colorScheme.onSurface.withValues(alpha: 0.8),

@@ -14,6 +14,7 @@ import '../utils/publication_utils.dart';
 import '../utils/responsive.dart';
 import 'expandable_authors_widget.dart';
 import 'lazy_image.dart';
+import 'section_header.dart';
 
 class PublicationsSection extends StatefulWidget {
   static const int chunkCount = 5;
@@ -359,7 +360,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                 ),
                 label: Text(
                   isExpanded ? l10n.showLess : l10n.readMore,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.w600,
                   ),
@@ -478,7 +479,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
     final citationMetadata = _citationMetadataCache[publicationKey] ?? [];
     final citationCount = publication.citationCount;
 
-    if (!publication.hasLoadedCitations && citationCount == null) {
+    if ((!publication.hasLoadedCitations && citationCount == null) ||
+        citationCount == 0) {
       return const SizedBox.shrink();
     }
 
@@ -813,17 +815,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       child: Column(
         children: [
           if (isFirstChunk) ...[
-            Semantics(
-              header: true,
-              child: SelectableText(
-                l10n.publications,
-                style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                semanticsLabel: 'Section heading: ${l10n.publications}',
-              ),
-            ),
+            SectionHeader(title: l10n.publications),
             const SizedBox(height: 16),
             SelectableText(
               l10n.publicationsDescription,
@@ -982,7 +974,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             context,
           ).colorScheme.primary.withValues(alpha: 0.2),
           checkmarkColor: Theme.of(context).colorScheme.primary,
-          labelStyle: TextStyle(
+          labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
             color: isSelected
                 ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).colorScheme.onSurface,
@@ -1178,7 +1170,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                   ),
                   child: Text(
                     '${index + 1}',
-                    style: TextStyle(
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       color: isCurrentPage
                           ? Theme.of(context).colorScheme.onPrimary
                           : Theme.of(context).colorScheme.onSurface,

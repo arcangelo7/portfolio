@@ -1,7 +1,5 @@
 version = 1
 
-# CC0-1.0 — no creative expression (metadata, config, auto-generated, factual data)
-
 [[annotations]]
 path = [
     ".metadata",
@@ -46,8 +44,6 @@ path = [
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
-# ISC — developer-written files (2025)
-
 [[annotations]]
 path = [
     "ModelloCvBorseRicerca.pdf",
@@ -69,8 +65,6 @@ path = [
 SPDX-FileCopyrightText = "2025 Arcangelo Massari <info@arcangelomassari.com>"
 SPDX-License-Identifier = "ISC"
 
-# ISC — developer-written files (2025-2026)
-
 [[annotations]]
 path = [
     "lib/l10n/app_localizations.dart",
@@ -80,8 +74,6 @@ path = [
 ]
 SPDX-FileCopyrightText = "2025-2026 Arcangelo Massari <info@arcangelomassari.com>"
 SPDX-License-Identifier = "ISC"
-
-# ISC — developer-written files (2026)
 
 [[annotations]]
 path = [
@@ -93,12 +85,23 @@ path = [
 SPDX-FileCopyrightText = "2026 Arcangelo Massari <info@arcangelomassari.com>"
 SPDX-License-Identifier = "ISC"
 
-# Bitstream-Vera — DejaVu Sans fonts
-
 [[annotations]]
-path = "assets/fonts/**"
+path = "assets/fonts/DejaVuSans-*.ttf"
 SPDX-FileCopyrightText = [
     "2003 Bitstream, Inc.",
     "2006 Tavmjong Bah",
 ]
 SPDX-License-Identifier = "Bitstream-Vera"
+
+[[annotations]]
+path = [
+    "assets/fonts/Felipa-*.ttf",
+    "assets/fonts/IBMPlexMono-*.ttf",
+    "assets/fonts/IBMPlexSans-*.ttf",
+]
+SPDX-FileCopyrightText = [
+    "2011 Fontstage (info@fontstage.com)",
+    "2017 IBM Corp.",
+    "2019 IBM Corp.",
+]
+SPDX-License-Identifier = "OFL-1.1"

@@ -43,7 +43,7 @@ class AttachmentButton extends StatelessWidget {
       icon: Icon(icon, size: 18, color: Theme.of(context).colorScheme.primary),
       label: Text(
         label,
-        style: TextStyle(
+        style: Theme.of(context).textTheme.labelLarge?.copyWith(
           color: Theme.of(context).colorScheme.primary,
           fontWeight: FontWeight.w600,
         ),

@@ -9,6 +9,7 @@ import '../l10n/localization_helper.dart';
 import '../models/language_data.dart';
 import '../services/cv_data_service.dart';
 import '../utils/responsive.dart';
+import 'section_header.dart';
 
 class LanguagesSection extends StatefulWidget {
   final LanguageData? data;
@@ -81,18 +82,7 @@ class _LanguagesSectionState extends State<LanguagesSection> {
       color: Theme.of(context).colorScheme.surfaceContainer,
       child: Column(
         children: [
-          Semantics(
-            header: true,
-            child: SelectableText(
-              l10n.languages,
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: isMobile ? 28 : null,
-              ),
-              semanticsLabel: 'Section heading: ${l10n.languages}',
-            ),
-          ),
+          SectionHeader(title: l10n.languages),
           const SizedBox(height: 32),
           _buildContent(context, l10n, isMobile),
         ],
@@ -353,7 +343,7 @@ class _LanguagesSectionState extends State<LanguagesSection> {
         ),
         label: Text(
           l10n.verifyCredential,
-          style: TextStyle(
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
             color: Theme.of(context).colorScheme.primary,
             fontWeight: FontWeight.w600,
           ),

@@ -11,6 +11,7 @@ import '../services/cv_data_service.dart';
 import '../models/cv_data.dart';
 import '../utils/responsive.dart';
 import 'attachment_button.dart';
+import 'section_header.dart';
 
 class EducationSection extends StatefulWidget {
   final List<EducationEntry>? entries;
@@ -85,18 +86,7 @@ class _EducationSectionState extends State<EducationSection> {
       color: Theme.of(context).colorScheme.surfaceContainer,
       child: Column(
         children: [
-          Semantics(
-            header: true,
-            child: SelectableText(
-              l10n.education,
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: isMobile ? 28 : null,
-              ),
-              semanticsLabel: 'Section heading: ${l10n.education}',
-            ),
-          ),
+          SectionHeader(title: l10n.education),
           const SizedBox(height: 32),
           _buildEducationContent(l10n, isMobile),
         ],

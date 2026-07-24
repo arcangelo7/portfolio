@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/app_localizations.dart';
 import '../utils/responsive.dart';
+import 'section_header.dart';
 
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
@@ -21,19 +22,7 @@ class AboutSection extends StatelessWidget {
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
-          Semantics(
-            header: true,
-            child: SelectableText(
-              l10n.aboutMe,
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: isMobile ? 28 : null,
-              ),
-              textAlign: isMobile ? TextAlign.center : null,
-              semanticsLabel: 'Section heading: ${l10n.aboutMe}',
-            ),
-          ),
+          SectionHeader(title: l10n.aboutMe),
           const SizedBox(height: 32),
           _MarkdownText(
             text: l10n.aboutMeDescription,

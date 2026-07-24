@@ -238,7 +238,6 @@ class _HeroSectionState extends State<HeroSection>
                         style: Theme.of(context).textTheme.displayLarge
                             ?.copyWith(
                               color: PortfolioTheme.iceWhite,
-                              fontWeight: FontWeight.bold,
                               fontSize: isMobile ? 36 : 56,
                               shadows: [
                                 Shadow(

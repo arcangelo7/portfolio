@@ -71,8 +71,8 @@ class PortfolioTheme {
   static const Color violet = Color(0xFF420075);
   static const Color wine = Color(0xFF800020);
   static const Color cobaltBlue = Color(0xFF000075);
+  static const Color lightCobaltBlue = Color(0xFF8E8EF0);
   static const Color black = Color(0xFF1A1A1A);
-  static const List<Color> gold = [Color(0xFFFFD700), Color(0xFFFFA500)];
 
   // AstroGods section colors
   static const Color astroMysticBlue = Color(0xFF1A1A2E);
@@ -104,7 +104,7 @@ class PortfolioTheme {
   );
 
   static final ColorScheme darkColorScheme = ColorScheme.dark(
-    primary: iceWhite,
+    primary: lightCobaltBlue,
     secondary: emeraldGreen,
     tertiary: violet,
     surface: black,
@@ -120,11 +120,44 @@ class PortfolioTheme {
     onSurfaceVariant: iceWhite.withValues(alpha: 0.7),
   );
 
+  // Typography: Felipa (calligraphic script, single weight 400 — never bold)
+  // only for display roles (hero name and section titles), IBM Plex Sans
+  // for everything else, IBM Plex Mono for labels/metadata.
+  static const String fontDisplay = 'Felipa';
+  static const String fontBody = 'IBMPlexSans';
+  static const String fontMono = 'IBMPlexMono';
+
+  static TextTheme _buildTextTheme(TextTheme base) {
+    TextStyle? serif(TextStyle? style) =>
+        style?.copyWith(fontFamily: fontDisplay);
+    TextStyle? sans(TextStyle? style) => style?.copyWith(fontFamily: fontBody);
+    TextStyle? mono(TextStyle? style) => style?.copyWith(fontFamily: fontMono);
+    return base.copyWith(
+      displayLarge: serif(base.displayLarge),
+      displayMedium: serif(base.displayMedium),
+      displaySmall: serif(base.displaySmall),
+      headlineLarge: sans(base.headlineLarge),
+      headlineMedium: sans(base.headlineMedium),
+      headlineSmall: sans(base.headlineSmall),
+      titleLarge: sans(base.titleLarge),
+      titleMedium: sans(base.titleMedium),
+      titleSmall: sans(base.titleSmall),
+      bodyLarge: sans(base.bodyLarge),
+      bodyMedium: sans(base.bodyMedium),
+      bodySmall: sans(base.bodySmall),
+      labelLarge: mono(base.labelLarge),
+      labelMedium: mono(base.labelMedium),
+      labelSmall: mono(base.labelSmall),
+    );
+  }
+
   static ThemeData lightTheme = ThemeData(
     colorScheme: lightColorScheme,
     useMaterial3: true,
     brightness: Brightness.light,
     scaffoldBackgroundColor: iceWhite,
+    fontFamily: fontBody,
+    textTheme: _buildTextTheme(ThemeData.light().textTheme),
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -132,6 +165,8 @@ class PortfolioTheme {
     useMaterial3: true,
     brightness: Brightness.dark,
     scaffoldBackgroundColor: black,
+    fontFamily: fontBody,
+    textTheme: _buildTextTheme(ThemeData.dark().textTheme),
   );
 }
 

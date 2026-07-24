@@ -268,7 +268,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                                   section.title,
                                   Theme.of(
                                     context,
-                                  ).textTheme.bodyMedium?.copyWith(
+                                  ).textTheme.labelLarge?.copyWith(
                                     fontWeight: isActive
                                         ? FontWeight.w600
                                         : FontWeight.w500,

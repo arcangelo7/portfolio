@@ -81,7 +81,7 @@ class _ExpandableAuthorsWidgetState extends State<ExpandableAuthorsWidget> {
             ),
             label: Text(
               isExpanded ? l10n.showLess : l10n.showAllAuthors,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.w600,
               ),

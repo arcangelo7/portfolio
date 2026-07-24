@@ -11,6 +11,7 @@ import '../services/cv_data_service.dart';
 import '../models/cv_data.dart';
 import '../utils/responsive.dart';
 import 'attachment_button.dart';
+import 'section_header.dart';
 
 class WorkExperienceSection extends StatefulWidget {
   final List<WorkExperienceEntry>? entries;
@@ -83,18 +84,7 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
       padding: EdgeInsets.all(isMobile ? 20 : 64),
       child: Column(
         children: [
-          Semantics(
-            header: true,
-            child: SelectableText(
-              l10n.workExperience,
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: isMobile ? 28 : null,
-              ),
-              semanticsLabel: 'Section heading: ${l10n.workExperience}',
-            ),
-          ),
+          SectionHeader(title: l10n.workExperience),
           const SizedBox(height: 32),
           _buildWorkExperienceContent(l10n, isMobile),
         ],
@@ -194,7 +184,7 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
                         Expanded(
                           child: SelectableText(
                             title,
-                            style: Theme.of(context).textTheme.headlineSmall
+                            style: Theme.of(context).textTheme.titleLarge
                                 ?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: colorScheme.primary,
@@ -260,7 +250,7 @@ class _WorkExperienceSectionState extends State<WorkExperienceSection> {
                         children: [
                           SelectableText(
                             title,
-                            style: Theme.of(context).textTheme.headlineSmall
+                            style: Theme.of(context).textTheme.titleLarge
                                 ?.copyWith(
                                   fontWeight: FontWeight.bold,
                                   color: colorScheme.primary,

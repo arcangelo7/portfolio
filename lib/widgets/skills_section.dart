@@ -7,9 +7,9 @@ import '../l10n/app_localizations.dart';
 import '../l10n/localization_helper.dart';
 import '../services/cv_data_service.dart';
 import '../models/cv_data.dart';
-import '../main.dart';
 import '../utils/responsive.dart';
 import 'flutter_modal.dart';
+import 'section_header.dart';
 
 class SkillsSection extends StatefulWidget {
   final SkillsData? data;
@@ -77,18 +77,7 @@ class _SkillsSectionState extends State<SkillsSection> {
       color: Theme.of(context).colorScheme.surfaceContainer,
       child: Column(
         children: [
-          Semantics(
-            header: true,
-            child: SelectableText(
-              l10n.skills,
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: isMobile ? 28 : null,
-              ),
-              semanticsLabel: 'Section heading: ${l10n.skills}',
-            ),
-          ),
+          SectionHeader(title: l10n.skills),
           const SizedBox(height: 32),
           _buildContent(context, l10n, isMobile),
         ],
@@ -304,10 +293,14 @@ class SkillsBubbleChart extends StatelessWidget {
   ) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context)!;
-    final isFlutter = skill == l10n.skillFlutter;
 
-    if (isFlutter) {
-      return _buildFlutterSkillBubble(context, skill);
+    if (skill == l10n.skillFlutter) {
+      return _ShiningSkillBubble(
+        label: skill,
+        categoryColor: categoryColor,
+        isMobile: isMobile,
+        onTap: () => _showFlutterModal(context),
+      );
     }
 
     return Container(
@@ -315,21 +308,7 @@ class SkillsBubbleChart extends StatelessWidget {
         horizontal: isMobile ? 12 : 16,
         vertical: isMobile ? 8 : 10,
       ),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [categoryColor, categoryColor.withValues(alpha: 0.8)],
-        ),
-        borderRadius: BorderRadius.circular(isMobile ? 20 : 24),
-        boxShadow: [
-          BoxShadow(
-            color: categoryColor.withValues(alpha: 0.3),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
+      decoration: _skillBubbleDecoration(categoryColor, isMobile),
       child: SelectableText(
         skill,
         style: TextStyle(
@@ -341,78 +320,159 @@ class SkillsBubbleChart extends StatelessWidget {
     );
   }
 
-  Widget _buildFlutterSkillBubble(BuildContext context, String skill) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: InkWell(
-        onTap: () => _showFlutterModal(context),
-        borderRadius: BorderRadius.circular(isMobile ? 20 : 24),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 14 : 18,
-            vertical: isMobile ? 10 : 12,
-          ),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                PortfolioTheme.cobaltBlue,
-                PortfolioTheme.cobaltBlue.withValues(alpha: 0.8),
-              ],
-            ),
-            borderRadius: BorderRadius.circular(isMobile ? 20 : 24),
-            boxShadow: [
-              BoxShadow(
-                color: PortfolioTheme.cobaltBlue.withValues(alpha: 0.4),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-                spreadRadius: 1,
-              ),
-              BoxShadow(
-                color: PortfolioTheme.cobaltBlue.withValues(alpha: 0.2),
-                blurRadius: 16,
-                offset: const Offset(0, 8),
-                spreadRadius: 2,
-              ),
-            ],
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.flutter_dash,
-                color: Colors.white,
-                size: isMobile ? 16 : 18,
-              ),
-              const SizedBox(width: 6),
-              SelectableText(
-                skill,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: isMobile ? 13 : 14,
-                ),
-              ),
-              const SizedBox(width: 4),
-              Icon(
-                Icons.open_in_new,
-                color: Colors.white.withValues(alpha: 0.8),
-                size: isMobile ? 12 : 14,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   void _showFlutterModal(BuildContext context) {
     showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (context) => const FlutterModal(),
+    );
+  }
+}
+
+BoxDecoration _skillBubbleDecoration(Color categoryColor, bool isMobile) {
+  return BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [categoryColor, categoryColor.withValues(alpha: 0.8)],
+    ),
+    borderRadius: BorderRadius.circular(isMobile ? 20 : 24),
+    boxShadow: [
+      BoxShadow(
+        color: categoryColor.withValues(alpha: 0.3),
+        blurRadius: 4,
+        offset: const Offset(0, 2),
+      ),
+    ],
+  );
+}
+
+// Bolla skill cliccabile (Flutter): identica alle altre, ma con un
+// lampeggio diagonale periodico che ne suggerisce l'interattività.
+class _ShiningSkillBubble extends StatefulWidget {
+  final String label;
+  final Color categoryColor;
+  final bool isMobile;
+  final VoidCallback onTap;
+
+  const _ShiningSkillBubble({
+    required this.label,
+    required this.categoryColor,
+    required this.isMobile,
+    required this.onTap,
+  });
+
+  @override
+  State<_ShiningSkillBubble> createState() => _ShiningSkillBubbleState();
+}
+
+class _ShiningSkillBubbleState extends State<_ShiningSkillBubble>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 3500),
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Rispetta l'impostazione di riduzione delle animazioni.
+    if (MediaQuery.of(context).disableAnimations) {
+      _controller.stop();
+    } else if (!_controller.isAnimating) {
+      _controller.repeat();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final radius = BorderRadius.circular(widget.isMobile ? 20 : 24);
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: InkWell(
+        onTap: widget.onTap,
+        borderRadius: radius,
+        child: ClipRRect(
+          borderRadius: radius,
+          child: Stack(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: widget.isMobile ? 12 : 16,
+                  vertical: widget.isMobile ? 8 : 10,
+                ),
+                decoration: _skillBubbleDecoration(
+                  widget.categoryColor,
+                  widget.isMobile,
+                ),
+                // Text (non SelectableText) per non intercettare il tap;
+                // il Mono segnala l'elemento interattivo standalone.
+                child: Text(
+                  widget.label,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: widget.isMobile ? 13 : 14,
+                  ),
+                ),
+              ),
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: AnimatedBuilder(
+                    animation: _controller,
+                    builder: (context, child) {
+                      // La banda luminosa attraversa la bolla nel primo 30%
+                      // del ciclo, poi resta fuori dai bordi fino al giro
+                      // successivo.
+                      final sweep = const Interval(
+                        0,
+                        0.3,
+                        curve: Curves.easeInOut,
+                      ).transform(_controller.value);
+                      return FractionalTranslation(
+                        translation: Offset(-1.5 + sweep * 3, 0),
+                        child: Transform(
+                          transform: Matrix4.identity()
+                            ..rotateZ(0.4)
+                            ..scaleByDouble(1.0, 3.0, 1.0, 1.0),
+                          alignment: Alignment.center,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.white.withValues(alpha: 0),
+                                  Colors.white.withValues(alpha: 0),
+                                  Colors.white.withValues(alpha: 0.5),
+                                  Colors.white.withValues(alpha: 0),
+                                  Colors.white.withValues(alpha: 0),
+                                ],
+                                stops: const [0, 0.4, 0.5, 0.6, 1],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
