@@ -1,3 +1,10 @@
+## [1.10.1](https://github.com/arcangelo7/portfolio/compare/v1.10.0...v1.10.1) (2026-07-25)
+
+
+### Bug Fixes
+
+* **android:** bump gradle plugin to satisfy dependency requirements [release] ([ce3f335](https://github.com/arcangelo7/portfolio/commit/ce3f335dd2c73ca73e8b631e140d4a27a0fdd8e6))
+
 # [1.10.0](https://github.com/arcangelo7/portfolio/compare/v1.9.0...v1.10.0) (2026-07-25)
 
 
