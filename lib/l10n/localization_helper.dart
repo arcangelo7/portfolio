@@ -162,8 +162,6 @@ class LocalizationHelper {
         return l10n.skillCategoryProgrammingLanguages;
       case 'skillCategoryWebTechnologies':
         return l10n.skillCategoryWebTechnologies;
-      case 'skillCategoryQueryLanguages':
-        return l10n.skillCategoryQueryLanguages;
       case 'skillCategorySemanticWebTechnologies':
         return l10n.skillCategorySemanticWebTechnologies;
       case 'skillCategoryFrontendLibraries':
@@ -194,8 +192,6 @@ class LocalizationHelper {
         return l10n.skillBootstrap;
       case 'skillSPARQL':
         return l10n.skillSPARQL;
-      case 'skillSQL':
-        return l10n.skillSQL;
       case 'skillRDF':
         return l10n.skillRDF;
       case 'skillSHACL':

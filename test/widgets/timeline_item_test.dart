@@ -85,10 +85,7 @@ void main() {
       final lines = find.descendant(
         of: items.at(index),
         matching: find.byWidgetPredicate(
-          (widget) =>
-              widget is Positioned &&
-              widget.child is Container &&
-              (widget.child as Container).color != null,
+          (widget) => widget is Positioned && widget.child is ColoredBox,
         ),
       );
       return tester.widget<Positioned>(lines.first);

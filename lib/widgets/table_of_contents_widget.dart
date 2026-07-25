@@ -5,15 +5,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../l10n/app_localizations.dart';
+import '../theme/design_tokens.dart';
 import '../utils/responsive.dart';
 
 class TableOfContentsWidget extends StatefulWidget {
   final Future<void> Function(String) onSectionSelected;
   final VoidCallback? onTap;
 
+  /// The section currently on screen. Without it the highlight only ever
+  /// marked the last row that was tapped.
+  final String? currentSectionId;
+
   const TableOfContentsWidget({
     super.key,
     required this.onSectionSelected,
+    this.currentSectionId,
     this.onTap,
   });
 
@@ -35,7 +41,6 @@ class _TocSection {
 
 class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
     with TickerProviderStateMixin {
-  String? _activeSectionKey;
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
 
@@ -99,9 +104,6 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
 
   Future<void> _scrollToSection(String sectionKey) async {
     HapticFeedback.lightImpact();
-    setState(() {
-      _activeSectionKey = sectionKey;
-    });
     if (widget.onTap != null) {
       widget.onTap!();
     }
@@ -150,7 +152,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
         constraints: BoxConstraints(maxWidth: isMobile ? 250 : 280),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: Radii.card,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.15),
@@ -200,7 +202,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                         AppLocalizations.of(context)!.tableOfContents,
                         style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w700,
                               color: Theme.of(context).colorScheme.primary,
                               fontSize: isMobile ? 16 : 18,
                             ),
@@ -219,7 +221,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                     SizedBox(height: isMobile ? 4 : 6),
                 itemBuilder: (context, index) {
                   final section = sections[index];
-                  final isActive = _activeSectionKey == section.key;
+                  final isActive = widget.currentSectionId == section.key;
 
                   return Semantics(
                     button: true,
@@ -233,7 +235,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                                 context,
                               ).colorScheme.primary.withValues(alpha: 0.1)
                             : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: Radii.card,
                         border: isActive
                             ? Border.all(
                                 color: Theme.of(
@@ -247,7 +249,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () => _scrollToSection(section.key),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: Radii.card,
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: isMobile ? 12 : 16,
@@ -271,7 +273,7 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                                       context,
                                     ).textTheme.labelLarge?.copyWith(
                                       fontWeight: isActive
-                                          ? FontWeight.w600
+                                          ? FontWeight.w700
                                           : FontWeight.w500,
                                       color: isActive
                                           ? Theme.of(

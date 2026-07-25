@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
-import '../main.dart';
+import '../theme/portfolio_theme.dart';
 import 'lazy_image.dart';
 
 class ThemeToggleWidget extends StatelessWidget {
@@ -20,12 +20,11 @@ class ThemeToggleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final label =
-        isDarkMode
-            ? (AppLocalizations.of(context)?.lightModeIconAlt ??
-                'Switch to light mode')
-            : (AppLocalizations.of(context)?.darkModeIconAlt ??
-                'Switch to dark mode');
+    final label = isDarkMode
+        ? (AppLocalizations.of(context)?.lightModeIconAlt ??
+              'Switch to light mode')
+        : (AppLocalizations.of(context)?.darkModeIconAlt ??
+              'Switch to dark mode');
 
     return Semantics(
       image: true,
@@ -59,29 +58,30 @@ class ThemeToggleWidget extends StatelessWidget {
               child: Transform.scale(
                 key: ValueKey(isDarkMode),
                 scale: 1.4,
-                child:
-                    isDarkMode
-                        ? LazyImage(
-                          assetPath: 'assets/images/light_mode.png',
+                child: isDarkMode
+                    ? LazyImage(
+                        assetPath: 'assets/images/light_mode.png',
+                        width: size,
+                        height: size,
+                        fit: BoxFit.cover,
+                        critical: true,
+                        semanticLabel: AppLocalizations.of(
+                          context,
+                        )?.lightModeIconAlt,
+                      )
+                    : Transform.translate(
+                        offset: Offset(size * 0.12, size * 0.05),
+                        child: LazyImage(
+                          assetPath: 'assets/images/dark_mode_button.png',
                           width: size,
                           height: size,
                           fit: BoxFit.cover,
                           critical: true,
-                          semanticLabel:
-                              AppLocalizations.of(context)?.lightModeIconAlt,
-                        )
-                        : Transform.translate(
-                          offset: Offset(size * 0.12, size * 0.05),
-                          child: LazyImage(
-                            assetPath: 'assets/images/dark_mode_button.png',
-                            width: size,
-                            height: size,
-                            fit: BoxFit.cover,
-                            critical: true,
-                            semanticLabel:
-                                AppLocalizations.of(context)?.darkModeIconAlt,
-                          ),
+                          semanticLabel: AppLocalizations.of(
+                            context,
+                          )?.darkModeIconAlt,
                         ),
+                      ),
               ),
             ),
           ),

@@ -4,6 +4,11 @@
 
 import 'package:flutter/material.dart';
 
+import '../theme/design_tokens.dart';
+
+/// The rail is stacked behind the card rather than sized next to it with an
+/// `IntrinsicHeight`: intrinsic sizing mis-measures the selectable rich text in
+/// the card body, and it costs an extra layout pass per entry.
 class TimelineItem extends StatelessWidget {
   final Widget child;
   final bool isFirst;
@@ -20,7 +25,7 @@ class TimelineItem extends StatelessWidget {
     required this.isLast,
     required this.isCurrent,
     required this.isMobile,
-    this.spacing = 32,
+    this.spacing = Space.xl,
     this.nodeCenter,
   });
 
@@ -29,71 +34,54 @@ class TimelineItem extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final railWidth = isMobile ? 16.0 : 24.0;
     final center = nodeCenter ?? (isMobile ? 28.0 : 36.0);
-    final lineColor = colorScheme.onSurface.withValues(alpha: 0.15);
     final showLine = !(isFirst && isLast);
 
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(
-            width: railWidth,
-            child: Stack(
-              children: [
-                if (showLine)
-                  Positioned(
-                    left: railWidth / 2 - 1,
-                    top: isFirst ? center : 0,
-                    bottom: isLast ? null : 0,
-                    height: isLast ? center : null,
-                    child: Container(width: 2, color: lineColor),
-                  ),
-                Positioned(
-                  top: center - 10,
-                  left: railWidth / 2 - 10,
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: isCurrent
-                          ? colorScheme.primary.withValues(alpha: 0.2)
-                          : null,
-                    ),
-                    child: Center(
-                      child: Container(
-                        width: 12,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: isCurrent
-                              ? colorScheme.primary
-                              : colorScheme.surface,
-                          border: isCurrent
-                              ? null
-                              : Border.all(
-                                  color: colorScheme.onSurface.withValues(
-                                    alpha: 0.35,
-                                  ),
-                                  width: 2,
-                                ),
-                        ),
-                      ),
-                    ),
-                  ),
+    return Stack(
+      children: [
+        if (showLine)
+          Positioned(
+            left: railWidth / 2 - 1,
+            top: isFirst ? center : 0,
+            bottom: isLast ? null : 0,
+            height: isLast ? center : null,
+            width: 2,
+            child: ColoredBox(color: colorScheme.outlineVariant),
+          ),
+        Positioned(
+          top: center - 10,
+          left: railWidth / 2 - 10,
+          width: 20,
+          height: 20,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isCurrent
+                  ? colorScheme.primary.withValues(alpha: 0.2)
+                  : Colors.transparent,
+            ),
+            child: Center(
+              child: Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isCurrent ? colorScheme.primary : colorScheme.surface,
+                  border: isCurrent
+                      ? null
+                      : Border.all(color: colorScheme.outline, width: 2),
                 ),
-              ],
+              ),
             ),
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: isLast ? 0 : spacing),
-              child: child,
-            ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            left: railWidth + Space.sm,
+            bottom: isLast ? 0 : spacing,
           ),
-        ],
-      ),
+          child: child,
+        ),
+      ],
     );
   }
 }

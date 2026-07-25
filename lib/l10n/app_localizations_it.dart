@@ -45,9 +45,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get skillCategoryWebTechnologies => 'Tecnologie web';
 
   @override
-  String get skillCategoryQueryLanguages => 'Linguaggi di query';
-
-  @override
   String get skillCategorySemanticWebTechnologies =>
       'Tecnologie del Semantic Web';
 
@@ -86,9 +83,6 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get skillSPARQL => 'SPARQL';
-
-  @override
-  String get skillSQL => 'SQL';
 
   @override
   String get skillRDF => 'RDF';

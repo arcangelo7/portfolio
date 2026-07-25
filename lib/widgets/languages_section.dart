@@ -4,12 +4,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../l10n/app_localizations.dart';
 import '../l10n/localization_helper.dart';
 import '../models/language_data.dart';
 import '../services/cv_data_service.dart';
+import '../theme/design_tokens.dart';
 import '../utils/responsive.dart';
-import 'section_header.dart';
+import 'entry_card.dart';
+import 'section_shell.dart';
 
 class LanguagesSection extends StatefulWidget {
   final LanguageData? data;
@@ -64,39 +67,16 @@ class _LanguagesSectionState extends State<LanguagesSection> {
     }
   }
 
-  Future<void> _launchUrl(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isMobile = Responsive.isMobile(context);
 
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 16),
-      padding: EdgeInsets.all(isMobile ? 20 : 64),
-      color: Theme.of(context).colorScheme.surfaceContainer,
-      child: Column(
-        children: [
-          SectionHeader(title: l10n.languages),
-          const SizedBox(height: 32),
-          _buildContent(context, l10n, isMobile),
-        ],
-      ),
-    );
+    return SectionShell(title: l10n.languages, child: _buildContent(l10n));
   }
 
-  Widget _buildContent(
-    BuildContext context,
-    AppLocalizations l10n,
-    bool isMobile,
-  ) {
+  Widget _buildContent(AppLocalizations l10n) {
     if (_isLoading) {
-      return const CircularProgressIndicator();
+      return const Center(child: CircularProgressIndicator());
     }
 
     if (_error != null) {
@@ -108,246 +88,181 @@ class _LanguagesSectionState extends State<LanguagesSection> {
     }
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildMotherTongue(context, l10n, isMobile),
-        const SizedBox(height: 24),
-        ..._languageData!.otherLanguages.map(
-          (lang) => _buildOtherLanguage(context, l10n, lang, isMobile),
+        _LanguageCard(
+          label: l10n.languagesMotherTongue,
+          name: LocalizationHelper.getLocalizedText(
+            l10n,
+            _languageData!.motherTongue.name,
+          ),
         ),
+        for (final lang in _languageData!.otherLanguages) ...[
+          const SizedBox(height: Space.md),
+          _LanguageCard(
+            name: LocalizationHelper.getLocalizedText(l10n, lang.name),
+            levels: [
+              (l10n.languagesListening, lang.listening),
+              (l10n.languagesReading, lang.reading),
+              (l10n.languagesSpokenInteraction, lang.spokenInteraction),
+              (l10n.languagesSpokenProduction, lang.spokenProduction),
+              (l10n.languagesWriting, lang.writing),
+            ],
+            footnote: l10n.languagesCefrReference,
+            certificate: l10n.languageCertificateDate(lang.certificateDate),
+            badgeUrl: lang.badgeUrl,
+            badgeLabel: l10n.verifyCredential,
+          ),
+        ],
       ],
     );
   }
+}
 
-  Widget _buildMotherTongue(
-    BuildContext context,
-    AppLocalizations l10n,
-    bool isMobile,
-  ) {
-    final languageName = LocalizationHelper.getLocalizedText(
-      l10n,
-      _languageData!.motherTongue.name,
-    );
-    final colorScheme = Theme.of(context).colorScheme;
-    final cardBorderColor = colorScheme.onSurface.withValues(alpha: 0.12);
-    final cardShadowColor = colorScheme.onSurface.withValues(alpha: 0.06);
+class _LanguageCard extends StatelessWidget {
+  final String? label;
+  final String name;
+  final List<(String, String)> levels;
+  final String? footnote;
+  final String? certificate;
+  final String? badgeUrl;
+  final String? badgeLabel;
 
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(isMobile ? 16 : 20),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: cardBorderColor),
-        boxShadow: [
-          BoxShadow(
-            color: cardShadowColor,
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Icon(
-            Icons.home,
-            color: colorScheme.primary,
-            size: isMobile ? 20 : 24,
-          ),
-          SizedBox(width: isMobile ? 12 : 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SelectableText(
-                  l10n.languagesMotherTongue,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurface.withValues(alpha: 0.6),
-                    fontWeight: FontWeight.w600,
-                    fontSize: isMobile ? 11 : 12,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                SelectableText(
-                  languageName,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: colorScheme.onSurface,
-                    fontSize: isMobile ? 16 : 18,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+  const _LanguageCard({
+    required this.name,
+    this.label,
+    this.levels = const [],
+    this.footnote,
+    this.certificate,
+    this.badgeUrl,
+    this.badgeLabel,
+  });
+
+  Future<void> _launchBadge() async {
+    final uri = Uri.parse(badgeUrl!);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
   }
 
-  Widget _buildOtherLanguage(
-    BuildContext context,
-    AppLocalizations l10n,
-    OtherLanguage lang,
-    bool isMobile,
-  ) {
-    final languageName = LocalizationHelper.getLocalizedText(l10n, lang.name);
-    final colorScheme = Theme.of(context).colorScheme;
-    final cardBorderColor = colorScheme.onSurface.withValues(alpha: 0.12);
-    final cardShadowColor = colorScheme.onSurface.withValues(alpha: 0.06);
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(isMobile ? 16 : 20),
+      padding: EdgeInsets.all(EntryCard.padding(Responsive.isMobile(context))),
       decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: cardBorderColor),
-        boxShadow: [
-          BoxShadow(
-            color: cardShadowColor,
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          ),
-        ],
+        color: colorScheme.surfaceContainer,
+        borderRadius: Radii.card,
+        border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.translate,
-                color: colorScheme.primary,
-                size: isMobile ? 20 : 24,
+          if (label != null) ...[
+            SelectableText(
+              label!,
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
               ),
-              SizedBox(width: isMobile ? 12 : 16),
-              Expanded(
-                child: SelectableText(
-                  languageName,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: colorScheme.onSurface,
-                    fontSize: isMobile ? 16 : 18,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          _buildCefrGrid(context, l10n, lang, isMobile),
-          const SizedBox(height: 8),
+            ),
+            const SizedBox(height: Space.xxs),
+          ],
           SelectableText(
-            l10n.languagesCefrReference,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurface.withValues(alpha: 0.5),
-              fontStyle: FontStyle.italic,
-              fontSize: isMobile ? 10 : 11,
+            name,
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: colorScheme.onSurface,
             ),
           ),
-          const SizedBox(height: 8),
-          SelectableText(
-            l10n.languageCertificateDate(lang.certificateDate),
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurface.withValues(alpha: 0.6),
-              fontSize: isMobile ? 11 : 12,
+          if (levels.isNotEmpty) ...[
+            const SizedBox(height: Space.md),
+            Wrap(
+              spacing: Space.xs,
+              runSpacing: Space.xs,
+              children: [
+                for (final level in levels)
+                  _CefrChip(label: level.$1, level: level.$2),
+              ],
             ),
-          ),
-          if (lang.badgeUrl != null) ...[
-            const SizedBox(height: 12),
-            _buildBadgeButton(context, l10n, lang.badgeUrl!),
+          ],
+          if (footnote != null) ...[
+            const SizedBox(height: Space.xs),
+            SelectableText(
+              footnote!,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ],
+          if (certificate != null) ...[
+            const SizedBox(height: Space.xs),
+            SelectableText(
+              certificate!,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+          if (badgeUrl != null) ...[
+            const SizedBox(height: Space.xs),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton.icon(
+                onPressed: _launchBadge,
+                icon: const Icon(Icons.verified_outlined, size: 18),
+                label: Text(badgeLabel!),
+              ),
+            ),
           ],
         ],
       ),
     );
   }
+}
 
-  Widget _buildCefrGrid(
-    BuildContext context,
-    AppLocalizations l10n,
-    OtherLanguage lang,
-    bool isMobile,
-  ) {
-    final skills = [
-      (l10n.languagesListening, lang.listening),
-      (l10n.languagesReading, lang.reading),
-      (l10n.languagesSpokenInteraction, lang.spokenInteraction),
-      (l10n.languagesSpokenProduction, lang.spokenProduction),
-      (l10n.languagesWriting, lang.writing),
-    ];
+class _CefrChip extends StatelessWidget {
+  final String label;
+  final String level;
 
-    return Wrap(
-      spacing: isMobile ? 8 : 12,
-      runSpacing: isMobile ? 8 : 12,
-      children: skills.map((skill) {
-        return _buildCefrChip(context, skill.$1, skill.$2, isMobile);
-      }).toList(),
-    );
-  }
+  const _CefrChip({required this.label, required this.level});
 
-  Widget _buildCefrChip(
-    BuildContext context,
-    String label,
-    String level,
-    bool isMobile,
-  ) {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: isMobile ? 12 : 16,
-        vertical: isMobile ? 8 : 10,
+      padding: const EdgeInsets.symmetric(
+        horizontal: Space.sm,
+        vertical: Space.xs,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
-        ),
+        color: colorScheme.surfaceContainerHighest,
+        borderRadius: Radii.pill,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SelectableText(
             label,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.6),
-              fontSize: isMobile ? 10 : 11,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: Space.xxs),
           SelectableText(
             level,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: isMobile ? 16 : 18,
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: colorScheme.primary,
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildBadgeButton(
-    BuildContext context,
-    AppLocalizations l10n,
-    String badgeUrl,
-  ) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: TextButton.icon(
-        onPressed: () => _launchUrl(badgeUrl),
-        icon: Icon(
-          Icons.verified_outlined,
-          size: 18,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        label: Text(
-          l10n.verifyCredential,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: Theme.of(context).colorScheme.primary,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
       ),
     );
   }

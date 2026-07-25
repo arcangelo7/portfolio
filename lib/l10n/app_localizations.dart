@@ -166,12 +166,6 @@ abstract class AppLocalizations {
   /// **'Web technologies'**
   String get skillCategoryWebTechnologies;
 
-  /// No description provided for @skillCategoryQueryLanguages.
-  ///
-  /// In en, this message translates to:
-  /// **'Query languages'**
-  String get skillCategoryQueryLanguages;
-
   /// No description provided for @skillCategorySemanticWebTechnologies.
   ///
   /// In en, this message translates to:
@@ -249,12 +243,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'SPARQL'**
   String get skillSPARQL;
-
-  /// No description provided for @skillSQL.
-  ///
-  /// In en, this message translates to:
-  /// **'SQL'**
-  String get skillSQL;
 
   /// No description provided for @skillRDF.
   ///

@@ -6,9 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/app_localizations.dart';
-import '../utils/responsive.dart';
-import 'section_header.dart';
+import '../theme/design_tokens.dart';
+import 'section_shell.dart';
 
+/// Named links rather than tinted circles holding stand-in Material glyphs:
+/// `Icons.code` was not GitHub, `Icons.work` was not LinkedIn, and X was pure
+/// black on a near-black ground. The labels already say where each one goes.
 class ContactSection extends StatelessWidget {
   final Locale currentLocale;
 
@@ -16,130 +19,86 @@ class ContactSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = Responsive.isMobile(context);
     final l10n = AppLocalizations.of(context)!;
-    final professionalWebsiteUrl =
-        currentLocale.languageCode == 'it'
-            ? 'https://www.unibo.it/sitoweb/arcangelo.massari'
-            : 'https://www.unibo.it/sitoweb/arcangelo.massari/en';
+    final websiteUrl = currentLocale.languageCode == 'it'
+        ? 'https://www.unibo.it/sitoweb/arcangelo.massari'
+        : 'https://www.unibo.it/sitoweb/arcangelo.massari/en';
 
-    return Container(
-      padding: EdgeInsets.all(isMobile ? 20 : 64),
-      child: Column(
-        children: [
-          SectionHeader(title: l10n.getInTouch),
-          const SizedBox(height: 32),
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: isMobile ? 16 : 24,
-            runSpacing: isMobile ? 16 : 24,
-            children: [
-              _ContactButton(
-                icon: Icons.email,
-                label: l10n.email,
-                url: 'mailto:arcangelo.massari@unibo.it',
-                color: Theme.of(context).colorScheme.tertiary,
-                isMobile: isMobile,
-              ),
-              _ContactButton(
-                icon: Icons.web,
-                label: l10n.professionalWebsite,
-                url: professionalWebsiteUrl,
-                color: Theme.of(context).colorScheme.secondary,
-                isMobile: isMobile,
-              ),
-              _ContactButton(
-                icon: Icons.code,
-                label: l10n.github,
-                url: 'https://github.com/arcangelo7',
-                color: Theme.of(context).colorScheme.primary,
-                isMobile: isMobile,
-              ),
-              _ContactButton(
-                icon: Icons.science,
-                label: l10n.orcid,
-                url: 'https://orcid.org/0000-0002-8420-0696',
-                color: const Color(0xFFA6CE39),
-                isMobile: isMobile,
-              ),
-              _ContactButton(
-                icon: Icons.work,
-                label: l10n.linkedin,
-                url: 'https://www.linkedin.com/in/arcangelo-massari-4a736822b/',
-                color: const Color(0xFF0077B5),
-                isMobile: isMobile,
-              ),
-              _ContactButton(
-                icon: Icons.alternate_email,
-                label: l10n.twitter,
-                url: 'https://x.com/arcangelo_wd',
-                color: const Color(0xFF000000),
-                isMobile: isMobile,
-              ),
-            ],
-          ),
-          const SizedBox(height: 32),
-        ],
+    final links = <_ContactLink>[
+      _ContactLink(l10n.email, 'mailto:arcangelo.massari@unibo.it'),
+      _ContactLink(l10n.professionalWebsite, websiteUrl),
+      _ContactLink(l10n.github, 'https://github.com/arcangelo7'),
+      _ContactLink(l10n.orcid, 'https://orcid.org/0000-0002-8420-0696'),
+      _ContactLink(
+        l10n.linkedin,
+        'https://www.linkedin.com/in/arcangelo-massari-4a736822b/',
+      ),
+      _ContactLink(l10n.twitter, 'https://x.com/arcangelo_wd'),
+    ];
+
+    return SectionShell(
+      title: l10n.getInTouch,
+      // No run gutter: the hairline under each row is the separator, so a gap
+      // between rows would read as a break in the list.
+      child: SectionGrid(
+        gutter: Space.xl,
+        runGutter: 0,
+        children: [for (final link in links) _ContactRow(link: link)],
       ),
     );
   }
 }
 
-class _ContactButton extends StatelessWidget {
-  final IconData icon;
+class _ContactLink {
   final String label;
   final String url;
-  final Color color;
-  final bool isMobile;
 
-  const _ContactButton({
-    required this.icon,
-    required this.label,
-    required this.url,
-    required this.color,
-    required this.isMobile,
-  });
+  const _ContactLink(this.label, this.url);
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () => _launchUrl(url),
-            borderRadius: BorderRadius.circular(50),
-            child: Container(
-              padding: EdgeInsets.all(isMobile ? 12 : 16),
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
-                border: Border.all(color: color.withValues(alpha: 0.3)),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: Icon(icon, size: isMobile ? 24 : 28, color: color),
-            ),
-          ),
-        ),
-        const SizedBox(height: 8),
-        SelectableText(
-          label,
-          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.8),
-            fontSize: isMobile ? 11 : 12,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ],
-    );
-  }
+class _ContactRow extends StatelessWidget {
+  final _ContactLink link;
 
-  Future<void> _launchUrl(String url) async {
-    final uri = Uri.parse(url);
+  const _ContactRow({required this.link});
+
+  Future<void> _launch() async {
+    final uri = Uri.parse(link.url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return InkWell(
+      onTap: _launch,
+      borderRadius: Radii.pill,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: Space.md),
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: colorScheme.outlineVariant)),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                link.label,
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: colorScheme.onSurface,
+                ),
+              ),
+            ),
+            Icon(
+              Icons.arrow_outward,
+              size: 16,
+              color: colorScheme.onSurfaceVariant,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

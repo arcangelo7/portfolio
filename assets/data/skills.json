@@ -21,15 +21,6 @@
       "order": 2
     },
     {
-      "id": "query_languages",
-      "nameKey": "skillCategoryQueryLanguages",
-      "skills": [
-        {"id": "sparql", "nameKey": "skillSPARQL"},
-        {"id": "sql", "nameKey": "skillSQL"}
-      ],
-      "order": 3
-    },
-    {
       "id": "semantic_web_technologies",
       "nameKey": "skillCategorySemanticWebTechnologies",
       "skills": [
@@ -37,7 +28,7 @@
         {"id": "sparql", "nameKey": "skillSPARQL"},
         {"id": "shacl", "nameKey": "skillSHACL"}
       ],
-      "order": 4
+      "order": 3
     },
     {
       "id": "frontend_libraries",
@@ -48,7 +39,7 @@
         {"id": "bootstrap", "nameKey": "skillBootstrap"},
         {"id": "d3js", "nameKey": "skillD3JS"}
       ],
-      "order": 5
+      "order": 4
     },
     {
       "id": "backend_frameworks",
@@ -57,7 +48,7 @@
         {"id": "flask", "nameKey": "skillFlask"},
         {"id": "nodejs", "nameKey": "skillNodeJS"}
       ],
-      "order": 6
+      "order": 5
     },
     {
       "id": "databases",
@@ -71,7 +62,7 @@
         {"id": "postgresql", "nameKey": "skillPostgreSQL"},
         {"id": "redis", "nameKey": "skillRedis"}
       ],
-      "order": 7
+      "order": 6
     },
     {
       "id": "infrastructure_devops",
@@ -81,7 +72,7 @@
         {"id": "proxmox", "nameKey": "skillProxmox"},
         {"id": "github_actions", "nameKey": "skillGitHubActions"}
       ],
-      "order": 8
+      "order": 7
     },
     {
       "id": "operating_systems",
@@ -90,7 +81,7 @@
         {"id": "arch", "nameKey": "skillArch"},
         {"id": "debian", "nameKey": "skillDebian"}
       ],
-      "order": 9
+      "order": 8
     }
   ]
 }

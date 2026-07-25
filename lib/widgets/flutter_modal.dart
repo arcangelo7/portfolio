@@ -5,8 +5,9 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../l10n/app_localizations.dart';
-import '../main.dart';
+import '../theme/portfolio_theme.dart';
 import '../services/github_release_service.dart';
+import '../theme/design_tokens.dart';
 import '../utils/responsive.dart';
 
 class FlutterModal extends StatefulWidget {
@@ -60,16 +61,17 @@ class _FlutterModalState extends State<FlutterModal> {
     final isCompact = screenSize.width < 600;
 
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      shape: RoundedRectangleBorder(borderRadius: Radii.card),
       child: Container(
         padding: EdgeInsets.all(isCompact ? 16 : 24),
         constraints: BoxConstraints(
-          maxWidth:
-              isCompact ? screenSize.width * 0.95 : screenSize.width * 0.8,
+          maxWidth: isCompact
+              ? screenSize.width * 0.95
+              : screenSize.width * 0.8,
           maxHeight: screenSize.height * 0.8,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: Radii.card,
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -89,7 +91,7 @@ class _FlutterModalState extends State<FlutterModal> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: PortfolioTheme.cobaltBlue,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: Radii.card,
                     ),
                     child: const Icon(
                       Icons.flutter_dash,
@@ -104,21 +106,20 @@ class _FlutterModalState extends State<FlutterModal> {
                       children: [
                         SelectableText(
                           l10n.flutterAppTitle,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                         ),
                         SelectableText(
                           l10n.flutterAppSubtitle,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyMedium?.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
+                              ),
                         ),
                       ],
                     ),
@@ -130,10 +131,12 @@ class _FlutterModalState extends State<FlutterModal> {
                       onPressed: () => Navigator.of(context).pop(),
                       icon: const Icon(Icons.close),
                       style: IconButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.errorContainer,
-                        foregroundColor:
-                            Theme.of(context).colorScheme.onErrorContainer,
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.errorContainer,
+                        foregroundColor: Theme.of(
+                          context,
+                        ).colorScheme.onErrorContainer,
                       ),
                       tooltip: l10n.closeFlutterInfo,
                     ),
@@ -213,9 +216,7 @@ class _FlutterModalState extends State<FlutterModal> {
                     horizontal: 24,
                     vertical: 12,
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: Radii.card),
                   elevation: 3,
                 ),
                 child: Text(l10n.closeFlutterInfo),
@@ -245,7 +246,7 @@ class _FlutterModalState extends State<FlutterModal> {
           backgroundColor: color,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          shape: RoundedRectangleBorder(borderRadius: Radii.card),
           elevation: 4,
         ),
       ),

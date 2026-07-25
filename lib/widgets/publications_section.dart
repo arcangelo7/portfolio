@@ -11,6 +11,7 @@ import '../l10n/app_localizations.dart';
 import '../models/publication.dart';
 import '../services/opencitations_meta_service.dart';
 import '../utils/publication_utils.dart';
+import '../theme/design_tokens.dart';
 import '../utils/responsive.dart';
 import 'expandable_authors_widget.dart';
 import 'lazy_image.dart';
@@ -251,7 +252,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
 
   Widget _buildAbstractContent(String content) {
     final textStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
-      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
+      color: Theme.of(context).colorScheme.onSurfaceVariant,
       height: 1.6,
     );
 
@@ -316,8 +317,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: _neutralBorderColor()),
+        borderRadius: Radii.card,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -362,7 +362,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                   isExpanded ? l10n.showLess : l10n.readMore,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 style: TextButton.styleFrom(
@@ -406,8 +406,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainerLow,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: _neutralBorderColor()),
+          borderRadius: Radii.card,
         ),
         child: Row(
           children: [
@@ -440,8 +439,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: _neutralBorderColor()),
+        borderRadius: Radii.card,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -493,8 +491,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: _neutralBorderColor()),
+        borderRadius: Radii.card,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -523,12 +520,12 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                   ),
                   decoration: BoxDecoration(
                     color: _neutralBackgroundColor(),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: Radii.card,
                   ),
                   child: SelectableText(
                     l10n.citationCount(citationCount),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
@@ -560,9 +557,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                       Text(
                         l10n.citationsFrom,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withValues(alpha: 0.8),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -638,7 +633,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: Radii.pill,
                       border: Border.all(color: _neutralBorderColor(0.1)),
                     ),
                     child: Column(
@@ -693,13 +688,13 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                               ),
                               decoration: BoxDecoration(
                                 color: _neutralBackgroundColor(),
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: Radii.card,
                               ),
                               child: SelectableText(
                                 citation.displayYear,
                                 style: Theme.of(context).textTheme.bodySmall
                                     ?.copyWith(
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w700,
                                       color: Theme.of(
                                         context,
                                       ).colorScheme.onSurface,
@@ -739,7 +734,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                                                 ).colorScheme.primary,
                                                 decoration:
                                                     TextDecoration.underline,
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w700,
                                               ),
                                         ),
                                       ],
@@ -784,7 +779,6 @@ class _PublicationsSectionState extends State<PublicationsSection> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isMobile = Responsive.isMobile(context);
     final chunkIndex = widget.chunkIndex;
     final isFirstChunk = chunkIndex == null || chunkIndex == 0;
     final isLastChunk =
@@ -792,29 +786,11 @@ class _PublicationsSectionState extends State<PublicationsSection> {
 
     return Container(
       key: isFirstChunk ? _publicationsSectionKey : null,
-      margin: EdgeInsets.only(
-        top: isFirstChunk ? 32 : 0,
-        bottom: isLastChunk ? 32 : 0,
-      ),
       padding: EdgeInsets.fromLTRB(
-        isMobile ? 20 : 64,
-        isFirstChunk ? (isMobile ? 20 : 64) : 0,
-        isMobile ? 20 : 64,
-        isLastChunk ? (isMobile ? 20 : 64) : 0,
-      ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        boxShadow: chunkIndex == null
-            ? [
-                BoxShadow(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.05),
-                  blurRadius: 16,
-                  offset: const Offset(0, 4),
-                ),
-              ]
-            : null,
+        Responsive.pageInset(context),
+        isFirstChunk ? Responsive.sectionInset(context) : 0,
+        Responsive.pageInset(context),
+        isLastChunk ? Responsive.sectionInset(context) : 0,
       ),
       child: Column(
         children: [
@@ -824,9 +800,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             SelectableText(
               l10n.publicationsDescription,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.8),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
               textAlign: TextAlign.center,
             ),
@@ -866,7 +840,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       decoration: BoxDecoration(
         color: _neutralBackgroundColor(),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: Radii.card,
         border: Border.all(color: _neutralBorderColor(), width: 1),
       ),
       child: Row(
@@ -892,7 +866,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
               l10n.calculatingTotalCitations,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ] else if (_totalCitationCount != null) ...[
@@ -900,7 +874,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
               l10n.totalCitations(_totalCitationCount!),
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
@@ -939,11 +913,11 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           filled: true,
           fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: Radii.card,
             borderSide: BorderSide(color: _neutralBorderColor(), width: 1),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: Radii.card,
             borderSide: BorderSide(
               color: Theme.of(context).colorScheme.primary,
               width: 2,
@@ -982,7 +956,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             color: isSelected
                 ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).colorScheme.onSurface,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+            fontWeight: isSelected ? FontWeight.w700 : FontWeight.normal,
           ),
           side: BorderSide(
             color: isSelected
@@ -1048,12 +1022,10 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: Radii.card,
         boxShadow: [
           BoxShadow(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.1),
+            color: Theme.of(context).colorScheme.outlineVariant,
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -1085,9 +1057,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                   : publication.displayVenue,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontStyle: FontStyle.italic,
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.8),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 8),
@@ -1099,12 +1069,12 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                 margin: const EdgeInsets.only(right: 8),
                 decoration: BoxDecoration(
                   color: _neutralBackgroundColor(),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: Radii.card,
                 ),
                 child: SelectableText(
                   publication.getCategoryDisplayName(l10n),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
@@ -1114,12 +1084,12 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: _neutralBackgroundColor(),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: Radii.card,
                 ),
                 child: SelectableText(
                   publication.displayYear,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
@@ -1165,7 +1135,7 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                     color: isCurrentPage
                         ? Theme.of(context).colorScheme.primary
                         : Colors.transparent,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: Radii.card,
                     border: Border.all(
                       color: isCurrentPage
                           ? Theme.of(context).colorScheme.primary

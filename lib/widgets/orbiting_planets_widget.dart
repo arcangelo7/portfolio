@@ -10,25 +10,45 @@ import '../l10n/app_localizations.dart';
 import '../utils/responsive.dart';
 import 'lazy_image.dart';
 
+/// Where the sun or moon sits in the hero, in pixels from its top left corner.
+/// The mascot and the light behind it read the same numbers, so the glow stays
+/// behind the mascot instead of drifting with the viewport.
+class MascotPlacement {
+  final double inset;
+  final double diameter;
+
+  const MascotPlacement._({required this.inset, required this.diameter});
+
+  factory MascotPlacement.of(BuildContext context) {
+    return Responsive.isMobile(context)
+        ? const MascotPlacement._(inset: 20, diameter: 120)
+        : const MascotPlacement._(inset: 40, diameter: 180);
+  }
+
+  Offset get center => Offset(inset + diameter / 2, inset + diameter / 2);
+}
+
 class ThemeElementsTransition extends StatelessWidget {
   final bool previousDarkMode;
   final bool finalDarkMode;
   final Animation<double> animation;
-  final double elementSize;
 
   const ThemeElementsTransition({
     super.key,
     required this.previousDarkMode,
     required this.finalDarkMode,
     required this.animation,
-    this.elementSize = 60.0,
   });
 
-  Widget _buildPlanetElement(BuildContext context, bool isDarkMode) {
+  Widget _buildPlanetElement(
+    BuildContext context,
+    bool isDarkMode,
+    double diameter,
+  ) {
     return Container(
       key: ValueKey(isDarkMode ? 'theme-element-moon' : 'theme-element-sun'),
-      width: elementSize,
-      height: elementSize,
+      width: diameter,
+      height: diameter,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         boxShadow: [
@@ -50,8 +70,8 @@ class ThemeElementsTransition extends StatelessWidget {
                   ? 'assets/images/dark_mode.png'
                   : 'assets/images/light_mode.png',
               fit: BoxFit.cover,
-              width: elementSize,
-              height: elementSize,
+              width: diameter,
+              height: diameter,
               critical: true,
               semanticLabel: AppLocalizations.of(context)?.orbitingPlanetAlt,
             ),
@@ -84,17 +104,19 @@ class ThemeElementsTransition extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = Responsive.sizeOf(context);
-    final isMobile = Responsive.isMobile(context);
+    final mascot = MascotPlacement.of(context);
 
-    final leftPosition = isMobile ? 20.0 : 40.0;
-    final topPosition = isMobile ? 20.0 : 40.0;
-    final outgoingPlanet = _buildPlanetElement(context, previousDarkMode);
+    final outgoingPlanet = _buildPlanetElement(
+      context,
+      previousDarkMode,
+      mascot.diameter,
+    );
     if (previousDarkMode == finalDarkMode) {
       return Stack(
         children: [
           Positioned(
-            left: leftPosition,
-            top: topPosition,
+            left: mascot.inset,
+            top: mascot.inset,
             child: _translatedPlanet(
               isDarkMode: finalDarkMode,
               offset: Offset.zero,
@@ -105,7 +127,11 @@ class ThemeElementsTransition extends StatelessWidget {
       );
     }
 
-    final incomingPlanet = _buildPlanetElement(context, finalDarkMode);
+    final incomingPlanet = _buildPlanetElement(
+      context,
+      finalDarkMode,
+      mascot.diameter,
+    );
     final planetAnimation = CurvedAnimation(
       parent: animation,
       curve: const Interval(0, 650 / 800, curve: Curves.easeInOutCubic),
@@ -115,8 +141,8 @@ class ThemeElementsTransition extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            left: leftPosition,
-            top: topPosition,
+            left: mascot.inset,
+            top: mascot.inset,
             child: AnimatedBuilder(
               animation: planetAnimation,
               child: outgoingPlanet,
@@ -125,10 +151,10 @@ class ThemeElementsTransition extends StatelessWidget {
                 final offset = Offset(
                   _lerp(
                     0,
-                    screenSize.width + elementSize - leftPosition,
+                    screenSize.width + mascot.diameter - mascot.inset,
                     progress,
                   ),
-                  _lerp(0, screenSize.height * 0.7 - topPosition, progress) -
+                  _lerp(0, screenSize.height * 0.7 - mascot.inset, progress) -
                       screenSize.height * 0.12 * math.sin(progress * math.pi),
                 );
                 return _translatedPlanet(
@@ -140,16 +166,16 @@ class ThemeElementsTransition extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: leftPosition,
-            top: topPosition,
+            left: mascot.inset,
+            top: mascot.inset,
             child: AnimatedBuilder(
               animation: planetAnimation,
               child: incomingPlanet,
               builder: (context, child) {
                 final progress = planetAnimation.value;
                 final offset = Offset(
-                  _lerp(-elementSize - leftPosition, 0, progress),
-                  _lerp(screenSize.height * 0.24 - topPosition, 0, progress) -
+                  _lerp(-mascot.diameter - mascot.inset, 0, progress),
+                  _lerp(screenSize.height * 0.24 - mascot.inset, 0, progress) -
                       screenSize.height * 0.06 * math.sin(progress * math.pi),
                 );
                 return _translatedPlanet(

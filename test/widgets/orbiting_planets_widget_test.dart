@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:portfolio/l10n/app_localizations.dart';
-import 'package:portfolio/main.dart';
+import 'package:portfolio/theme/portfolio_theme.dart';
 import 'package:portfolio/widgets/hero_section.dart';
 import 'package:portfolio/widgets/starry_background.dart';
 
@@ -200,10 +200,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 1));
     await tester.pump();
 
-    expect(_gradientColors(tester), [
-      PortfolioTheme.emeraldGreen,
-      PortfolioTheme.astroGold,
-    ]);
+    expect(_gradientColors(tester), PortfolioTheme.heroDaySky);
     expect(_starOpacity(tester), 0);
     _expectStarsEnabled(tester, false);
     expect(
@@ -224,22 +221,49 @@ void main() {
     expect(find.byKey(const ValueKey('theme-element-sun')), findsNothing);
     expect(find.byKey(const ValueKey('theme-element-moon')), findsOneWidget);
     _expectTranslation(tester, 'theme-element-moon-transform', Offset.zero);
-    expect(_gradientColors(tester), [
-      PortfolioTheme.cobaltBlue,
-      PortfolioTheme.astroMysticBlue,
-    ]);
+    expect(_gradientColors(tester), PortfolioTheme.heroNightSky);
     expect(_starOpacity(tester), 1);
     _expectStarsEnabled(tester, true);
 
     hostKey.currentState!.setDarkMode(false);
     await tester.pump();
 
-    expect(_gradientColors(tester), [
-      PortfolioTheme.emeraldGreen,
-      PortfolioTheme.astroGold,
-    ]);
+    expect(_gradientColors(tester), PortfolioTheme.heroDaySky);
     expect(_starOpacity(tester), 0);
     _expectStarsEnabled(tester, false);
+  });
+
+  testWidgets('the glow stays behind the mascot at every viewport', (
+    WidgetTester tester,
+  ) async {
+    addTearDown(tester.view.reset);
+
+    for (final viewport in const [
+      Size(1440, 900),
+      Size(2560, 1440),
+      Size(390, 844),
+    ]) {
+      tester.view
+        ..physicalSize = viewport
+        ..devicePixelRatio = 1;
+      await tester.pumpWidget(_HeroHost(viewport: viewport));
+
+      final glow = tester.getRect(find.byKey(const ValueKey('hero-glow')));
+      final sun = tester.getRect(
+        find.byKey(const ValueKey('theme-element-sun')),
+      );
+
+      expect(
+        glow.center,
+        sun.center,
+        reason: 'the light must come from behind the mascot at $viewport',
+      );
+      expect(
+        glow.width,
+        sun.width * 7,
+        reason: 'the halo scales with the mascot, not with the viewport',
+      );
+    }
   });
 }
 
@@ -250,14 +274,14 @@ void _expectThemeProgress(
   bool previousDarkMode = false,
 }) {
   final previousColors = previousDarkMode
-      ? [PortfolioTheme.cobaltBlue, PortfolioTheme.astroMysticBlue]
-      : [PortfolioTheme.emeraldGreen, PortfolioTheme.astroGold];
+      ? PortfolioTheme.heroNightSky
+      : PortfolioTheme.heroDaySky;
   final finalColors = previousDarkMode
-      ? [PortfolioTheme.emeraldGreen, PortfolioTheme.astroGold]
-      : [PortfolioTheme.cobaltBlue, PortfolioTheme.astroMysticBlue];
+      ? PortfolioTheme.heroDaySky
+      : PortfolioTheme.heroNightSky;
   expect(_gradientColors(tester), [
-    Color.lerp(previousColors[0], finalColors[0], progress),
-    Color.lerp(previousColors[1], finalColors[1], progress),
+    for (var i = 0; i < finalColors.length; i++)
+      Color.lerp(previousColors[i], finalColors[i], progress),
   ]);
   expect(_starOpacity(tester), starOpacity);
 }
@@ -294,8 +318,13 @@ List<Color?> _gradientColors(WidgetTester tester) {
 
 class _HeroHost extends StatefulWidget {
   final bool disableAnimations;
+  final Size viewport;
 
-  const _HeroHost({super.key, this.disableAnimations = false});
+  const _HeroHost({
+    super.key,
+    this.disableAnimations = false,
+    this.viewport = const Size(800, 600),
+  });
 
   @override
   State<_HeroHost> createState() => _HeroHostState();
@@ -325,8 +354,8 @@ class _HeroHostState extends State<_HeroHost> {
       ],
       supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
       home: MediaQuery(
-        data: const MediaQueryData(
-          size: Size(800, 600),
+        data: MediaQueryData(
+          size: widget.viewport,
         ).copyWith(disableAnimations: widget.disableAnimations),
         child: Scaffold(
           body: HeroSection(isDarkMode: _isDarkMode, onViewWork: () {}),

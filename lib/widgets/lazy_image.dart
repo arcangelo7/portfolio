@@ -161,32 +161,31 @@ class _LazyImageState extends State<LazyImage> {
       filterQuality: widget.filterQuality,
       alignment: widget.alignment,
       // Use frameBuilder to show loading indicator for non-critical images
-      frameBuilder:
-          widget.critical
-              ? null
-              : (context, child, frame, wasSynchronouslyLoaded) {
-                if (wasSynchronouslyLoaded || frame != null) {
-                  return child;
-                }
-                return Container(
-                  width: widget.width,
-                  height: widget.height,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainer,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Center(
-                    child: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+      frameBuilder: widget.critical
+          ? null
+          : (context, child, frame, wasSynchronouslyLoaded) {
+              if (wasSynchronouslyLoaded || frame != null) {
+                return child;
+              }
+              return Container(
+                width: widget.width,
+                height: widget.height,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Center(
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                );
-              },
+                ),
+              );
+            },
     );
     if (widget.semanticLabel == null || widget.semanticLabel!.isEmpty) {
       return ExcludeSemantics(child: imageWidget);

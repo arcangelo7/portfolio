@@ -5,11 +5,17 @@
 import 'package:flutter/material.dart';
 
 import '../l10n/app_localizations.dart';
-import '../main.dart';
+import '../theme/design_tokens.dart';
+import '../theme/portfolio_theme.dart';
 import '../utils/responsive.dart';
 import 'lazy_image.dart';
 import 'orbiting_planets_widget.dart';
 import 'starry_background.dart';
+
+/// How far the mascot's light reaches, as a multiple of the mascot itself.
+/// Tying the halo to what casts it, rather than to the viewport, keeps the two
+/// the same size relative to each other on every screen.
+const double _glowSpread = 3.5;
 
 class HeroSection extends StatefulWidget {
   final VoidCallback onViewWork;
@@ -98,10 +104,22 @@ class _HeroSectionState extends State<HeroSection>
     super.dispose();
   }
 
-  List<Color> _gradientColors(bool isDarkMode) {
+  /// The sky lightens towards the corner the sun or moon occupies.
+  List<Color> _skyColors(bool isDarkMode) {
+    return isDarkMode ? PortfolioTheme.heroNightSky : PortfolioTheme.heroDaySky;
+  }
+
+  List<Color> _glowColors(bool isDarkMode) {
     return isDarkMode
-        ? [PortfolioTheme.cobaltBlue, PortfolioTheme.astroMysticBlue]
-        : [PortfolioTheme.emeraldGreen, PortfolioTheme.astroGold];
+        ? PortfolioTheme.heroNightGlow
+        : PortfolioTheme.heroDayGlow;
+  }
+
+  List<Color> _lerpColors(List<Color> from, List<Color> to) {
+    return [
+      for (var i = 0; i < to.length; i++)
+        Color.lerp(from[i], to[i], _gradientAnimation.value)!,
+    ];
   }
 
   double get _starOpacity {
@@ -120,6 +138,8 @@ class _HeroSectionState extends State<HeroSection>
     final isMobile = Responsive.isMobile(context);
     final l10n = AppLocalizations.of(context)!;
     final animateStars = widget.isDarkMode || _previousDarkMode;
+    final mascot = MascotPlacement.of(context);
+    final glowRadius = mascot.diameter * _glowSpread;
 
     return SizedBox(
       height: screenSize.height,
@@ -131,26 +151,44 @@ class _HeroSectionState extends State<HeroSection>
               child: AnimatedBuilder(
                 animation: _gradientAnimation,
                 builder: (context, child) {
-                  final previousColors = _gradientColors(_previousDarkMode);
-                  final finalColors = _gradientColors(widget.isDarkMode);
                   return DecoratedBox(
                     key: const ValueKey('hero-gradient'),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.bottomRight,
                         end: Alignment.topLeft,
-                        colors: [
-                          Color.lerp(
-                            previousColors[0],
-                            finalColors[0],
-                            _gradientAnimation.value,
-                          )!,
-                          Color.lerp(
-                            previousColors[1],
-                            finalColors[1],
-                            _gradientAnimation.value,
-                          )!,
-                        ],
+                        colors: _lerpColors(
+                          _skyColors(_previousDarkMode),
+                          _skyColors(widget.isDarkMode),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          Positioned(
+            key: const ValueKey('hero-glow-layer'),
+            left: mascot.center.dx - glowRadius,
+            top: mascot.center.dy - glowRadius,
+            width: glowRadius * 2,
+            height: glowRadius * 2,
+            child: RepaintBoundary(
+              child: AnimatedBuilder(
+                animation: _gradientAnimation,
+                builder: (context, child) {
+                  return DecoratedBox(
+                    key: const ValueKey('hero-glow'),
+                    // The box is the halo, so the gradient keeps its default
+                    // centre and radius and lands its last stop on the edge.
+                    decoration: BoxDecoration(
+                      gradient: RadialGradient(
+                        stops: const [0, 0.35, 1],
+                        colors: _lerpColors(
+                          _glowColors(_previousDarkMode),
+                          _glowColors(widget.isDarkMode),
+                        ),
                       ),
                     ),
                   );
@@ -186,7 +224,6 @@ class _HeroSectionState extends State<HeroSection>
                 previousDarkMode: _previousDarkMode,
                 finalDarkMode: widget.isDarkMode,
                 animation: _themeController,
-                elementSize: isMobile ? 120.0 : 180.0,
               ),
             ),
           ),
@@ -216,82 +253,96 @@ class _HeroSectionState extends State<HeroSection>
               ),
             ),
           ),
+          Positioned.fill(
+            key: const ValueKey('hero-scrim-layer'),
+            child: IgnorePointer(
+              child: DecoratedBox(
+                // Diagonal rather than straight across: the text needs the
+                // shade, the corner the mascot lights does not, and a full
+                // width scrim turns the dawn into a warm grey.
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: isMobile
+                        ? Alignment.bottomCenter
+                        : Alignment.bottomLeft,
+                    end: isMobile ? Alignment.topCenter : Alignment.topRight,
+                    colors: [
+                      Colors.black.withValues(alpha: 0.45),
+                      Colors.black.withValues(alpha: 0.18),
+                      Colors.black.withValues(alpha: 0),
+                    ],
+                    stops: const [0, 0.45, 0.85],
+                  ),
+                ),
+              ),
+            ),
+          ),
           Positioned(
             key: const ValueKey('hero-text-layer'),
-            left: isMobile ? 16 : 60,
-            right: isMobile ? 16 : null,
+            left: isMobile ? Space.lg : Space.section,
+            right: isMobile ? Space.lg : null,
             top: 0,
             bottom: 0,
             child: SizedBox(
-              width: isMobile ? null : screenWidth * 0.4,
+              width: isMobile ? null : screenWidth * 0.5,
               child: RepaintBoundary(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: isMobile
-                      ? CrossAxisAlignment.center
-                      : CrossAxisAlignment.start,
-                  children: [
-                    Semantics(
-                      header: true,
-                      child: SelectableText(
-                        l10n.name,
-                        style: Theme.of(context).textTheme.displayLarge
-                            ?.copyWith(
-                              color: PortfolioTheme.iceWhite,
-                              fontSize: isMobile ? 36 : 56,
-                              shadows: [
-                                Shadow(
-                                  offset: const Offset(2, 2),
-                                  blurRadius: 4,
-                                  color: Colors.black.withValues(alpha: 0.3),
-                                ),
-                              ],
-                            ),
-                        textAlign: isMobile
-                            ? TextAlign.center
-                            : TextAlign.start,
-                        semanticsLabel: 'Main heading: ${l10n.name}',
+                child: LayoutBuilder(
+                  builder: (context, constraints) => SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
                       ),
-                    ),
-                    const SizedBox(height: 12),
-                    SelectableText(
-                      l10n.professionalTitle,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: PortfolioTheme.iceWhite.withValues(alpha: 0.9),
-                        fontWeight: FontWeight.w500,
-                        fontSize: isMobile ? 18 : 24,
-                        height: 1.3,
-                        shadows: [
-                          Shadow(
-                            offset: const Offset(1, 1),
-                            blurRadius: 3,
-                            color: Colors.black.withValues(alpha: 0.3),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: isMobile
+                            ? CrossAxisAlignment.center
+                            : CrossAxisAlignment.start,
+                        children: [
+                          Semantics(
+                            header: true,
+                            child: SelectableText(
+                              l10n.name,
+                              style: Theme.of(context).textTheme.displayLarge
+                                  ?.copyWith(
+                                    color: PortfolioTheme.iceWhite,
+                                    fontSize: _nameFontSize(screenSize),
+                                  ),
+                              textAlign: isMobile
+                                  ? TextAlign.center
+                                  : TextAlign.start,
+                              semanticsLabel: 'Main heading: ${l10n.name}',
+                            ),
+                          ),
+                          const SizedBox(height: Space.md),
+                          SelectableText(
+                            l10n.professionalTitle,
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(
+                                  color: PortfolioTheme.iceWhite,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: isMobile ? 18 : 23,
+                                ),
+                            textAlign: isMobile
+                                ? TextAlign.center
+                                : TextAlign.start,
+                          ),
+                          const SizedBox(height: Space.xl),
+                          FilledButton(
+                            onPressed: widget.onViewWork,
+                            style: FilledButton.styleFrom(
+                              backgroundColor: PortfolioTheme.iceWhite,
+                              foregroundColor: PortfolioTheme.cobaltBlue,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: Space.xl,
+                                vertical: Space.md,
+                              ),
+                            ),
+                            child: Text(l10n.viewMyWork),
                           ),
                         ],
                       ),
-                      textAlign: isMobile ? TextAlign.center : TextAlign.start,
                     ),
-                    const SizedBox(height: 32),
-                    ElevatedButton(
-                      onPressed: widget.onViewWork,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: PortfolioTheme.iceWhite,
-                        foregroundColor: PortfolioTheme.cobaltBlue,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isMobile ? 30 : 40,
-                          vertical: isMobile ? 16 : 20,
-                        ),
-                        elevation: 8,
-                      ),
-                      child: Text(
-                        l10n.viewMyWork,
-                        style: TextStyle(
-                          fontSize: isMobile ? 16 : 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -299,5 +350,11 @@ class _HeroSectionState extends State<HeroSection>
         ],
       ),
     );
+  }
+
+  /// Fluid rather than two fixed steps, so the name fills the hero on a wide
+  /// display without overrunning a short or narrow one.
+  double _nameFontSize(Size screen) {
+    return (screen.width * 0.062).clamp(38.0, 76.0);
   }
 }

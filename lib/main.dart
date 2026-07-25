@@ -20,11 +20,15 @@ import 'services/cv_data_service.dart';
 import 'services/dynamic_cv_generator_service.dart';
 import 'services/europass_cv_generator_service.dart';
 import 'services/seo_service.dart';
+import 'services/theme_preference_service.dart';
 import 'services/zotero_service.dart';
+import 'theme/design_tokens.dart';
+import 'theme/portfolio_theme.dart';
 import 'utils/responsive.dart';
 import 'utils/web_utils.dart';
 import 'widgets/about_section.dart';
 import 'widgets/astrogods_section.dart';
+import 'widgets/celestial_marker.dart';
 import 'widgets/conferences_seminars_section.dart';
 import 'widgets/contact_section.dart';
 import 'widgets/education_section.dart';
@@ -32,7 +36,9 @@ import 'widgets/hero_section.dart';
 import 'widgets/language_selector_sheet.dart';
 import 'widgets/languages_section.dart';
 import 'widgets/publications_section.dart';
+import 'widgets/reveal_on_scroll.dart';
 import 'widgets/skills_section.dart';
+import 'widgets/sky_backdrop.dart';
 import 'widgets/table_of_contents_widget.dart';
 import 'widgets/theme_toggle_widget.dart';
 import 'widgets/work_experience_section.dart';
@@ -62,116 +68,17 @@ void main() async {
     });
   }
 
-  runApp(const PortfolioApp());
-}
-
-class PortfolioTheme {
-  static const Color iceWhite = Color(0xFFF0F8FF);
-  static const Color emeraldGreen = Color(0xFF226C3B);
-  static const Color violet = Color(0xFF420075);
-  static const Color wine = Color(0xFF800020);
-  static const Color cobaltBlue = Color(0xFF000075);
-  static const Color lightCobaltBlue = Color(0xFF8E8EF0);
-  static const Color black = Color(0xFF1A1A1A);
-
-  // AstroGods section colors
-  static const Color astroMysticBlue = Color(0xFF1A1A2E);
-  static const Color astroDarkViolet = Color(0xFF16213E);
-  static const Color astroDeepBlue = Color(0xFF0F3460);
-  static const Color astroGold = Color(0xFFFFD700);
-  static const Color astroLightGray = Color(0xFFE0E0E0);
-  static const Color astroProblemRed = Color(0xFFE74C3C);
-  static const Color astroElementViolet = Color(0xFF9B59B6);
-  static const Color astroComplexityOrange = Color(0xFFE67E22);
-  static const Color astroTraditionBlue = Color(0xFF3498DB);
-  static const Color astroAiGreen = Color(0xFF2ECC71);
-
-  static final ColorScheme lightColorScheme = ColorScheme.light(
-    primary: cobaltBlue,
-    secondary: emeraldGreen,
-    tertiary: violet,
-    surface: iceWhite,
-    onSurface: black,
-    onPrimary: iceWhite,
-    onSecondary: iceWhite,
-    onTertiary: iceWhite,
-    error: wine,
-    onError: iceWhite,
-    surfaceContainerHighest: iceWhite.withValues(alpha: 0.95),
-    surfaceContainer: iceWhite.withValues(alpha: 0.98),
-    outline: wine.withValues(alpha: 0.2),
-    onSurfaceVariant: wine.withValues(alpha: 0.7),
-  );
-
-  static final ColorScheme darkColorScheme = ColorScheme.dark(
-    primary: lightCobaltBlue,
-    secondary: emeraldGreen,
-    tertiary: violet,
-    surface: black,
-    onSurface: iceWhite,
-    onPrimary: black,
-    onSecondary: black,
-    onTertiary: iceWhite,
-    error: wine,
-    onError: iceWhite,
-    surfaceContainerHighest: const Color(0xFF2A2A2A),
-    surfaceContainer: const Color(0xFF333333),
-    outline: iceWhite.withValues(alpha: 0.2),
-    onSurfaceVariant: iceWhite.withValues(alpha: 0.7),
-  );
-
-  // Typography: Felipa (calligraphic script, single weight 400 — never bold)
-  // only for display roles (hero name and section titles), IBM Plex Sans
-  // for everything else, IBM Plex Mono for labels/metadata.
-  static const String fontDisplay = 'Felipa';
-  static const String fontBody = 'IBMPlexSans';
-  static const String fontMono = 'IBMPlexMono';
-
-  static TextTheme _buildTextTheme(TextTheme base) {
-    TextStyle? serif(TextStyle? style) =>
-        style?.copyWith(fontFamily: fontDisplay);
-    TextStyle? sans(TextStyle? style) => style?.copyWith(fontFamily: fontBody);
-    TextStyle? mono(TextStyle? style) => style?.copyWith(fontFamily: fontMono);
-    return base.copyWith(
-      displayLarge: serif(base.displayLarge),
-      displayMedium: serif(base.displayMedium),
-      displaySmall: serif(base.displaySmall),
-      headlineLarge: sans(base.headlineLarge),
-      headlineMedium: sans(base.headlineMedium),
-      headlineSmall: sans(base.headlineSmall),
-      titleLarge: sans(base.titleLarge),
-      titleMedium: sans(base.titleMedium),
-      titleSmall: sans(base.titleSmall),
-      bodyLarge: sans(base.bodyLarge),
-      bodyMedium: sans(base.bodyMedium),
-      bodySmall: sans(base.bodySmall),
-      labelLarge: mono(base.labelLarge),
-      labelMedium: mono(base.labelMedium),
-      labelSmall: mono(base.labelSmall),
-    );
-  }
-
-  static ThemeData lightTheme = ThemeData(
-    colorScheme: lightColorScheme,
-    useMaterial3: true,
-    brightness: Brightness.light,
-    scaffoldBackgroundColor: iceWhite,
-    fontFamily: fontBody,
-    textTheme: _buildTextTheme(ThemeData.light().textTheme),
-  );
-
-  static ThemeData darkTheme = ThemeData(
-    colorScheme: darkColorScheme,
-    useMaterial3: true,
-    brightness: Brightness.dark,
-    scaffoldBackgroundColor: black,
-    fontFamily: fontBody,
-    textTheme: _buildTextTheme(ThemeData.dark().textTheme),
+  runApp(
+    PortfolioApp(
+      initialThemeMode: await ThemePreferenceService.resolveInitial(),
+    ),
   );
 }
 
 class PortfolioApp extends StatefulWidget {
-  const PortfolioApp({super.key});
+  final ThemeMode initialThemeMode;
+
+  const PortfolioApp({super.key, this.initialThemeMode = ThemeMode.dark});
 
   @override
   State<PortfolioApp> createState() => _PortfolioAppState();
@@ -179,7 +86,7 @@ class PortfolioApp extends StatefulWidget {
 
 class _PortfolioAppState extends State<PortfolioApp> {
   Locale? _locale;
-  ThemeMode _themeMode = ThemeMode.light;
+  late ThemeMode _themeMode = widget.initialThemeMode;
   String? _initialSectionId;
 
   @override
@@ -272,11 +179,13 @@ class _PortfolioAppState extends State<PortfolioApp> {
   }
 
   void _toggleTheme() {
+    final next = _themeMode == ThemeMode.dark
+        ? ThemeMode.light
+        : ThemeMode.dark;
     setState(() {
-      _themeMode = _themeMode == ThemeMode.dark
-          ? ThemeMode.light
-          : ThemeMode.dark;
+      _themeMode = next;
     });
+    ThemePreferenceService.store(next);
   }
 
   void _updateWindowTitle() {
@@ -385,6 +294,7 @@ class _LandingPageState extends State<LandingPage>
   bool _isDownloadingEuropassCV = false;
   bool _isInitialSectionPositioned = true;
   Set<int> _visibleSectionIndices = {0};
+  final ValueNotifier<double> _readingProgress = ValueNotifier<double>(0);
 
   late final AnimationController _fabAnimationController;
   late final ScrollController _scrollController;
@@ -424,6 +334,7 @@ class _LandingPageState extends State<LandingPage>
   void dispose() {
     _fabAnimationController.dispose();
     _scrollController.dispose();
+    _readingProgress.dispose();
     if (_ownsPublicationsController) {
       _publicationsController.dispose();
     }
@@ -645,8 +556,21 @@ class _LandingPageState extends State<LandingPage>
             defaultTargetPlatform == TargetPlatform.macOS);
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: Stack(
         children: [
+          Positioned.fill(
+            child: SkyBackdrop(
+              progress: _readingProgress,
+              child: const SizedBox.expand(),
+            ),
+          ),
+          Positioned.fill(
+            child: CelestialMarker(
+              progress: _readingProgress,
+              isDarkMode: widget.isDarkMode,
+            ),
+          ),
           Column(
             children: [
               if (!isMobile && isDesktop) _buildCustomTitleBar(context),
@@ -663,6 +587,7 @@ class _LandingPageState extends State<LandingPage>
                         if (visibleIndices.isNotEmpty) {
                           _visibleSectionIndices = visibleIndices;
                         }
+                        _updateReadingProgress(result.firstChild);
                       },
                       child: ListView.builder(
                         controller: _scrollController,
@@ -714,6 +639,35 @@ class _LandingPageState extends State<LandingPage>
     );
   }
 
+  /// The section the reader is actually on: the lowest visible index that maps
+  /// to a section, so the publication chunks all resolve to 'publications'.
+  String? get _currentSectionId {
+    if (_visibleSectionIndices.isEmpty) {
+      return null;
+    }
+    final leading = _visibleSectionIndices.reduce((a, b) => a < b ? a : b);
+    if (leading >= _publicationChunkStartIndex && leading < _astroGodsIndex) {
+      return 'publications';
+    }
+    return _sectionIdAt(leading);
+  }
+
+  /// Reading progress comes from the observed leading item rather than
+  /// `pixels / maxScrollExtent`: the list is lazy with variable-height items,
+  /// so the scroll extent keeps being revised as sections are measured and a
+  /// ratio taken from it jitters.
+  void _updateReadingProgress(ListViewObserveDisplayingChildModel? firstChild) {
+    if (firstChild == null || _itemCount < 2) {
+      return;
+    }
+    final extent = firstChild.mainAxisSize;
+    final consumed = extent == 0
+        ? 0.0
+        : (-firstChild.leadingMarginToViewport / extent).clamp(0.0, 1.0);
+    _readingProgress.value = ((firstChild.index + consumed) / (_itemCount - 1))
+        .clamp(0.0, 1.0);
+  }
+
   String? _sectionIdAt(int index) {
     for (final entry in _sectionIndices.entries) {
       if (entry.value == index) {
@@ -739,7 +693,9 @@ class _LandingPageState extends State<LandingPage>
       );
       return _withSectionTheme(section, animateTheme: animateTheme);
     }
-    return _buildSection(sectionId!, animateTheme: animateTheme);
+    // The hero is already on screen at load, so it opens rather than arrives.
+    final section = _buildSection(sectionId!, animateTheme: animateTheme);
+    return index == 0 ? section : RevealOnScroll(child: section);
   }
 
   Widget _buildSection(String sectionId, {required bool animateTheme}) {
@@ -871,87 +827,82 @@ class _LandingPageState extends State<LandingPage>
     );
   }
 
+  /// One quiet cluster instead of four saturated discs. The mascot is the
+  /// primary control, since the theme is the register the site is read in;
+  /// everything else is a secondary icon sharing a single visual grammar, and
+  /// `error` is no longer spent on decoration.
   Widget _buildFloatingControls(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDownloading = _isDownloadingCV || _isDownloadingEuropassCV;
+
     return Padding(
-      padding: const EdgeInsets.only(top: 40.0),
+      padding: const EdgeInsets.only(top: Space.xl, right: Space.xs),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          FloatingActionButton(
-            key: const ValueKey('theme-toggle'),
-            heroTag: "theme_toggle",
-            shape: const CircleBorder(),
-            onPressed: widget.onThemeToggle,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            tooltip: widget.isDarkMode
-                ? AppLocalizations.of(context)!.lightModeIconAlt
-                : AppLocalizations.of(context)!.darkModeIconAlt,
-            child: Semantics(
-              button: true,
-              label: widget.isDarkMode
-                  ? AppLocalizations.of(context)!.lightModeIconAlt
-                  : AppLocalizations.of(context)!.darkModeIconAlt,
-              child: ThemeToggleWidget(
-                isDarkMode: widget.isDarkMode,
-                size: 56.0,
+          Semantics(
+            button: true,
+            label: widget.isDarkMode
+                ? l10n.lightModeIconAlt
+                : l10n.darkModeIconAlt,
+            child: Tooltip(
+              message: widget.isDarkMode
+                  ? l10n.lightModeIconAlt
+                  : l10n.darkModeIconAlt,
+              child: InkWell(
+                key: const ValueKey('theme-toggle'),
+                onTap: widget.onThemeToggle,
+                customBorder: const CircleBorder(),
+                child: ThemeToggleWidget(
+                  isDarkMode: widget.isDarkMode,
+                  size: 52,
+                ),
               ),
             ),
           ),
-          const SizedBox(height: 16),
-          FloatingActionButton(
-            heroTag: "language_selector",
-            shape: const CircleBorder(),
-            onPressed: () => _showLanguageSelector(context),
-            backgroundColor: Theme.of(context).colorScheme.secondary,
-            tooltip: AppLocalizations.of(context)!.selectLanguage,
-            child: Icon(
-              Icons.language,
-              color: Theme.of(context).colorScheme.onSecondary,
-              size: 32.0,
+          const SizedBox(height: Space.sm),
+          Container(
+            decoration: BoxDecoration(
+              color: colorScheme.surfaceContainer.withValues(alpha: 0.92),
+              borderRadius: Radii.panel,
+              border: Border.all(color: colorScheme.outlineVariant),
             ),
-          ),
-          const SizedBox(height: 16),
-          FloatingActionButton(
-            heroTag: "download_cv",
-            shape: const CircleBorder(),
-            onPressed: (_isDownloadingCV || _isDownloadingEuropassCV)
-                ? null
-                : _showCVDownloadDialog,
-            backgroundColor: Theme.of(context).colorScheme.error,
-            tooltip: (_isDownloadingCV || _isDownloadingEuropassCV)
-                ? AppLocalizations.of(context)!.downloadingCV
-                : AppLocalizations.of(context)!.downloadCV,
-            child: (_isDownloadingCV || _isDownloadingEuropassCV)
-                ? SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Theme.of(context).colorScheme.onError,
+            padding: const EdgeInsets.symmetric(vertical: Space.xxs),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  onPressed: () => _showLanguageSelector(context),
+                  tooltip: l10n.selectLanguage,
+                  icon: const Icon(Icons.language),
+                ),
+                IconButton(
+                  onPressed: isDownloading ? null : _showCVDownloadDialog,
+                  tooltip: isDownloading ? l10n.downloadingCV : l10n.downloadCV,
+                  icon: isDownloading
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.download_rounded),
+                ),
+                IconButton(
+                  key: const ValueKey('toc-toggle'),
+                  onPressed: _toggleToc,
+                  tooltip: l10n.tableOfContents,
+                  isSelected: _isTocVisible,
+                  color: _isTocVisible ? colorScheme.primary : null,
+                  icon: AnimatedRotation(
+                    turns: _isTocVisible ? 0.125 : 0,
+                    duration: Motion.standard,
+                    child: Icon(
+                      _isTocVisible ? Icons.close : Icons.list_rounded,
                     ),
-                  )
-                : Icon(
-                    Icons.download_rounded,
-                    color: Theme.of(context).colorScheme.onError,
-                    size: 32.0,
                   ),
-          ),
-          const SizedBox(height: 16),
-          FloatingActionButton(
-            key: const ValueKey('toc-toggle'),
-            heroTag: "table_of_contents",
-            shape: const CircleBorder(),
-            onPressed: _toggleToc,
-            backgroundColor: Theme.of(context).colorScheme.tertiary,
-            tooltip: AppLocalizations.of(context)!.tableOfContents,
-            child: AnimatedRotation(
-              turns: _isTocVisible ? 0.125 : 0.0,
-              duration: const Duration(milliseconds: 300),
-              child: Icon(
-                _isTocVisible ? Icons.close : Icons.list_rounded,
-                color: Theme.of(context).colorScheme.onTertiary,
-                size: 32.0,
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -1126,6 +1077,7 @@ class _LandingPageState extends State<LandingPage>
                 padding: EdgeInsets.all(isMobile ? 20 : 40),
                 child: TableOfContentsWidget(
                   onSectionSelected: scrollToSectionById,
+                  currentSectionId: _currentSectionId,
                   onTap: _toggleToc,
                 ),
               ),

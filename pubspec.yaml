@@ -49,6 +49,7 @@ dependencies:
   cupertino_icons: 1.0.9
   flutter_svg: ^2.3.0
   scrollview_observer: 1.27.0
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:
@@ -93,16 +94,6 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: DejaVuSans
-      fonts:
-        - asset: assets/fonts/DejaVuSans-Regular.ttf
-        - asset: assets/fonts/DejaVuSans-Italic.ttf
-          style: italic
-        - asset: assets/fonts/DejaVuSans-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/DejaVuSans-BoldItalic.ttf
-          weight: 700
-          style: italic
     - family: Felipa
       fonts:
         - asset: assets/fonts/Felipa-Regular.ttf

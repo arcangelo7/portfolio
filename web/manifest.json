@@ -1,13 +1,11 @@
 {
-    "name": "Arcangelo Massari - Portfolio v2025.08.10-acfa938",
-    "short_name": "Aarcangelo",
-    "version": "1.9.0",
+    "name": "Arcangelo Massari",
+    "short_name": "Arcangelo",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#000075",
-    "theme_color": "#000075",
+    "background_color": "#12141A",
+    "theme_color": "#12141A",
     "description": "Postdoctoral researcher at the University of Bologna developing Semantic Web tools for FAIR knowledge graphs, with a focus on provenance, change tracking, cultural heritage, and scholarly data.",
-    "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {

@@ -12,7 +12,7 @@ import '../models/cv_data.dart';
 import '../models/language_data.dart';
 import '../services/zotero_service.dart';
 import '../services/cv_data_service.dart';
-import '../main.dart';
+import '../theme/portfolio_theme.dart';
 import '../utils/publication_utils.dart';
 
 class DynamicCVGeneratorService {
@@ -74,10 +74,9 @@ class DynamicCVGeneratorService {
             linkText.length > 2 &&
             linkText.startsWith('*') &&
             linkText.endsWith('*');
-        final displayText =
-            isItalicLink
-                ? linkText.substring(1, linkText.length - 1)
-                : linkText;
+        final displayText = isItalicLink
+            ? linkText.substring(1, linkText.length - 1)
+            : linkText;
         final linkUrl = PublicationUtils.normalizeUrl(match.group(2)!);
 
         spans.add(
@@ -305,10 +304,9 @@ class DynamicCVGeneratorService {
 
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
-      children:
-          personalData
-              .map((item) => _buildInfoRow(item['label']!, item['value']!))
-              .toList(),
+      children: personalData
+          .map((item) => _buildInfoRow(item['label']!, item['value']!))
+          .toList(),
     );
   }
 
@@ -566,13 +564,11 @@ class DynamicCVGeneratorService {
         l10n,
         category.nameKey,
       );
-      final skillNames =
-          category.skills
-              .map(
-                (skill) =>
-                    LocalizationHelper.getLocalizedText(l10n, skill.nameKey),
-              )
-              .toList();
+      final skillNames = category.skills
+          .map(
+            (skill) => LocalizationHelper.getLocalizedText(l10n, skill.nameKey),
+          )
+          .toList();
 
       skillWidgets.add(
         pw.Wrap(
@@ -596,33 +592,32 @@ class DynamicCVGeneratorService {
                   pw.Wrap(
                     spacing: 8,
                     runSpacing: 4,
-                    children:
-                        skillNames
-                            .map(
-                              (skill) => pw.Container(
-                                padding: const pw.EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 4,
-                                ),
-                                decoration: pw.BoxDecoration(
-                                  color: _convertFlutterToPdfColor(
-                                    PortfolioTheme.iceWhite,
-                                  ),
-                                  borderRadius: pw.BorderRadius.circular(10),
-                                ),
-                                child: pw.Text(
-                                  skill,
-                                  style: pw.TextStyle(
-                                    fontSize: 11,
-                                    color: _convertFlutterToPdfColor(
-                                      PortfolioTheme.cobaltBlue,
-                                    ),
-                                    fontWeight: pw.FontWeight.normal,
-                                  ),
-                                ),
+                    children: skillNames
+                        .map(
+                          (skill) => pw.Container(
+                            padding: const pw.EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
+                            decoration: pw.BoxDecoration(
+                              color: _convertFlutterToPdfColor(
+                                PortfolioTheme.iceWhite,
                               ),
-                            )
-                            .toList(),
+                              borderRadius: pw.BorderRadius.circular(10),
+                            ),
+                            child: pw.Text(
+                              skill,
+                              style: pw.TextStyle(
+                                fontSize: 11,
+                                color: _convertFlutterToPdfColor(
+                                  PortfolioTheme.cobaltBlue,
+                                ),
+                                fontWeight: pw.FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
                   ),
                 ],
               ),
@@ -647,21 +642,20 @@ class DynamicCVGeneratorService {
       pw.Wrap(
         spacing: 12,
         runSpacing: 4,
-        children:
-            urlAttachments.map((a) {
-              final text = _getAttachmentLabel(l10n, a);
-              return pw.RichText(
-                text: pw.TextSpan(
-                  text: text,
-                  style: pw.TextStyle(
-                    fontSize: 11,
-                    color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
-                    decoration: pw.TextDecoration.underline,
-                  ),
-                  annotation: pw.AnnotationUrl(a.url!),
-                ),
-              );
-            }).toList(),
+        children: urlAttachments.map((a) {
+          final text = _getAttachmentLabel(l10n, a);
+          return pw.RichText(
+            text: pw.TextSpan(
+              text: text,
+              style: pw.TextStyle(
+                fontSize: 11,
+                color: _convertFlutterToPdfColor(PortfolioTheme.cobaltBlue),
+                decoration: pw.TextDecoration.underline,
+              ),
+              annotation: pw.AnnotationUrl(a.url!),
+            ),
+          );
+        }).toList(),
       ),
     ];
   }

@@ -14,6 +14,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:portfolio/controllers/publications_controller.dart';
 import 'package:portfolio/l10n/app_localizations.dart';
 import 'package:portfolio/main.dart';
+import 'package:portfolio/theme/portfolio_theme.dart';
 import 'package:portfolio/models/publication.dart';
 import 'package:portfolio/services/zotero_service.dart';
 
