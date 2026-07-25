@@ -1,3 +1,10 @@
+## [1.10.2](https://github.com/arcangelo7/portfolio/compare/v1.10.1...v1.10.2) (2026-07-25)
+
+
+### Bug Fixes
+
+* **ci:** create the release once with all assets attached ([e9d24b5](https://github.com/arcangelo7/portfolio/commit/e9d24b5490dc1cf2f88782531cf52828f923d9ac))
+
 ## [1.10.1](https://github.com/arcangelo7/portfolio/compare/v1.10.0...v1.10.1) (2026-07-25)
 
 
