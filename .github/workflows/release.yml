@@ -73,7 +73,7 @@ jobs:
     
     - name: Install semantic-release
       run: |
-        npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github
+        npm install -g semantic-release @semantic-release/changelog @semantic-release/git
     
     - name: Run semantic-release
       id: semantic
@@ -230,45 +230,6 @@ jobs:
         mv build/app/outputs/flutter-apk/app-release.apk portfolio-android-${{ steps.version.outputs.version }}.apk
         # Create fixed-name copy for direct links
         cp portfolio-android-${{ steps.version.outputs.version }}.apk portfolio-android-latest.apk
-    
-    - name: Create release body
-      run: |
-        if [ -f "CHANGELOG.md" ] && [ -n "${{ needs.release.outputs.version }}" ]; then
-          echo "Using CHANGELOG.md from semantic-release"
-          echo "BODY_PATH=CHANGELOG.md" >> $GITHUB_ENV
-        else
-          echo "Creating fallback release notes"
-          echo "Portfolio release ${{ steps.version.outputs.version }}" > release_notes.md
-          echo "" >> release_notes.md
-          echo "**Builds included:**" >> release_notes.md
-          echo "- Android APK" >> release_notes.md
-          echo "- Web build" >> release_notes.md
-          echo "- Linux build" >> release_notes.md
-          echo "" >> release_notes.md
-          echo "**Commit:** ${{ github.sha }}" >> release_notes.md
-          echo "**Commit message:** ${{ needs.check-release-trigger.outputs.commit-message }}" >> release_notes.md
-          echo "BODY_PATH=release_notes.md" >> $GITHUB_ENV
-        fi
-    
-    - name: Create GitHub Release
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        TAG="v${{ steps.version.outputs.version }}"
-        FILES=(
-          portfolio-web-${{ steps.version.outputs.version }}.zip
-          portfolio-linux-${{ steps.version.outputs.version }}.tar.gz
-          portfolio-android-${{ steps.version.outputs.version }}.apk
-          portfolio-web-latest.zip
-          portfolio-linux-latest.tar.gz
-          portfolio-android-latest.apk
-        )
-        if gh release view "$TAG" >/dev/null 2>&1; then
-          gh release edit "$TAG" --title "Release $TAG" --notes-file "$BODY_PATH"
-          gh release upload "$TAG" "${FILES[@]}" --clobber
-        else
-          gh release create "$TAG" "${FILES[@]}" --title "Release $TAG" --notes-file "$BODY_PATH" --target "${{ github.sha }}"
-        fi
     
     - name: Upload artifacts for multi-platform release
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
