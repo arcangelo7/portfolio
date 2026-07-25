@@ -1,3 +1,45 @@
+# [1.10.0](https://github.com/arcangelo7/portfolio/compare/v1.9.0...v1.10.0) (2026-07-25)
+
+
+### Bug Fixes
+
+* **android:** capitalize app name in launcher ([de8868d](https://github.com/arcangelo7/portfolio/commit/de8868d7528df5680eba28532d54454135f54236))
+* **ci:** mirror certificate PDFs to correct asset path in web builds ([0979e60](https://github.com/arcangelo7/portfolio/commit/0979e6005dc934d2ca7c3197e6c4a0c4c47f0130))
+* **contacts:** remove instagram and facebook links ([7d8b133](https://github.com/arcangelo7/portfolio/commit/7d8b133181681574018d65c254776ee0ad0565e0))
+* **cv:** correct curriculum dates ([444c7d7](https://github.com/arcangelo7/portfolio/commit/444c7d739823ca42c5df312180f100602e08f69d))
+* **europass:** prevent section title widows at page breaks ([998a3fe](https://github.com/arcangelo7/portfolio/commit/998a3fe24cfac402662bb4d2d00989fc3dfca775))
+* **l10n:** normalize conference titles ([52cda03](https://github.com/arcangelo7/portfolio/commit/52cda03c402503502749ff41e62848caeef529a8))
+* **l10n:** translate Centro Linguistico di Ateneo in English and Spanish ([6c674d9](https://github.com/arcangelo7/portfolio/commit/6c674d9f4b2c15c93cd5a9dbd61a599cfa9681fe))
+* **profile:** phd->postdoc in the metadata ([5ea7a75](https://github.com/arcangelo7/portfolio/commit/5ea7a758e9ade62c01b56dc7ab59a6ac5c67564a))
+* **profile:** update skills and tutor period ([8538d27](https://github.com/arcangelo7/portfolio/commit/8538d270bbff3b53e5c8a2680a288d8039ded4b3))
+* **publications:** use GitHub description for software instead of Zenodo abstract ([14346da](https://github.com/arcangelo7/portfolio/commit/14346da4fb570337ac540e1779e5902527b120c1))
+* remove dead KU Leuven profile link ([998926e](https://github.com/arcangelo7/portfolio/commit/998926e8314239af2a41e9ad0cb95153422f85c6))
+* render italic markdown in portfolio text ([d175a41](https://github.com/arcangelo7/portfolio/commit/d175a41a593acd8e21fb4ad23373f0f088fe3e5c))
+* **reuse:** correct copyright attribution for third-party and generated files ([f2228ae](https://github.com/arcangelo7/portfolio/commit/f2228ae041222c3f2506d40bca3c1765dbbe4de1))
+* **reuse:** drop BSD-3-Clause and relicense all Flutter template files ([ed5184f](https://github.com/arcangelo7/portfolio/commit/ed5184fa29bff8bee88155373716938d22cfd13e)), closes [flutter/flutter#109337](https://github.com/flutter/flutter/issues/109337)
+* **reuse:** move generated Flutter plugin files to REUSE.toml ([7976181](https://github.com/arcangelo7/portfolio/commit/79761814fc824c75e6abd516b8debcee14af4455))
+* **seo:** shorten profile title ([40666b5](https://github.com/arcangelo7/portfolio/commit/40666b57a65eb2168eb209465ac4ceb8dd4e8bd0))
+* **skills:** prevent unnecessary reload on theme change ([03cf687](https://github.com/arcangelo7/portfolio/commit/03cf687334cc48729cb5286f33d57226188ac71a))
+* **ui:** render outgoing and incoming theme elements together during the dark mode transition so the visual handoff is visible instead of switching after the motion completes. ([126aa41](https://github.com/arcangelo7/portfolio/commit/126aa418469e032c40c6ffbdc3ecae10d8a60bf9))
+
+
+### Features
+
+* **about:** rewrite bio for postdoc role ([3c8f211](https://github.com/arcangelo7/portfolio/commit/3c8f211550a44a6d5a5aff16ca55ffed6dd9d80f))
+* add languages section, Open Badge verification, and unified attachment system ([639ce01](https://github.com/arcangelo7/portfolio/commit/639ce01acdde22f81eab35028cf0443aa7840c7a))
+* **astrogods:** add Flathub and Snap Store download buttons ([1aa05e2](https://github.com/arcangelo7/portfolio/commit/1aa05e248c6aac64d768238592c6617a707329d9))
+* **astrogods:** add Windows and Android download buttons ([bf2444d](https://github.com/arcangelo7/portfolio/commit/bf2444df0bd2c14ecda6bfc58b8bddd29c9ae135))
+* **cv:** add KGCW 2026 workshop entry ([4c61e10](https://github.com/arcangelo7/portfolio/commit/4c61e1075fc6b36b9c7b4249fa39771d5130ca84))
+* **cv:** add postdoc position and mark PhDs as completed ([4640838](https://github.com/arcangelo7/portfolio/commit/4640838bcae1fd270266e69f7058928350a5ca99))
+* **education:** add AcES academic english course with downloadable certificate ([e458e7c](https://github.com/arcangelo7/portfolio/commit/e458e7c5d36cbf271a036725f7cd0b46ec3bf0e8))
+* **work-experience:** add research grant holder position and announcement links ([669cb60](https://github.com/arcangelo7/portfolio/commit/669cb609b103bc7a6ef8cafd4b0bc4f79256a6f2))
+* **work-experience:** add visual indicator for ongoing positions ([3783804](https://github.com/arcangelo7/portfolio/commit/378380478b4685aa7411b72540ef51a3639eb7a2))
+
+
+### Performance Improvements
+
+* **ui:** load ui sections lazily ([fc90925](https://github.com/arcangelo7/portfolio/commit/fc90925f8940153ae22e5a1e4bcc1c5516e3a977))
+
 <!--
 SPDX-FileCopyrightText: NONE
 
