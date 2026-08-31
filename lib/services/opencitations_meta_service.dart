@@ -3,7 +3,9 @@
 // SPDX-License-Identifier: ISC
 
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+
 import 'opencitations_config.dart';
 import 'opencitations_index_service.dart';
 

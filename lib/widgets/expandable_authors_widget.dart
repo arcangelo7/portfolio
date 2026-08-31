@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: ISC
 
 import 'package:flutter/material.dart';
+
 import '../l10n/app_localizations.dart';
 
 class ExpandableAuthorsWidget extends StatefulWidget {

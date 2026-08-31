@@ -10,35 +10,28 @@ final appLocalizations = AppLocalizationsEn();
 
 void main() {
   group('Publication.fromJson creator type handling', () {
-    test(
-      'should extract authors from computer program with programmer creator type',
-      () {
-        final json = {
-          'key': 'TEST123',
-          'data': {
-            'title': 'Test Software',
-            'itemType': 'computerProgram',
-            'creators': [
-              {
-                'creatorType': 'programmer',
-                'firstName': 'John',
-                'lastName': 'Doe',
-              },
-              {
-                'creatorType': 'author',
-                'firstName': 'Jane',
-                'lastName': 'Smith',
-              },
-            ],
-          },
-        };
+    test('should extract authors from computer program with programmer creator type', () {
+      final json = {
+        'key': 'TEST123',
+        'data': {
+          'title': 'Test Software',
+          'itemType': 'computerProgram',
+          'creators': [
+            {
+              'creatorType': 'programmer',
+              'firstName': 'John',
+              'lastName': 'Doe',
+            },
+            {'creatorType': 'author', 'firstName': 'Jane', 'lastName': 'Smith'},
+          ],
+        },
+      };
 
-        final publication = Publication.fromJson(json);
+      final publication = Publication.fromJson(json);
 
-        expect(publication.authors, equals(['John Doe']));
-        expect(publication.itemType, equals('computerProgram'));
-      },
-    );
+      expect(publication.authors, equals(['John Doe']));
+      expect(publication.itemType, equals('computerProgram'));
+    });
 
     test(
       'should extract authors from presentation with presenter creator type',
@@ -892,25 +885,22 @@ void main() {
       },
     );
 
-    test(
-      'should format citation without venue when both journal and venue are empty strings',
-      () {
-        const publication = Publication(
-          key: 'CITATION_EMPTY_BOTH',
-          title: 'Test Publication Title',
-          authors: ['Jane Smith'],
-          itemType: 'book',
-          year: '2024',
-          journal: '',
-          venue: '',
-        );
+    test('should format citation without venue when both journal and venue are empty strings', () {
+      const publication = Publication(
+        key: 'CITATION_EMPTY_BOTH',
+        title: 'Test Publication Title',
+        authors: ['Jane Smith'],
+        itemType: 'book',
+        year: '2024',
+        journal: '',
+        venue: '',
+      );
 
-        expect(
-          publication.citation,
-          equals('Jane Smith (2024). Test Publication Title.'),
-        );
-      },
-    );
+      expect(
+        publication.citation,
+        equals('Jane Smith (2024). Test Publication Title.'),
+      );
+    });
   });
 
   group('Publication equality and hashCode', () {

@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../l10n/app_localizations.dart';
 import '../theme/portfolio_theme.dart';
 import '../services/github_release_service.dart';
@@ -116,9 +117,9 @@ class _FlutterModalState extends State<FlutterModal> {
                           l10n.flutterAppSubtitle,
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurfaceVariant,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant,
                               ),
                         ),
                       ],
@@ -131,12 +132,12 @@ class _FlutterModalState extends State<FlutterModal> {
                       onPressed: () => Navigator.of(context).pop(),
                       icon: const Icon(Icons.close),
                       style: IconButton.styleFrom(
-                        backgroundColor: Theme.of(
-                          context,
-                        ).colorScheme.errorContainer,
-                        foregroundColor: Theme.of(
-                          context,
-                        ).colorScheme.onErrorContainer,
+                        backgroundColor: Theme.of(context)
+                            .colorScheme
+                            .errorContainer,
+                        foregroundColor: Theme.of(context)
+                            .colorScheme
+                            .onErrorContainer,
                       ),
                       tooltip: l10n.closeFlutterInfo,
                     ),

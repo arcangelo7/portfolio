@@ -549,9 +549,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
             SelectableText(
               l10n.noCitations,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.6),
+                color: Theme.of(context).colorScheme.onSurface
+                    .withValues(alpha: 0.6),
                 fontStyle: FontStyle.italic,
               ),
             ),
@@ -570,9 +569,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                           l10n.citationsFrom,
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurfaceVariant,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant,
                                 decoration: TextDecoration.underline,
                               ),
                         ),
@@ -580,9 +579,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                       const SizedBox(width: 8),
                       Semantics(
                         label:
-                            AppLocalizations.of(
-                              context,
-                            )?.openCitationsLogoAlt ??
+                            AppLocalizations.of(context)
+                                ?.openCitationsLogoAlt ??
                             'OpenCitations',
                         button: true,
                         child: ExcludeSemantics(
@@ -636,9 +634,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                 SelectableText(
                   l10n.noCitations,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.6),
+                    color: Theme.of(context).colorScheme.onSurface
+                        .withValues(alpha: 0.6),
                     fontStyle: FontStyle.italic,
                   ),
                 ),
@@ -711,9 +708,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                                 style: Theme.of(context).textTheme.bodySmall
                                     ?.copyWith(
                                       fontWeight: FontWeight.w700,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSurface,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface,
                                     ),
                               ),
                             ),
@@ -734,9 +731,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                                         Icon(
                                           Icons.open_in_new,
                                           size: 12,
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.primary,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
                                         ),
                                         const SizedBox(width: 4),
                                         Text(
@@ -745,9 +742,9 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                                               .textTheme
                                               .bodySmall
                                               ?.copyWith(
-                                                color: Theme.of(
-                                                  context,
-                                                ).colorScheme.primary,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
                                                 decoration:
                                                     TextDecoration.underline,
                                                 fontWeight: FontWeight.w700,
@@ -909,9 +906,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
         decoration: InputDecoration(
           hintText: l10n.searchPublications,
           hintStyle: TextStyle(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.6),
+            color: Theme.of(context).colorScheme.onSurface
+                .withValues(alpha: 0.6),
           ),
           prefixIcon: Icon(
             Icons.search,
@@ -964,9 +960,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           label: Text(categoryName),
           onSelected: (_) => _filterPublications(categoryKey),
           backgroundColor: Theme.of(context).colorScheme.surface,
-          selectedColor: Theme.of(
-            context,
-          ).colorScheme.primary.withValues(alpha: 0.2),
+          selectedColor: Theme.of(context).colorScheme.primary
+              .withValues(alpha: 0.2),
           checkmarkColor: Theme.of(context).colorScheme.primary,
           labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
             color: isSelected
@@ -1006,9 +1001,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
           Icon(
             Icons.error_outline,
             size: 48,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.5),
+            color: Theme.of(context).colorScheme.onSurface
+                .withValues(alpha: 0.5),
           ),
           const SizedBox(height: 16),
           SelectableText(
@@ -1016,9 +1010,8 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                 ? l10n.noPublicationsForCategory
                 : l10n.noPublications,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.7),
+              color: Theme.of(context).colorScheme.onSurface
+                  .withValues(alpha: 0.7),
             ),
           ),
         ],

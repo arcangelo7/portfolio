@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '../l10n/app_localizations.dart';
 import '../theme/design_tokens.dart';
 import '../utils/responsive.dart';
@@ -160,9 +161,8 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
               offset: const Offset(0, 8),
             ),
             BoxShadow(
-              color: Theme.of(
-                context,
-              ).colorScheme.primary.withValues(alpha: 0.1),
+              color: Theme.of(context).colorScheme.primary
+                  .withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -181,9 +181,8 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
               child: Container(
                 padding: EdgeInsets.all(isMobile ? 16 : 20),
                 decoration: BoxDecoration(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.primary.withValues(alpha: 0.05),
+                  color: Theme.of(context).colorScheme.primary
+                      .withValues(alpha: 0.05),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(8),
                     topRight: Radius.circular(8),
@@ -231,16 +230,14 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                       duration: const Duration(milliseconds: 200),
                       decoration: BoxDecoration(
                         color: isActive
-                            ? Theme.of(
-                                context,
-                              ).colorScheme.primary.withValues(alpha: 0.1)
+                            ? Theme.of(context).colorScheme.primary
+                                  .withValues(alpha: 0.1)
                             : Colors.transparent,
                         borderRadius: Radii.card,
                         border: isActive
                             ? Border.all(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.primary.withValues(alpha: 0.3),
+                                color: Theme.of(context).colorScheme.primary
+                                    .withValues(alpha: 0.3),
                                 width: 1,
                               )
                             : null,
@@ -269,21 +266,20 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                                 Expanded(
                                   child: _buildStrikethroughText(
                                     section.title,
-                                    Theme.of(
-                                      context,
-                                    ).textTheme.labelLarge?.copyWith(
-                                      fontWeight: isActive
-                                          ? FontWeight.w700
-                                          : FontWeight.w500,
-                                      color: isActive
-                                          ? Theme.of(
-                                              context,
-                                            ).colorScheme.primary
-                                          : Theme.of(
-                                              context,
-                                            ).colorScheme.onSurface,
-                                      fontSize: isMobile ? 14 : 15,
-                                    ),
+                                    Theme.of(context).textTheme.labelLarge
+                                        ?.copyWith(
+                                          fontWeight: isActive
+                                              ? FontWeight.w700
+                                              : FontWeight.w500,
+                                          color: isActive
+                                              ? Theme.of(context)
+                                                    .colorScheme
+                                                    .primary
+                                              : Theme.of(context)
+                                                    .colorScheme
+                                                    .onSurface,
+                                          fontSize: isMobile ? 14 : 15,
+                                        ),
                                     context,
                                   ),
                                 ),
@@ -291,9 +287,9 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
                                   Icon(
                                     Icons.arrow_forward_ios_rounded,
                                     size: isMobile ? 12 : 14,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primary,
                                   ),
                               ],
                             ),

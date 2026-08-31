@@ -41,12 +41,10 @@ void main() {
     mockUrlLauncherPlatform = MockUrlLauncherPlatform();
 
     // Setup the platform interface mock
-    when(
-      () => mockUrlLauncherPlatform.canLaunch(any()),
-    ).thenAnswer((_) async => true);
-    when(
-      () => mockUrlLauncherPlatform.launchUrl(any(), any()),
-    ).thenAnswer((_) async => true);
+    when(() => mockUrlLauncherPlatform.canLaunch(any()))
+        .thenAnswer((_) async => true);
+    when(() => mockUrlLauncherPlatform.launchUrl(any(), any()))
+        .thenAnswer((_) async => true);
 
     UrlLauncherPlatform.instance = mockUrlLauncherPlatform;
   });
@@ -66,9 +64,8 @@ void main() {
     if (error != null) {
       when(() => mockZoteroService.getPublications()).thenThrow(error);
     } else {
-      when(
-        () => mockZoteroService.getPublications(),
-      ).thenAnswer((_) async => publications ?? []);
+      when(() => mockZoteroService.getPublications())
+          .thenAnswer((_) async => publications ?? []);
     }
 
     // Setup URL launcher mock
@@ -116,8 +113,7 @@ void main() {
         journal: 'Journal of AI Research',
         year: '2023',
         doi: '10.1000/journal.2023.001',
-        abstractText:
-            'This is a very long abstract that should be truncated when displayed initially. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        abstractText: 'This is a very long abstract that should be truncated when displayed initially. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         itemType: 'journalArticle',
       ),
       // Conference paper with URL and HTML in abstract
@@ -128,8 +124,7 @@ void main() {
         venue: 'International Conference on Data Science',
         year: '2022',
         url: 'https://example.com/paper1',
-        abstractText:
-            'Short abstract with <b>HTML</b> content and <a href="https://example.com">links</a>.',
+        abstractText: 'Short abstract with <b>HTML</b> content and <a href="https://example.com">links</a>.',
         itemType: 'conferencePaper',
       ),
       // Book without abstract
@@ -374,9 +369,8 @@ void main() {
   group('PublicationsSection Mocked Locale Tests', () {
     testWidgets('shows loading state initially', (WidgetTester tester) async {
       final publicationsCompleter = Completer<List<Publication>>();
-      when(
-        () => mockZoteroService.getPublications(),
-      ).thenAnswer((_) => publicationsCompleter.future);
+      when(() => mockZoteroService.getPublications())
+          .thenAnswer((_) => publicationsCompleter.future);
       final controller = PublicationsController(
         zoteroService: mockZoteroService,
         urlLauncher: mockUrlLauncher,
@@ -403,9 +397,8 @@ void main() {
 
     testWidgets('works with basic functionality', (WidgetTester tester) async {
       final publications = createMockPublications();
-      when(
-        () => mockZoteroService.getPublications(),
-      ).thenAnswer((_) async => publications);
+      when(() => mockZoteroService.getPublications())
+          .thenAnswer((_) async => publications);
 
       await tester.pumpWidget(
         createMockedTestWidget(publications: publications),
@@ -545,9 +538,8 @@ void main() {
         }
 
         // Verify URL launcher was called if buttons were found and tapped
-        verify(
-          () => mockUrlLauncher.openUrl(any()),
-        ).called(greaterThanOrEqualTo(0));
+        verify(() => mockUrlLauncher.openUrl(any()))
+            .called(greaterThanOrEqualTo(0));
       }
     });
 
@@ -573,9 +565,8 @@ void main() {
       final htmlWidget = tester.widget<Html>(find.byType(Html));
       if (htmlWidget.onLinkTap != null) {
         htmlWidget.onLinkTap!('https://example.com/link', {}, null);
-        verify(
-          () => mockUrlLauncher.openUrl('https://example.com/link'),
-        ).called(1);
+        verify(() => mockUrlLauncher.openUrl('https://example.com/link'))
+            .called(1);
       }
     });
 
@@ -709,9 +700,8 @@ void main() {
 
           // Verify the platform methods were called
           verify(() => mockUrlLauncherPlatform.canLaunch(any())).called(1);
-          verify(
-            () => mockUrlLauncherPlatform.launchUrl(any(), any()),
-          ).called(1);
+          verify(() => mockUrlLauncherPlatform.launchUrl(any(), any()))
+              .called(1);
         }
       },
     );
@@ -720,9 +710,8 @@ void main() {
       WidgetTester tester,
     ) async {
       // Setup the platform mock to return false for canLaunch
-      when(
-        () => mockUrlLauncherPlatform.canLaunch(any()),
-      ).thenAnswer((_) async => false);
+      when(() => mockUrlLauncherPlatform.canLaunch(any()))
+          .thenAnswer((_) async => false);
 
       // Use the real DefaultUrlLauncher to exercise the actual code
       final realUrlLauncher = DefaultUrlLauncher();
@@ -775,9 +764,8 @@ void main() {
         ),
       );
 
-      when(
-        () => mockZoteroService.getPublications(),
-      ).thenAnswer((_) async => manyPublications);
+      when(() => mockZoteroService.getPublications())
+          .thenAnswer((_) async => manyPublications);
 
       await tester.pumpWidget(
         createMockedTestWidget(publications: manyPublications),
@@ -851,9 +839,8 @@ void main() {
           await tester.pumpAndSettle();
         }
 
-        verify(
-          () => mockUrlLauncher.openUrl(any()),
-        ).called(greaterThanOrEqualTo(1));
+        verify(() => mockUrlLauncher.openUrl(any()))
+            .called(greaterThanOrEqualTo(1));
       }
     });
 
@@ -1111,9 +1098,8 @@ void main() {
         abstractText: fullAbstract,
       ),
     );
-    when(
-      () => mockZoteroService.getPublications(),
-    ).thenAnswer((_) async => publications);
+    when(() => mockZoteroService.getPublications())
+        .thenAnswer((_) async => publications);
     when(() => mockUrlLauncher.openUrl(any())).thenAnswer((_) async {});
     final controller = PublicationsController(
       zoteroService: mockZoteroService,
@@ -1166,9 +1152,8 @@ void main() {
         itemType: 'journalArticle',
       ),
     );
-    when(
-      () => mockZoteroService.getPublications(),
-    ).thenAnswer((_) async => publications);
+    when(() => mockZoteroService.getPublications())
+        .thenAnswer((_) async => publications);
     final controller = PublicationsController(
       zoteroService: mockZoteroService,
       urlLauncher: mockUrlLauncher,
@@ -1234,9 +1219,8 @@ void main() {
           itemType: 'journalArticle',
         ),
       ];
-      when(
-        () => mockZoteroService.getPublications(),
-      ).thenAnswer((_) async => publications);
+      when(() => mockZoteroService.getPublications())
+          .thenAnswer((_) async => publications);
       final controller = PublicationsController(
         zoteroService: mockZoteroService,
         urlLauncher: mockUrlLauncher,

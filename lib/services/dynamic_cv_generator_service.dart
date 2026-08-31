@@ -5,6 +5,7 @@
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+
 import '../l10n/app_localizations.dart';
 import '../l10n/localization_helper.dart';
 import '../models/publication.dart';

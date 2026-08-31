@@ -65,9 +65,8 @@ class ThemeToggleWidget extends StatelessWidget {
                         height: size,
                         fit: BoxFit.cover,
                         critical: true,
-                        semanticLabel: AppLocalizations.of(
-                          context,
-                        )?.lightModeIconAlt,
+                        semanticLabel: AppLocalizations.of(context)
+                            ?.lightModeIconAlt,
                       )
                     : Transform.translate(
                         offset: Offset(size * 0.12, size * 0.05),
@@ -77,9 +76,8 @@ class ThemeToggleWidget extends StatelessWidget {
                           height: size,
                           fit: BoxFit.cover,
                           critical: true,
-                          semanticLabel: AppLocalizations.of(
-                            context,
-                          )?.darkModeIconAlt,
+                          semanticLabel: AppLocalizations.of(context)
+                              ?.darkModeIconAlt,
                         ),
                       ),
               ),

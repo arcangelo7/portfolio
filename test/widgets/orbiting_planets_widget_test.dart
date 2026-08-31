@@ -459,9 +459,8 @@ class _HeroHostState extends State<_HeroHost> {
       ],
       supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
       home: MediaQuery(
-        data: MediaQueryData(
-          size: widget.viewport,
-        ).copyWith(disableAnimations: widget.disableAnimations),
+        data: MediaQueryData(size: widget.viewport)
+            .copyWith(disableAnimations: widget.disableAnimations),
         child: Scaffold(
           body: HeroSection(isDarkMode: _isDarkMode, onViewWork: () {}),
         ),

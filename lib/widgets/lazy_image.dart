@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: ISC
 
 import 'package:flutter/material.dart';
+
 import '../utils/responsive.dart';
 
 /// A lightweight lazy-loading image widget for assets.

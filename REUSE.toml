@@ -4,7 +4,8 @@ version = 1
 path = [
     ".metadata",
     ".releaserc.json",
-    ".vscode/settings.json",
+    "package-lock.json",
+    "package.json",
     "assets/data/conferences.json",
     "assets/data/education.json",
     "assets/data/languages.json",
@@ -46,7 +47,6 @@ SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
 path = [
-    "ModelloCvBorseRicerca.pdf",
     "android/app/src/main/res/mipmap-*/*.png",
     "android/playstore/play_store_512.png",
     "assets/images/dark_mode.png",

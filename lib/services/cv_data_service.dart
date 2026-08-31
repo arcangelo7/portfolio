@@ -3,7 +3,9 @@
 // SPDX-License-Identifier: ISC
 
 import 'dart:convert';
+
 import 'package:flutter/services.dart';
+
 import '../models/cv_data.dart';
 import '../models/language_data.dart';
 

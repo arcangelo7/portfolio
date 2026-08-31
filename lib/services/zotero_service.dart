@@ -3,7 +3,9 @@
 // SPDX-License-Identifier: ISC
 
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+
 import '../models/publication.dart';
 
 class ZoteroServiceException implements Exception {
@@ -36,8 +38,7 @@ class ZoteroService {
       response = await http.get(
         Uri.parse('$baseUrl/groups/$groupId/items').replace(
           queryParameters: {
-            'itemType':
-                'journalArticle || conferencePaper || bookSection || computerProgram || presentation || thesis || report',
+            'itemType': 'journalArticle || conferencePaper || bookSection || computerProgram || presentation || thesis || report',
             'sort': 'date',
             'direction': 'desc',
             'limit': '50',

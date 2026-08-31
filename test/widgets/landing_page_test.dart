@@ -27,9 +27,8 @@ void main() {
 
   setUp(() async {
     zoteroService = _MockZoteroService();
-    when(
-      () => zoteroService.getPublications(),
-    ).thenAnswer((_) async => <Publication>[]);
+    when(() => zoteroService.getPublications())
+        .thenAnswer((_) async => <Publication>[]);
     publicationsController = PublicationsController(
       zoteroService: zoteroService,
     );
@@ -149,12 +148,10 @@ void main() {
       final descriptionCompleter = Completer<String?>();
       final delayedZoteroService = _MockZoteroService();
       final openCitationsService = _MockOpenCitationsIndexService();
-      when(
-        delayedZoteroService.getPublications,
-      ).thenAnswer((_) => publicationsCompleter.future);
-      when(
-        () => openCitationsService.getCitationCount('10.1000/delayed'),
-      ).thenAnswer((_) => citationCountCompleter.future);
+      when(delayedZoteroService.getPublications)
+          .thenAnswer((_) => publicationsCompleter.future);
+      when(() => openCitationsService.getCitationCount('10.1000/delayed'))
+          .thenAnswer((_) => citationCountCompleter.future);
       when(
         () => openCitationsService.getTotalCitationCount(['10.1000/delayed']),
       ).thenAnswer((_) => totalCitationCountCompleter.future);
@@ -221,9 +218,8 @@ void main() {
 
       expect(scrollable.position.pixels, positionedOffset);
       verify(delayedZoteroService.getPublications).called(1);
-      verify(
-        () => openCitationsService.getCitationCount('10.1000/delayed'),
-      ).called(1);
+      verify(() => openCitationsService.getCitationCount('10.1000/delayed'))
+          .called(1);
       verify(
         () => openCitationsService.getTotalCitationCount(['10.1000/delayed']),
       ).called(1);
@@ -269,9 +265,8 @@ Widget _buildLandingPage({
     ],
     supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
     home: MediaQuery(
-      data: const MediaQueryData(
-        disableAnimations: true,
-      ).copyWith(size: viewport),
+      data: const MediaQueryData(disableAnimations: true)
+          .copyWith(size: viewport),
       child: LandingPage(
         onLanguageChanged: (_) {},
         currentLocale: const Locale('en'),
