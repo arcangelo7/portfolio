@@ -26,8 +26,9 @@ class SEOService {
 
     // Canonical and share URLs (self-referencing canonicals for i18n variants)
     final origin = window.location.origin;
-    final canonicalUrl =
-        languageCode == 'en' ? '$origin/' : '$origin/?lang=$languageCode';
+    final canonicalUrl = languageCode == 'en'
+        ? '$origin/'
+        : '$origin/?lang=$languageCode';
     _updateCanonicalLink(canonicalUrl);
     _updateMetaTag('property', 'og:url', canonicalUrl);
     _updateMetaTag('property', 'twitter:url', canonicalUrl);
@@ -195,45 +196,44 @@ class SEOService {
         'https://github.com/arcangelo7',
         'https://www.linkedin.com/in/arcangelo-massari-4a736822b',
       ],
-      'creator':
-          publications
-              .where(
-                (pub) => pub['doi'] != null && pub['doi'].toString().isNotEmpty,
-              )
-              .map(
-                (pub) => <String, Object?>{
-                  '@type': _getPublicationType(pub['type'] as String?),
-                  'name': pub['title'],
-                  'author': _buildAuthors(pub['authors']),
-                  'identifier': [
-                    <String, Object?>{
-                      '@type': 'PropertyValue',
-                      'propertyID': 'DOI',
-                      'value': pub['doi'],
-                    },
-                  ],
-                  if (pub['url'] != null && pub['url'].toString().isNotEmpty)
-                    'url': pub['url'],
-                  if (pub['datePublished'] != null)
-                    'datePublished': _normalizeDate(
-                      pub['datePublished'] as String?,
-                    ),
-                  if (pub['venue'] != null || pub['journal'] != null)
-                    'publisher': <String, Object?>{
-                      '@type': 'Organization',
-                      'name': pub['venue'] ?? pub['journal'],
-                    },
-                  if (pub['abstract'] != null &&
-                      pub['abstract'].toString().isNotEmpty)
-                    'description': pub['abstract'],
-                  if (pub['volume'] != null) 'volumeNumber': pub['volume'],
-                  if (pub['issue'] != null) 'issueNumber': pub['issue'],
-                  if (pub['pages'] != null) 'pagination': pub['pages'],
-                  'inLanguage': 'en',
-                  'genre': _getGenre(pub['type'] as String?),
+      'creator': publications
+          .where(
+            (pub) => pub['doi'] != null && pub['doi'].toString().isNotEmpty,
+          )
+          .map(
+            (pub) => <String, Object?>{
+              '@type': _getPublicationType(pub['type'] as String?),
+              'name': pub['title'],
+              'author': _buildAuthors(pub['authors']),
+              'identifier': [
+                <String, Object?>{
+                  '@type': 'PropertyValue',
+                  'propertyID': 'DOI',
+                  'value': pub['doi'],
                 },
-              )
-              .toList(),
+              ],
+              if (pub['url'] != null && pub['url'].toString().isNotEmpty)
+                'url': pub['url'],
+              if (pub['datePublished'] != null)
+                'datePublished': _normalizeDate(
+                  pub['datePublished'] as String?,
+                ),
+              if (pub['venue'] != null || pub['journal'] != null)
+                'publisher': <String, Object?>{
+                  '@type': 'Organization',
+                  'name': pub['venue'] ?? pub['journal'],
+                },
+              if (pub['abstract'] != null &&
+                  pub['abstract'].toString().isNotEmpty)
+                'description': pub['abstract'],
+              if (pub['volume'] != null) 'volumeNumber': pub['volume'],
+              if (pub['issue'] != null) 'issueNumber': pub['issue'],
+              if (pub['pages'] != null) 'pagination': pub['pages'],
+              'inLanguage': 'en',
+              'genre': _getGenre(pub['type'] as String?),
+            },
+          )
+          .toList(),
     };
 
     final script = HTMLScriptElement();
@@ -322,17 +322,16 @@ class SEOService {
     }
 
     if (authors is List<Object?>) {
-      final authorList =
-          authors
-              .where((author) => author != null && author.toString().isNotEmpty)
-              .map((author) => {'@type': 'Person', 'name': author.toString()})
-              .toList();
+      final authorList = authors
+          .where((author) => author != null && author.toString().isNotEmpty)
+          .map((author) => {'@type': 'Person', 'name': author.toString()})
+          .toList();
 
       return authorList.isNotEmpty
           ? authorList
           : [
-            {'@type': 'Person', 'name': 'Arcangelo Massari'},
-          ];
+              {'@type': 'Person', 'name': 'Arcangelo Massari'},
+            ];
     }
 
     return [

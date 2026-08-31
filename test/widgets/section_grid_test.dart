@@ -53,11 +53,7 @@ void main() {
   testWidgets('columns are equal and fill the width', (
     WidgetTester tester,
   ) async {
-    await _pump(
-      tester,
-      width: 980,
-      children: [_cell('a', 1), _cell('b', 1)],
-    );
+    await _pump(tester, width: 980, children: [_cell('a', 1), _cell('b', 1)]);
 
     const expected = (980 - _gutter) / 2;
     expect(tester.getSize(find.byKey(const ValueKey('a'))).width, expected);
@@ -98,11 +94,7 @@ void main() {
   testWidgets('mobile collapses to a single column', (
     WidgetTester tester,
   ) async {
-    await _pump(
-      tester,
-      width: 400,
-      children: [_cell('a', 1), _cell('b', 1)],
-    );
+    await _pump(tester, width: 400, children: [_cell('a', 1), _cell('b', 1)]);
 
     expect(tester.getSize(find.byKey(const ValueKey('a'))).width, 400);
     expect(

@@ -32,11 +32,10 @@ class LanguageData {
       motherTongue: MotherTongue.fromJson(
         json['motherTongue'] as Map<String, dynamic>,
       ),
-      otherLanguages:
-          _objectList(
-            json,
-            'otherLanguages',
-          ).map(OtherLanguage.fromJson).toList(),
+      otherLanguages: _objectList(
+        json,
+        'otherLanguages',
+      ).map(OtherLanguage.fromJson).toList(),
     );
   }
 }

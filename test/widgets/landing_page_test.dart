@@ -62,6 +62,40 @@ void main() {
     expect(find.byKey(const ValueKey('section-publications')), findsOneWidget);
   });
 
+  testWidgets('compact hero CTA stays clear of mobile settings', (
+    WidgetTester tester,
+  ) async {
+    const viewport = Size(320, 521);
+    final changedSections = <String>[];
+    tester.view
+      ..devicePixelRatio = 1
+      ..physicalSize = viewport;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(
+      _buildLandingPage(
+        publicationsController: publicationsController,
+        changedSections: changedSections,
+        viewport: viewport,
+      ),
+    );
+    await tester.pump();
+
+    final cta = tester.getRect(
+      find.widgetWithText(FilledButton, 'Check out my projects'),
+    );
+    final settings = tester.getRect(
+      find.byKey(const ValueKey('settings-mobile')),
+    );
+
+    expect(
+      tester.getRect(find.byKey(const ValueKey('hero-text-layer'))),
+      const Rect.fromLTRB(24, 0, 296, 449),
+    );
+    expect(cta.overlaps(settings), false);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('table of contents navigates to an unbuilt section', (
     WidgetTester tester,
   ) async {
@@ -221,6 +255,7 @@ Widget _buildLandingPage({
   required PublicationsController publicationsController,
   required List<String> changedSections,
   String? initialSectionId,
+  Size viewport = const Size(1200, 800),
 }) {
   return MaterialApp(
     theme: PortfolioTheme.lightTheme,
@@ -235,9 +270,8 @@ Widget _buildLandingPage({
     supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
     home: MediaQuery(
       data: const MediaQueryData(
-        size: Size(1200, 800),
         disableAnimations: true,
-      ),
+      ).copyWith(size: viewport),
       child: LandingPage(
         onLanguageChanged: (_) {},
         currentLocale: const Locale('en'),

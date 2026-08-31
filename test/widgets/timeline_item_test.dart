@@ -55,9 +55,7 @@ void main() {
   testWidgets('current node is filled with primary, past node is outlined', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(
-      _buildTimeline(currents: const [true, false]),
-    );
+    await tester.pumpWidget(_buildTimeline(currents: const [true, false]));
 
     final theme = ThemeData.light();
     final currentNode = _innerNode(tester, 0);

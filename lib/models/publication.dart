@@ -113,17 +113,16 @@ class Publication {
         break;
     }
 
-    final authors =
-        creators
-            .cast<Map<String, dynamic>>()
-            .where((creator) => creator['creatorType'] == primaryCreatorType)
-            .map((creator) {
-              final firstName = creator['firstName'] as String? ?? '';
-              final lastName = creator['lastName'] as String? ?? '';
-              return '$firstName $lastName'.trim();
-            })
-            .where((name) => name.isNotEmpty)
-            .toList();
+    final authors = creators
+        .cast<Map<String, dynamic>>()
+        .where((creator) => creator['creatorType'] == primaryCreatorType)
+        .map((creator) {
+          final firstName = creator['firstName'] as String? ?? '';
+          final lastName = creator['lastName'] as String? ?? '';
+          return '$firstName $lastName'.trim();
+        })
+        .where((name) => name.isNotEmpty)
+        .toList();
 
     return Publication(
       key: json['key'] as String,
@@ -139,14 +138,12 @@ class Publication {
       url: data['url'] as String?,
       abstractText: data['abstractNote'] as String?,
       itemType: data['itemType'] as String? ?? 'unknown',
-      dateAdded:
-          data['dateAdded'] != null
-              ? DateTime.tryParse(data['dateAdded'] as String)
-              : null,
-      dateModified:
-          data['dateModified'] != null
-              ? DateTime.tryParse(data['dateModified'] as String)
-              : null,
+      dateAdded: data['dateAdded'] != null
+          ? DateTime.tryParse(data['dateAdded'] as String)
+          : null,
+      dateModified: data['dateModified'] != null
+          ? DateTime.tryParse(data['dateModified'] as String)
+          : null,
     );
   }
 
@@ -214,12 +211,11 @@ class Publication {
   }
 
   String get citation {
-    final venueText =
-        (journal?.isNotEmpty == true)
-            ? journal!
-            : (venue?.isNotEmpty == true)
-            ? venue!
-            : '';
+    final venueText = (journal?.isNotEmpty == true)
+        ? journal!
+        : (venue?.isNotEmpty == true)
+        ? venue!
+        : '';
     final yearText = displayYear;
 
     if (venueText.isNotEmpty) {

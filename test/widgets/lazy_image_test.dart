@@ -58,8 +58,10 @@ void main() {
 
       // Since image is in viewport, it should be visible or show a placeholder
       final hasPlaceholder = find.byIcon(Icons.image).evaluate().isNotEmpty;
-      final hasLoadingIndicator =
-          find.byType(CircularProgressIndicator).evaluate().isNotEmpty;
+      final hasLoadingIndicator = find
+          .byType(CircularProgressIndicator)
+          .evaluate()
+          .isNotEmpty;
 
       expect(hasPlaceholder || hasLoadingIndicator, isTrue);
     });
@@ -128,8 +130,10 @@ void main() {
       await tester.pump();
       // The widget should render something - either placeholder, loading, or image
       final hasPlaceholder = find.byIcon(Icons.image).evaluate().isNotEmpty;
-      final hasLoadingIndicator =
-          find.byType(CircularProgressIndicator).evaluate().isNotEmpty;
+      final hasLoadingIndicator = find
+          .byType(CircularProgressIndicator)
+          .evaluate()
+          .isNotEmpty;
       final hasImage = find.byType(Image).evaluate().isNotEmpty;
       final hasContainer = find.byType(Container).evaluate().isNotEmpty;
 

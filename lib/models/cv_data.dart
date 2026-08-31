@@ -88,11 +88,10 @@ class EducationEntry {
       titleKey: _requiredString(json, 'titleKey'),
       periodKey: _requiredString(json, 'periodKey'),
       descriptionKey: _requiredString(json, 'descriptionKey'),
-      attachments:
-          _objectList(
-            json,
-            'attachments',
-          ).map(EntryAttachment.fromJson).toList(),
+      attachments: _objectList(
+        json,
+        'attachments',
+      ).map(EntryAttachment.fromJson).toList(),
       order: _optionalInt(json, 'order'),
     );
   }
@@ -149,11 +148,10 @@ class WorkExperienceEntry {
       titleKey: _requiredString(json, 'titleKey'),
       periodKey: _requiredString(json, 'periodKey'),
       descriptionKey: _requiredString(json, 'descriptionKey'),
-      attachments:
-          _objectList(
-            json,
-            'attachments',
-          ).map(EntryAttachment.fromJson).toList(),
+      attachments: _objectList(
+        json,
+        'attachments',
+      ).map(EntryAttachment.fromJson).toList(),
       order: _optionalInt(json, 'order'),
     );
   }
@@ -280,8 +278,10 @@ class SkillsData {
 
   factory SkillsData.fromJson(Map<String, dynamic> json) {
     return SkillsData(
-      categories:
-          _objectList(json, 'categories').map(SkillCategory.fromJson).toList(),
+      categories: _objectList(
+        json,
+        'categories',
+      ).map(SkillCategory.fromJson).toList(),
     );
   }
 

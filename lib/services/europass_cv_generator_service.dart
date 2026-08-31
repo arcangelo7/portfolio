@@ -71,10 +71,9 @@ class EuropassCVGeneratorService {
             linkText.length > 2 &&
             linkText.startsWith('*') &&
             linkText.endsWith('*');
-        final displayText =
-            isItalicLink
-                ? linkText.substring(1, linkText.length - 1)
-                : linkText;
+        final displayText = isItalicLink
+            ? linkText.substring(1, linkText.length - 1)
+            : linkText;
         var linkUrl = match.group(2)!;
 
         if (!linkUrl.startsWith('http://') && !linkUrl.startsWith('https://')) {
@@ -137,23 +136,22 @@ class EuropassCVGeneratorService {
         pageFormat: PdfPageFormat.a4,
         theme: theme,
         margin: const pw.EdgeInsets.all(40),
-        build:
-            (context) => [
-              // Header
-              _buildHeader(l10n),
-              pw.SizedBox(height: 20),
+        build: (context) => [
+          // Header
+          _buildHeader(l10n),
+          pw.SizedBox(height: 20),
 
-              // Personal Information Section
-              _buildPersonalInformationSection(l10n, personalInfo),
-              pw.SizedBox(height: 20),
+          // Personal Information Section
+          _buildPersonalInformationSection(l10n, personalInfo),
+          pw.SizedBox(height: 20),
 
-              // Work Experience Section
-              ..._buildWorkExperienceSection(l10n, workExperience),
-              pw.SizedBox(height: 20),
+          // Work Experience Section
+          ..._buildWorkExperienceSection(l10n, workExperience),
+          pw.SizedBox(height: 20),
 
-              // Education Section
-              ..._buildEducationSection(l10n, education),
-            ],
+          // Education Section
+          ..._buildEducationSection(l10n, education),
+        ],
       ),
     );
 
@@ -163,19 +161,18 @@ class EuropassCVGeneratorService {
         pageFormat: PdfPageFormat.a4,
         theme: theme,
         margin: const pw.EdgeInsets.all(40),
-        build:
-            (context) => [
-              // Personal Skills Section
-              _buildPersonalSkillsSection(l10n, skills, languageData),
-              pw.SizedBox(height: 20),
+        build: (context) => [
+          // Personal Skills Section
+          _buildPersonalSkillsSection(l10n, skills, languageData),
+          pw.SizedBox(height: 20),
 
-              // Driver's License
-              _buildDriversLicenseSection(l10n),
-              pw.SizedBox(height: 40),
+          // Driver's License
+          _buildDriversLicenseSection(l10n),
+          pw.SizedBox(height: 40),
 
-              // Footer with GDPR consent
-              _buildFooter(l10n, personalInfo.name),
-            ],
+          // Footer with GDPR consent
+          _buildFooter(l10n, personalInfo.name),
+        ],
       ),
     );
 
@@ -557,41 +554,39 @@ class EuropassCVGeneratorService {
             child: pw.Wrap(
               spacing: 12,
               runSpacing: 4,
-              children:
-                  urlAttachments.map((a) {
-                    final base = switch (a.type) {
-                      'credential' => LocalizationHelper.getLocalizedText(
-                        l10n,
-                        'verifyCredential',
-                      ),
-                      'diplomaSupplement' =>
-                        LocalizationHelper.getLocalizedText(
-                          l10n,
-                          'diplomaSupplement',
-                        ),
-                      'completedExams' => LocalizationHelper.getLocalizedText(
-                        l10n,
-                        'completedExams',
-                      ),
-                      'announcement' => LocalizationHelper.getLocalizedText(
-                        l10n,
-                        'announcement',
-                      ),
-                      _ => a.type,
-                    };
-                    final text = a.label != null ? '$base ${a.label}' : base;
-                    return pw.RichText(
-                      text: pw.TextSpan(
-                        text: text,
-                        style: pw.TextStyle(
-                          fontSize: 11,
-                          color: PdfColors.blue700,
-                          decoration: pw.TextDecoration.underline,
-                        ),
-                        annotation: pw.AnnotationUrl(a.url!),
-                      ),
-                    );
-                  }).toList(),
+              children: urlAttachments.map((a) {
+                final base = switch (a.type) {
+                  'credential' => LocalizationHelper.getLocalizedText(
+                    l10n,
+                    'verifyCredential',
+                  ),
+                  'diplomaSupplement' => LocalizationHelper.getLocalizedText(
+                    l10n,
+                    'diplomaSupplement',
+                  ),
+                  'completedExams' => LocalizationHelper.getLocalizedText(
+                    l10n,
+                    'completedExams',
+                  ),
+                  'announcement' => LocalizationHelper.getLocalizedText(
+                    l10n,
+                    'announcement',
+                  ),
+                  _ => a.type,
+                };
+                final text = a.label != null ? '$base ${a.label}' : base;
+                return pw.RichText(
+                  text: pw.TextSpan(
+                    text: text,
+                    style: pw.TextStyle(
+                      fontSize: 11,
+                      color: PdfColors.blue700,
+                      decoration: pw.TextDecoration.underline,
+                    ),
+                    annotation: pw.AnnotationUrl(a.url!),
+                  ),
+                );
+              }).toList(),
             ),
           ),
         ],
@@ -920,38 +915,37 @@ class EuropassCVGeneratorService {
               flex: 2,
               child: pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children:
-                    skills.categories.map((category) {
-                      final skillNames = category.skills
-                          .map(
-                            (skill) => LocalizationHelper.getLocalizedText(
-                              l10n,
-                              skill.nameKey,
-                            ),
-                          )
-                          .join(', ');
-                      return pw.Padding(
-                        padding: const pw.EdgeInsets.only(bottom: 4),
-                        child: pw.RichText(
-                          text: pw.TextSpan(
-                            children: [
-                              pw.TextSpan(
-                                text:
-                                    '${LocalizationHelper.getLocalizedText(l10n, category.nameKey)}: ',
-                                style: pw.TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: pw.FontWeight.bold,
-                                ),
-                              ),
-                              pw.TextSpan(
-                                text: skillNames,
-                                style: const pw.TextStyle(fontSize: 11),
-                              ),
-                            ],
-                          ),
+                children: skills.categories.map((category) {
+                  final skillNames = category.skills
+                      .map(
+                        (skill) => LocalizationHelper.getLocalizedText(
+                          l10n,
+                          skill.nameKey,
                         ),
-                      );
-                    }).toList(),
+                      )
+                      .join(', ');
+                  return pw.Padding(
+                    padding: const pw.EdgeInsets.only(bottom: 4),
+                    child: pw.RichText(
+                      text: pw.TextSpan(
+                        children: [
+                          pw.TextSpan(
+                            text:
+                                '${LocalizationHelper.getLocalizedText(l10n, category.nameKey)}: ',
+                            style: pw.TextStyle(
+                              fontSize: 11,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
+                          ),
+                          pw.TextSpan(
+                            text: skillNames,
+                            style: const pw.TextStyle(fontSize: 11),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
             ),
           ],

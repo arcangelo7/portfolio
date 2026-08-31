@@ -60,6 +60,8 @@ void main() {
     List<Publication>? publications,
     ZoteroServiceException? error,
     UrlLauncher? urlLauncher,
+    Locale locale = const Locale('en'),
+    int? chunkIndex,
   }) {
     if (error != null) {
       when(() => mockZoteroService.getPublications()).thenThrow(error);
@@ -78,6 +80,7 @@ void main() {
     controller.loadPublications();
 
     return MaterialApp(
+      locale: locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -87,7 +90,10 @@ void main() {
       supportedLocales: const [Locale('en'), Locale('it'), Locale('es')],
       home: Scaffold(
         body: SingleChildScrollView(
-          child: PublicationsSection(controller: controller),
+          child: PublicationsSection(
+            controller: controller,
+            chunkIndex: chunkIndex,
+          ),
         ),
       ),
     );
@@ -594,6 +600,79 @@ void main() {
       // Verify SelectableText widgets are created for clickable links
       expect(find.byType(SelectableText), findsWidgets);
     });
+
+    for (final localeData in [
+      (
+        locale: const Locale('en'),
+        heading: 'Citations',
+        count: 'Cited 12 times',
+        attribution: 'Citations from OpenCitations',
+      ),
+      (
+        locale: const Locale('it'),
+        heading: 'Citazioni',
+        count: 'Citato 12 volte',
+        attribution: 'Citazioni da OpenCitations',
+      ),
+      (
+        locale: const Locale('es'),
+        heading: 'Citas',
+        count: 'Citado 12 veces',
+        attribution: 'Citas de OpenCitations',
+      ),
+    ]) {
+      testWidgets(
+        'citation layout fits a 320 dp viewport in ${localeData.locale.languageCode}',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(320, 521);
+          tester.view.devicePixelRatio = 1;
+          addTearDown(tester.view.resetPhysicalSize);
+          addTearDown(tester.view.resetDevicePixelRatio);
+
+          const publications = [
+            Publication(
+              key: 'first_filler',
+              title: 'First filler',
+              authors: ['Test Author'],
+              year: '2026',
+              itemType: 'report',
+            ),
+            Publication(
+              key: 'second_filler',
+              title: 'Second filler',
+              authors: ['Test Author'],
+              year: '2026',
+              itemType: 'report',
+            ),
+            Publication(
+              key: 'cited_publication',
+              title: 'Cited publication',
+              authors: ['Test Author'],
+              year: '2026',
+              doi: '10.1000/cited',
+              itemType: 'report',
+              citationCount: 12,
+              hasLoadedCitations: true,
+            ),
+          ];
+
+          await tester.pumpWidget(
+            createMockedTestWidget(
+              publications: publications,
+              locale: localeData.locale,
+              chunkIndex: 1,
+            ),
+          );
+          await tester.pump();
+          await tester.pump(const Duration(milliseconds: 100));
+
+          expect(find.text(localeData.heading), findsOneWidget);
+          expect(find.text(localeData.count), findsOneWidget);
+          expect(find.text(localeData.attribution), findsOneWidget);
+          expect(tester.takeException(), isNull);
+        },
+      );
+    }
 
     testWidgets(
       'tests DefaultUrlLauncher with real implementation and platform mock',

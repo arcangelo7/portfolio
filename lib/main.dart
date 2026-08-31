@@ -1038,6 +1038,7 @@ class _LandingPageState extends State<LandingPage>
             right: 0,
             bottom: 0,
             child: FloatingActionButton(
+              key: const ValueKey('settings-mobile'),
               heroTag: "main_fab_mobile",
               shape: const CircleBorder(),
               onPressed: _toggleFab,

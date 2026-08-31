@@ -33,6 +33,10 @@ class HeroSection extends StatefulWidget {
 
 class _HeroSectionState extends State<HeroSection>
     with SingleTickerProviderStateMixin {
+  static const double _compactPhoneMaxWidth = 400;
+  static const double _compactPhoneMaxHeight = 650;
+  static const double _compactPhoneBottomClearance = 72;
+
   late final AnimationController _themeController;
   late final Animation<double> _gradientAnimation;
   late bool _previousDarkMode;
@@ -140,6 +144,12 @@ class _HeroSectionState extends State<HeroSection>
     final animateStars = widget.isDarkMode || _previousDarkMode;
     final mascot = MascotPlacement.of(context);
     final glowRadius = mascot.diameter * _glowSpread;
+    final isCompactPhone = _isCompactPhone(screenSize);
+    final portraitDiameter = _portraitDiameter(
+      screenSize,
+      isMobile,
+      isCompactPhone,
+    );
 
     return SizedBox(
       height: screenSize.height,
@@ -228,32 +238,6 @@ class _HeroSectionState extends State<HeroSection>
             ),
           ),
           Positioned.fill(
-            key: const ValueKey('hero-portrait-layer'),
-            child: RepaintBoundary(
-              child: LazyImage(
-                key: const ValueKey('hero-profile'),
-                assetPath: 'assets/images/profile_cutout.webp',
-                fit: screenWidth / screenSize.height > 2.1
-                    ? BoxFit.contain
-                    : BoxFit.cover,
-                alignment: screenWidth / screenSize.height > 2.1
-                    ? Alignment.bottomRight
-                    : Alignment.center,
-                semanticLabel: l10n.profileImageAlt,
-                critical: true,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Center(
-                    child: Icon(
-                      Icons.person,
-                      size: 200,
-                      color: PortfolioTheme.iceWhite,
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          Positioned.fill(
             key: const ValueKey('hero-scrim-layer'),
             child: IgnorePointer(
               child: DecoratedBox(
@@ -277,12 +261,23 @@ class _HeroSectionState extends State<HeroSection>
               ),
             ),
           ),
+          if (!isMobile)
+            Positioned(
+              right: Responsive.pageInset(context),
+              top: (screenSize.height - portraitDiameter) / 2,
+              child: RepaintBoundary(
+                child: _PortraitCameo(
+                  diameter: portraitDiameter,
+                  semanticLabel: l10n.profileImageAlt,
+                ),
+              ),
+            ),
           Positioned(
             key: const ValueKey('hero-text-layer'),
             left: isMobile ? Space.lg : Space.section,
             right: isMobile ? Space.lg : null,
             top: 0,
-            bottom: 0,
+            bottom: isCompactPhone ? _compactPhoneBottomClearance : 0,
             child: SizedBox(
               width: isMobile ? null : screenWidth * 0.5,
               child: RepaintBoundary(
@@ -298,6 +293,20 @@ class _HeroSectionState extends State<HeroSection>
                             ? CrossAxisAlignment.center
                             : CrossAxisAlignment.start,
                         children: [
+                          if (isMobile) ...[
+                            Align(
+                              alignment: isCompactPhone
+                                  ? Alignment.centerRight
+                                  : Alignment.center,
+                              child: _PortraitCameo(
+                                diameter: portraitDiameter,
+                                semanticLabel: l10n.profileImageAlt,
+                              ),
+                            ),
+                            SizedBox(
+                              height: isCompactPhone ? Space.md : Space.lg,
+                            ),
+                          ],
                           Semantics(
                             header: true,
                             child: SelectableText(
@@ -305,7 +314,9 @@ class _HeroSectionState extends State<HeroSection>
                               style: Theme.of(context).textTheme.displayLarge
                                   ?.copyWith(
                                     color: PortfolioTheme.iceWhite,
-                                    fontSize: _nameFontSize(screenSize),
+                                    fontSize: isCompactPhone
+                                        ? 32
+                                        : _nameFontSize(screenSize),
                                   ),
                               textAlign: isMobile
                                   ? TextAlign.center
@@ -313,20 +324,28 @@ class _HeroSectionState extends State<HeroSection>
                               semanticsLabel: 'Main heading: ${l10n.name}',
                             ),
                           ),
-                          const SizedBox(height: Space.md),
+                          SizedBox(
+                            height: isCompactPhone ? Space.sm : Space.md,
+                          ),
                           SelectableText(
                             l10n.professionalTitle,
                             style: Theme.of(context).textTheme.titleLarge
                                 ?.copyWith(
                                   color: PortfolioTheme.iceWhite,
                                   fontWeight: FontWeight.w400,
-                                  fontSize: isMobile ? 18 : 23,
+                                  fontSize: isCompactPhone
+                                      ? 16
+                                      : isMobile
+                                      ? 18
+                                      : 23,
                                 ),
                             textAlign: isMobile
                                 ? TextAlign.center
                                 : TextAlign.start,
                           ),
-                          const SizedBox(height: Space.xl),
+                          SizedBox(
+                            height: isCompactPhone ? Space.lg : Space.xl,
+                          ),
                           FilledButton(
                             onPressed: widget.onViewWork,
                             style: FilledButton.styleFrom(
@@ -356,5 +375,73 @@ class _HeroSectionState extends State<HeroSection>
   /// display without overrunning a short or narrow one.
   double _nameFontSize(Size screen) {
     return (screen.width * 0.062).clamp(38.0, 76.0);
+  }
+
+  bool _isCompactPhone(Size screen) {
+    return screen.width <= _compactPhoneMaxWidth &&
+        screen.height <= _compactPhoneMaxHeight;
+  }
+
+  double _portraitDiameter(Size screen, bool isMobile, bool isCompactPhone) {
+    if (isCompactPhone) {
+      return (screen.width * 0.4).clamp(124.0, 144.0);
+    }
+    if (isMobile) {
+      return (screen.width * 0.46).clamp(168.0, 220.0);
+    }
+    return (screen.width * 0.28).clamp(280.0, 400.0);
+  }
+}
+
+class _PortraitCameo extends StatelessWidget {
+  final double diameter;
+  final String semanticLabel;
+
+  const _PortraitCameo({required this.diameter, required this.semanticLabel});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      key: const ValueKey('hero-portrait-cameo'),
+      width: diameter,
+      height: diameter,
+      padding: const EdgeInsets.all(Space.xxs),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: PortfolioTheme.iceWhite.withValues(alpha: 0.72),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: PortfolioTheme.black.withValues(alpha: 0.28),
+            blurRadius: Space.lg,
+            offset: const Offset(0, Space.sm),
+          ),
+        ],
+      ),
+      child: ClipOval(
+        child: LazyImage(
+          key: const ValueKey('hero-profile'),
+          assetPath: 'assets/images/profile_cutout.webp',
+          fit: BoxFit.cover,
+          alignment: const Alignment(0.12, 0),
+          semanticLabel: semanticLabel,
+          critical: true,
+          errorBuilder: (context, error, stackTrace) {
+            return const ColoredBox(
+              color: PortfolioTheme.cobaltBlue,
+              child: Center(
+                child: Icon(
+                  Icons.person,
+                  size: 96,
+                  color: PortfolioTheme.iceWhite,
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }

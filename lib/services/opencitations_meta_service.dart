@@ -213,8 +213,9 @@ class OpenCitationsMetaService {
       final schemaIndex = lower.indexOf('orcid:');
 
       if (schemaIndex != -1) {
-        final afterSchema =
-            trimmed.substring(schemaIndex + 'orcid:'.length).trim();
+        final afterSchema = trimmed
+            .substring(schemaIndex + 'orcid:'.length)
+            .trim();
 
         final schemaIdMatch = RegExp(
           r'([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X])',
@@ -263,10 +264,10 @@ class OpenCitationsMetaService {
               nodes[author.orcid]!.collaboratorOrcids.add(otherAuthor.orcid);
 
               collaborations[author.orcid] ??= <String, CollaborationData>{};
-              collaborations[author.orcid]![otherAuthor
-                  .orcid] = (collaborations[author.orcid]![otherAuthor.orcid] ??
-                      CollaborationData(count: 0, publications: []))
-                  .copyWithAddedPublication(metadata.title);
+              collaborations[author.orcid]![otherAuthor.orcid] =
+                  (collaborations[author.orcid]![otherAuthor.orcid] ??
+                          CollaborationData(count: 0, publications: []))
+                      .copyWithAddedPublication(metadata.title);
             }
           }
         }
@@ -375,12 +376,11 @@ class CitationMetadata {
 
   List<String> get authorsList {
     if (author == null || author!.isEmpty) return ['Unknown Author'];
-    final authors =
-        author!
-            .split(';')
-            .map((a) => a.trim())
-            .where((a) => a.isNotEmpty)
-            .toList();
+    final authors = author!
+        .split(';')
+        .map((a) => a.trim())
+        .where((a) => a.isNotEmpty)
+        .toList();
     return authors.isEmpty ? ['Unknown Author'] : authors;
   }
 

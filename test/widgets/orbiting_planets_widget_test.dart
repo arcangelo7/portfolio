@@ -265,6 +265,108 @@ void main() {
       );
     }
   });
+
+  testWidgets('the portrait remains a contained cameo at every viewport', (
+    WidgetTester tester,
+  ) async {
+    addTearDown(tester.view.reset);
+
+    for (final (viewport, diameter) in const [
+      (Size(1440, 900), 400.0),
+      (Size(800, 600), 280.0),
+      (Size(390, 844), 179.4),
+      (Size(300, 600), 124.0),
+      (Size(320, 521), 128.0),
+      (Size(400, 650), 144.0),
+      (Size(400, 651), 184.0),
+      (Size(401, 650), 184.46),
+    ]) {
+      tester.view
+        ..physicalSize = viewport
+        ..devicePixelRatio = 1;
+      await tester.pumpWidget(_HeroHost(viewport: viewport));
+
+      expect(
+        tester.getSize(find.byKey(const ValueKey('hero-portrait-cameo'))),
+        Size.square(diameter),
+      );
+    }
+  });
+
+  testWidgets('compact phones use the exact hero composition', (
+    WidgetTester tester,
+  ) async {
+    const viewport = Size(320, 521);
+    addTearDown(tester.view.reset);
+    tester.view
+      ..physicalSize = viewport
+      ..devicePixelRatio = 1;
+
+    await tester.pumpWidget(const _HeroHost(viewport: viewport));
+
+    final cameo = tester.getRect(
+      find.byKey(const ValueKey('hero-portrait-cameo')),
+    );
+    final mascot = tester.getRect(
+      find.byKey(const ValueKey('theme-element-sun')),
+    );
+    final nameFinder = find.widgetWithText(SelectableText, 'Arcangelo Massari');
+    final titleFinder = find.widgetWithText(
+      SelectableText,
+      'Postdoctoral Researcher in Knowledge Graphs and Open Science',
+    );
+    final name = tester.getRect(nameFinder);
+    final title = tester.getRect(titleFinder);
+    final cta = tester.getRect(
+      find.widgetWithText(FilledButton, 'Check out my projects'),
+    );
+
+    expect(cameo.size, const Size.square(128));
+    expect(cameo.left, 168);
+    expect(cameo.right, 296);
+    expect(mascot, const Rect.fromLTWH(20, 20, 120, 120));
+    expect(cameo.overlaps(mascot), false);
+    expect(name.top - cameo.bottom, 16);
+    expect(title.top - name.bottom, 12);
+    expect(cta.top - title.bottom, 24);
+    expect(tester.widget<SelectableText>(nameFinder).style?.fontSize, 32);
+    expect(tester.widget<SelectableText>(titleFinder).style?.fontSize, 16);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('compact hero lays out every supported language', (
+    WidgetTester tester,
+  ) async {
+    const viewport = Size(320, 521);
+    addTearDown(tester.view.reset);
+    tester.view
+      ..physicalSize = viewport
+      ..devicePixelRatio = 1;
+
+    for (final (locale, title, cta) in const [
+      (
+        Locale('en'),
+        'Postdoctoral Researcher in Knowledge Graphs and Open Science',
+        'Check out my projects',
+      ),
+      (
+        Locale('it'),
+        'Ricercatore in grafi di conoscenza e scienza aperta',
+        "Dai un'occhiata ai miei progetti",
+      ),
+      (
+        Locale('es'),
+        'Investigador postdoctoral en grafos de conocimiento y ciencia abierta',
+        'Echa un vistazo a mis proyectos',
+      ),
+    ]) {
+      await tester.pumpWidget(_HeroHost(viewport: viewport, locale: locale));
+
+      expect(find.text(title), findsOneWidget);
+      expect(find.widgetWithText(FilledButton, cta), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    }
+  });
 }
 
 void _expectThemeProgress(
@@ -318,11 +420,13 @@ List<Color?> _gradientColors(WidgetTester tester) {
 
 class _HeroHost extends StatefulWidget {
   final bool disableAnimations;
+  final Locale locale;
   final Size viewport;
 
   const _HeroHost({
     super.key,
     this.disableAnimations = false,
+    this.locale = const Locale('en'),
     this.viewport = const Size(800, 600),
   });
 
@@ -346,6 +450,7 @@ class _HeroHostState extends State<_HeroHost> {
       darkTheme: PortfolioTheme.darkTheme,
       themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
       themeAnimationStyle: AnimationStyle.noAnimation,
+      locale: widget.locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

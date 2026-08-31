@@ -486,6 +486,41 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       return const SizedBox.shrink();
     }
 
+    final heading = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          Icons.format_quote,
+          size: 18,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        const SizedBox(width: 8),
+        SelectableText(
+          l10n.citations,
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+      ],
+    );
+    final countChip = citationCount == null
+        ? null
+        : Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: _neutralBackgroundColor(),
+              borderRadius: Radii.card,
+            ),
+            child: SelectableText(
+              l10n.citationCount(citationCount),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          );
+
     return Container(
       margin: const EdgeInsets.only(top: 16),
       padding: const EdgeInsets.all(20),
@@ -496,43 +531,19 @@ class _PublicationsSectionState extends State<PublicationsSection> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.format_quote,
-                size: 18,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              const SizedBox(width: 8),
-              SelectableText(
-                l10n.citations,
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-              const Spacer(),
-              if (citationCount != null) ...[
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: _neutralBackgroundColor(),
-                    borderRadius: Radii.card,
-                  ),
-                  child: SelectableText(
-                    l10n.citationCount(citationCount),
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                ),
+          if (Responsive.isMobile(context))
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                heading,
+                if (countChip != null) ...[
+                  const SizedBox(height: 8),
+                  countChip,
+                ],
               ],
-            ],
-          ),
+            )
+          else
+            Row(children: [heading, const Spacer(), ?countChip]),
           const SizedBox(height: 12),
           if (citationCount == null) ...[
             SelectableText(
@@ -554,11 +565,16 @@ class _PublicationsSectionState extends State<PublicationsSection> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        l10n.citationsFrom,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          decoration: TextDecoration.underline,
+                      Flexible(
+                        child: Text(
+                          l10n.citationsFrom,
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
+                                decoration: TextDecoration.underline,
+                              ),
                         ),
                       ),
                       const SizedBox(width: 8),
