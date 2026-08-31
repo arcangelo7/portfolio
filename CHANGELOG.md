@@ -1,3 +1,16 @@
+# [1.11.0](https://github.com/arcangelo7/portfolio/compare/v1.10.2...v1.11.0) (2026-08-31)
+
+
+### Bug Fixes
+
+* **ci:** use provider-neutral deploy names ([f445abf](https://github.com/arcangelo7/portfolio/commit/f445abff751ff3ff6bd6e2ea8236643c88d168f2))
+* **layout:** fit content on compact screens ([62d4287](https://github.com/arcangelo7/portfolio/commit/62d4287ff1485bfc6750c94e9df7b5a2f1842114))
+
+
+### Features
+
+* **deploy:** automate web release deployment ([fce4af2](https://github.com/arcangelo7/portfolio/commit/fce4af25f638edd6de525c8eae778fbccf46e88d))
+
 ## [1.10.2](https://github.com/arcangelo7/portfolio/compare/v1.10.1...v1.10.2) (2026-07-25)
 
 
