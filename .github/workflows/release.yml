@@ -458,18 +458,18 @@ jobs:
     - name: Configure SSH
       env:
         DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
-        HETZNER_DEPLOY_HOST_KEY: ${{ vars.HETZNER_DEPLOY_HOST_KEY }}
-        HETZNER_DEPLOY_SSH_KEY: ${{ secrets.HETZNER_DEPLOY_SSH_KEY }}
+        DEPLOY_HOST_KEY: ${{ vars.DEPLOY_HOST_KEY }}
+        DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
       run: |
         test -n "$DEPLOY_HOST"
-        test -n "$HETZNER_DEPLOY_HOST_KEY"
-        test -n "$HETZNER_DEPLOY_SSH_KEY"
+        test -n "$DEPLOY_HOST_KEY"
+        test -n "$DEPLOY_SSH_KEY"
         install -m 700 -d "$RUNNER_TEMP/ssh"
-        printf '%s\n' "$HETZNER_DEPLOY_SSH_KEY" > "$RUNNER_TEMP/ssh/deploy_key"
-        printf '%s %s\n' "$DEPLOY_HOST" "$HETZNER_DEPLOY_HOST_KEY" > "$RUNNER_TEMP/ssh/known_hosts"
+        printf '%s\n' "$DEPLOY_SSH_KEY" > "$RUNNER_TEMP/ssh/deploy_key"
+        printf '%s %s\n' "$DEPLOY_HOST" "$DEPLOY_HOST_KEY" > "$RUNNER_TEMP/ssh/known_hosts"
         chmod 600 "$RUNNER_TEMP/ssh/deploy_key" "$RUNNER_TEMP/ssh/known_hosts"
 
-    - name: Deploy web release to Hetzner
+    - name: Deploy web release to server
       env:
         DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
       run: |
