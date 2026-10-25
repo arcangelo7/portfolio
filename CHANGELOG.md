@@ -1,3 +1,15 @@
+# [1.12.0](https://github.com/arcangelo7/portfolio/compare/v1.11.0...v1.12.0) (2026-10-25)
+
+
+### Bug Fixes
+
+* **l10n:** correct capitalization ([0722046](https://github.com/arcangelo7/portfolio/commit/0722046fceec89c098f805ed056ea96406841f03))
+
+
+### Features
+
+* **seo:** embed publication JSON-LD in the web build [release] ([28ee838](https://github.com/arcangelo7/portfolio/commit/28ee83867ae7b77b96259d0135ec8978f85add44))
+
 # [1.11.0](https://github.com/arcangelo7/portfolio/compare/v1.10.2...v1.11.0) (2026-08-31)
 
 
