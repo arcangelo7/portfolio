@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/arcangelo7/portfolio/compare/v1.12.0...v1.12.1) (2026-10-25)
+
+
+### Bug Fixes
+
+* **ci:** stream semantic-release output to the job log [release] ([3cb4b97](https://github.com/arcangelo7/portfolio/commit/3cb4b977b20f12413924f00e50e0707316faf356))
+
 # [1.12.0](https://github.com/arcangelo7/portfolio/compare/v1.11.0...v1.12.0) (2026-10-25)
 
 
