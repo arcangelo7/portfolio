@@ -146,7 +146,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get skillGitHubActions => 'GitHub Actions';
 
   @override
-  String get publications => 'For Science';
+  String get publications => 'For science';
 
   @override
   String get loadingPublications => 'Loading publications...';
@@ -158,28 +158,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewDoi => 'View DOI';
 
   @override
-  String get viewUrl => 'View Article';
+  String get viewUrl => 'View article';
 
   @override
-  String get viewPaper => 'View Paper';
+  String get viewPaper => 'View paper';
 
   @override
-  String get viewBook => 'View Book';
+  String get viewBook => 'View book';
 
   @override
-  String get viewChapter => 'View Chapter';
+  String get viewChapter => 'View chapter';
 
   @override
-  String get viewSoftware => 'View Software';
+  String get viewSoftware => 'View software';
 
   @override
-  String get viewPresentation => 'View Presentation';
+  String get viewPresentation => 'View presentation';
 
   @override
-  String get viewThesis => 'View Thesis';
+  String get viewThesis => 'View thesis';
 
   @override
-  String get viewReport => 'View Report';
+  String get viewReport => 'View report';
 
   @override
   String get publicationsDescription =>
@@ -287,16 +287,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get citationFrom => 'Citation from';
 
   @override
-  String get unknownDate => 'Unknown Date';
+  String get unknownDate => 'Unknown date';
 
   @override
-  String get unknownYear => 'Unknown Year';
+  String get unknownYear => 'Unknown year';
 
   @override
   String get citedAfter => 'Cited after';
 
   @override
-  String get unknownJournal => 'Unknown Journal';
+  String get unknownJournal => 'Unknown journal';
 
   @override
   String get citationId => 'Citation ID';
@@ -349,7 +349,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tutorDescription =>
-      'Laboratory sessions for [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) in the Master\'s degree in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) at the University of Bologna.';
+      'Laboratory sessions for [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) in the Master\'s degree in [Digital Humanities and Digital Knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) at the University of Bologna.';
 
   @override
   String get researchContractorTitle => 'Postdoctoral researcher';
@@ -391,7 +391,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get phdCulturalHeritageTitle =>
-      'PhD in cultural heritage in digital ecosystem';
+      'PhD in Cultural Heritage in the Digital Ecosystem';
 
   @override
   String get phdCulturalHeritagePeriod => 'Nov 1, 2022 - Mar 26, 2026';
@@ -401,7 +401,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Doctoral research focusing on creating user-friendly interfaces for semantic data, specifically Semantic Web technologies with emphasis on change tracking and provenance. The main focus is [HERITRACE](https://opencitations.github.io/heritrace/), which won the [Gigliozzi Prize](https://www.aiucd.it/premio-gigliozzi-2024/) for best presentation at AIUCD 2024 conference. More info: [PhD program](https://phd.unibo.it/chede/en).';
 
   @override
-  String get phdEngineeringTitle => 'PhD in engineering technology';
+  String get phdEngineeringTitle => 'PhD in Engineering Technology';
 
   @override
   String get kuLeuven => 'KU Leuven (Belgium)';
@@ -414,7 +414,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Joint doctoral program focusing on Knowledge Graph Inversion, extending [RDF Mapping Language (RML)](https://rml.io/) to enable recovery of original data after RDF transformation.';
 
   @override
-  String get unaEuropaPhdTitle => 'Una Europa cultural heritage PhD program';
+  String get unaEuropaPhdTitle => 'Una Europa Cultural Heritage PhD program';
 
   @override
   String get unaEuropa => 'Una Europa';
@@ -428,7 +428,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mastersDegreeTitle =>
-      'Master\'s degree in digital humanities and digital knowledge';
+      'Master\'s degree in Digital Humanities and Digital Knowledge';
 
   @override
   String get mastersPeriod => 'Sep 1, 2019 - Nov 3, 2021';
@@ -530,7 +530,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Participated in csv,conf,v9, a community conference for data makers everywhere with the theme \'Data for Communities\'. Presented *Mapping the unmapped citation landscape: how crowdsourcing will fill the citation gap*, discussing how to democratize the citation landscape by connecting 41,500 Global South journals and introducing millions of new citations through a collaborative solution between OpenCitations, Public Knowledge Project (PKP), and Leibniz Information Centre. [Conference](https://csvconf.com/) | [Presentation](https://doi.org/10.5281/zenodo.17098599)';
 
   @override
-  String get unaEuropaWorkshop2025Title => 'Una Europa PhD workshop';
+  String get unaEuropaWorkshop2025Title => 'Una Europa PhD Workshop';
 
   @override
   String get unaEuropaWorkshop2025Period => 'May 5-10, 2025';
@@ -543,7 +543,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Participation in the Una Europa transdisciplinary workshop for PhD students focused on \'Museums and the new challenges: virtual technologies, societal responsibility and environmental sustainability\'. Presentation titled *HERITRACE: A User-Friendly Semantic Data Editor with Change Tracking and Provenance Management for Cultural Heritage Institutions*. [Workshop info](https://site.unibo.it/una-europa/en/focus-areas/una-her-doc-una-europa-phd-workshop) | [Presentation](https://doi.org/10.5281/zenodo.15375770)';
 
   @override
-  String get astroGodsTitle => '~~Against~~ Beyond Science';
+  String get astroGodsTitle => '~~Against~~ Beyond science';
 
   @override
   String get astroGodsSubtitle => 'Egyptian Astrology';
@@ -675,7 +675,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cvBirthDate => 'August 23, 1997';
 
   @override
-  String get selectLanguage => 'Select Language';
+  String get selectLanguage => 'Select language';
 
   @override
   String get changeLanguageToEnglish => 'Change language to English';

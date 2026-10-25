@@ -203,7 +203,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Basic structure
-      expect(find.text('For Science'), findsOneWidget);
+      expect(find.text('For science'), findsOneWidget);
       expect(find.byType(FilterChip), findsWidgets);
       expect(find.text('All'), findsOneWidget);
 
@@ -392,7 +392,7 @@ void main() {
       );
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
-      expect(find.text('For Science'), findsOneWidget);
+      expect(find.text('For science'), findsOneWidget);
     });
 
     testWidgets('works with basic functionality', (WidgetTester tester) async {
@@ -406,7 +406,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(PublicationsSection), findsOneWidget);
-      expect(find.text('For Science'), findsOneWidget);
+      expect(find.text('For science'), findsOneWidget);
     });
   });
 
@@ -450,11 +450,11 @@ void main() {
       expect(createTestPublication(year: '2023').displayYear, equals('2023'));
       expect(
         createTestPublication(year: '').displayYear,
-        equals('Unknown Year'),
+        equals('Unknown year'),
       );
       expect(
         createTestPublication(year: null).displayYear,
-        equals('Unknown Year'),
+        equals('Unknown year'),
       );
     });
 
@@ -1181,7 +1181,7 @@ void main() {
     expect(find.text('Chunk Publication 5'), findsOneWidget);
     expect(find.text('Chunk Publication 3'), findsNothing);
     expect(find.text('Chunk Publication 6'), findsNothing);
-    expect(find.text('For Science'), findsNothing);
+    expect(find.text('For science'), findsNothing);
   });
 
   testWidgets(

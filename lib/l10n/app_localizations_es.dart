@@ -146,7 +146,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get skillGitHubActions => 'GitHub Actions';
 
   @override
-  String get publications => 'Por la Ciencia';
+  String get publications => 'Por la ciencia';
 
   @override
   String get loadingPublications => 'Cargando publicaciones...';
@@ -158,28 +158,28 @@ class AppLocalizationsEs extends AppLocalizations {
   String get viewDoi => 'Ver DOI';
 
   @override
-  String get viewUrl => 'Ver Artículo';
+  String get viewUrl => 'Ver artículo';
 
   @override
-  String get viewPaper => 'Ver Paper';
+  String get viewPaper => 'Ver paper';
 
   @override
-  String get viewBook => 'Ver Libro';
+  String get viewBook => 'Ver libro';
 
   @override
-  String get viewChapter => 'Ver Capítulo';
+  String get viewChapter => 'Ver capítulo';
 
   @override
-  String get viewSoftware => 'Ver Software';
+  String get viewSoftware => 'Ver software';
 
   @override
-  String get viewPresentation => 'Ver Presentación';
+  String get viewPresentation => 'Ver presentación';
 
   @override
-  String get viewThesis => 'Ver Tesis';
+  String get viewThesis => 'Ver tesis';
 
   @override
-  String get viewReport => 'Ver Reporte';
+  String get viewReport => 'Ver reporte';
 
   @override
   String get publicationsDescription =>
@@ -348,7 +348,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tutorDescription =>
-      'Sesiones de laboratorio para la enseñanza de [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) en la Maestría en [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) de la Universidad de Bolonia.';
+      'Sesiones de laboratorio para la enseñanza de [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) en la Maestría en [Digital Humanities and Digital Knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) de la Universidad de Bolonia.';
 
   @override
   String get researchContractorTitle => 'Investigador postdoctoral';
@@ -390,7 +390,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get phdCulturalHeritageTitle =>
-      'Doctorado en patrimonio cultural en ecosistema digital';
+      'Doctorado en Patrimonio Cultural en Ecosistema Digital';
 
   @override
   String get phdCulturalHeritagePeriod => '1 Nov 2022 - 26 Mar 2026';
@@ -400,7 +400,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Investigación doctoral centrada en crear interfaces user-friendly para datos semánticos, específicamente tecnologías de Web Semántica con énfasis en change tracking y provenance. El enfoque principal es [HERITRACE](https://opencitations.github.io/heritrace/), que ganó el [Premio Gigliozzi](https://www.aiucd.it/premio-gigliozzi-2024/) por la mejor presentación en la conferencia AIUCD 2024. Más info: [Programa de doctorado](https://phd.unibo.it/chede/en).';
 
   @override
-  String get phdEngineeringTitle => 'Doctorado en tecnología de ingeniería';
+  String get phdEngineeringTitle => 'Doctorado en Tecnología de Ingeniería';
 
   @override
   String get kuLeuven => 'Katholieke Universiteit Leuven (Bélgica)';
@@ -414,7 +414,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get unaEuropaPhdTitle =>
-      'Programa de doctorado en patrimonio cultural Una Europa';
+      'Programa de doctorado en Patrimonio Cultural Una Europa';
 
   @override
   String get unaEuropa => 'Una Europa';
@@ -428,7 +428,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get mastersDegreeTitle =>
-      'Maestría en digital humanities and digital knowledge';
+      'Maestría en Digital Humanities and Digital Knowledge';
 
   @override
   String get mastersPeriod => '1 Sep 2019 - 3 Nov 2021';
@@ -439,7 +439,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get bachelorsDegreeTitle =>
-      'Licenciatura en letras - currículum moderno';
+      'Licenciatura en Letras - currículum Moderno';
 
   @override
   String get bachelorsPeriod => '1 Sep 2017 - 15 Nov 2019';
@@ -531,7 +531,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Participación en csv,conf,v9, una conferencia comunitaria para data makers de todo el mundo con el tema \'Data for Communities\'. Presentación titulada *Mapping the unmapped citation landscape: how crowdsourcing will fill the citation gap*, discutiendo cómo democratizar el panorama de citaciones conectando 41,500 revistas del Sur Global e introduciendo millones de nuevas citaciones a través de una solución colaborativa entre OpenCitations, Public Knowledge Project (PKP) y Leibniz Information Centre. [Conferencia](https://csvconf.com/) | [Presentación](https://doi.org/10.5281/zenodo.17098599)';
 
   @override
-  String get unaEuropaWorkshop2025Title => 'Una Europa PhD workshop';
+  String get unaEuropaWorkshop2025Title => 'Una Europa PhD Workshop';
 
   @override
   String get unaEuropaWorkshop2025Period => '5-10 May 2025';
@@ -544,7 +544,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Participación en el workshop transdisciplinario Una Europa para estudiantes de doctorado centrado en \'Museums and the new challenges: virtual technologies, societal responsibility and environmental sustainability\'. Presentación titulada *HERITRACE: A User-Friendly Semantic Data Editor with Change Tracking and Provenance Management for Cultural Heritage Institutions*. [Info workshop](https://site.unibo.it/una-europa/en/focus-areas/una-her-doc-una-europa-phd-workshop) | [Presentación](https://doi.org/10.5281/zenodo.15375770)';
 
   @override
-  String get astroGodsTitle => '~~Contra~~ Más allá de la Ciencia';
+  String get astroGodsTitle => '~~Contra~~ Más allá de la ciencia';
 
   @override
   String get astroGodsSubtitle => 'Astrología egipcia';

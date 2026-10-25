@@ -159,7 +159,7 @@ class Publication {
   }
 
   String get displayYear {
-    if (year == null || year!.isEmpty) return 'Unknown Year';
+    if (year == null || year!.isEmpty) return 'Unknown year';
     final yearMatch = RegExp(r'\d{4}').firstMatch(year!);
     return yearMatch?.group(0) ?? year!;
   }

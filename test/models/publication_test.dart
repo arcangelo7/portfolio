@@ -616,7 +616,7 @@ void main() {
       expect(publication.displayYear, equals('sometime in the past'));
     });
 
-    test('should return Unknown Year when year is null or empty', () {
+    test('should return Unknown year when year is null or empty', () {
       const publication = Publication(
         key: 'NO_YEAR',
         title: 'Test Publication',
@@ -624,7 +624,7 @@ void main() {
         itemType: 'journalArticle',
       );
 
-      expect(publication.displayYear, equals('Unknown Year'));
+      expect(publication.displayYear, equals('Unknown year'));
     });
   });
 
@@ -771,30 +771,30 @@ void main() {
 
       expect(
         journalArticle.getViewButtonText(appLocalizations),
-        equals('View Article'),
+        equals('View article'),
       );
       expect(
         conferencePaper.getViewButtonText(appLocalizations),
-        equals('View Paper'),
+        equals('View paper'),
       );
-      expect(book.getViewButtonText(appLocalizations), equals('View Book'));
+      expect(book.getViewButtonText(appLocalizations), equals('View book'));
       expect(
         bookSection.getViewButtonText(appLocalizations),
-        equals('View Chapter'),
+        equals('View chapter'),
       );
       expect(
         computerProgram.getViewButtonText(appLocalizations),
-        equals('View Software'),
+        equals('View software'),
       );
       expect(
         presentation.getViewButtonText(appLocalizations),
-        equals('View Presentation'),
+        equals('View presentation'),
       );
-      expect(thesis.getViewButtonText(appLocalizations), equals('View Thesis'));
-      expect(report.getViewButtonText(appLocalizations), equals('View Report'));
+      expect(thesis.getViewButtonText(appLocalizations), equals('View thesis'));
+      expect(report.getViewButtonText(appLocalizations), equals('View report'));
       expect(
         unknown.getViewButtonText(appLocalizations),
-        equals('View Article'),
+        equals('View article'),
       );
     });
   });

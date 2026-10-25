@@ -65,7 +65,7 @@ void main() {
       );
 
       final viewText = thesis.getViewButtonText(appLocalizations);
-      expect(viewText, equals('View Thesis'));
+      expect(viewText, equals('View thesis'));
     });
 
     test('should display venue correctly for thesis', () {

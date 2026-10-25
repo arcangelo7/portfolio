@@ -367,7 +367,7 @@ abstract class AppLocalizations {
   /// No description provided for @publications.
   ///
   /// In en, this message translates to:
-  /// **'For Science'**
+  /// **'For science'**
   String get publications;
 
   /// No description provided for @loadingPublications.
@@ -391,49 +391,49 @@ abstract class AppLocalizations {
   /// No description provided for @viewUrl.
   ///
   /// In en, this message translates to:
-  /// **'View Article'**
+  /// **'View article'**
   String get viewUrl;
 
   /// No description provided for @viewPaper.
   ///
   /// In en, this message translates to:
-  /// **'View Paper'**
+  /// **'View paper'**
   String get viewPaper;
 
   /// No description provided for @viewBook.
   ///
   /// In en, this message translates to:
-  /// **'View Book'**
+  /// **'View book'**
   String get viewBook;
 
   /// No description provided for @viewChapter.
   ///
   /// In en, this message translates to:
-  /// **'View Chapter'**
+  /// **'View chapter'**
   String get viewChapter;
 
   /// No description provided for @viewSoftware.
   ///
   /// In en, this message translates to:
-  /// **'View Software'**
+  /// **'View software'**
   String get viewSoftware;
 
   /// No description provided for @viewPresentation.
   ///
   /// In en, this message translates to:
-  /// **'View Presentation'**
+  /// **'View presentation'**
   String get viewPresentation;
 
   /// No description provided for @viewThesis.
   ///
   /// In en, this message translates to:
-  /// **'View Thesis'**
+  /// **'View thesis'**
   String get viewThesis;
 
   /// No description provided for @viewReport.
   ///
   /// In en, this message translates to:
-  /// **'View Report'**
+  /// **'View report'**
   String get viewReport;
 
   /// No description provided for @publicationsDescription.
@@ -631,13 +631,13 @@ abstract class AppLocalizations {
   /// No description provided for @unknownDate.
   ///
   /// In en, this message translates to:
-  /// **'Unknown Date'**
+  /// **'Unknown date'**
   String get unknownDate;
 
   /// No description provided for @unknownYear.
   ///
   /// In en, this message translates to:
-  /// **'Unknown Year'**
+  /// **'Unknown year'**
   String get unknownYear;
 
   /// No description provided for @citedAfter.
@@ -649,7 +649,7 @@ abstract class AppLocalizations {
   /// No description provided for @unknownJournal.
   ///
   /// In en, this message translates to:
-  /// **'Unknown Journal'**
+  /// **'Unknown journal'**
   String get unknownJournal;
 
   /// No description provided for @citationId.
@@ -751,7 +751,7 @@ abstract class AppLocalizations {
   /// No description provided for @tutorDescription.
   ///
   /// In en, this message translates to:
-  /// **'Laboratory sessions for [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) in the Master\'s degree in [Digital humanities and digital knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) at the University of Bologna.'**
+  /// **'Laboratory sessions for [Computational Management of Data](https://www.unibo.it/en/study/course-units-transferable-skills-moocs/course-unit-catalogue/course-unit/2025/542133) in the Master\'s degree in [Digital Humanities and Digital Knowledge](https://corsi.unibo.it/2cycle/DigitalHumanitiesKnowledge) at the University of Bologna.'**
   String get tutorDescription;
 
   /// No description provided for @researchContractorTitle.
@@ -823,7 +823,7 @@ abstract class AppLocalizations {
   /// No description provided for @phdCulturalHeritageTitle.
   ///
   /// In en, this message translates to:
-  /// **'PhD in cultural heritage in digital ecosystem'**
+  /// **'PhD in Cultural Heritage in the Digital Ecosystem'**
   String get phdCulturalHeritageTitle;
 
   /// No description provided for @phdCulturalHeritagePeriod.
@@ -841,7 +841,7 @@ abstract class AppLocalizations {
   /// No description provided for @phdEngineeringTitle.
   ///
   /// In en, this message translates to:
-  /// **'PhD in engineering technology'**
+  /// **'PhD in Engineering Technology'**
   String get phdEngineeringTitle;
 
   /// No description provided for @kuLeuven.
@@ -865,7 +865,7 @@ abstract class AppLocalizations {
   /// No description provided for @unaEuropaPhdTitle.
   ///
   /// In en, this message translates to:
-  /// **'Una Europa cultural heritage PhD program'**
+  /// **'Una Europa Cultural Heritage PhD program'**
   String get unaEuropaPhdTitle;
 
   /// No description provided for @unaEuropa.
@@ -889,7 +889,7 @@ abstract class AppLocalizations {
   /// No description provided for @mastersDegreeTitle.
   ///
   /// In en, this message translates to:
-  /// **'Master\'s degree in digital humanities and digital knowledge'**
+  /// **'Master\'s degree in Digital Humanities and Digital Knowledge'**
   String get mastersDegreeTitle;
 
   /// No description provided for @mastersPeriod.
@@ -1075,7 +1075,7 @@ abstract class AppLocalizations {
   /// No description provided for @unaEuropaWorkshop2025Title.
   ///
   /// In en, this message translates to:
-  /// **'Una Europa PhD workshop'**
+  /// **'Una Europa PhD Workshop'**
   String get unaEuropaWorkshop2025Title;
 
   /// No description provided for @unaEuropaWorkshop2025Period.
@@ -1099,7 +1099,7 @@ abstract class AppLocalizations {
   /// No description provided for @astroGodsTitle.
   ///
   /// In en, this message translates to:
-  /// **'~~Against~~ Beyond Science'**
+  /// **'~~Against~~ Beyond science'**
   String get astroGodsTitle;
 
   /// No description provided for @astroGodsSubtitle.
@@ -1339,7 +1339,7 @@ abstract class AppLocalizations {
   /// No description provided for @selectLanguage.
   ///
   /// In en, this message translates to:
-  /// **'Select Language'**
+  /// **'Select language'**
   String get selectLanguage;
 
   /// No description provided for @changeLanguageToEnglish.

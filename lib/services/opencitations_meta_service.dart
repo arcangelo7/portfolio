@@ -387,7 +387,7 @@ class CitationMetadata {
   }
 
   String get displayYear {
-    if (pubDate == null || pubDate!.isEmpty) return 'Unknown Year';
+    if (pubDate == null || pubDate!.isEmpty) return 'Unknown year';
     final yearMatch = RegExp(r'\d{4}').firstMatch(pubDate!);
     return yearMatch?.group(0) ?? pubDate!;
   }
