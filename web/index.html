@@ -96,8 +96,7 @@ SPDX-License-Identifier: ISC
   <link rel="manifest" href="manifest.json">
 
 
-  <!-- JSON-LD Structured Data -->
-  <script type="application/ld+json">
+  <script type="application/ld+json" id="structured-data">
   {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -233,18 +232,7 @@ SPDX-License-Identifier: ISC
       "JavaScript",
       "Flutter"
     ],
-    "award": [
-      {
-        "@type": "Award",
-        "name": "Gigliozzi Prize 2024",
-        "description": "Best presentation at AIUCD 2024 conference for HERITRACE project",
-        "dateReceived": "2024-05-30",
-        "issuedBy": {
-          "@type": "Organization",
-          "name": "AIUCD - Associazione per l'Informatica Umanistica e la Cultura Digitale"
-        }
-      }
-    ],
+    "award": "Gigliozzi Prize 2024, best presentation at AIUCD 2024 for HERITRACE",
     "hasCredential": [
       {
         "@type": "EducationalOccupationalCredential",
@@ -326,37 +314,6 @@ SPDX-License-Identifier: ISC
       JavaScript is disabled. This site is a web app; basic information is available in the page head and structured data, but for the full interactive experience please enable JavaScript.
     </div>
   </noscript>
-
-  <!-- HERITRACE Project Schema -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "HERITRACE",
-    "description": "A user-friendly semantic data editor with change tracking and provenance management for cultural heritage institutions",
-    "url": "https://opencitations.github.io/heritrace/",
-    "applicationCategory": "Cultural Heritage Software",
-    "operatingSystem": "Web",
-    "creator": {
-      "@type": "Person",
-      "name": "Arcangelo Massari"
-    },
-    "award": {
-      "@type": "Award",
-      "name": "Gigliozzi Prize 2024",
-      "dateReceived": "2024-05-30"
-    },
-    "keywords": [
-      "Cultural Heritage",
-      "Semantic Web",
-      "RDF",
-      "Metadata",
-      "Provenance",
-      "Change Tracking",
-      "GLAM"
-    ]
-  }
-  </script>
 
   <style>
     /* The engine and its fonts take a moment to arrive. Paint the sky in the

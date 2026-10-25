@@ -9,6 +9,10 @@ import 'package:http/http.dart' as http;
 
 const personId = 'https://arcangelomassari.com/#person';
 const ownNames = {'Arcangelo Massari', 'Massari, Arcangelo'};
+final structuredDataBlock = RegExp(
+  r'(<script type="application/ld\+json" id="structured-data">)(.*?)(</script>)',
+  dotAll: true,
+);
 
 const schemaTypes = {
   'journalArticle': 'ScholarlyArticle',
@@ -39,17 +43,27 @@ Future<void> main(List<String> args) async {
       .where(
         (item) => _text(item['data'] as Map<String, dynamic>, 'title') != null,
       );
-  final graph = {
-    '@context': 'https://schema.org',
-    '@graph': items.map(_toSchemaOrg).toList(),
-  };
-  final script =
-      '<script type="application/ld+json">'
-      '${jsonEncode(graph).replaceAll('<', r'\u003c')}'
-      '</script>';
 
   final html = indexFile.readAsStringSync();
-  indexFile.writeAsStringSync(html.replaceFirst('</head>', '$script\n</head>'));
+  final block = structuredDataBlock.firstMatch(html)!;
+  final person = jsonDecode(block[2]!) as Map<String, dynamic>
+    ..remove('@context');
+  final graph = {
+    '@context': 'https://schema.org',
+    '@graph': [person, ...items.map(_toSchemaOrg)],
+  };
+  final json = const JsonEncoder.withIndent('  ')
+      .convert(graph)
+      .replaceAll('<', r'\u003c')
+      .replaceAll('\n', '\n  ');
+
+  indexFile.writeAsStringSync(
+    html.replaceRange(
+      block.start,
+      block.end,
+      '${block[1]}\n  $json\n  ${block[3]}',
+    ),
+  );
 }
 
 Map<String, Object> _toSchemaOrg(Map<String, dynamic> item) {
