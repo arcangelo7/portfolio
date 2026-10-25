@@ -1,3 +1,10 @@
+## [1.12.3](https://github.com/arcangelo7/portfolio/compare/v1.12.2...v1.12.3) (2026-10-25)
+
+
+### Bug Fixes
+
+* **seo:** type every person reference in the JSON-LD graph [release] ([db63d1f](https://github.com/arcangelo7/portfolio/commit/db63d1fc37978afe28bcb904712cc181c2c7310d))
+
 ## [1.12.2](https://github.com/arcangelo7/portfolio/compare/v1.12.1...v1.12.2) (2026-10-25)
 
 
