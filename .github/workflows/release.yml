@@ -79,8 +79,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        npx --no-install semantic-release --dry-run=false > semantic-output.txt 2>&1
-        cat semantic-output.txt
+        set -o pipefail
+        npx --no-install semantic-release --dry-run=false 2>&1 | tee semantic-output.txt
         
         # Extract version from semantic-release output
         if grep -q "Published release" semantic-output.txt; then
