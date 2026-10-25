@@ -1,3 +1,10 @@
+## [1.12.2](https://github.com/arcangelo7/portfolio/compare/v1.12.1...v1.12.2) (2026-10-25)
+
+
+### Bug Fixes
+
+* **seo:** merge structured data into one formatted JSON-LD graph [release] ([a1441ab](https://github.com/arcangelo7/portfolio/commit/a1441abe2241b54337c707f8c6ce4383a0eaa179))
+
 ## [1.12.1](https://github.com/arcangelo7/portfolio/compare/v1.12.0...v1.12.1) (2026-10-25)
 
 
