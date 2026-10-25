@@ -103,7 +103,7 @@ List<Map<String, String>> _authors(Map<String, dynamic> data, String itemType) {
       .map((creator) => '${creator['firstName']} ${creator['lastName']}'.trim())
       .map(
         (name) => ownNames.contains(name)
-            ? {'@id': personId}
+            ? {'@type': 'Person', '@id': personId}
             : {'@type': 'Person', 'name': name},
       )
       .toList();
