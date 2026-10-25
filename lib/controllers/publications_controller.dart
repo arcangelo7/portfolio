@@ -11,7 +11,6 @@ import '../models/publication.dart';
 import '../services/github_service.dart';
 import '../services/opencitations_index_service.dart';
 import '../services/opencitations_meta_service.dart';
-import '../services/seo_service.dart';
 import '../services/zotero_service.dart';
 import '../utils/publication_utils.dart';
 
@@ -184,27 +183,6 @@ class PublicationsController extends ChangeNotifier {
       _error = null;
       _applyFilters();
       _notifyListeners();
-
-      SEOService.addStructuredDataForPublications(
-        publications
-            .map(
-              (publication) => {
-                'title': publication.title,
-                'type': publication.itemType,
-                'doi': publication.doi,
-                'datePublished': publication.year,
-                'venue': publication.venue,
-                'authors': publication.authors,
-                'abstract': publication.abstractText,
-                'url': publication.url,
-                'journal': publication.journal,
-                'volume': publication.volume,
-                'issue': publication.issue,
-                'pages': publication.pages,
-              },
-            )
-            .toList(),
-      );
 
       _citationCountsFuture = _loadCitationCounts();
       _totalCitationCountFuture = _loadTotalCitationCount();

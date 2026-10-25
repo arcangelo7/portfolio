@@ -192,6 +192,7 @@ jobs:
     - name: Build web release
       run: |
         flutter build web --release --base-href /
+        dart run tool/publications_jsonld.dart build/web/index.html
         # Mirror documents to assets/documents/ (Flutter builds them into assets/assets/documents/)
         cp -r build/web/assets/assets/documents build/web/assets/documents
         cd build/web
