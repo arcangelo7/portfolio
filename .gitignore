@@ -51,3 +51,6 @@ app.*.map.json
 
 # Test
 coverage/
+
+# Nanopub test server state
+tool/nanopubs/test.json

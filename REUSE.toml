@@ -35,6 +35,7 @@ path = [
     "macos/Runner/Info.plist",
     "macos/Runner/Release.entitlements",
     "pubspec.lock",
+    "tool/nanopubs/live.json",
     "web/manifest.json",
     "web/robots.txt",
     "windows/flutter/generated_plugin_registrant.cc",
