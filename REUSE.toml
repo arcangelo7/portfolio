@@ -36,6 +36,7 @@ path = [
     "macos/Runner/Release.entitlements",
     "pubspec.lock",
     "tool/nanopubs/live.json",
+    "tool/nanopubs/ocdm_template.trig",
     "tool/nanopubs/test.json",
     "web/manifest.json",
     "web/robots.txt",

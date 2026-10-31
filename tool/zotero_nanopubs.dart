@@ -17,12 +17,8 @@ const registries = {
   'live': <String>[],
 };
 
-const articleTemplate =
-    'https://w3id.org/np/RA6NErVvGFJ1AflK02qqnB4jiQeF2EHl7mlbA7kp0d-lk';
-const presentationTemplate =
-    'https://w3id.org/np/RAzoLHv8ylucz6QrRhr7EcCcvCQSlWnCwdTpqqmfLV5Ec';
-const softwareTemplate =
-    'https://w3id.org/np/RApD2dPXssVDtmR7x4mqhqxf0B7GACteNRKPobntQyGXc';
+const workTemplate =
+    'https://w3id.org/np/RAL07AhiliV7p9d-766rTjSv5-3gW7eTcLftiYdzscel4';
 const provenanceTemplate =
     'http://purl.org/np/RAGXx_k9eQMnXaCbsXMsJbGClwZtQEGNg0GVJu6amdAVw';
 const licenseTemplate =
@@ -32,31 +28,49 @@ const supersedesTemplate =
 const creatorTemplate =
     'https://w3id.org/np/RAukAcWHRDlkqxk7H2XNSegc1WnHI569INvNr-xdptDGI';
 
-const articleTypes = {
-  'journalArticle': 'Article',
+const workTypes = {
+  'journalArticle': 'JournalArticle',
   'bookSection': 'BookChapter',
-  'conferencePaper': 'ConferencePaper',
+  'conferencePaper': 'ProceedingsPaper',
+  'presentation': 'Presentation',
+  'computerProgram': 'ComputerProgram',
 };
-const containerFields = {
-  'journalArticle': 'publicationTitle',
-  'bookSection': 'series',
-  'conferencePaper': 'series',
+const authorCreatorTypes = {
+  'presentation': 'presenter',
+  'computerProgram': 'programmer',
 };
-const softwarePublishers = {
-  'arcangelo7': orcid,
-  'opencitations': 'https://opencitations.net/',
-};
-const presentation = 'sub:presentation';
+const dateDatatypes = {10: 'date', 7: 'gYearMonth', 4: 'gYear'};
+const workNode = 'sub:br';
 
+typedef Agent = ({String? givenName, String? familyName, String? name});
+typedef Sourced = ({String value, String? source});
+typedef Identifier = ({String scheme, String value});
+typedef Container = ({
+  String id,
+  String type,
+  String? title,
+  String? number,
+  List<Identifier> identifiers,
+  List<Agent> editors,
+});
+typedef Work = ({
+  String key,
+  String type,
+  String title,
+  String? date,
+  List<Identifier> identifiers,
+  List<Agent> authors,
+  List<Container> containers,
+  String? pages,
+  Map<String, Sourced> orcids,
+  Map<String, Sourced> agentOmids,
+  List<String> sources,
+});
 typedef Draft = ({
   String key,
   String assertion,
   String label,
-  String? introduces,
-  String? nanopubType,
-  String template,
   List<String> sources,
-  Map<String, String> agentNames,
 });
 
 Future<void> main(List<String> args) async {
@@ -65,22 +79,31 @@ Future<void> main(List<String> args) async {
   final state = stateFile.existsSync()
       ? (jsonDecode(stateFile.readAsStringSync()) as Map<String, dynamic>)
       : <String, dynamic>{};
-  final drafts = [
-    for (final item in await _zoteroItems(articleTypes.keys))
-      if (_text(item['data'] as Map<String, dynamic>, 'DOI') != null)
-        await _article(item),
-    for (final item in await _zoteroItems(['presentation']))
-      if (_extra(item['data'] as Map<String, dynamic>, 'Start') != null)
-        await _presentation(item),
-    for (final item in await _zoteroItems(['computerProgram']))
-      if (_text(item['data'] as Map<String, dynamic>, 'DOI') != null)
-        await _software(item),
+  final works = [
+    for (final item in await _zoteroItems(workTypes.keys)) await _work(item),
   ];
+  final orcids = {for (final work in works) ...work.orcids};
+  final agentOmids = {for (final work in works) ...work.agentOmids};
+  final drafts = <Draft>[];
+  for (final work in works) {
+    final (:assertion, :sources) = _assertion(
+      work,
+      {...orcids, ...work.orcids, name: (value: orcid, source: null)},
+      {...agentOmids, ...work.agentOmids},
+    );
+    drafts.add((
+      key: work.key,
+      assertion: assertion,
+      label: work.title,
+      sources: {...work.sources, ...sources}.toList(),
+    ));
+  }
 
   final changed = <Draft>[];
   for (final draft in drafts) {
     final previous = state[draft.key] as Map<String, dynamic>?;
-    if (previous?['assertion'] == draft.assertion) {
+    if (previous?['assertion'] == draft.assertion &&
+        jsonEncode(previous?['sources']) == jsonEncode(draft.sources)) {
       stdout.writeln('Unchanged: ${draft.key}');
     } else {
       changed.add(draft);
@@ -118,13 +141,12 @@ Future<void> main(List<String> args) async {
     final uri = RegExp(r'@prefix this: <([^>]+)>')
         .firstMatch(signed[index].readAsStringSync())![1]!;
     if (!published.contains(uri.split('/').last)) continue;
-    final resource =
-        (state[draft.key] as Map<String, dynamic>?)?['resource'] as String?;
+    final resource = _resource(state[draft.key] as Map<String, dynamic>?);
     state[draft.key] = {
       'nanopub': uri,
       'assertion': draft.assertion,
-      if (draft.introduces == presentation)
-        'resource': resource ?? '$uri/presentation',
+      'sources': draft.sources,
+      'resource': resource ?? '$uri/br',
     };
     stdout.writeln('Published: ${draft.key} -> $uri');
   }
@@ -147,167 +169,272 @@ Future<List<Map<String, dynamic>>> _zoteroItems(Iterable<String> types) async {
   return items.cast<Map<String, dynamic>>();
 }
 
-Future<Draft> _article(Map<String, dynamic> item) async {
+Future<Work> _work(Map<String, dynamic> item) async {
   final data = item['data'] as Map<String, dynamic>;
-  final doi = 'https://doi.org/${data['DOI']}';
-  final work = await _getJson(
-    Uri.https('api.openalex.org', '/works/doi:${data['DOI']}'),
-  ) as Map<String, dynamic>;
   final itemType = data['itemType'] as String;
-  final issn = work['primary_location']['source']['issn_l'] as String;
-  final journal = '<http://id.crossref.org/issn/$issn>';
-  final pages = _text(data, 'pages')?.split('-');
-  final authorships = (work['authorships'] as List<dynamic>)
-      .cast<Map<String, dynamic>>();
-  final authors = _creators(data, 'author');
-  if (authors.length != authorships.length) {
-    throw StateError('$doi: Zotero and OpenAlex list different authors');
-  }
-  final organizations = <String, String>{};
-  final lines = <String>[
-    '<$doi> a fabio:${articleTypes[itemType]} ;',
-    '    dct:title ${_literal(data['title'] as String)} ;',
-    '    dct:date "${item['meta']['parsedDate']}" ;',
-    '    dct:isPartOf $journal ;',
-    for (final (predicate, value) in [
-      ('volume', _text(data, 'volume')),
-      ('issue', _text(data, 'issue')),
-      ('pageStart', pages?.first),
-      ('pageEnd', pages != null && pages.length == 2 ? pages.last : null),
-    ])
-      if (value != null) '    bibo:$predicate ${_literal(value)} ;',
-    '    bibo:authorList sub:author-list .',
-    '$journal dct:title ${_literal(_text(data, containerFields[itemType]!)!)} .',
-  ];
-
-  for (final (index, authorship) in authorships.indexed) {
-    final author = authorship['author'] as Map<String, dynamic>;
-    final id = author['orcid'] ?? author['id'];
-    final iri = id == null ? 'sub:author-${index + 1}' : '<$id>';
-    lines
-      ..add('sub:author-list rdf:_${index + 1} $iri .')
-      ..add('$iri foaf:name ${_literal(authors[index])} .');
-    for (final institution
-        in (authorship['institutions'] as List<dynamic>)
-            .cast<Map<String, dynamic>>()) {
-      organizations[institution['ror'] as String] =
-          institution['display_name'] as String;
-      lines.add('$iri schema:affiliation <${institution['ror']}> .');
-    }
-  }
-  for (final MapEntry(key: ror, value: label) in organizations.entries) {
-    lines.add('<$ror> foaf:name ${_literal(label)} .');
-  }
-  return (
-    key: doi,
-    assertion: lines.join('\n  '),
-    label: data['title'] as String,
-    introduces: '<$doi>',
-    nanopubType: 'fabio:ScholarlyWork',
-    template: articleTemplate,
-    sources: [_zoteroUrl(item), work['id'] as String],
-    agentNames: const <String, String>{},
-  );
-}
-
-Future<Draft> _presentation(Map<String, dynamic> item) async {
-  final data = item['data'] as Map<String, dynamic>;
-  final doi = RegExp(r'10\.\d+/\S+')
-      .firstMatch('${data['DOI']} ${data['url']}')![0]!;
-  final record = await _getJson(
-    Uri.https('api.datacite.org', '/dois/$doi'),
-  ) as Map<String, dynamic>;
-  final creators = (record['data']['attributes']['creators'] as List<dynamic>)
-      .cast<Map<String, dynamic>>();
-  final presenters = _creators(data, 'presenter');
-  if (presenters.length != creators.length) {
-    throw StateError('$doi: Zotero and DataCite list different presenters');
-  }
-  final end = _extra(data, 'End');
-  final agentNames = <String, String>{};
-  final lines = <String>[
-    '$presentation a wd:Q604733 ;',
-    '    rdfs:label ${_literal(data['title'] as String)} ;',
-    '    sdo:startDate "${_extra(data, 'Start')}"^^xsd:dateTime ;',
-    if (end != null) '    sdo:endDate "$end"^^xsd:dateTime ;',
-    if (_text(data, 'place') case final place?)
-      '    sdo:location ${_literal(place)} ;',
-    if (_text(data, 'abstractNote') case final abstract?)
-      '    dct:description ${_literal(abstract)} ;',
-    '    rdfs:seeAlso <${data['url']}> .',
-  ];
-  for (final (index, creator) in creators.indexed) {
-    final identifier =
-        (creator['nameIdentifiers'] as List<dynamic>).first['nameIdentifier']
-            as String;
-    final iri = _orcidIri(identifier);
-    lines.add('$presentation wd:P823 <$iri> .');
-    agentNames[iri] = presenters[index];
-  }
-  return (
-    key: 'https://doi.org/$doi',
-    assertion: lines.join('\n  '),
-    label: data['title'] as String,
-    introduces: presentation,
-    nanopubType: null,
-    template: presentationTemplate,
-    sources: [_zoteroUrl(item), 'https://doi.org/$doi'],
-    agentNames: agentNames,
-  );
-}
-
-Future<Draft> _software(Map<String, dynamic> item) async {
-  final data = item['data'] as Map<String, dynamic>;
-  final doi = 'https://doi.org/${data['DOI']}';
   final url = data['url'] as String;
-  final repository = Uri.parse(url);
-  final orcids = {name: orcid, ...await _citationOrcids(repository)};
-  final agentNames = <String, String>{};
-  final github = await _getJson(
-    Uri.https('api.github.com', '/repos${repository.path}'),
-  ) as Map<String, dynamic>;
-  final lines = <String>[
-    '<$doi> a dcmitype:Software ;',
-    '    dct:title ${_literal(data['title'] as String)} ;',
-    '    dct:publisher <${softwarePublishers[repository.pathSegments.first]!}> ;',
-    '    sosa:isHostedBy <${repository.origin}/> ;',
-    '    dct:license <https://spdx.org/licenses/${data['rights']}> ;',
-    if (_text(data, 'programmingLanguage') case final language?)
-      '    <https://w3id.org/np/RA2v1C5z6oymMYKLs04ya7jUTNHcGBYA3j0IGZji0-j2E> ${_literal(language)} ;',
-    if (_text(github, 'description') case final description?)
-      '    dct:description ${_literal(description)} ;',
-    '    <https://w3id.org/np/RA_KFwzv06xqCE16OvGjmlQpR-ExXVoT1xNxlPXjZQ8p0> <$url> .',
-  ];
-  for (final developer in _creators(data, 'programmer')) {
-    if (orcids[developer] case final iri?) {
-      lines.add('<$doi> dct:creator <$iri> .');
-      agentNames[iri] = developer;
-    } else {
-      lines.add('<$doi> dct:creator ${_literal(developer)} .');
-    }
-  }
+  final doi = RegExp(r'10\.\d+/\S+').firstMatch('${data['DOI']} $url')?[0];
+  final authors = _agents(data, authorCreatorTypes[itemType] ?? 'author');
+  final scholarly = !authorCreatorTypes.containsKey(itemType);
+  final journal = itemType == 'journalArticle';
+  final meta = doi == null ? null : await _metaRecord(doi);
+  final metaIri = meta == null
+      ? null
+      : 'https://w3id.org/oc/meta/${_omids(meta['id'] as String).single}';
+  final metaOrcids = meta == null
+      ? List<String?>.filled(authors.length, null)
+      : _metaOrcids(meta, authors);
+  final metaIssns = meta == null ? const <String>[] : _metaIssns(meta);
+  final openAlex =
+      scholarly &&
+          doi != null &&
+          (metaOrcids.contains(null) || (journal && metaIssns.isEmpty))
+      ? await _getJson(Uri.https('api.openalex.org', '/works/doi:$doi'))
+            as Map<String, dynamic>
+      : null;
+  final openAlexOrcids = openAlex == null
+      ? List<String?>.filled(authors.length, null)
+      : _openAlexOrcids(openAlex, authors);
+  final issnsFromOpenAlex = journal && metaIssns.isEmpty;
   return (
-    key: doi,
-    assertion: lines.join('\n  '),
-    label: data['title'] as String,
-    introduces: null,
-    nanopubType: 'dcmitype:Software',
-    template: softwareTemplate,
-    sources: [_zoteroUrl(item), url],
-    agentNames: agentNames,
+    key: doi == null ? url : 'https://doi.org/$doi',
+    type: workTypes[itemType]!,
+    title: data['title'] as String,
+    date: _text(item['meta'] as Map<String, dynamic>, 'parsedDate'),
+    identifiers: [
+      if (doi != null) (scheme: 'doi', value: doi.toLowerCase()),
+      if (doi == null || itemType == 'computerProgram')
+        (scheme: 'url', value: url),
+      if (meta != null)
+        (scheme: 'omid', value: _omids(meta['id'] as String).single),
+    ],
+    authors: authors,
+    containers: _containers(data, [
+      for (final issn
+          in issnsFromOpenAlex
+              ? (openAlex!['primary_location']['source']['issn'] as List)
+                    .cast<String>()
+              : metaIssns)
+        (scheme: 'issn', value: issn),
+      if (meta != null)
+        for (final omid in _omids(meta['venue'] as String))
+          (scheme: 'omid', value: omid),
+    ]),
+    pages: _text(data, 'pages'),
+    orcids: switch (itemType) {
+      'presentation' => await _dataciteOrcids(doi!, authors),
+      'computerProgram' => await _citationOrcids(Uri.parse(url)),
+      _ => {
+        for (final (index, author) in authors.indexed)
+          if (metaOrcids[index] case final iri?)
+            _fullName(author): (value: iri, source: metaIri)
+          else if (openAlexOrcids[index] case final iri?)
+            _fullName(author): (value: iri, source: openAlex!['id'] as String),
+      },
+    },
+    agentOmids: {
+      if (meta != null)
+        for (final MapEntry(key: orcidId, value: omid) in _agentOmids(
+          meta,
+        ).entries)
+          orcidId: (value: omid, source: metaIri),
+    },
+    sources: [
+      _zoteroUrl(item),
+      ?metaIri,
+      if (issnsFromOpenAlex) openAlex!['id'] as String,
+    ],
   );
 }
+
+List<Container> _containers(
+  Map<String, dynamic> data,
+  List<Identifier> venueIdentifiers,
+) {
+  final editors = _agents(data, 'editor');
+  return switch (data['itemType']) {
+    'journalArticle' => [
+      if (_text(data, 'issue') case final issue?)
+        (
+          id: 'issue',
+          type: 'JournalIssue',
+          title: null,
+          number: issue,
+          identifiers: const [],
+          editors: const [],
+        ),
+      if (_text(data, 'volume') case final volume?)
+        (
+          id: 'volume',
+          type: 'JournalVolume',
+          title: null,
+          number: volume,
+          identifiers: const [],
+          editors: const [],
+        ),
+      (
+        id: 'journal',
+        type: 'Journal',
+        title: data['publicationTitle'] as String,
+        number: null,
+        identifiers: venueIdentifiers,
+        editors: const [],
+      ),
+    ],
+    'bookSection' => [
+      (
+        id: 'book',
+        type: 'Book',
+        title: data['bookTitle'] as String,
+        number: null,
+        identifiers: [
+          if (_text(data, 'ISBN') case final isbns?)
+            for (final isbn in isbns.split(' '))
+              (scheme: 'isbn', value: isbn.replaceAll('-', '')),
+          ...venueIdentifiers,
+        ],
+        editors: editors,
+      ),
+    ],
+    'conferencePaper' => [
+      (
+        id: 'proceedings',
+        type: 'AcademicProceedings',
+        title: data['proceedingsTitle'] as String,
+        number: null,
+        identifiers: [
+          if (Uri.parse(data['url'] as String) case final paper
+              when paper.host.endsWith('ceur-ws.org'))
+            (scheme: 'url', value: paper.resolve('.').toString()),
+          ...venueIdentifiers,
+        ],
+        editors: editors,
+      ),
+    ],
+    _ => const [],
+  };
+}
+
+({String assertion, Set<String> sources}) _assertion(
+  Work work,
+  Map<String, Sourced> orcids,
+  Map<String, Sourced> agentOmids,
+) {
+  final lines = <String>[];
+  final sources = <String>{};
+  final agentIds = <String, String>{};
+  var identifierCount = 0;
+
+  void addIdentifier(String subject, Identifier identifier) {
+    final id = identifierCount == 0
+        ? 'sub:identifier'
+        : 'sub:identifier__$identifierCount';
+    identifierCount++;
+    lines
+      ..add('$subject datacite:hasIdentifier $id .')
+      ..add(
+        '$id a datacite:Identifier ;\n'
+        '    datacite:usesIdentifierScheme datacite:${identifier.scheme} ;\n'
+        '    literal:hasLiteralValue ${_literal(identifier.value)} .',
+      );
+  }
+
+  void addRoles(String context, String role, List<Agent> agents) {
+    for (final (index, agent) in agents.indexed) {
+      final roleId = 'sub:$role-${index + 1}';
+      final fullName = _fullName(agent);
+      final known = agentIds.containsKey(fullName);
+      final agentId = agentIds.putIfAbsent(
+        fullName,
+        () => 'sub:agent-${agentIds.length + 1}',
+      );
+      lines.add(
+        '$context pro:isDocumentContextFor $roleId .\n'
+        '  $roleId a pro:RoleInTime ;\n'
+        '    pro:withRole pro:$role ;\n'
+        '    pro:isHeldBy $agentId .',
+      );
+      if (index > 0) lines.add('sub:$role-$index oco:hasNext $roleId .');
+      if (known) continue;
+      lines.add(
+        _subject([
+          '$agentId a foaf:Agent',
+          if (agent.givenName case final given?)
+            'foaf:givenName ${_literal(given)}',
+          if (agent.familyName case final family?)
+            'foaf:familyName ${_literal(family)}',
+          if (agent.name case final name?) 'foaf:name ${_literal(name)}',
+        ]),
+      );
+      if (orcids[fullName] case final orcid?) {
+        final orcidId = orcid.value.split('/').last;
+        addIdentifier(agentId, (scheme: 'orcid', value: orcidId));
+        if (orcid.source case final source?) sources.add(source);
+        if (agentOmids[orcidId] case final omid?) {
+          addIdentifier(agentId, (scheme: 'omid', value: omid.value));
+          sources.add(omid.source!);
+        }
+      }
+    }
+  }
+
+  lines.add(
+    _subject([
+      '$workNode a fabio:Expression, fabio:${work.type}',
+      'dct:title ${_literal(work.title)}',
+      if (work.date case final date?)
+        'prism:publicationDate "$date"^^xsd:${dateDatatypes[date.length]!}',
+    ]),
+  );
+  for (final identifier in work.identifiers) {
+    addIdentifier(workNode, identifier);
+  }
+  addRoles(workNode, 'author', work.authors);
+
+  var part = workNode;
+  for (final container in work.containers) {
+    final id = 'sub:${container.id}';
+    lines
+      ..add('$part frbr:partOf $id .')
+      ..add(
+        _subject([
+          '$id a fabio:Expression, fabio:${container.type}',
+          if (container.title case final title?) 'dct:title ${_literal(title)}',
+          if (container.number case final number?)
+            'fabio:hasSequenceIdentifier ${_literal(number)}',
+        ]),
+      );
+    for (final identifier in container.identifiers) {
+      addIdentifier(id, identifier);
+    }
+    addRoles(id, 'editor', container.editors);
+    part = id;
+  }
+
+  if (work.pages case final pages?) {
+    final range = pages.split(RegExp('[-–]'));
+    lines.add(
+      '$workNode frbr:embodiment sub:manifestation .\n'
+      '  sub:manifestation a fabio:Manifestation ;\n'
+      '    prism:startingPage ${_literal(range.first)} ;\n'
+      '    prism:endingPage ${_literal(range.last)} .',
+    );
+  }
+  return (assertion: lines.join('\n  '), sources: sources);
+}
+
+String? _resource(Map<String, dynamic>? previous) =>
+    previous?['resource'] as String?;
 
 String _nanopub(Draft draft, Map<String, dynamic>? previous) {
-  final resource = previous?['resource'] as String?;
+  final resource = _resource(previous);
   final supersedes = previous?['nanopub'] as String?;
   final created = DateTime.now().toUtc().toIso8601String();
-  final assertion = resource == null
-      ? draft.assertion
-      : draft.assertion.replaceAll(presentation, '<$resource>');
-  final introduces = draft.introduces == presentation && resource != null
-      ? '<$resource>'
-      : draft.introduces;
+  final introduces = resource == null ? workNode : '<$resource>';
+  final assertion = draft.assertion.replaceAll(
+    RegExp('${RegExp.escape(workNode)}\\b'),
+    introduces,
+  );
   return '''
 @prefix this: <http://purl.org/nanopub/temp/np001/> .
 @prefix sub: <http://purl.org/nanopub/temp/np001/> .
@@ -315,18 +442,17 @@ String _nanopub(Draft draft, Map<String, dynamic>? previous) {
 @prefix npx: <http://purl.org/nanopub/x/> .
 @prefix nt: <https://w3id.org/np/o/ntemplate/> .
 @prefix dct: <http://purl.org/dc/terms/> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix schema: <http://schema.org/> .
-@prefix sdo: <https://schema.org/> .
 @prefix fabio: <http://purl.org/spar/fabio/> .
-@prefix bibo: <http://purl.org/ontology/bibo/> .
-@prefix wd: <http://www.wikidata.org/entity/> .
-@prefix sosa: <http://www.w3.org/ns/sosa/> .
-@prefix dcmitype: <http://purl.org/dc/dcmitype/> .
+@prefix datacite: <http://purl.org/spar/datacite/> .
+@prefix literal: <http://www.essepuntato.it/2010/06/literalreification/> .
+@prefix pro: <http://purl.org/spar/pro/> .
+@prefix frbr: <http://purl.org/vocab/frbr/core#> .
+@prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
+@prefix oco: <https://w3id.org/oc/ontology/> .
 
 sub:Head {
   this: a np:Nanopublication ;
@@ -349,48 +475,116 @@ sub:pubinfo {
     dct:creator <$orcid> ;
     dct:license <https://creativecommons.org/publicdomain/zero/1.0/> ;
     rdfs:label ${_literal(draft.label)} ;
-    ${introduces == null ? '' : 'npx:introduces $introduces ;'}
-    ${draft.nanopubType == null ? '' : 'npx:hasNanopubType ${draft.nanopubType} ;'}
+    npx:introduces $introduces ;
+    npx:hasNanopubType fabio:Expression ;
     ${supersedes == null ? '' : 'npx:supersedes <$supersedes> ;'}
-    nt:wasCreatedFromTemplate <${draft.template}> ;
+    nt:wasCreatedFromTemplate <$workTemplate> ;
     nt:wasCreatedFromProvenanceTemplate <$provenanceTemplate> ;
     nt:wasCreatedFromPubinfoTemplate <$licenseTemplate>, <$creatorTemplate>${supersedes == null ? '' : ', <$supersedesTemplate>'} .
-${{...draft.agentNames, orcid: name}.entries.map((agent) => '  <${agent.key}> foaf:name ${_literal(agent.value)} .').join('\n')}
+  <$orcid> foaf:name ${_literal(name)} .
 }
 ''';
 }
 
-List<String> _creators(Map<String, dynamic> data, String creatorType) =>
-    (data['creators'] as List<dynamic>)
-        .cast<Map<String, dynamic>>()
-        .where((creator) => creator['creatorType'] == creatorType)
-        .map((creator) => '${creator['firstName']} ${creator['lastName']}')
-        .toList();
+List<Agent> _agents(Map<String, dynamic> data, String creatorType) => [
+  for (final creator
+      in (data['creators'] as List<dynamic>).cast<Map<String, dynamic>>())
+    if (creator['creatorType'] == creatorType)
+      (
+        givenName: _text(creator, 'firstName'),
+        familyName: _text(creator, 'lastName'),
+        name: _text(creator, 'name'),
+      ),
+];
 
-String _orcidIri(String identifier) => identifier.startsWith('https://')
-    ? identifier
-    : 'https://orcid.org/$identifier';
+String _fullName(Agent agent) =>
+    agent.name ?? '${agent.givenName} ${agent.familyName}';
 
-String _zoteroUrl(Map<String, dynamic> item) =>
-    'https://www.zotero.org/groups/$zoteroGroup/items/${item['key']}';
-
-String? _extra(Map<String, dynamic> data, String field) => RegExp(
-  '^$field: (.+)\$',
-  multiLine: true,
-).firstMatch(data['extra'] as String)?[1];
-
-String _literal(String value) => jsonEncode(value);
-
-String? _text(Map<String, dynamic> map, String key) {
-  final value = (map[key] as String?)?.trim();
-  return value == null || value.isEmpty ? null : value;
+List<String?> _openAlexOrcids(
+  Map<String, dynamic> openAlex,
+  List<Agent> authors,
+) {
+  final authorships = (openAlex['authorships'] as List<dynamic>)
+      .cast<Map<String, dynamic>>();
+  if (authorships.length != authors.length) {
+    throw StateError(
+      '${openAlex['doi']}: Zotero and OpenAlex list different authors',
+    );
+  }
+  return [
+    for (final authorship in authorships)
+      authorship['author']['orcid'] as String?,
+  ];
 }
 
-Future<Map<String, String>> _citationOrcids(Uri repository) async {
+Future<Map<String, dynamic>?> _metaRecord(String doi) async {
+  final records = await _getJson(
+    Uri.https('api.opencitations.net', '/meta/v1/metadata/doi:$doi'),
+  ) as List<dynamic>;
+  return records.isEmpty ? null : records.single as Map<String, dynamic>;
+}
+
+Iterable<String> _omids(String ids) =>
+    RegExp(r'omid:(\w+/\d+)').allMatches(ids).map((match) => match[1]!);
+
+List<String?> _metaOrcids(Map<String, dynamic> meta, List<Agent> authors) {
+  final entries = (meta['author'] as String).split('; ');
+  if (entries.length != authors.length) {
+    throw StateError('${meta['id']}: Zotero and Meta list different authors');
+  }
+  return [
+    for (final entry in entries)
+      if (RegExp(r'orcid:(\S+?)[\s\]]').firstMatch(entry) case final orcid?)
+        _orcidIri(orcid[1]!)
+      else
+        null,
+  ];
+}
+
+List<String> _metaIssns(Map<String, dynamic> meta) => [
+  for (final issn in RegExp(
+    r'issn:(\S+?)[\s\]]',
+  ).allMatches(meta['venue'] as String))
+    issn[1]!,
+];
+
+Map<String, String> _agentOmids(Map<String, dynamic> meta) => {
+  for (final field in ['author', 'editor'])
+    for (final ids in RegExp(r'\[([^\]]*)\]').allMatches(meta[field] as String))
+      if (RegExp(r'orcid:(\S+)').firstMatch(ids[1]!) case final orcid?)
+        orcid[1]!: _omids(ids[1]!).single,
+};
+
+Future<Map<String, Sourced>> _dataciteOrcids(
+  String doi,
+  List<Agent> presenters,
+) async {
+  final record = Uri.https('api.datacite.org', '/dois/$doi');
+  final creators =
+      ((await _getJson(record))['data']['attributes']['creators']
+              as List<dynamic>)
+          .cast<Map<String, dynamic>>();
+  if (creators.length != presenters.length) {
+    throw StateError('$doi: Zotero and DataCite list different presenters');
+  }
+  return {
+    for (final (index, creator) in creators.indexed)
+      for (final identifier
+          in (creator['nameIdentifiers'] as List<dynamic>)
+              .cast<Map<String, dynamic>>())
+        if (identifier['nameIdentifierScheme'] == 'ORCID')
+          _fullName(presenters[index]): (
+            value: _orcidIri(identifier['nameIdentifier'] as String),
+            source: record.toString(),
+          ),
+  };
+}
+
+Future<Map<String, Sourced>> _citationOrcids(Uri repository) async {
   final response = await http.get(
     Uri.https(
-      'raw.githubusercontent.com',
-      '${repository.path}/HEAD/CITATION.cff',
+      'api.github.com',
+      '/repos${repository.path}/contents/CITATION.cff',
     ),
   );
   if (response.statusCode == 404) return {};
@@ -399,7 +593,17 @@ Future<Map<String, String>> _citationOrcids(Uri repository) async {
       '${response.request!.url} returned ${response.statusCode}',
     );
   }
-  final citation = loadYaml(response.body) as YamlMap;
+  final file = jsonDecode(response.body) as Map<String, dynamic>;
+  final sha = file['sha'] as String;
+  await _getJson(
+    Uri.https('archive.softwareheritage.org', '/api/1/content/sha1_git:$sha/'),
+  );
+  final source = 'https://archive.softwareheritage.org/swh:1:cnt:$sha';
+  final citation = loadYaml(
+    utf8.decode(
+      base64.decode((file['content'] as String).replaceAll('\n', '')),
+    ),
+  ) as YamlMap;
   final people = [
     ...citation['authors'] as YamlList,
     ...?(citation['preferred-citation'] as YamlMap?)?['authors'] as YamlList?,
@@ -407,10 +611,27 @@ Future<Map<String, String>> _citationOrcids(Uri repository) async {
   return {
     for (final person in people)
       if (person['orcid'] case final String identifier)
-        '${person['given-names']} ${person['family-names']}': _orcidIri(
-          identifier,
+        '${person['given-names']} ${person['family-names']}': (
+          value: _orcidIri(identifier),
+          source: source,
         ),
   };
+}
+
+String _orcidIri(String identifier) => identifier.startsWith('https://')
+    ? identifier
+    : 'https://orcid.org/$identifier';
+
+String _zoteroUrl(Map<String, dynamic> item) =>
+    'https://www.zotero.org/groups/$zoteroGroup/items/${item['key']}';
+
+String _subject(List<String> predicates) => '${predicates.join(' ;\n    ')} .';
+
+String _literal(String value) => jsonEncode(value);
+
+String? _text(Map<String, dynamic> map, String key) {
+  final value = (map[key] as String?)?.trim();
+  return value == null || value.isEmpty ? null : value;
 }
 
 Future<dynamic> _getJson(Uri uri) async {
