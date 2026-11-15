@@ -31,7 +31,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get aboutMeDescription =>
-      'Ho un doppio dottorato in Patrimonio Culturale nell\'Ecosistema Digitale (Bologna) e in Engineering Technology (KU Leuven). In pratica, cerco di mettere gli esperti di patrimonio culturale nelle condizioni di curare e pubblicare dati FAIR (Findable, Accessible, Interoperable, Reusable) con tecnologie del Web Semantico, senza che debbano diventare esperti di tecnologia. Da qui è nato [HERITRACE](https://opencitations.github.io/heritrace/), un sistema per curare grafi di conoscenza tenendo traccia di chi ha cambiato cosa e perché.\n\nOggi sono contrattista di ricerca a Bologna sul progetto [GRAPHIA](https://cordis.europa.eu/project/id/101188018) (Horizon Europe): l\'idea è mettere insieme i dati frammentati delle scienze umane e sociali in un unico grafo di conoscenza. Collaboro anche con [OpenCitations](https://opencitations.net/) per rendere i dati sulle citazioni scientifiche aperti e riutilizzabili.';
+      'Ho un doppio dottorato in Patrimonio Culturale nell\'Ecosistema Digitale (Bologna) e in Engineering Technology (KU Leuven). In pratica, cerco di mettere gli esperti di patrimonio culturale nelle condizioni di curare e pubblicare dati FAIR (Findable, Accessible, Interoperable, Reusable) con tecnologie del Web Semantico, senza che debbano diventare esperti di tecnologia. Da qui è nato [HERITRACE](https://opencitations.github.io/heritrace/), un sistema per curare grafi di conoscenza tenendo traccia di chi ha cambiato cosa e quando.\n\nOggi sono contrattista di ricerca a Bologna sul progetto [GRAPHIA](https://cordis.europa.eu/project/id/101188018) (Horizon Europe): l\'idea è mettere insieme i dati frammentati delle scienze umane e sociali in un unico grafo di conoscenza. Collaboro anche con [OpenCitations](https://opencitations.net/) per rendere i dati sulle citazioni scientifiche aperti e riutilizzabili.';
 
   @override
   String get skills => 'La mia cassetta degli attrezzi';
@@ -452,7 +452,22 @@ class AppLocalizationsIt extends AppLocalizations {
   String get conferencesAndSeminars => 'Conferenze e seminari';
 
   @override
-  String get kgcwWorkshop2026Title => 'KGCW 2026';
+  String get iswcConference2026Title =>
+      '25th International Semantic Web Conference (ISWC 2026)';
+
+  @override
+  String get iswcConference2026Period => '25-29 Ott 2026';
+
+  @override
+  String get iswcConference2026Location => 'Bari, Italia';
+
+  @override
+  String get iswcConference2026Description =>
+      'Contributo: *HERITRACE: A Domain-Agnostic Framework for SHACL-Driven RDF Curation with Provenance and Change Tracking*\n[Conferenza](https://iswc2026.semanticweb.org/) | [Paper](https://doi.org/10.1007/978-3-032-42026-8_30) | [Presentazione](https://doi.org/10.5281/zenodo.23809772)';
+
+  @override
+  String get kgcwWorkshop2026Title =>
+      '7th International Workshop on Knowledge Graph Construction (KGCW 2026)';
 
   @override
   String get kgcwWorkshop2026Period => '10-11 Mag 2026';
@@ -462,10 +477,11 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get kgcwWorkshop2026Description =>
-      'Partecipazione a KGCW 2026, 7th International Workshop on Knowledge Graph Construction tenutosi in concomitanza con ESWC 2026, con un contributo dal titolo *Let\'s invert it! From RDF to relational data with R2RML*. [Workshop](https://openreview.net/group?id=eswc-conferences.org/ESWC/2026/Workshop/KGCW#tab-accept) | [Paper](https://openreview.net/pdf?id=XUc9rtTsHp)';
+      'Contributo: *Let\'s invert it! From RDF to relational data with R2RML*\n[Workshop](https://openreview.net/group?id=eswc-conferences.org/ESWC/2026/Workshop/KGCW#tab-accept) | [Paper](https://openreview.net/pdf?id=XUc9rtTsHp)';
 
   @override
-  String get aiucdConference2024Title => 'AIUCD 2024';
+  String get aiucdConference2024Title =>
+      'XIII Convegno AIUCD: MeTe digitali. Mediterraneo in rete tra testi e contesti (AIUCD 2024)';
 
   @override
   String get aiucdConference2024Period => '28-30 Mag 2024';
@@ -475,11 +491,11 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get aiucdConference2024Description =>
-      'Partecipazione alla conferenza dell\'Associazione per Informatica Umanistica e la Cultura Digitale (AIUCD) tenutasi a Catania con un contributo dal titolo *HERITRACE: Tracing Evolution and Bridging Data for Streamlined Curatorial Work in the GLAM Domain*. [Conferenza](https://aiucd2024.unict.it/) | [Paper](https://doi.org/10.6092/issn.2532-8816/21218) | [Presentazione](https://zenodo.org/doi/10.5281/zenodo.11474571)';
+      'Contributo: *HERITRACE: Tracing Evolution and Bridging Data for Streamlined Curatorial Work in the GLAM Domain*\n[Conferenza](https://aiucd2024.unict.it/) | [Paper](https://doi.org/10.6092/issn.2532-8816/21218) | [Presentazione](https://zenodo.org/doi/10.5281/zenodo.11474571)';
 
   @override
   String get cziHackathon2023Title =>
-      'Hackathon \'Mapping the Impact of Research Software in Science\'';
+      'Mapping the Impact of Research Software in Science (CZI Hackathon 2023)';
 
   @override
   String get cziHackathon2023Period => '24-27 Ott 2023';
@@ -489,23 +505,25 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get cziHackathon2023Description =>
-      'Partecipazione all\'hackathon ospitato dalla Chan Zuckerberg Initiative, dove mi sono concentrato sull\'integrazione dei modelli di dati di tre collezioni di menzioni di software: SoMeSci, Softcite e RRID. Ho realizzato una tabella di mappatura che è servita come punto di partenza per la creazione di un \'gold dataset\' volto a migliorare l\'estrazione delle menzioni al software nella letteratura scientifica. [Repository](https://github.com/chanzuckerberg/software-impact-hackathon-2023)';
+      'Integrazione dei modelli di dati di tre collezioni di menzioni di software: SoMeSci, Softcite e RRID. La tabella di mappatura prodotta è servita come punto di partenza per un \'gold dataset\' volto a migliorare l\'estrazione delle menzioni di software dalla letteratura scientifica.\n[Repository](https://github.com/chanzuckerberg/software-impact-hackathon-2023)';
 
   @override
-  String get adhoDhConf2023Title => 'ADHO Digital Humanities 2023';
+  String get adhoDhConf2023Title =>
+      'Digital Humanities 2023: Collaboration as Opportunity (DH2023)';
 
   @override
-  String get adhoDhConf2023Period => '10-15 Lug 2023';
+  String get adhoDhConf2023Period => '10-14 Lug 2023';
 
   @override
   String get adhoDhConf2023Location => 'Graz, Austria';
 
   @override
   String get adhoDhConf2023Description =>
-      'Partecipazione alla ADHO Digital Humanities conferences 2023 con un contributo dal titolo *Representing provenance and track changes of cultural heritage metadata in RDF: a survey of existing approaches*. [Conferenza](https://dh2023.adho.org/) | [Paper](https://doi.org/10.1093/llc/fqaf076) | [Presentazione](https://doi.org/10.5281/zenodo.8153979)';
+      'Contributo: *Representing provenance and track changes of cultural heritage metadata in RDF: a survey of existing approaches*\n[Conferenza](https://dh2023.adho.org/) | [Paper](https://doi.org/10.1093/llc/fqaf076) | [Presentazione](https://doi.org/10.5281/zenodo.8153979)';
 
   @override
-  String get rdaPlenary2023Title => '20th RDA Plenary Meeting';
+  String get rdaPlenary2023Title =>
+      'Research Data Alliance 20th Plenary Meeting (RDA P20)';
 
   @override
   String get rdaPlenary2023Period => '21-23 Mar 2023';
@@ -515,7 +533,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get rdaPlenary2023Description =>
-      'Partecipazione al ventesimo incontro plenario della Research Data Alliance con un contributo dal titolo *Adopting the Scientific Knowledge Graphs Interoperability Framework in OpenCitations*. [Conferenza](https://faircore4eosc.eu/events/rda-20th-plenary-meeting-gothenburg-hybrid) | [Presentazione](https://doi.org/10.5281/zenodo.7702070)';
+      'Contributo: *Adopting the Scientific Knowledge Graphs Interoperability Framework in OpenCitations*\n[Conferenza](https://faircore4eosc.eu/events/rda-20th-plenary-meeting-gothenburg-hybrid) | [Presentazione](https://doi.org/10.5281/zenodo.7702070)';
 
   @override
   String get csvconfV9Conference2025Title => 'csv,conf,v9';
@@ -528,10 +546,11 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get csvconfV9Conference2025Description =>
-      'Partecipazione a csv,conf,v9, una conferenza comunitaria per data maker di tutto il mondo con il tema \'Data for Communities\'. Presentazione dal titolo *Mapping the unmapped citation landscape: how crowdsourcing will fill the citation gap*, discussione su come democratizzare il panorama delle citazioni collegando 41.500 riviste del Sud del mondo e introducendo milioni di nuove citazioni attraverso una soluzione collaborativa tra OpenCitations, Public Knowledge Project (PKP) e Leibniz Information Centre. [Conferenza](https://csvconf.com/) | [Presentazione](https://doi.org/10.5281/zenodo.17098599)';
+      'Contributo: *Mapping the unmapped citation landscape: how crowdsourcing will fill the citation gap*\n[Conferenza](https://csvconf.com/) | [Presentazione](https://doi.org/10.5281/zenodo.17098599)';
 
   @override
-  String get unaEuropaWorkshop2025Title => 'Una Europa PhD Workshop';
+  String get unaEuropaWorkshop2025Title =>
+      'Una Her Doc-Una Europa PhD Workshop: Museums and the new challenges: virtual technologies, societal responsibility and environmental sustainability';
 
   @override
   String get unaEuropaWorkshop2025Period => '5-10 Mag 2025';
@@ -541,85 +560,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get unaEuropaWorkshop2025Description =>
-      'Partecipazione al workshop transdisciplinare Una Europa per dottorandi focalizzato su \'Museums and the new challenges: virtual technologies, societal responsibility and environmental sustainability\'. Presentazione dal titolo *HERITRACE: A User-Friendly Semantic Data Editor with Change Tracking and Provenance Management for Cultural Heritage Institutions*. [Info workshop](https://site.unibo.it/una-europa/en/focus-areas/una-her-doc-una-europa-phd-workshop) | [Presentazione](https://doi.org/10.5281/zenodo.15375770)';
-
-  @override
-  String get astroGodsTitle => '~~Contro~~ Oltre la scienza';
-
-  @override
-  String get astroGodsSubtitle => 'Astrologia egizia';
-
-  @override
-  String get astroGodsIntroduction =>
-      'AstroGods nasce da un\'amicizia. Jacopo ha una capacità inspiegabile di leggere le persone basandosi solo sulla loro data di nascita, con una precisione che mi ha sempre colpito. Ho voluto portare sempre con me quello sguardo, e così ho cercato di estrarre l\'algoritmo dietro al suo metodo. I calcoli astronomici usano le Swiss Ephemeris, le interpretazioni sono tutte scritte a mano da noi e l\'AI le assembla in un testo coerente e coeso.';
-
-  @override
-  String get astroGodsCard1Title => 'Un problema complesso';
-
-  @override
-  String get astroGodsCard1Description =>
-      'Le interpretazioni astrologiche fatte bene (non quelle da intrattenimento) sono incredibilmente complesse. Devono unire simbolicamente infiniti elementi.';
-
-  @override
-  String get astroGodsCard2Title => 'Elementi infiniti';
-
-  @override
-  String get astroGodsCard2Description =>
-      'Posizioni planetarie nelle case e nei segni, gli aspetti che formano tra loro. Ogni elemento aggiunge strati di significato simbolico.';
-
-  @override
-  String get astroGodsCard3Title => 'Complessità esponenziale';
-
-  @override
-  String get astroGodsCard3Description =>
-      'La complessità cresce in modo esponenziale nel confronto tra carte diverse: due persone, una persona e un momento specifico, o perché no, interi gruppi sociali.';
-
-  @override
-  String get astroGodsCard4Title => 'Tradizione egizia';
-
-  @override
-  String get astroGodsCard4Description =>
-      'AstroGods utilizza la tradizione astrologica egizia e il sistema delle case di area uguale (sistema Vehlow) come fondamento metodologico.';
-
-  @override
-  String get astroGodsCard5Title => 'Un piccolo aiuto';
-
-  @override
-  String get astroGodsCard5Description =>
-      'L\'AI assembla i frammenti scritti a mano in un testo coerente e coeso.';
-
-  @override
-  String get astroGodsCard6Title => 'Nosce te ipsum';
-
-  @override
-  String get astroGodsCard6Description =>
-      'Analisi preliminari accessibili a profani ed esperti come punti di partenza per riflessioni personali.';
-
-  @override
-  String get astroGodsVisitWebsite => 'Web';
-
-  @override
-  String get astroGodsGetOnFlathub => 'Flathub';
-
-  @override
-  String get astroGodsGetOnSnap => 'Snap Store';
-
-  @override
-  String get astroGodsGetOnGooglePlay => 'Google Play';
-
-  @override
-  String get astroGodsGetOnMicrosoftStore => 'Microsoft Store';
-
-  @override
-  String get astroGodsCollaborate => 'Collabora con me';
-
-  @override
-  String get astroGodsIframeHidden =>
-      'Iframe nascosto durante il cambio lingua';
-
-  @override
-  String get astroGodsVisitForFullExperience =>
-      'Visita il sito per l\'esperienza completa';
+      'Contributo: *HERITRACE: A User-Friendly Semantic Data Editor with Change Tracking and Provenance Management for Cultural Heritage Institutions*\n[Info workshop](https://site.unibo.it/una-europa/en/focus-areas/una-her-doc-una-europa-phd-workshop) | [Presentazione](https://doi.org/10.5281/zenodo.15375770)';
 
   @override
   String get tableOfContents => 'Sezioni';

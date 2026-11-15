@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 
 class StarryBackground extends StatefulWidget {
   final Widget child;
-  final bool showHorizon;
   final int starCount1;
   final int starCount2;
   final int starCount3;
@@ -19,13 +18,11 @@ class StarryBackground extends StatefulWidget {
   final int animationSpeed1;
   final int animationSpeed2;
   final int animationSpeed3;
-  final bool forceNightBackground;
   final bool enableAnimation;
 
   const StarryBackground({
     super.key,
     required this.child,
-    this.showHorizon = true,
     this.starCount1 = 700,
     this.starCount2 = 200,
     this.starCount3 = 100,
@@ -36,7 +33,6 @@ class StarryBackground extends StatefulWidget {
     this.animationSpeed1 = 50,
     this.animationSpeed2 = 100,
     this.animationSpeed3 = 150,
-    this.forceNightBackground = false,
     this.enableAnimation = true,
   });
 
@@ -223,84 +219,25 @@ class _StarryBackgroundState extends State<StarryBackground>
     final shouldAnimate =
         widget.enableAnimation && !_disableAnimations && _isInOrNearViewport;
 
-    return Container(
-      decoration: widget.forceNightBackground
-          ? const BoxDecoration(
-              gradient: RadialGradient(
-                center: Alignment.bottomCenter,
-                radius: 1.0,
-                colors: [Color(0xFF0c1116), Color(0xFF090a0f)],
-                stops: [0.0, 1.0],
-              ),
-            )
-          : const BoxDecoration(color: Colors.transparent),
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: RepaintBoundary(
-              child: CustomPaint(
-                isComplex: true,
-                willChange: shouldAnimate,
-                painter: _StarPainter(
-                  animation: _animationController,
-                  layers: _starLayers,
-                  loopDurationSeconds: _loopDurationSeconds,
-                  starColor: widget.starColor,
-                  animate: shouldAnimate,
-                ),
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: RepaintBoundary(
+            child: CustomPaint(
+              isComplex: true,
+              willChange: shouldAnimate,
+              painter: _StarPainter(
+                animation: _animationController,
+                layers: _starLayers,
+                loopDurationSeconds: _loopDurationSeconds,
+                starColor: widget.starColor,
+                animate: shouldAnimate,
               ),
             ),
           ),
-          if (widget.showHorizon)
-            Positioned(
-              bottom: -200,
-              left: -200,
-              right: -200,
-              child: Container(
-                height: 400,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: RadialGradient(
-                    center: Alignment.topCenter,
-                    radius: 0.8,
-                    colors: [
-                      const Color(0xFF038bff).withValues(alpha: 0.3),
-                      const Color(0xFF51AFFF).withValues(alpha: 0.2),
-                      const Color(0xFFB0DAFF).withValues(alpha: 0.1),
-                      Colors.transparent,
-                    ],
-                    stops: const [0.0, 0.3, 0.6, 1.0],
-                  ),
-                ),
-              ),
-            ),
-          if (widget.showHorizon)
-            Positioned(
-              bottom: -1500,
-              left: -800,
-              right: -800,
-              child: Container(
-                height: 1700,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.black.withValues(alpha: 0.9), Colors.black],
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF215496).withValues(alpha: 0.5),
-                      blurRadius: 80,
-                      spreadRadius: 15,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          widget.child,
-        ],
-      ),
+        ),
+        widget.child,
+      ],
     );
   }
 }

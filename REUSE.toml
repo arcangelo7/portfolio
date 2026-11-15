@@ -82,7 +82,6 @@ SPDX-License-Identifier = "ISC"
 path = [
     "assets/documents/**",
     "assets/icons/**",
-    "assets/images/astrogods_logo.svg",
     "macos/Runner/Assets.xcassets/AppIcon.appiconset/*.png",
 ]
 SPDX-FileCopyrightText = "2026 Arcangelo Massari <info@arcangelomassari.com>"

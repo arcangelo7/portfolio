@@ -214,7 +214,6 @@ class _HeroSectionState extends State<HeroSection>
                 child: StarryBackground(
                   key: const ValueKey('hero-stars'),
                   enableAnimation: animateStars,
-                  showHorizon: false,
                   child: const SizedBox.expand(),
                 ),
                 builder: (context, child) {

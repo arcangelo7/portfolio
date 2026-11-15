@@ -3,10 +3,12 @@
 // SPDX-License-Identifier: ISC
 
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart' show ScrollCacheExtent;
+import 'package:flutter/rendering.dart'
+    show RenderAbstractViewport, ScrollCacheExtent;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:printing/printing.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
@@ -27,7 +29,6 @@ import 'theme/portfolio_theme.dart';
 import 'utils/responsive.dart';
 import 'utils/web_utils.dart';
 import 'widgets/about_section.dart';
-import 'widgets/astrogods_section.dart';
 import 'widgets/celestial_marker.dart';
 import 'widgets/conferences_seminars_section.dart';
 import 'widgets/contact_section.dart';
@@ -271,9 +272,8 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage>
     with TickerProviderStateMixin {
   static const int _publicationChunkStartIndex = 7;
-  static const int _astroGodsIndex =
+  static const int _contactIndex =
       _publicationChunkStartIndex + PublicationsSection.chunkCount;
-  static const int _contactIndex = _astroGodsIndex + 1;
   static const Map<String, int> _sectionIndices = {
     'hero': 0,
     'about': 1,
@@ -283,10 +283,13 @@ class _LandingPageState extends State<LandingPage>
     'skills': 5,
     'languages': 6,
     'publications': 7,
-    'astrogods': _astroGodsIndex,
     'contact': _contactIndex,
   };
   static const int _itemCount = _contactIndex + 1;
+  static const Duration _navigationDuration = Duration(milliseconds: 800);
+  static const Curve _navigationCurve = Curves.easeInOut;
+
+  final GlobalKey _contactKey = GlobalKey();
 
   bool _isFabExpanded = false;
   bool _isTocVisible = false;
@@ -364,14 +367,56 @@ class _LandingPageState extends State<LandingPage>
       return;
     }
     await WidgetsBinding.instance.endOfFrame;
-    await _listObserverController.animateTo(
-      index: index,
-      duration: const Duration(milliseconds: 800),
-      curve: Curves.easeInOut,
-    );
+    if (index == _contactIndex) {
+      await _animateToContact();
+    } else {
+      await _listObserverController.animateTo(
+        index: index,
+        duration: _navigationDuration,
+        curve: _navigationCurve,
+      );
+    }
     if (mounted) {
       widget.onSectionChanged(sectionId);
     }
+  }
+
+  /// The observer turns pages by putting the end of the last built section at
+  /// the top of the viewport, clamped to an estimated extent. Contact is the
+  /// last section and shorter than the viewport, so that point lies past the
+  /// real end and the scroll would swing back. Each frame here covers its share
+  /// of the distance left to a target read afresh: the end of the list until
+  /// Contact is built, then Contact itself. Contact is built a viewport ahead,
+  /// so the scroll never passes the real end.
+  Future<void> _animateToContact() async {
+    final position = _scrollController.position;
+    final animation = AnimationController(
+      duration: _navigationDuration,
+      vsync: this,
+    );
+    var previousProgress = 0.0;
+    animation.addListener(() {
+      final progress = _navigationCurve.transform(animation.value);
+      final remaining = _contactScrollOffset(position) - position.pixels;
+      final share = progress == 1
+          ? 1.0
+          : (progress - previousProgress) / (1 - previousProgress);
+      position.jumpTo(position.pixels + remaining * share);
+      previousProgress = progress;
+    });
+    await animation.forward();
+    animation.dispose();
+  }
+
+  double _contactScrollOffset(ScrollPosition position) {
+    final contact = _contactKey.currentContext?.findRenderObject();
+    if (contact == null) {
+      return position.maxScrollExtent;
+    }
+    final reveal = RenderAbstractViewport.of(contact)
+        .getOffsetToReveal(contact, 0)
+        .offset;
+    return math.min(reveal, position.maxScrollExtent);
   }
 
   Future<void> _positionInitialSection(int index) async {
@@ -391,7 +436,7 @@ class _LandingPageState extends State<LandingPage>
   Future<void> _prepareSectionNavigation(int index) async {
     await Future.wait([
       _sectionDataReady,
-      if (index >= _astroGodsIndex) _publicationsController.prepareLayout(),
+      if (index >= _contactIndex) _publicationsController.prepareLayout(),
     ]);
   }
 
@@ -646,7 +691,7 @@ class _LandingPageState extends State<LandingPage>
       return null;
     }
     final leading = _visibleSectionIndices.reduce((a, b) => a < b ? a : b);
-    if (leading >= _publicationChunkStartIndex && leading < _astroGodsIndex) {
+    if (leading >= _publicationChunkStartIndex && leading < _contactIndex) {
       return 'publications';
     }
     return _sectionIdAt(leading);
@@ -712,8 +757,10 @@ class _LandingPageState extends State<LandingPage>
       ),
       'skills' => SkillsSection(data: _cvData?.skills),
       'languages' => LanguagesSection(data: _languageData),
-      'astrogods' => const AstroGodsSection(),
-      'contact' => ContactSection(currentLocale: widget.currentLocale),
+      'contact' => ContactSection(
+        key: _contactKey,
+        currentLocale: widget.currentLocale,
+      ),
       _ => throw ArgumentError.value(sectionId, 'sectionId'),
     };
     return _withSectionTheme(section, animateTheme: animateTheme);

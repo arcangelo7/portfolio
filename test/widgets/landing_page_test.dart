@@ -108,16 +108,43 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.byKey(const ValueKey('section-astrogods')), findsNothing);
+    expect(find.byKey(const ValueKey('section-skills')), findsNothing);
 
     await tester.tap(find.byIcon(Icons.list_rounded));
     await tester.pump();
-    await tester.tap(find.byIcon(Icons.travel_explore));
+    await tester.tap(find.byIcon(Icons.build));
     final offsets = await _pumpNavigation(tester);
 
-    expect(changedSections, ['astrogods']);
-    expect(find.byKey(const ValueKey('section-astrogods')), findsOneWidget);
+    expect(changedSections, ['skills']);
+    expect(find.byKey(const ValueKey('section-skills')), findsOneWidget);
     expect(offsets, List<double>.from(offsets)..sort());
+  });
+
+  testWidgets('table of contents navigates to the last section', (
+    WidgetTester tester,
+  ) async {
+    final changedSections = <String>[];
+    await _setDesktopViewport(tester);
+    await tester.pumpWidget(
+      _buildLandingPage(
+        publicationsController: publicationsController,
+        changedSections: changedSections,
+      ),
+    );
+    await tester.pump();
+
+    await tester.tap(find.byIcon(Icons.list_rounded));
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.email));
+    final offsets = await _pumpNavigation(tester);
+
+    expect(changedSections, ['contact']);
+    expect(find.byKey(const ValueKey('section-contact')), findsOneWidget);
+    expect(offsets, List<double>.from(offsets)..sort());
+    final position = tester
+        .state<ScrollableState>(find.byType(Scrollable).first)
+        .position;
+    expect(offsets.last, position.maxScrollExtent);
   });
 
   testWidgets('initial fragment positions an initially unbuilt section', (
@@ -129,12 +156,12 @@ void main() {
       _buildLandingPage(
         publicationsController: publicationsController,
         changedSections: changedSections,
-        initialSectionId: 'astrogods',
+        initialSectionId: 'contact',
       ),
     );
     await _pumpNavigation(tester);
 
-    expect(find.byKey(const ValueKey('section-astrogods')), findsOneWidget);
+    expect(find.byKey(const ValueKey('section-contact')), findsOneWidget);
     expect(find.byKey(const ValueKey('section-about')), findsNothing);
     expect(changedSections, isEmpty);
   });
@@ -170,12 +197,12 @@ void main() {
         _buildLandingPage(
           publicationsController: delayedController,
           changedSections: <String>[],
-          initialSectionId: 'astrogods',
+          initialSectionId: 'contact',
         ),
       );
       await tester.pump();
 
-      expect(find.byKey(const ValueKey('section-astrogods')), findsNothing);
+      expect(find.byKey(const ValueKey('section-contact')), findsNothing);
 
       publicationsCompleter.complete([
         const Publication(
@@ -203,12 +230,12 @@ void main() {
       await tester.pump();
       await tester.pump();
 
-      expect(find.byKey(const ValueKey('section-astrogods')), findsNothing);
+      expect(find.byKey(const ValueKey('section-contact')), findsNothing);
 
       descriptionCompleter.complete('Delayed description');
       await _pumpNavigation(tester);
 
-      expect(find.byKey(const ValueKey('section-astrogods')), findsOneWidget);
+      expect(find.byKey(const ValueKey('section-contact')), findsOneWidget);
       final scrollable = tester.state<ScrollableState>(
         find.byType(Scrollable).first,
       );

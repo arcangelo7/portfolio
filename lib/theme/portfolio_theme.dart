@@ -10,8 +10,7 @@ import 'design_tokens.dart';
 ///
 /// Day is cool and dry: cobalt ink on ice. The only warmth is the sun itself,
 /// as an object: gold reads 1.31:1 on ice white and can never be a day accent.
-/// Night is deep and blue-black, with gold as the single warm thing, which is
-/// what lets the AstroGods section belong to the system instead of escaping it.
+/// Night is deep and blue-black.
 class PortfolioTheme {
   static const Color iceWhite = Color(0xFFF0F8FF);
   static const Color emeraldGreen = Color(0xFF226C3B);
@@ -22,7 +21,7 @@ class PortfolioTheme {
   static const Color black = Color(0xFF1A1A1A);
 
   /// Night ground. Deeper and bluer than [black] so it meets the star field
-  /// and the AstroGods sky (0xFF0C1116) instead of sitting apart from them.
+  /// instead of sitting apart from it.
   static const Color nightGround = Color(0xFF12141A);
 
   /// Night-legible cuts of the brand hues. The originals fail badly on the
@@ -30,10 +29,6 @@ class PortfolioTheme {
   static const Color emeraldNight = Color(0xFF5FB57C);
   static const Color violetNight = Color(0xFFB98CE8);
   static const Color wineNight = Color(0xFFE9738C);
-
-  static const Color astroGold = Color(0xFFFFD700);
-  static const Color astroMysticBlue = Color(0xFF1A1A2E);
-  static const Color astroLightGray = Color(0xFFE0E0E0);
 
   /// The hero sky, deepest in the corner opposite the sun or moon. The two
   /// ramps carry the same number of stops so the theme transition lerps them
@@ -64,13 +59,6 @@ class PortfolioTheme {
     Color(0x1F6E7CB8),
     Color(0x006E7CB8),
   ];
-
-  /// Warm cuts that complete the night accent set. Together with [astroGold],
-  /// [violetNight], [lightCobaltBlue] and [emeraldNight] these are the six
-  /// hues the AstroGods cards draw from, so that section stops running on a
-  /// palette of its own.
-  static const Color amberNight = Color(0xFFF2A65A);
-  static const Color emberNight = Color(0xFFE8788C);
 
   static const String fontDisplay = 'Felipa';
   static const String fontBody = 'IBMPlexSans';

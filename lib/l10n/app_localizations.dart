@@ -139,7 +139,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutMeDescription.
   ///
   /// In en, this message translates to:
-  /// **'I have a joint PhD in Cultural Heritage in the Digital Ecosystem (University of Bologna) and Engineering Technology (KU Leuven). My work focuses on supporting cultural heritage experts in curating and publishing FAIR data (Findable, Accessible, Interoperable, Reusable) through Semantic Web technologies, without requiring them to become technical experts themselves. That\'s how [HERITRACE](https://opencitations.github.io/heritrace/) came about: a system for curating knowledge graphs that keeps track of who changed what and why.\n\nRight now I\'m a postdoc at the University of Bologna, working on the [GRAPHIA](https://cordis.europa.eu/project/id/101188018) project (Horizon Europe) to bring scattered humanities and social sciences data together into a single knowledge graph. I also work with [OpenCitations](https://opencitations.net/) to make scholarly citation data open and reusable.'**
+  /// **'I have a joint PhD in Cultural Heritage in the Digital Ecosystem (University of Bologna) and Engineering Technology (KU Leuven). My work focuses on supporting cultural heritage experts in curating and publishing FAIR data (Findable, Accessible, Interoperable, Reusable) through Semantic Web technologies, without requiring them to become technical experts themselves. That\'s how [HERITRACE](https://opencitations.github.io/heritrace/) came about: a system for curating knowledge graphs that keeps track of who changed what and when.\n\nRight now I\'m a postdoc at the University of Bologna, working on the [GRAPHIA](https://cordis.europa.eu/project/id/101188018) project (Horizon Europe) to bring scattered humanities and social sciences data together into a single knowledge graph. I also work with [OpenCitations](https://opencitations.net/) to make scholarly citation data open and reusable.'**
   String get aboutMeDescription;
 
   /// No description provided for @skills.
@@ -928,10 +928,34 @@ abstract class AppLocalizations {
   /// **'Conferences and seminars'**
   String get conferencesAndSeminars;
 
+  /// No description provided for @iswcConference2026Title.
+  ///
+  /// In en, this message translates to:
+  /// **'25th International Semantic Web Conference (ISWC 2026)'**
+  String get iswcConference2026Title;
+
+  /// No description provided for @iswcConference2026Period.
+  ///
+  /// In en, this message translates to:
+  /// **'Oct 25-29, 2026'**
+  String get iswcConference2026Period;
+
+  /// No description provided for @iswcConference2026Location.
+  ///
+  /// In en, this message translates to:
+  /// **'Bari, Italy'**
+  String get iswcConference2026Location;
+
+  /// No description provided for @iswcConference2026Description.
+  ///
+  /// In en, this message translates to:
+  /// **'Contribution: *HERITRACE: A Domain-Agnostic Framework for SHACL-Driven RDF Curation with Provenance and Change Tracking*\n[Conference](https://iswc2026.semanticweb.org/) | [Paper](https://doi.org/10.1007/978-3-032-42026-8_30) | [Presentation](https://doi.org/10.5281/zenodo.23809772)'**
+  String get iswcConference2026Description;
+
   /// No description provided for @kgcwWorkshop2026Title.
   ///
   /// In en, this message translates to:
-  /// **'KGCW 2026'**
+  /// **'7th International Workshop on Knowledge Graph Construction (KGCW 2026)'**
   String get kgcwWorkshop2026Title;
 
   /// No description provided for @kgcwWorkshop2026Period.
@@ -949,13 +973,13 @@ abstract class AppLocalizations {
   /// No description provided for @kgcwWorkshop2026Description.
   ///
   /// In en, this message translates to:
-  /// **'Participated in the 7th International Workshop on Knowledge Graph Construction (KGCW 2026), co-located with ESWC 2026, with a paper titled *Let\'s invert it! From RDF to relational data with R2RML*. [Workshop](https://openreview.net/group?id=eswc-conferences.org/ESWC/2026/Workshop/KGCW#tab-accept) | [Paper](https://openreview.net/pdf?id=XUc9rtTsHp)'**
+  /// **'Contribution: *Let\'s invert it! From RDF to relational data with R2RML*\n[Workshop](https://openreview.net/group?id=eswc-conferences.org/ESWC/2026/Workshop/KGCW#tab-accept) | [Paper](https://openreview.net/pdf?id=XUc9rtTsHp)'**
   String get kgcwWorkshop2026Description;
 
   /// No description provided for @aiucdConference2024Title.
   ///
   /// In en, this message translates to:
-  /// **'AIUCD 2024'**
+  /// **'XIII Convegno AIUCD: MeTe digitali. Mediterraneo in rete tra testi e contesti (AIUCD 2024)'**
   String get aiucdConference2024Title;
 
   /// No description provided for @aiucdConference2024Period.
@@ -973,13 +997,13 @@ abstract class AppLocalizations {
   /// No description provided for @aiucdConference2024Description.
   ///
   /// In en, this message translates to:
-  /// **'Participated in the Association for Digital Humanities and Digital Culture (AIUCD) conference in Catania with a contribution titled *HERITRACE: Tracing Evolution and Bridging Data for Streamlined Curatorial Work in the GLAM Domain*. [Conference](https://aiucd2024.unict.it/) | [Paper](https://doi.org/10.6092/issn.2532-8816/21218) | [Presentation](https://zenodo.org/doi/10.5281/zenodo.11474571)'**
+  /// **'Contribution: *HERITRACE: Tracing Evolution and Bridging Data for Streamlined Curatorial Work in the GLAM Domain*\n[Conference](https://aiucd2024.unict.it/) | [Paper](https://doi.org/10.6092/issn.2532-8816/21218) | [Presentation](https://zenodo.org/doi/10.5281/zenodo.11474571)'**
   String get aiucdConference2024Description;
 
   /// No description provided for @cziHackathon2023Title.
   ///
   /// In en, this message translates to:
-  /// **'Hackathon \'Mapping the Impact of Research Software in Science\''**
+  /// **'Mapping the Impact of Research Software in Science (CZI Hackathon 2023)'**
   String get cziHackathon2023Title;
 
   /// No description provided for @cziHackathon2023Period.
@@ -997,19 +1021,19 @@ abstract class AppLocalizations {
   /// No description provided for @cziHackathon2023Description.
   ///
   /// In en, this message translates to:
-  /// **'Participated in the hackathon hosted by Chan Zuckerberg Initiative, focusing on integrating data models from three software mention collections: SoMeSci, Softcite and RRID. Created a mapping table that served as a starting point for creating a \'gold dataset\' aimed at improving software mention extraction in scientific literature. [Repository](https://github.com/chanzuckerberg/software-impact-hackathon-2023)'**
+  /// **'Integration of the data models of three software mention collections: SoMeSci, Softcite and RRID. The resulting mapping table became the starting point for a \'gold dataset\' aimed at improving software mention extraction from scientific literature.\n[Repository](https://github.com/chanzuckerberg/software-impact-hackathon-2023)'**
   String get cziHackathon2023Description;
 
   /// No description provided for @adhoDhConf2023Title.
   ///
   /// In en, this message translates to:
-  /// **'ADHO Digital Humanities 2023'**
+  /// **'Digital Humanities 2023: Collaboration as Opportunity (DH2023)'**
   String get adhoDhConf2023Title;
 
   /// No description provided for @adhoDhConf2023Period.
   ///
   /// In en, this message translates to:
-  /// **'Jul 10-15, 2023'**
+  /// **'Jul 10-14, 2023'**
   String get adhoDhConf2023Period;
 
   /// No description provided for @adhoDhConf2023Location.
@@ -1021,13 +1045,13 @@ abstract class AppLocalizations {
   /// No description provided for @adhoDhConf2023Description.
   ///
   /// In en, this message translates to:
-  /// **'Participated in the ADHO Digital Humanities conferences 2023 with a contribution titled *Representing provenance and track changes of cultural heritage metadata in RDF: a survey of existing approaches*. [Conference](https://dh2023.adho.org/) | [Paper](https://doi.org/10.1093/llc/fqaf076) | [Presentation](https://doi.org/10.5281/zenodo.8153979)'**
+  /// **'Contribution: *Representing provenance and track changes of cultural heritage metadata in RDF: a survey of existing approaches*\n[Conference](https://dh2023.adho.org/) | [Paper](https://doi.org/10.1093/llc/fqaf076) | [Presentation](https://doi.org/10.5281/zenodo.8153979)'**
   String get adhoDhConf2023Description;
 
   /// No description provided for @rdaPlenary2023Title.
   ///
   /// In en, this message translates to:
-  /// **'20th RDA Plenary Meeting'**
+  /// **'Research Data Alliance 20th Plenary Meeting (RDA P20)'**
   String get rdaPlenary2023Title;
 
   /// No description provided for @rdaPlenary2023Period.
@@ -1045,7 +1069,7 @@ abstract class AppLocalizations {
   /// No description provided for @rdaPlenary2023Description.
   ///
   /// In en, this message translates to:
-  /// **'Participated in the 20th plenary meeting of the Research Data Alliance with a contribution titled *Adopting the Scientific Knowledge Graphs Interoperability Framework in OpenCitations*. [Conference](https://faircore4eosc.eu/events/rda-20th-plenary-meeting-gothenburg-hybrid) | [Presentation](https://doi.org/10.5281/zenodo.7702070)'**
+  /// **'Contribution: *Adopting the Scientific Knowledge Graphs Interoperability Framework in OpenCitations*\n[Conference](https://faircore4eosc.eu/events/rda-20th-plenary-meeting-gothenburg-hybrid) | [Presentation](https://doi.org/10.5281/zenodo.7702070)'**
   String get rdaPlenary2023Description;
 
   /// No description provided for @csvconfV9Conference2025Title.
@@ -1069,13 +1093,13 @@ abstract class AppLocalizations {
   /// No description provided for @csvconfV9Conference2025Description.
   ///
   /// In en, this message translates to:
-  /// **'Participated in csv,conf,v9, a community conference for data makers everywhere with the theme \'Data for Communities\'. Presented *Mapping the unmapped citation landscape: how crowdsourcing will fill the citation gap*, discussing how to democratize the citation landscape by connecting 41,500 Global South journals and introducing millions of new citations through a collaborative solution between OpenCitations, Public Knowledge Project (PKP), and Leibniz Information Centre. [Conference](https://csvconf.com/) | [Presentation](https://doi.org/10.5281/zenodo.17098599)'**
+  /// **'Contribution: *Mapping the unmapped citation landscape: how crowdsourcing will fill the citation gap*\n[Conference](https://csvconf.com/) | [Presentation](https://doi.org/10.5281/zenodo.17098599)'**
   String get csvconfV9Conference2025Description;
 
   /// No description provided for @unaEuropaWorkshop2025Title.
   ///
   /// In en, this message translates to:
-  /// **'Una Europa PhD Workshop'**
+  /// **'Una Her Doc-Una Europa PhD Workshop: Museums and the new challenges: virtual technologies, societal responsibility and environmental sustainability'**
   String get unaEuropaWorkshop2025Title;
 
   /// No description provided for @unaEuropaWorkshop2025Period.
@@ -1093,146 +1117,8 @@ abstract class AppLocalizations {
   /// No description provided for @unaEuropaWorkshop2025Description.
   ///
   /// In en, this message translates to:
-  /// **'Participation in the Una Europa transdisciplinary workshop for PhD students focused on \'Museums and the new challenges: virtual technologies, societal responsibility and environmental sustainability\'. Presentation titled *HERITRACE: A User-Friendly Semantic Data Editor with Change Tracking and Provenance Management for Cultural Heritage Institutions*. [Workshop info](https://site.unibo.it/una-europa/en/focus-areas/una-her-doc-una-europa-phd-workshop) | [Presentation](https://doi.org/10.5281/zenodo.15375770)'**
+  /// **'Contribution: *HERITRACE: A User-Friendly Semantic Data Editor with Change Tracking and Provenance Management for Cultural Heritage Institutions*\n[Workshop info](https://site.unibo.it/una-europa/en/focus-areas/una-her-doc-una-europa-phd-workshop) | [Presentation](https://doi.org/10.5281/zenodo.15375770)'**
   String get unaEuropaWorkshop2025Description;
-
-  /// No description provided for @astroGodsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'~~Against~~ Beyond science'**
-  String get astroGodsTitle;
-
-  /// No description provided for @astroGodsSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Egyptian Astrology'**
-  String get astroGodsSubtitle;
-
-  /// No description provided for @astroGodsIntroduction.
-  ///
-  /// In en, this message translates to:
-  /// **'AstroGods was born from a friendship. Jacopo has an inexplicable ability to read people based only on their birth date, with a precision that has always struck me. I wanted to always carry that perspective with me, and so I tried to extract the algorithm behind his method. The astronomical calculations use the Swiss Ephemeris, the interpretations are all handwritten by us, and AI assembles them into coherent text.'**
-  String get astroGodsIntroduction;
-
-  /// No description provided for @astroGodsCard1Title.
-  ///
-  /// In en, this message translates to:
-  /// **'A complex problem'**
-  String get astroGodsCard1Title;
-
-  /// No description provided for @astroGodsCard1Description.
-  ///
-  /// In en, this message translates to:
-  /// **'Astrological interpretations done well (not those for entertainment) are incredibly complex. They must symbolically unite infinite elements.'**
-  String get astroGodsCard1Description;
-
-  /// No description provided for @astroGodsCard2Title.
-  ///
-  /// In en, this message translates to:
-  /// **'Infinite elements'**
-  String get astroGodsCard2Title;
-
-  /// No description provided for @astroGodsCard2Description.
-  ///
-  /// In en, this message translates to:
-  /// **'Planetary positions in houses and signs, the aspects they form with each other. Each element adds layers of symbolic meaning.'**
-  String get astroGodsCard2Description;
-
-  /// No description provided for @astroGodsCard3Title.
-  ///
-  /// In en, this message translates to:
-  /// **'Exponential complexity'**
-  String get astroGodsCard3Title;
-
-  /// No description provided for @astroGodsCard3Description.
-  ///
-  /// In en, this message translates to:
-  /// **'Complexity grows exponentially when comparing different charts: two people, a person and a specific moment, or why not, entire social groups.'**
-  String get astroGodsCard3Description;
-
-  /// No description provided for @astroGodsCard4Title.
-  ///
-  /// In en, this message translates to:
-  /// **'Egyptian tradition'**
-  String get astroGodsCard4Title;
-
-  /// No description provided for @astroGodsCard4Description.
-  ///
-  /// In en, this message translates to:
-  /// **'AstroGods uses the Egyptian astrological tradition and the equal-area house system (Vehlow system) as methodological foundation.'**
-  String get astroGodsCard4Description;
-
-  /// No description provided for @astroGodsCard5Title.
-  ///
-  /// In en, this message translates to:
-  /// **'A little help'**
-  String get astroGodsCard5Title;
-
-  /// No description provided for @astroGodsCard5Description.
-  ///
-  /// In en, this message translates to:
-  /// **'AI assembles handwritten fragments into coherent text.'**
-  String get astroGodsCard5Description;
-
-  /// No description provided for @astroGodsCard6Title.
-  ///
-  /// In en, this message translates to:
-  /// **'Nosce te ipsum'**
-  String get astroGodsCard6Title;
-
-  /// No description provided for @astroGodsCard6Description.
-  ///
-  /// In en, this message translates to:
-  /// **'Preliminary analyses accessible to both laypeople and experts as starting points for personal reflection.'**
-  String get astroGodsCard6Description;
-
-  /// No description provided for @astroGodsVisitWebsite.
-  ///
-  /// In en, this message translates to:
-  /// **'Web'**
-  String get astroGodsVisitWebsite;
-
-  /// No description provided for @astroGodsGetOnFlathub.
-  ///
-  /// In en, this message translates to:
-  /// **'Flathub'**
-  String get astroGodsGetOnFlathub;
-
-  /// No description provided for @astroGodsGetOnSnap.
-  ///
-  /// In en, this message translates to:
-  /// **'Snap Store'**
-  String get astroGodsGetOnSnap;
-
-  /// No description provided for @astroGodsGetOnGooglePlay.
-  ///
-  /// In en, this message translates to:
-  /// **'Google Play'**
-  String get astroGodsGetOnGooglePlay;
-
-  /// No description provided for @astroGodsGetOnMicrosoftStore.
-  ///
-  /// In en, this message translates to:
-  /// **'Microsoft Store'**
-  String get astroGodsGetOnMicrosoftStore;
-
-  /// No description provided for @astroGodsCollaborate.
-  ///
-  /// In en, this message translates to:
-  /// **'Collaborate with me'**
-  String get astroGodsCollaborate;
-
-  /// No description provided for @astroGodsIframeHidden.
-  ///
-  /// In en, this message translates to:
-  /// **'Iframe hidden during language change'**
-  String get astroGodsIframeHidden;
-
-  /// No description provided for @astroGodsVisitForFullExperience.
-  ///
-  /// In en, this message translates to:
-  /// **'Visit the website for the full experience'**
-  String get astroGodsVisitForFullExperience;
 
   /// No description provided for @tableOfContents.
   ///

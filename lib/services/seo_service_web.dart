@@ -157,7 +157,6 @@ class SEOService {
     addHeading('h2', 'h2-conferences', l10n.conferencesAndSeminars);
     addHeading('h2', 'h2-skills', l10n.skills);
     addHeading('h2', 'h2-publications', l10n.publications);
-    addHeading('h2', 'h2-astrogods', l10n.astroGodsTitle);
     addHeading('h2', 'h2-contact', l10n.getInTouch);
   }
 }

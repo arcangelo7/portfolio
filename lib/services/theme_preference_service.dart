@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// The theme is the register the site is read in, and the site is written at
-/// night: gold, the star field and AstroGods only belong to each other there.
-/// So night is where a visitor arrives, and day is the register they can ask
-/// for. The choice is then remembered and always wins.
+/// night, where the star field belongs. So night is where a visitor arrives,
+/// and day is the register they can ask for. The choice is then remembered and
+/// always wins.
 class ThemePreferenceService {
   static const String _storageKey = 'theme_mode';
 

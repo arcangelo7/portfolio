@@ -1,5 +1,15 @@
 [
   {
+    "id": "iswc_conference_2026",
+    "date": "2026-10-25",
+    "endDate": "2026-10-29",
+    "titleKey": "iswcConference2026Title",
+    "periodKey": "iswcConference2026Period",
+    "locationKey": "iswcConference2026Location",
+    "descriptionKey": "iswcConference2026Description",
+    "order": 0
+  },
+  {
     "id": "kgcw_workshop_2026",
     "date": "2026-05-10",
     "endDate": "2026-05-11",
@@ -7,7 +17,7 @@
     "periodKey": "kgcwWorkshop2026Period",
     "locationKey": "kgcwWorkshop2026Location",
     "descriptionKey": "kgcwWorkshop2026Description",
-    "order": 0
+    "order": 1
   },
   {
     "id": "csvconf_v9_2025",
@@ -17,7 +27,7 @@
     "periodKey": "csvconfV9Conference2025Period",
     "locationKey": "csvconfV9Conference2025Location",
     "descriptionKey": "csvconfV9Conference2025Description",
-    "order": 1
+    "order": 2
   },
   {
     "id": "una_europa_workshop_2025",
@@ -27,7 +37,7 @@
     "periodKey": "unaEuropaWorkshop2025Period",
     "locationKey": "unaEuropaWorkshop2025Location",
     "descriptionKey": "unaEuropaWorkshop2025Description",
-    "order": 2
+    "order": 3
   },
   {
     "id": "aiucd_conference_2024",
@@ -37,7 +47,7 @@
     "periodKey": "aiucdConference2024Period",
     "locationKey": "aiucdConference2024Location",
     "descriptionKey": "aiucdConference2024Description",
-    "order": 3
+    "order": 4
   },
   {
     "id": "czi_hackathon_2023",
@@ -47,17 +57,17 @@
     "periodKey": "cziHackathon2023Period",
     "locationKey": "cziHackathon2023Location",
     "descriptionKey": "cziHackathon2023Description",
-    "order": 4
+    "order": 5
   },
   {
     "id": "adho_dh_conf_2023",
     "date": "2023-07-10",
-    "endDate": "2023-07-15",
+    "endDate": "2023-07-14",
     "titleKey": "adhoDhConf2023Title",
     "periodKey": "adhoDhConf2023Period",
     "locationKey": "adhoDhConf2023Location",
     "descriptionKey": "adhoDhConf2023Description",
-    "order": 5
+    "order": 6
   },
   {
     "id": "rda_plenary_2023",
@@ -67,6 +77,6 @@
     "periodKey": "rdaPlenary2023Period",
     "locationKey": "rdaPlenary2023Location",
     "descriptionKey": "rdaPlenary2023Description",
-    "order": 6
+    "order": 7
   }
 ]

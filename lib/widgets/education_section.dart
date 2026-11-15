@@ -9,11 +9,9 @@ import '../l10n/localization_helper.dart';
 import '../models/cv_data.dart';
 import '../services/cv_data_service.dart';
 import '../theme/design_tokens.dart';
-import '../utils/responsive.dart';
 import 'attachment_button.dart';
 import 'entry_card.dart';
 import 'section_shell.dart';
-import 'timeline_item.dart';
 
 class EducationSection extends StatefulWidget {
   final List<EducationEntry>? entries;
@@ -87,18 +85,14 @@ class _EducationSectionState extends State<EducationSection> {
     }
 
     final entries = _educationEntries!;
-    final isMobile = Responsive.isMobile(context);
 
     return Column(
       children: [
         for (var i = 0; i < entries.length; i++)
-          TimelineItem(
-            isFirst: i == 0,
-            isLast: i == entries.length - 1,
-            isCurrent: entries[i].current,
-            isMobile: isMobile,
-            spacing: Space.lg,
-            nodeCenter: EntryCard.nodeCenter(context, isMobile),
+          Padding(
+            padding: EdgeInsets.only(
+              bottom: i == entries.length - 1 ? 0 : Space.xl,
+            ),
             child: EntryCard(
               title: LocalizationHelper.getLocalizedText(
                 l10n,

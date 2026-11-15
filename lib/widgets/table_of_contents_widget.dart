@@ -133,11 +133,6 @@ class _TableOfContentsWidgetState extends State<TableOfContentsWidget>
         title: l10n.publications,
         icon: Icons.article,
       ),
-      _TocSection(
-        key: 'astrogods',
-        title: l10n.astroGodsTitle,
-        icon: Icons.travel_explore,
-      ),
       _TocSection(key: 'contact', title: l10n.getInTouch, icon: Icons.email),
     ];
   }

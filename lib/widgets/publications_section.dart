@@ -805,45 +805,51 @@ class _PublicationsSectionState extends State<PublicationsSection> {
         Responsive.pageInset(context),
         isLastChunk ? Responsive.sectionInset(context) : 0,
       ),
-      child: Column(
-        children: [
-          if (isFirstChunk) ...[
-            SectionHeader(title: l10n.publications),
-            const SizedBox(height: 16),
-            SelectableText(
-              l10n.publicationsDescription,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            if (_isLoadingTotalCitations || _totalCitationCount != null) ...[
-              const SizedBox(height: 24),
-              _buildTotalCitationCountWidget(l10n),
-            ],
-            const SizedBox(height: 32),
-            if (!_isLoading &&
-                _publications != null &&
-                _publications!.isNotEmpty) ...[
-              _buildSearchBar(l10n),
-              const SizedBox(height: 24),
-              _buildCategoryFilter(l10n),
-            ],
-            const SizedBox(height: 24),
-          ],
-          if (isFirstChunk ||
-              (!_isLoading &&
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: Layout.content),
+          child: Column(
+            children: [
+              if (isFirstChunk) ...[
+                SectionHeader(title: l10n.publications),
+                const SizedBox(height: 16),
+                SelectableText(
+                  l10n.publicationsDescription,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                if (_isLoadingTotalCitations ||
+                    _totalCitationCount != null) ...[
+                  const SizedBox(height: 24),
+                  _buildTotalCitationCountWidget(l10n),
+                ],
+                const SizedBox(height: 32),
+                if (!_isLoading &&
+                    _publications != null &&
+                    _publications!.isNotEmpty) ...[
+                  _buildSearchBar(l10n),
+                  const SizedBox(height: 24),
+                  _buildCategoryFilter(l10n),
+                ],
+                const SizedBox(height: 24),
+              ],
+              if (isFirstChunk ||
+                  (!_isLoading &&
+                      _filteredPublications != null &&
+                      _filteredPublications!.isNotEmpty))
+                _buildPublicationsList(l10n),
+              if (isLastChunk &&
+                  !_isLoading &&
                   _filteredPublications != null &&
-                  _filteredPublications!.isNotEmpty))
-            _buildPublicationsList(l10n),
-          if (isLastChunk &&
-              !_isLoading &&
-              _filteredPublications != null &&
-              _filteredPublications!.isNotEmpty &&
-              _totalPages > 1)
-            _buildPaginationControls(l10n),
-          if (isLastChunk) const SizedBox(height: 40),
-        ],
+                  _filteredPublications!.isNotEmpty &&
+                  _totalPages > 1)
+                _buildPaginationControls(l10n),
+              if (isLastChunk) const SizedBox(height: 40),
+            ],
+          ),
+        ),
       ),
     );
   }

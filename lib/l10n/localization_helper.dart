@@ -100,6 +100,14 @@ class LocalizationHelper {
         return l10n.researchCentreOpenScholarly;
 
       // Conference entries
+      case 'iswcConference2026Title':
+        return l10n.iswcConference2026Title;
+      case 'iswcConference2026Period':
+        return l10n.iswcConference2026Period;
+      case 'iswcConference2026Location':
+        return l10n.iswcConference2026Location;
+      case 'iswcConference2026Description':
+        return l10n.iswcConference2026Description;
       case 'kgcwWorkshop2026Title':
         return l10n.kgcwWorkshop2026Title;
       case 'kgcwWorkshop2026Period':
