@@ -1,3 +1,21 @@
+# [2.0.0](https://github.com/arcangelo7/portfolio/compare/v1.12.3...v2.0.0) (2026-11-15)
+
+
+* feat(tool)!: describe works with the OpenCitations Data Model template ([bc3687a](https://github.com/arcangelo7/portfolio/commit/bc3687aa9adad75c558e0819590a4920a6dcb8a1))
+
+
+### Features
+
+* **cv:** add ISWC 2026 ([c77d30a](https://github.com/arcangelo7/portfolio/commit/c77d30a6adf97fbf025c2c4d0c403540db494d53))
+* **tool:** publish presentations and software as nanopublications ([8fbde63](https://github.com/arcangelo7/portfolio/commit/8fbde630fa282ee952fd3c5d33260eb4968d35fc))
+* **tool:** publish Zotero articles as nanopublications ([ce7cb3e](https://github.com/arcangelo7/portfolio/commit/ce7cb3eb5f63e7b9042d4ccf8ec2605fad9efd72))
+
+
+### BREAKING CHANGES
+
+* nanopubs published with the previous templates are
+superseded and introduce new resources
+
 ## [1.12.3](https://github.com/arcangelo7/portfolio/compare/v1.12.2...v1.12.3) (2026-10-25)
 
 
